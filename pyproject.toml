@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tsensei-v3-2-pianist"
+version = "0.3.2"
+description = "Standalone RoboPianist adaptation for the TsenseI_A3.2 hand"
+requires-python = ">=3.10"
+dependencies = ["mujoco>=3.1.1", "dm-control>=1.0.16", "dm-env", "mujoco-utils>=0.0.6", "numpy", "scipy", "note-seq>=0.0.5", "Pillow"]
+
+[project.optional-dependencies]
+test = ["pytest"]
+audio = ["pyaudio", "pyfluidsynth"]
+train = ["jax>=0.4.30", "flax>=0.8.5", "optax>=0.2.3", "distrax>=0.1.5", "dm-env-wrappers>=0.0.13"]
+
+[project.scripts]
+tsensei-sac = "tsensei_v3_2_pianist.rl.train:main"
+tsensei-torch-sac = "tsensei_v3_2_pianist.rl_torch.train:main"
+tsensei-torch-eval = "tsensei_v3_2_pianist.rl_torch.evaluate:main"
+
+[tool.setuptools.packages.find]
+include = ["tsensei_v3_2_pianist*"]
+namespaces = false
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
+[tool.setuptools.package-data]
+tsensei_v3_2_pianist = ["assets/contact_settings.json", "assets/collision_proxies.json", "assets/drive_settings.json", "assets/urdf/*.urdf", "assets/source/*.urdf", "assets/model_derivation.json", "assets/meshes_left/*.STL", "assets/meshes_left/*.obj", "assets/meshes_right/*.STL", "assets/meshes_right/*.obj", "assets/tj_m6/*.json", "assets/tj_m6/LICENSE", "assets/tj_m6/left/*.urdf", "assets/tj_m6/right/*.urdf", "assets/tj_m6/left/meshes/*.STL", "assets/tj_m6/right/meshes/*.STL", "music/data/rousseau/*.mid"]

@@ -1,0 +1,99 @@
+{
+  "method": "dynamic programming over hand assignments with a soft finger-order preference; sustained-note constraints and posture/shift costs",
+  "source_sha256": "08c5d793965c5858a4d4f92458c914d670c441fa42d52e6cc0465531e55b8567",
+  "proto_sha256": "b3bae36cb7b77a82148674e0c124482c204ad1dee0be3e35ab585f94d02acb3b",
+  "instrument_to_hand": {
+    "0": "right",
+    "1": "left"
+  },
+  "note_count": 144,
+  "all_note_attributes_preserved": false,
+  "dt": 0.025,
+  "trim_origin_seconds": 0.4347824999999999,
+  "trimmed_note_count": 144,
+  "trajectory_frames": 2587,
+  "simultaneous_finger_conflicts": 0,
+  "counts_by_finger": {
+    "0": 15,
+    "1": 17,
+    "2": 24,
+    "3": 23,
+    "4": 19,
+    "5": 10,
+    "6": 14,
+    "7": 9,
+    "8": 9,
+    "9": 4
+  },
+  "costs": {
+    "right": 141.03335015132612,
+    "left": 48.547202618705185
+  },
+  "limitations": "Candidate only. Hand split inferred from supplied tracks. Offsets/costs are engineering heuristics, not calibrated TsenseI IK or expert fingering. No claim of collision-free reachability.",
+  "original_generation": {
+    "method": "dynamic programming over hand assignments with a soft finger-order preference; sustained-note constraints and posture/shift costs",
+    "source_sha256": "08c5d793965c5858a4d4f92458c914d670c441fa42d52e6cc0465531e55b8567",
+    "proto_sha256": "cbf7d309b8ed60f5c9f32dfc7b2e430086a581aef844f4439bcb25294de03993",
+    "instrument_to_hand": {
+      "0": "right",
+      "1": "left"
+    },
+    "note_count": 146,
+    "all_note_attributes_preserved": true,
+    "dt": 0.025,
+    "trim_origin_seconds": 0.4347824999999999,
+    "trimmed_note_count": 146,
+    "trajectory_frames": 2587,
+    "simultaneous_finger_conflicts": 0,
+    "counts_by_finger": {
+      "0": 15,
+      "1": 18,
+      "2": 25,
+      "3": 23,
+      "4": 19,
+      "5": 10,
+      "6": 14,
+      "7": 9,
+      "8": 9,
+      "9": 4
+    },
+    "costs": {
+      "right": 141.03335015132612,
+      "left": 48.547202618705185
+    },
+    "limitations": "Candidate only. Hand split inferred from supplied tracks. Offsets/costs are engineering heuristics, not calibrated TsenseI IK or expert fingering. No claim of collision-free reachability."
+  },
+  "costs_scope": "Original fingering generation, not recomputed after merging two same-finger repeat pairs.",
+  "score_edit": {
+    "date": "2026-10-01",
+    "rule": "Merge same-key same-finger adjacent notes lacking a 400Hz release sample; user authorized in-place score replacement.",
+    "merges": [
+      {
+        "pitch": 71,
+        "finger_id": 2,
+        "original_indices": [
+          130,
+          132
+        ],
+        "start": 55.65215999999999,
+        "previous_end": 56.08513090624999,
+        "next_start": 56.086942499999985,
+        "end": 57.389478406249985,
+        "gap_ms": 1.811593749998508
+      },
+      {
+        "pitch": 72,
+        "finger_id": 1,
+        "original_indices": [
+          97,
+          99
+        ],
+        "start": 40.434772499999994,
+        "previous_end": 41.737308406249994,
+        "next_start": 41.73911999999999,
+        "end": 43.47643840624999,
+        "gap_ms": 1.811593749998508
+      }
+    ]
+  }
+}

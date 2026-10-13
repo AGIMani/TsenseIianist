@@ -1,0 +1,129 @@
+{
+  "schema": 1,
+  "source_step_sha256": "91090eee6c2012f8c617f1d37d428d639963d9c4a607f2ef4dc2af7e933df8d3",
+  "source_component": "A3_2_HOLDER_WITH_WIDE_CONNECTOR",
+  "source_bounds_assembly_m": [
+    [
+      -0.027499999850988388,
+      -0.023000000044703484,
+      -0.050999999046325684
+    ],
+    [
+      0.012500000186264515,
+      0.023000000044703484,
+      -0.02199999988079071
+    ]
+  ],
+  "source_mount_volume_m3": 4.161018994703149e-06,
+  "alignment": {
+    "status": "A3.2_tianji CAD four-hole and mating-plane alignment",
+    "assembly_from_left_hand": [
+      [
+        0.0,
+        1.0,
+        0.0,
+        -0.004
+      ],
+      [
+        1.0,
+        0.0,
+        0.0,
+        -0.013500000000000002
+      ],
+      [
+        0.0,
+        0.0,
+        -1.0,
+        -0.02599999988079071
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "method": "match four mounting-hole centres and opposing normals; preserve existing hand axes",
+    "source_alignment_point_m": [
+      0.013500000000000002,
+      0.004,
+      -0.004
+    ],
+    "target_alignment_point_m": [
+      0.0,
+      0.0,
+      -0.02199999988079071
+    ],
+    "step_mount_face_size_mm": [
+      24.59999918937683,
+      45.60000076889992,
+      0.0
+    ],
+    "urdf_mount_face_size_mm": [
+      24.6,
+      45.6,
+      0.0
+    ],
+    "mounting_hole_centres_assembly_m": [
+      [
+        -0.009500000160187483,
+        -0.019999999552965164,
+        -0.02199999988079071
+      ],
+      [
+        -0.009500000160187483,
+        0.019999999552965164,
+        -0.02199999988079071
+      ],
+      [
+        0.009500000160187483,
+        -0.019999999552965164,
+        -0.02199999988079071
+      ],
+      [
+        0.009500000160187483,
+        0.019999999552965164,
+        -0.02199999988079071
+      ]
+    ],
+    "plate_hole_diameter_mm": 4.3,
+    "holder_hole_diameter_mm": 3.7,
+    "max_plate_holder_axis_error_mm": 9.599853366654508e-07,
+    "max_original_urdf_hole_axis_error_mm": 4.7486858659737853e-07,
+    "limitations": [
+      "TODO(V32-MOUNT-01): hardware screw/thread fit and flange clocking remain uncalibrated"
+    ]
+  },
+  "mesh_replacements": {
+    "left": {
+      "base_link": "../meshes_left/base_without_old_mount.STL",
+      "Left_hand_palm_link": "../meshes_left/wrist_mount_tianji_20260930.STL"
+    },
+    "right": {
+      "base_link": "../meshes_right/base_without_old_mount.STL",
+      "Right_hand_palm_link": "../meshes_right/wrist_mount_tianji_20260930.STL"
+    }
+  },
+  "mesh_sha256": {
+    "meshes_left/base_without_old_mount.STL": "a3e1f49cdfd4d5fd8ee734608460541514c8baa593da0fbdd2bfaea933c9b357",
+    "meshes_right/base_without_old_mount.STL": "68adf3e377e132baa9ce9a71535824779781e29b4c5cef5a14fac9feb25c4ae1",
+    "meshes_left/wrist_mount_tianji_20260930.STL": "70d921a467e52db2084ba7ab561f996f67e5c20351ed2ad8a73998f8f19cee8a",
+    "meshes_right/wrist_mount_tianji_20260930.STL": "21bb1103042d791cd97b41bf368f6aa02bd79ea84673cbd9a03301e9abba6331"
+  },
+  "urdf_before_sha256": {
+    "left": "4d8f6c76e231a66fa78c6a38ca28e5729f1195265c1f3ee3b2ed83a9522f6424",
+    "right": "694b15afdfd8dd8384f0d46a31b14d79633db2c7189ffb90ad600ff02b81c0ba"
+  },
+  "urdf_after_sha256": {
+    "left": "707bec9d310aade5c378316acf5cc553efd5d8fc5c34c1990dacbc454df4f2e2",
+    "right": "c9732ecb27ba84e8fdf5cb95f512a54bd15e6e9830a7d9679a55237937cd39ba"
+  },
+  "removed_duplicate_geometry": "Old palm mounting block subtracted from base housing; other original base components retained",
+  "inertia_status": "Supplied 952 g per-link masses and inertia estimates retained. Geometry revision has not been CAD/dynamically recalibrated.",
+  "limitations": [
+    "V32-MOUNT-01: mounting transforms, masses and inertias after geometry replacement need hardware validation",
+    "Right hand and its replacement mounting block remain provisional mirrored geometry"
+  ],
+  "source_filename": "A3.2_tianji.stp",
+  "previous_revision_backup": "model_backups/before_tianji_mount_20260930.tar.gz"
+}

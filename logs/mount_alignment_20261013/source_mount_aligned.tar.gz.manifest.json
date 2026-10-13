@@ -1,0 +1,4808 @@
+{
+  "archive_bytes": 449518473,
+  "archive_sha256": "90a0a1a71a57d3ba9f9c78c7ea61564e42600f96c4eb67b05695d0c9b99da5bd",
+  "entrypoint": "scripts/train_from_source.py (Slurm internal; submit with all_use_this_train.sh)",
+  "exclusion_policy": {
+    "credentials": "Exclude credential filenames; never include home directories or runtime environments",
+    "directory_components": [
+      ".aws",
+      ".config",
+      ".git",
+      ".mypy_cache",
+      ".pytest_cache",
+      ".ruff_cache",
+      ".ssh",
+      ".venv",
+      "__pycache__",
+      "archive",
+      "build",
+      "credentials",
+      "dist",
+      "external_never_copy_only_reference",
+      "model_backups",
+      "node_modules",
+      "outputs",
+      "references",
+      "runs",
+      "secrets",
+      "source_versions",
+      "tj_m6",
+      "venv"
+    ],
+    "old_assets": "Optional local M6 and connector preview meshes only; no historical archives",
+    "selection": "Only the top-level allowlist and allowed extensions in package_a32.py",
+    "specific_files": [
+      "docs/chat_answers_20260924.md",
+      "tests/test_m6_gpu.py",
+      "tests/test_preview_arm_ik.py"
+    ]
+  },
+  "file_count": 952,
+  "files": {
+    "AGENTS.md": {
+      "mode": 420,
+      "sha256": "4666d26dce887147a29da2931a4bab25c830cd2120304989171a178d377959a6",
+      "size": 19169
+    },
+    "LICENSE.robopianist": {
+      "mode": 420,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "size": 11357
+    },
+    "LICENSE.robopianist-rl": {
+      "mode": 420,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "size": 11357
+    },
+    "README.md": {
+      "mode": 420,
+      "sha256": "fbaac55d419ab32d74cda3f8cee49b26e9484b95ccb603f9da21fccc60d19f5d",
+      "size": 5721
+    },
+    "configs/actions/direct_joint_v1.json": {
+      "mode": 420,
+      "sha256": "92edb481c5b7490840916ca80af990293ac377b5de5de97db49c7d6eb7982617",
+      "size": 6230
+    },
+    "configs/control_limits/README.md": {
+      "mode": 420,
+      "sha256": "084fc9d5392f3e06d9c42e294a849af8b88d9bf946bd116ab58b657303bbe575",
+      "size": 3392
+    },
+    "configs/control_limits/combined_20260927.json": {
+      "mode": 420,
+      "sha256": "c0fb3bbd1f2dfb8902ed0bc13f436f728990d58151d605f5fc22994f98b408b4",
+      "size": 690
+    },
+    "configs/control_limits/generic_wrist_rate_20260927.json": {
+      "mode": 420,
+      "sha256": "0ecfb9f88813ecdc45250cbe5deae27ea793f71d468ed7828abb4b4d7931db3e",
+      "size": 395
+    },
+    "configs/control_limits/wrist_gentle_20260927.json": {
+      "mode": 420,
+      "sha256": "4282d9188be5c46e53468450c830d484b881add8205c8f2010ed7160558080b2",
+      "size": 469
+    },
+    "configs/finger_clearance/README.md": {
+      "mode": 420,
+      "sha256": "c3973788282f54d1ac7f5b3f3bd70ec40198bc36a916edec2f4ee588b6affeab",
+      "size": 2992
+    },
+    "configs/finger_clearance/control_disabled_20260927.json": {
+      "mode": 420,
+      "sha256": "991006745a527b25ab1be23670bf8b16ac487445cc079155397f57dc7663c460",
+      "size": 439
+    },
+    "configs/finger_clearance/generic_20260927.json": {
+      "mode": 420,
+      "sha256": "bcc0f022f74a4d01b5eb2d5b63f3971032a42a99d86d0f39758be3744d7d4f0e",
+      "size": 368
+    },
+    "configs/finger_coupling/angle_ranges_50_80.json": {
+      "mode": 420,
+      "sha256": "07f57ebd20710c6d4b65a25da4d777ab3ce1bf4bb6673de0c93bbd66d8bdfce3",
+      "size": 209
+    },
+    "configs/finger_coupling/angle_ranges_60_80.json": {
+      "mode": 420,
+      "sha256": "358d95d3778a0624aed707303726a30b863f026f5de984898b52f356441fedd5",
+      "size": 209
+    },
+    "configs/poses/initial_20260926.json": {
+      "mode": 420,
+      "sha256": "8ac58dbc0d20eaee90350e6d3c3a584744f5c0bdaff438d5f12fdce38eb76e2f",
+      "size": 15816
+    },
+    "configs/poses/origin_20260926.json": {
+      "mode": 420,
+      "sha256": "399e7cedb6eedb003ea255bfba83fdf51c5df536275828d24f9c43b898396dc6",
+      "size": 15632
+    },
+    "configs/preview/current_arm_training_20261011.json": {
+      "mode": 420,
+      "sha256": "70e5157fcd6361cdf91b63c8143f7e063007379d1eecf9fbdedd081ae3d6980b",
+      "size": 43974
+    },
+    "configs/preview/hand_connector_20260930.json": {
+      "mode": 420,
+      "sha256": "eb6f3069a2c662c6485cb7f0adfb5e1cf5c1b204d5906a3dac0f0661faa942d9",
+      "size": 5809
+    },
+    "configs/preview/hand_connector_left_mirror_palm_down_20261011.json": {
+      "mode": 420,
+      "sha256": "51e1e65bea07943ff93573160c8872e4fbb4edd4e871ccca88a69d2d9012ed13",
+      "size": 5939
+    },
+    "configs/preview/m6_sdk_joint_limits.json": {
+      "mode": 420,
+      "sha256": "a0c35c5962e0655e8392a472d1a3821e1cd69e1ea42ac77ea292bc56d0e24f24",
+      "size": 3675
+    },
+    "configs/rewards/default_20261006.json": {
+      "mode": 420,
+      "sha256": "8b1dcc723c08889459f27faa49b0f911157bd44f581bafb20111a1d31f964238",
+      "size": 3977
+    },
+    "docs/a32_migration_bundle_20260928.md": {
+      "mode": 420,
+      "sha256": "f66ebdf8c9843510d9a4901d3481c67a4ebef1d84c2702680ad6f1d034a39242",
+      "size": 7739
+    },
+    "docs/a32_model_replacement.json": {
+      "mode": 420,
+      "sha256": "ff32a5c69ae3e6810c67a8ddf7269ff1bbef14ea789fb62ba2a3f9f183276572",
+      "size": 1636
+    },
+    "docs/acceleration_acceptance.md": {
+      "mode": 420,
+      "sha256": "69c59c2e3c412eca2bfc70a3ac5fa4f29db1e7259224e275bb56d1561bf13452",
+      "size": 7728
+    },
+    "docs/action_mapping_direct_joint_v1_20260924.md": {
+      "mode": 420,
+      "sha256": "e4a5df2fd12b0583ae031892ece2389ea2ac1736a3ae1e263738734680ca1f58",
+      "size": 6313
+    },
+    "docs/action_mapping_mixed_v1.csv": {
+      "mode": 420,
+      "sha256": "d7879bc5434bd983db841c0f47fb0218e91c64d5fc1aa1bafa8a31dd364d6e86",
+      "size": 2316
+    },
+    "docs/action_mapping_mixed_v1.md": {
+      "mode": 420,
+      "sha256": "a34b305c1649c036d996219dec7834da305d8a079484d189b28fdecf71db62d3",
+      "size": 6605
+    },
+    "docs/all_hand_detection_only_20260924.md": {
+      "mode": 420,
+      "sha256": "ab4b938dfeb1d3ce8f3b9ff1dc51c703a3e21c4105d744840a411cf48a4161f2",
+      "size": 3221
+    },
+    "docs/archive_replay_20260926.md": {
+      "mode": 420,
+      "sha256": "40da88ca0699c5382df8426bee1751ebeea0a6dd5af819b9c54a40e665ec8084",
+      "size": 6126
+    },
+    "docs/assembly_collision_preview.json": {
+      "mode": 420,
+      "sha256": "8580590ec1c1f1ca84a58e024101036ad033e9b3814f7212d8b06046ffbdf001",
+      "size": 8505
+    },
+    "docs/best_range_finetuning_20260927.md": {
+      "mode": 420,
+      "sha256": "f07eb45ddaa029fe056f6cb97d2124a274c15e6dddb3f3a81fca283ba461fbb1",
+      "size": 18029
+    },
+    "docs/change_log.md": {
+      "mode": 420,
+      "sha256": "dc9d71e9a5cf65ef7c48c40fb7e07ee92ff3c62b22be53073ddb92adc9d41507",
+      "size": 47841
+    },
+    "docs/clair_videos_20260921.md": {
+      "mode": 420,
+      "sha256": "76d46b2fd0259ce00b1c6001ce323f1515905db8930b51e7daa8c088d9fb4cc2",
+      "size": 7187
+    },
+    "docs/collision_geometry_profiles_20261011.md": {
+      "mode": 420,
+      "sha256": "c8092275e45fcf99709fd0fb430d40e95958e973a02f138e427b2b2b29593e3d",
+      "size": 3575
+    },
+    "docs/common_commands.md": {
+      "mode": 420,
+      "sha256": "8eaa8bea58ca175c65c4ec65ed933f446d211c1fed18764b21b495c3d29c10bf",
+      "size": 26743
+    },
+    "docs/config_cleanup_20260928.json": {
+      "mode": 420,
+      "sha256": "78b0da4de1cbd0ccdb45834e1207feabbcf51aed109e93b48557125e30ebfad6",
+      "size": 3066
+    },
+    "docs/contact_stability_shadow_20260924.md": {
+      "mode": 420,
+      "sha256": "b27b3ec5aff62afda68b9b83a7ccf99703ccba9a8e28aae741fb71d35e15aab8",
+      "size": 10602
+    },
+    "docs/control_checkpoint_contract_20260927.md": {
+      "mode": 420,
+      "sha256": "e1f95c3cff02d561b9b000cdb2af24abcf498a3ad4c459ca89ec3dba9d195661",
+      "size": 4630
+    },
+    "docs/coordinate_frames_validation.json": {
+      "mode": 420,
+      "sha256": "b2f349ba1dd837c8f44ebba24dee65c26a96a95f54f00c1dd92d903c57a33c38",
+      "size": 1965
+    },
+    "docs/coupling_f1_analysis_20260930.md": {
+      "mode": 420,
+      "sha256": "930878f2f05a3136527fc0c3c0861eda01bcb423d0dceb16f4f350d48f6caaa8",
+      "size": 4966
+    },
+    "docs/drive_shadow_profile_20260925.md": {
+      "mode": 420,
+      "sha256": "14a767cdce7d90545bdb430c8d831e93d0e68115988513953d4eab60d492a5eb",
+      "size": 7154
+    },
+    "docs/dual_a100_sac_plan.md": {
+      "mode": 420,
+      "sha256": "da56455b817867ca699a61529a8457b9f52904cf582bb62d409a52835d519d7e",
+      "size": 19193
+    },
+    "docs/dual_gpu_pipeline_20260928.md": {
+      "mode": 420,
+      "sha256": "cd92f44ef1f7c286e4a6f154c16f8e77b0c29f8e3a80a1f4a3835e80a169553c",
+      "size": 13114
+    },
+    "docs/dual_gpu_speed_audit_20260930.json": {
+      "mode": 420,
+      "sha256": "e004ad1fd2051d51b5dd211f36f72ef0516071fba760b6d16f2b7d2bfb3c188f",
+      "size": 9048
+    },
+    "docs/dual_gpu_speed_audit_20260930.md": {
+      "mode": 420,
+      "sha256": "8d53180d9fa8e64d3fad2195e46d05a4ff99594bcca47739e53db04da580ab5c",
+      "size": 8435
+    },
+    "docs/figures/experiment_632_f1_20261006/f1.csv": {
+      "mode": 420,
+      "sha256": "16667f19ecedae8861045cada8f7aa7a2082084b60769f7bf6785d40123b0c4c",
+      "size": 2200
+    },
+    "docs/figures/experiment_632_f1_20261006/source.json": {
+      "mode": 420,
+      "sha256": "917fdc898d8a78a2548d134171c55151cc405139f7843623ebe49ed24ec84591",
+      "size": 13500
+    },
+    "docs/figures/experiment_683_f1_20261006/f1.csv": {
+      "mode": 420,
+      "sha256": "68de0375450e4baccf4addf034b50a6d555f5adc9fb6da17af0a5709df10bea9",
+      "size": 2225
+    },
+    "docs/figures/experiment_683_f1_20261006/source.json": {
+      "mode": 420,
+      "sha256": "591fd30053271858e0858563fe1199e44801784c399fd36eca7bc93562a9561a",
+      "size": 14380
+    },
+    "docs/figures/experiment_976_f1_20261007/f1.csv": {
+      "mode": 420,
+      "sha256": "972772d7cd604b75d61fe15d57953f901425f320763b4376a6566e55f1b7bf4f",
+      "size": 2256
+    },
+    "docs/figures/experiment_976_f1_20261007/source.json": {
+      "mode": 420,
+      "sha256": "73ed788c757dc6ea6cabd835764253a49fc035581419651d7c591f7b35a73331",
+      "size": 744
+    },
+    "docs/figures/fingertip_collision_audit_20261004.json": {
+      "mode": 420,
+      "sha256": "2f993531be692f0bfc468fd9a707be62582378e61ebf2a8c9d2c5f0d6ed554d6",
+      "size": 6798
+    },
+    "docs/figures/training_status_20261006_1715/f1_data.csv": {
+      "mode": 420,
+      "sha256": "8738b39f44a9a492885fb1f47639cb56de6d3ccd8e41bf4e87425f43e461c481",
+      "size": 6552
+    },
+    "docs/finger_clearance_audit_20260927.md": {
+      "mode": 420,
+      "sha256": "7c9303982ac287fe59d547592abf0b3c3e814e8965633192d9cb0796b924c12c",
+      "size": 9921
+    },
+    "docs/finger_clearance_geometry_20260927.md": {
+      "mode": 420,
+      "sha256": "65e4852a2e83cea76bed7839598775b182b2cedb5196f78a8167b5ed7c92929d",
+      "size": 15325
+    },
+    "docs/finger_coupling_experiment_20260930.md": {
+      "mode": 420,
+      "sha256": "d9631204bef03a00a3fea1e34f80fc97c3432c9f7796b67d8b8112318122752f",
+      "size": 13431
+    },
+    "docs/fingering_preview_validation.json": {
+      "mode": 420,
+      "sha256": "fe0c3f04f6cfdef7ee2cbd86aa66444e31f9931845e4ef899cbf5f75a6ae8977",
+      "size": 1387
+    },
+    "docs/fingering_reward_target_20260924.md": {
+      "mode": 420,
+      "sha256": "096b0217a1c8f569017584947ee202f0ab0e970957881bb7b0775323974907d0",
+      "size": 2722
+    },
+    "docs/fingering_thumb_target_20260924.md": {
+      "mode": 420,
+      "sha256": "2a7ab404f408cf3253c471101591ffc387bbdfe8fa1620aa6c3ffe5b23abe4e6",
+      "size": 3005
+    },
+    "docs/fingertip_collision_audit_20261004.md": {
+      "mode": 420,
+      "sha256": "86395f7ba5320746c7acde7586027977bf4ddde92efd5d27e2f2d54e7c443b44",
+      "size": 5493
+    },
+    "docs/fingertip_measurements.md": {
+      "mode": 420,
+      "sha256": "0bc1d5cbdd5e5d100f032f65d61f6b2d97ebb66c825aac305f8e1a8ed4ceea55",
+      "size": 1597
+    },
+    "docs/generic_clearance_fresh_video_cleanup_20260927.md": {
+      "mode": 420,
+      "sha256": "c00151a59846a6f8f5d477755c9ae1a70dac305295c6c60201e129517cb779d9",
+      "size": 3433
+    },
+    "docs/generic_clearance_video_f1_20260927.md": {
+      "mode": 420,
+      "sha256": "2f7a652a36d34e481efe1d79695afd3e92be1ea4f279b0ad15d88d3d4c7d6223",
+      "size": 4346
+    },
+    "docs/git_sync.md": {
+      "mode": 420,
+      "sha256": "62ce49046ca4d25f8af9452cd9dfa039167f128432c828adad658d15b581f7a4",
+      "size": 4364
+    },
+    "docs/gpu_ecc_recovery_20261005.md": {
+      "mode": 420,
+      "sha256": "4663356c6aad837a1427fe14c686bad3342213a173e40607258a9025bc186716",
+      "size": 4450
+    },
+    "docs/gpu_training_ceiling_20260926.md": {
+      "mode": 420,
+      "sha256": "8b618bac0fb9c91cd6f6040fce95fcb6c8da7444c90ba645027d310ca0d03fba",
+      "size": 13030
+    },
+    "docs/gravity_compensation_20260924.md": {
+      "mode": 420,
+      "sha256": "66543300a3da784320da71ed703e8240d6b380e571a74e425e23481ffc470460",
+      "size": 8101
+    },
+    "docs/hard_joint_limits_20261005.md": {
+      "mode": 420,
+      "sha256": "5c53c2b8ebb5c5f290dfaa597fb17dd8f93d3ffff58e55c7b45510d812ee3575",
+      "size": 4861
+    },
+    "docs/hpc_environment_20260928.md": {
+      "mode": 420,
+      "sha256": "18fce39ad28560f24e5e60f32997265c42bb193bc8163f6afa992af8abe7dde0",
+      "size": 13732
+    },
+    "docs/initial_five_tip_plane_20261001.json": {
+      "mode": 420,
+      "sha256": "e16c1ea29fd3ed3b73dfa8a367bd18619b7b83c2a54ebb49b66ea4309ac9ae81",
+      "size": 12397
+    },
+    "docs/initial_five_tip_plane_20261001.md": {
+      "mode": 420,
+      "sha256": "afe6d16fbeccd98bbccaff852c051d8947346177a43c2348a9fd8910737c932e",
+      "size": 4590
+    },
+    "docs/initial_pose_save_validation.json": {
+      "mode": 420,
+      "sha256": "8ac050d09fdbdbecfa40dc07eaca62db4e16022c6bdda472fd3d3a4bb86b1e83",
+      "size": 3055
+    },
+    "docs/learner_execution_20260926.md": {
+      "mode": 420,
+      "sha256": "42f7c666e73a5f5ec06add31143bb4054227b4b70cb5c8765b8b90b6877be5f0",
+      "size": 11710
+    },
+    "docs/local_development_handoff_20261011.md": {
+      "mode": 420,
+      "sha256": "81445411b7ddcfbe4685df89743bd28f46d30ed43f10a4fdeaeaa1f12de00fa1",
+      "size": 2618
+    },
+    "docs/mjlab_batch_acceptance.md": {
+      "mode": 420,
+      "sha256": "9b9a17c197b075d85c036ff333ff82a0f949d21c0645fd283be1a50eaa273677",
+      "size": 8122
+    },
+    "docs/mjlab_batch_validation.json": {
+      "mode": 420,
+      "sha256": "6bfec25426cb171c74ca5c2654801da54f8da7ccb1a4be646c45291251411912",
+      "size": 20133
+    },
+    "docs/mjlab_sac_plan_validation.json": {
+      "mode": 420,
+      "sha256": "16e0ba25fded41393f771927c61c0b4691563e8e1029b985f66dc85722a622b1",
+      "size": 1161
+    },
+    "docs/mjlab_scene_acceptance.md": {
+      "mode": 420,
+      "sha256": "54694ce279f67a5e7c332d079e43ddfa7fd25c32e070878aae3f65d8348977b5",
+      "size": 8210
+    },
+    "docs/mjlab_scene_validation.json": {
+      "mode": 420,
+      "sha256": "4bfca36cca2a61a1bf1af9d01ce1810ea99608c927ff84234ba52c01fed4b185",
+      "size": 12580
+    },
+    "docs/mjlab_task_acceptance.md": {
+      "mode": 420,
+      "sha256": "57b0cd5e1e32490927dcd642f96af3a83ac8a35c72809e041db6d4b30227fd08",
+      "size": 15105
+    },
+    "docs/mjlab_task_validation.json": {
+      "mode": 420,
+      "sha256": "fa3ce6961176a9d879bf5460de5346b57f2e2c32364c3611beb1cd2633deef0d",
+      "size": 53774
+    },
+    "docs/motion_contact_audit_20260927.md": {
+      "mode": 420,
+      "sha256": "7b549199e161deec66912a1184cc5bbfe4da5a151261d800f66d369fd2e9c0a3",
+      "size": 23225
+    },
+    "docs/note_timing_diagnosis_20261001.md": {
+      "mode": 420,
+      "sha256": "bef35db59cc6f8289eca85262385930f91bdde6fd59aa53aad5a394f47f450e3",
+      "size": 16989
+    },
+    "docs/optional_arm_wrist_ik_requirements_20261008.md": {
+      "mode": 420,
+      "sha256": "2609c265948f4f94c604507e8b240b0dff16c20e70032e0b57b563ce8db7c82e",
+      "size": 15245
+    },
+    "docs/pad_collision_preview.json": {
+      "mode": 420,
+      "sha256": "760d71b07db0a688b973c6b6996c3dc7bc13b38a9663c81b235c83fc6792bfa4",
+      "size": 8288
+    },
+    "docs/physical_parameters_technical_report_20261011.md": {
+      "mode": 420,
+      "sha256": "5706476808f8b4c707a22a1d50e80413095de92b6ae199a0815145f39084ff74",
+      "size": 16541
+    },
+    "docs/physics_shadow_comparison.md": {
+      "mode": 420,
+      "sha256": "fd17971b1b185b93fda7a5880faf2448aaae2ef43bf3cbb39619ec8ede04f704",
+      "size": 9134
+    },
+    "docs/physics_shadow_comparison_20260918.json": {
+      "mode": 420,
+      "sha256": "2f5a621a33ea70076d805f21e908678aff0f03a051ea85316222e378d2ccf20e",
+      "size": 405417
+    },
+    "docs/policy_preparation_acceleration_20260926.md": {
+      "mode": 420,
+      "sha256": "84c144a424d70eecaa71517190ad1edee28233c518acd3ad152f326b254af993",
+      "size": 9663
+    },
+    "docs/pose_h10_ty04_yaw015_gravcomp_20260924.md": {
+      "mode": 420,
+      "sha256": "ca5fab2fc6cd925eeae85ec872b900c7adbb195f6fc9ccafe1eab5dc479e3b34",
+      "size": 3953
+    },
+    "docs/pose_preview.json": {
+      "mode": 420,
+      "sha256": "f54bbf055c93bc22d6e5ff1b84f457b0c7823e160f56b822c642d82fc187c65f",
+      "size": 7781
+    },
+    "docs/preview_performance.json": {
+      "mode": 420,
+      "sha256": "51dd5d0788f85e693c947f45e353f6f9608b5a2703f9294e55503c203b8ff645",
+      "size": 4120
+    },
+    "docs/quality_continue_analysis_20260927.md": {
+      "mode": 420,
+      "sha256": "11f5f892863903aa69fd2223c99187b44f79761372e7c4eeacec5c547e6bc92b",
+      "size": 9006
+    },
+    "docs/quality_trial_summary_20260926.md": {
+      "mode": 420,
+      "sha256": "f2e72f6cfff9d82e5c5ca3d4d3fc1fc9e6112087a771c6b466ce4ae2a4857767",
+      "size": 9155
+    },
+    "docs/range_trial_summary_20260927.md": {
+      "mode": 420,
+      "sha256": "4739ed5374874fbbbfb87c2aae3f2996a8cafc2b8da7d3608218c8ba403e169d",
+      "size": 9811
+    },
+    "docs/reset_recovery_20260924.md": {
+      "mode": 420,
+      "sha256": "bda63993cf90750ce738a92d9fc0bd57057cace6147203c392865a53e6ff45e7",
+      "size": 4642
+    },
+    "docs/reward_defaults_20261006.md": {
+      "mode": 420,
+      "sha256": "1e51f6c223121b0742738de2b569711ea50a685f98eb3cba591f8bd432508a8d",
+      "size": 29134
+    },
+    "docs/reward_options_acceptance.md": {
+      "mode": 420,
+      "sha256": "e8969d3efd41d6bff107f5151000c16e858e57effb4ce2643a60333a8737118f",
+      "size": 5038
+    },
+    "docs/sac_default_contract.json": {
+      "mode": 420,
+      "sha256": "5b58a65035df40d1b5a577c8cd0e73033bda93aabef1c814f38660c6c33f7dd7",
+      "size": 7988
+    },
+    "docs/sac_shadow_review.md": {
+      "mode": 420,
+      "sha256": "f8a3268928cf77d57e4e6cd72f72f79ca2b491c6956e1b55c658b497e1e42391",
+      "size": 11885
+    },
+    "docs/sac_source_manifest.json": {
+      "mode": 420,
+      "sha256": "3e184e1557670bfd63a0686487c5170f9eab7cf2f46c0da673b9c0911358c365",
+      "size": 1837
+    },
+    "docs/sac_validation.json": {
+      "mode": 420,
+      "sha256": "b2f5029dc9b504454f1fe383c728e06d824b212700179021456fe132298535c2",
+      "size": 3630
+    },
+    "docs/score_integrity_release_tail_20260928.md": {
+      "mode": 420,
+      "sha256": "6c27d981f2d9801eb9400eae7fe7870b0693f64bc92f683194d196defa5af249",
+      "size": 4368
+    },
+    "docs/self_collision_detection_only_20260924.md": {
+      "mode": 420,
+      "sha256": "3e60341751de1eb33baca85c840470b5cddb4ee86869125c0f0d685bf3804ca7",
+      "size": 4044
+    },
+    "docs/self_collision_substeps_20261008.md": {
+      "mode": 420,
+      "sha256": "d30c6a89d79ad38d89e2c4c9a71838e0265254604501f23f3f821e0dda02fb68",
+      "size": 2969
+    },
+    "docs/shadow_contact_40hz_acceptance.md": {
+      "mode": 420,
+      "sha256": "be4d392c19f6499a5da962f07210754bade530be62c696cac9a855a7db5c02ef",
+      "size": 9547
+    },
+    "docs/shadow_reference_contract_20260925.json": {
+      "mode": 420,
+      "sha256": "b8bc633e9746534e84e2fad0c3f13d69720a55558d4f06706c8169244ba69fdf",
+      "size": 14074
+    },
+    "docs/shadow_sync_20260925.md": {
+      "mode": 420,
+      "sha256": "a2c4c7fcebaffeeaf07599dc5a22c25f1cecc93a787da799cbb8eaded1a10524",
+      "size": 10505
+    },
+    "docs/shadow_task_profile_20260925.md": {
+      "mode": 420,
+      "sha256": "32b84e3250ede70ab25bc8232399cdfb933de82c8f0a0dcc4b4f461fb9994d87",
+      "size": 5078
+    },
+    "docs/source_bundle_cache_20260924.md": {
+      "mode": 420,
+      "sha256": "a90fb105864d13fbd08e70fea0e5588c42aba06d70ffc1e0c7cae34bf4edcf49",
+      "size": 5345
+    },
+    "docs/source_config_training_20260924.md": {
+      "mode": 420,
+      "sha256": "3547baf5c3ea68e5f7bbb1e86b629787e952a9b33919d9ecd69653f06cf004c1",
+      "size": 13378
+    },
+    "docs/source_manifest.json": {
+      "mode": 420,
+      "sha256": "e83f1f8601a6741889e232efe466fccde3be0831960f56914e53e21b005f46eb",
+      "size": 53128
+    },
+    "docs/startup_height_speed_20260918.md": {
+      "mode": 420,
+      "sha256": "e3b8acc2b89b14d3f1e789d992d2aa43f4281fa2a65f331a38956791e4f00eeb",
+      "size": 9393
+    },
+    "docs/startup_preparation_20260926.md": {
+      "mode": 420,
+      "sha256": "8b17b3c10657b91c83f602c427531e73ee28d7897b8f04d6855777cac66aa05d",
+      "size": 10788
+    },
+    "docs/swanlab_training_metrics_20260928.md": {
+      "mode": 420,
+      "sha256": "40d825c1aca2b0447e7e510e46d2649ee59964f75d7e93568783079614f83c7f",
+      "size": 8487
+    },
+    "docs/target_key_reward_fix_20260928.md": {
+      "mode": 420,
+      "sha256": "b5fd59377e6bd85902ef5996647e999aab754d782f9b97858f9d005698834979",
+      "size": 9485
+    },
+    "docs/tianji_mount_20260930.md": {
+      "mode": 420,
+      "sha256": "d24e421adef4f6b59b611685f4764b04b85c2d5bfe0c195328feadeb8893cea3",
+      "size": 5371
+    },
+    "docs/tj_m6_preview_ik.md": {
+      "mode": 420,
+      "sha256": "3464dd60d3454012fcce2b72154f4589bcb43cd256b959c57361f87d97d354d8",
+      "size": 7793
+    },
+    "docs/torch_sac_acceptance.md": {
+      "mode": 420,
+      "sha256": "58c24a4415fd70fd70d1fe0f0c93376fbbfdcff7e1a0db1ce89a8d76d345af57",
+      "size": 14245
+    },
+    "docs/torch_sac_validation.json": {
+      "mode": 420,
+      "sha256": "179ef8eeb147d5f5bba10e6f5582dbe7377c3b8ee0d7d8b0aa21dc1e538bad05",
+      "size": 29735
+    },
+    "docs/training_clair_de_lune_20260920.md": {
+      "mode": 420,
+      "sha256": "74fe62fc6807bb87d5de29d92ad3646b78817b1cc2bfa56cb8a0414e0da1edf7",
+      "size": 5606
+    },
+    "docs/training_environment.md": {
+      "mode": 420,
+      "sha256": "1afeda61b8b0fc10e29bec75574e1cbb242064b8c76974a60555b39d84010013",
+      "size": 4225
+    },
+    "docs/training_final_video_f1_20260926.md": {
+      "mode": 420,
+      "sha256": "beb0445683fef7206135b88bd8ad1b9981362c6cb2d8e9d4b8fcc5254a4ea979",
+      "size": 4065
+    },
+    "docs/training_m6_twinkle_20260923.md": {
+      "mode": 420,
+      "sha256": "2884b5a87c689e8e25acd428d0a9295f18657d16f470bcbc60d4615e3fac6348",
+      "size": 6646
+    },
+    "docs/training_motion_audit_20260925.md": {
+      "mode": 420,
+      "sha256": "d27fe275c3eb9587f14400a022399057baa26a165b35b311662358fc236d6c81",
+      "size": 20133
+    },
+    "docs/training_no_yaw47_20260924.md": {
+      "mode": 420,
+      "sha256": "efd11962f17e4d68171da8ff35de4c7bc0152a0560f10963ac9fbab043a8cfdb",
+      "size": 3382
+    },
+    "docs/training_no_yaw47_legacy_continue5m_20260924.md": {
+      "mode": 420,
+      "sha256": "f724d80b99122418aca02fe09c82fb9a1b09c01db3f7f1b62ead0982318c4274",
+      "size": 3750
+    },
+    "docs/training_policy_preparation_5m_20260926.md": {
+      "mode": 420,
+      "sha256": "5a9878a42229e0d3e0a44ba4c5b669d2795413fceda10266681d7f094f0f6b92",
+      "size": 4171
+    },
+    "docs/training_quality_control_20260926.md": {
+      "mode": 420,
+      "sha256": "0721dcb9beabc677e22465a526ac48abfa5f5acdc6c7c13516a32a6ca2b7051f",
+      "size": 7774
+    },
+    "docs/training_result_cleanup_20260925.json": {
+      "mode": 420,
+      "sha256": "a52e1d648bc1927c82e281b1cb143827e70ce7a7b5d2a349595a839c242f60d3",
+      "size": 3831
+    },
+    "docs/training_results_20260921.md": {
+      "mode": 420,
+      "sha256": "c436f7e44d4fd4c9955ebb36dc3018c66f61f54dfe8d8bdcd0991ca76c189254",
+      "size": 7752
+    },
+    "docs/training_run_20260920.md": {
+      "mode": 420,
+      "sha256": "c5dc6e03d6d968072dae5aea45f870a94281fc090e98aa655c7ecabce3e44cae",
+      "size": 4693
+    },
+    "docs/training_run_review_20260926.md": {
+      "mode": 420,
+      "sha256": "291dfbef38499ef2c058fc8be1151e01fefa62cd1ce5e7754476fa87f7c5c74f",
+      "size": 16280
+    },
+    "docs/training_self_collision_20260920.md": {
+      "mode": 420,
+      "sha256": "8531d9c6aef994b044bc073babca49268f101d063243b3bb39838c8657ded3ad",
+      "size": 4353
+    },
+    "docs/training_speed_and_startup_diagnosis.md": {
+      "mode": 420,
+      "sha256": "9df28a09fb260f3954ca1a29d9ec00877b85837a8c09c055c96cdd62f4e37b9d",
+      "size": 10519
+    },
+    "docs/training_speed_audit_20260926.md": {
+      "mode": 420,
+      "sha256": "ffa1c5412ec7e377bbda9e3a0703add49928b4e755b2aa37abd815da6e6f9555",
+      "size": 8262
+    },
+    "docs/training_stop_video_20261001.md": {
+      "mode": 420,
+      "sha256": "c7181129d0f9171f3c81764b0c355980540163891a4cad525b2229ef9c574c4e",
+      "size": 3560
+    },
+    "docs/training_twinkle_contact_stable_20260924.md": {
+      "mode": 420,
+      "sha256": "e6a4d0be346cbb11b1eca0a2a59da9f91bbbdccd5d6b0718532bcb73c50139df",
+      "size": 4889
+    },
+    "docs/training_twinkle_continue5m_20260924.md": {
+      "mode": 420,
+      "sha256": "0ddbd3b6db6e283cea392c8bb6165fc935cadfcc162a03625f3a0f4c22e001fc",
+      "size": 2955
+    },
+    "docs/training_twinkle_latest_20260925.md": {
+      "mode": 420,
+      "sha256": "999e79453e57078c73a54122f373ea87747dbb721ed1d8221fb6fc1463201088",
+      "size": 6854
+    },
+    "docs/training_video_f1_snapshot_20260924.md": {
+      "mode": 420,
+      "sha256": "4173efa7857206d1363113a4b178a17995025fad96bec888b5749836745dfb66",
+      "size": 3912
+    },
+    "docs/tsensei_a32_model_audit_20260928.json": {
+      "mode": 420,
+      "sha256": "5b9b82983f6bbdc953a32975b5db8a20682d84a0302098a7bcc3a9683fcede50",
+      "size": 48881
+    },
+    "docs/tsensei_a32_model_audit_20260928.md": {
+      "mode": 420,
+      "sha256": "f60c9c312d79920644b29841a78a88e781e0c9df7fbabb7a6a1d69f37ddd08a8",
+      "size": 11562
+    },
+    "docs/tsensei_a32_node4.md": {
+      "mode": 420,
+      "sha256": "879a1b536ce3c3ea521f28310c22068ca9a48f5588424f408b7b67cf488ea28a",
+      "size": 2582
+    },
+    "docs/tsensei_a32_training_20260928.md": {
+      "mode": 420,
+      "sha256": "650a7009c06cf1eb91b93c87cb71941a37d0a0e90df574ce7ff60863ced17783",
+      "size": 7538
+    },
+    "docs/tsensei_a32_upload_audit_20260928.json": {
+      "mode": 420,
+      "sha256": "dd091e290d3bc98ccc157c238331ae1a99e121fa946ee1f736aa182659f98c1b",
+      "size": 524
+    },
+    "docs/twinkle_ablation_20261002.md": {
+      "mode": 420,
+      "sha256": "0ca0656c1f21d7088feb6f25ea605ee8d2426f14d7f1b9bbab1c44b175f4f82b",
+      "size": 10349
+    },
+    "docs/twinkle_early_startup_20260920.md": {
+      "mode": 420,
+      "sha256": "c554ac339a54e94514a80707a61c0621bb7fd68beb98dcaaa6e91d7d2fd71bfb",
+      "size": 6701
+    },
+    "docs/twinkle_f1_candidates_20261003.md": {
+      "mode": 420,
+      "sha256": "c20202cfacf9c573944d373511e3096118fa18511970f5881d6cd3c195ec41e1",
+      "size": 13585
+    },
+    "docs/twinkle_f1_finetune_20261003.md": {
+      "mode": 420,
+      "sha256": "30186e15b9e74891636ee67147748f54bae1590446f8dff15b73998b7c1dbea5",
+      "size": 21857
+    },
+    "docs/validation_results.json": {
+      "mode": 420,
+      "sha256": "b7e23565de3af165bb85f95e4c1d86e9c87aba673c0acb179678e4c8a848e60c",
+      "size": 892
+    },
+    "docs/volcengine_a32_migration_20260928.md": {
+      "mode": 420,
+      "sha256": "762be4a3e3cb48102677c47cd4542df7c48eae9fb7e9f79d81a9e2a141442637",
+      "size": 12752
+    },
+    "eval.sh": {
+      "mode": 493,
+      "sha256": "21a430f878a9acc14ae729f1414d909145a1954edec6eabacbbd096461bbc944",
+      "size": 440
+    },
+    "export_video.sh": {
+      "mode": 493,
+      "sha256": "b7c1213ac7b8cf03ec4e1c2602a3eeb71c2e9809794a23626203584f8969e767",
+      "size": 234
+    },
+    "online_control/__init__.py": {
+      "mode": 420,
+      "sha256": "ef2d0bab0509f8344ec6c327c31ad05dd39d7889058d9d7c3629ee0641e7d2a2",
+      "size": 80
+    },
+    "online_control/export.py": {
+      "mode": 420,
+      "sha256": "7969b978e68e22b279d8ccd60a1d7e99ad26ac6f2a275c455eef288b73784147",
+      "size": 22728
+    },
+    "online_control/models.py": {
+      "mode": 420,
+      "sha256": "24ef26630844ef9d40a52c70106e6136c6314a19051c30311652790f8ebd68d6",
+      "size": 14607
+    },
+    "online_control/trajectory.py": {
+      "mode": 420,
+      "sha256": "8c15b34063b816409882aba05897d0a63b60d440b9cc1f1e90b63510df271495",
+      "size": 11896
+    },
+    "preview/assets/hand_connector/left_01.stl": {
+      "mode": 420,
+      "sha256": "3cab5e70e7f456eb5965c524ccc0114ca7c8599818e1a2df84ced63d443024b3",
+      "size": 337484
+    },
+    "preview/assets/hand_connector/left_02.stl": {
+      "mode": 420,
+      "sha256": "fd01f00bf10006e82a898e818662c788256fe7d828a8066eb74cf63c3cc1c00e",
+      "size": 51284
+    },
+    "preview/assets/hand_connector/left_03.stl": {
+      "mode": 420,
+      "sha256": "9655fa2e7742a03cd06825031872b71295926373ceb52860e9a82cf44e3657d9",
+      "size": 51284
+    },
+    "preview/assets/hand_connector/left_04.stl": {
+      "mode": 420,
+      "sha256": "01bad1f1fa3886f2c632802b6cbbbf53e8fed951a974a55abda12220b1982f4e",
+      "size": 51284
+    },
+    "preview/assets/hand_connector/left_05.stl": {
+      "mode": 420,
+      "sha256": "fdc7ba99ba24076372daf6359bd46c6cbe39f0fdebe91c2fca57449984f9a563",
+      "size": 51284
+    },
+    "preview/assets/hand_connector/left_06.stl": {
+      "mode": 420,
+      "sha256": "920d259b48a3514750f02da8a4eb6846039bda4069b4198c2f27d8616be03174",
+      "size": 175884
+    },
+    "preview/assets/hand_connector/right_01.stl": {
+      "mode": 420,
+      "sha256": "c6cd5759801b0150a5f4a27693f3a3cf7c5e08f14d91206cd25d90b01c8ab999",
+      "size": 337484
+    },
+    "preview/assets/hand_connector/right_02.stl": {
+      "mode": 420,
+      "sha256": "7a612f0109d15c732c2bbec9da584bcde690b20cd97833f5a6a5426a18d4abf3",
+      "size": 51284
+    },
+    "preview/assets/hand_connector/right_03.stl": {
+      "mode": 420,
+      "sha256": "57841e19ae13850eee064fed2ca3c001c10189983b3283c5920ff11d4c27c28a",
+      "size": 51284
+    },
+    "preview/assets/hand_connector/right_04.stl": {
+      "mode": 420,
+      "sha256": "46b7316639f09442372f4c7b47c3e46773209a781581a016bc8bf269045ab9ca",
+      "size": 51284
+    },
+    "preview/assets/hand_connector/right_05.stl": {
+      "mode": 420,
+      "sha256": "61d172dfc192c63d77b244e4a0c7f294452e2c03414de8355877e7d16b7f6930",
+      "size": 51284
+    },
+    "preview/assets/hand_connector/right_06.stl": {
+      "mode": 420,
+      "sha256": "fd0853fe3b94ecef755294db11e022f11ad754be3b583a9c05241d87eb074db3",
+      "size": 175884
+    },
+    "preview/assets/hand_connector/tianji_20260930/left_01.stl": {
+      "mode": 420,
+      "sha256": "a0f91e78ae1ebf347e13896e8dff3cefe400cd1b66386baf90efcbf3cdb62616",
+      "size": 337684
+    },
+    "preview/assets/hand_connector/tianji_20260930/left_02.stl": {
+      "mode": 420,
+      "sha256": "e18de2707f0b16c9e3ad99f48c4035c89cb5a9dde143cff7e3a1a710fb929923",
+      "size": 51284
+    },
+    "preview/assets/hand_connector/tianji_20260930/left_03.stl": {
+      "mode": 420,
+      "sha256": "c8fcca651c06b28cb458b33e6fd51a7ead9a26c7467f86f95ac3b3f4436c7554",
+      "size": 51284
+    },
+    "preview/assets/hand_connector/tianji_20260930/left_04.stl": {
+      "mode": 420,
+      "sha256": "16d47d4d06767d15a6f89b77bbd10cdd71f5eeaef4be873fc50d66f67c526122",
+      "size": 51284
+    },
+    "preview/assets/hand_connector/tianji_20260930/left_05.stl": {
+      "mode": 420,
+      "sha256": "831905770cf17e1ddc2a6715104733144e3c81184c8fbe1f2f0b1ff980184b71",
+      "size": 51284
+    },
+    "preview/assets/hand_connector/tianji_20260930/left_06.stl": {
+      "mode": 420,
+      "sha256": "a4a29c0e81d0b83894061e3bcac9a00f463c833650a33918ee654702e7a511ba",
+      "size": 155084
+    },
+    "preview/assets/hand_connector/tianji_20260930/right_01.stl": {
+      "mode": 420,
+      "sha256": "7cd3763ba4e5af725ffebf49893fa3611137d528d633c7022617d24eb02b361c",
+      "size": 337684
+    },
+    "preview/assets/hand_connector/tianji_20260930/right_02.stl": {
+      "mode": 420,
+      "sha256": "7771bacfcda545c45f3adacde9d78c94e047a4d7ffc6c948f6a5d7bc40a6b7e0",
+      "size": 51284
+    },
+    "preview/assets/hand_connector/tianji_20260930/right_03.stl": {
+      "mode": 420,
+      "sha256": "b98b294583a5fe182af027ae2d0a22a60c1a8a648f230699afb6649802f7a929",
+      "size": 51284
+    },
+    "preview/assets/hand_connector/tianji_20260930/right_04.stl": {
+      "mode": 420,
+      "sha256": "4b4bc6c7a684e2352e1eaf81d98b3164f884efc3c2c5e0849a40735a65ad4622",
+      "size": 51284
+    },
+    "preview/assets/hand_connector/tianji_20260930/right_05.stl": {
+      "mode": 420,
+      "sha256": "b825fbe1939a1f353f8e8b865138d7f547387eabee8617e7fced56d8dd84168d",
+      "size": 51284
+    },
+    "preview/assets/hand_connector/tianji_20260930/right_06.stl": {
+      "mode": 420,
+      "sha256": "4fc82e068c568e8e1efbff20345c556e6351fd2c49a0fea3f5a4dec44bf3085a",
+      "size": 155084
+    },
+    "preview/assets/tj_m6/LICENSE": {
+      "mode": 420,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "size": 11357
+    },
+    "preview/assets/tj_m6/left/arm.urdf": {
+      "mode": 420,
+      "sha256": "4cc1c19f2e76582c02fec945763bbe8995949f646a9ad3d02a118fb74c70eacc",
+      "size": 9645
+    },
+    "preview/assets/tj_m6/left/meshes/Base_L.STL": {
+      "mode": 420,
+      "sha256": "f22c309ed8cacd2fc776e2f72a2fc5618d9da84315267377edd3205e91ebbcb5",
+      "size": 204584
+    },
+    "preview/assets/tj_m6/left/meshes/Link1_L.STL": {
+      "mode": 420,
+      "sha256": "d00097eec49600a4111ee5a124d6636f50ea09a7a1dc8486d98f4370dde7a932",
+      "size": 563584
+    },
+    "preview/assets/tj_m6/left/meshes/Link2_L.STL": {
+      "mode": 420,
+      "sha256": "4776a6a2086ddc61b1643aff93386e545baccef2751db29d863fe027a76f325e",
+      "size": 1278784
+    },
+    "preview/assets/tj_m6/left/meshes/Link3_L.STL": {
+      "mode": 420,
+      "sha256": "d58f1039bd3eb2ccc1a1959b89d2de7ae714344ad8cb8b78ef97b92dcd317d26",
+      "size": 635484
+    },
+    "preview/assets/tj_m6/left/meshes/Link4_L.STL": {
+      "mode": 420,
+      "sha256": "77f18566339f38acac1785fae517b05ff1e5247b95404ce26536d215bbed9cd7",
+      "size": 1263484
+    },
+    "preview/assets/tj_m6/left/meshes/Link5_L.STL": {
+      "mode": 420,
+      "sha256": "573f15ee62b0a9b2d62aceeb756800fd86969a685535e91416b73d51f1c57613",
+      "size": 1176084
+    },
+    "preview/assets/tj_m6/left/meshes/Link6_L.STL": {
+      "mode": 420,
+      "sha256": "b6b7570d8ebf1d2acb01baf8941b892f5a5f72aaa05503ab8340da8a2a7b2c13",
+      "size": 310884
+    },
+    "preview/assets/tj_m6/left/meshes/Link7_L.STL": {
+      "mode": 420,
+      "sha256": "126cc7d41c37049ce34d2636bfe2d460c21e3429ed080877d1c5e983109ef798",
+      "size": 2557184
+    },
+    "preview/assets/tj_m6/preview_mount.json": {
+      "mode": 420,
+      "sha256": "0f93c9492e402b7363ecc206b1bc311a2f6dc1ff6452536fa688c506cca24c7a",
+      "size": 1466
+    },
+    "preview/assets/tj_m6/right/arm.urdf": {
+      "mode": 420,
+      "sha256": "3619ecc07d24bed0b3b5f30a57480457ba129e15dde36abb27ae97501a77e8c8",
+      "size": 9601
+    },
+    "preview/assets/tj_m6/right/meshes/Base_R.STL": {
+      "mode": 420,
+      "sha256": "f22c309ed8cacd2fc776e2f72a2fc5618d9da84315267377edd3205e91ebbcb5",
+      "size": 204584
+    },
+    "preview/assets/tj_m6/right/meshes/Link1_R.STL": {
+      "mode": 420,
+      "sha256": "fdb1075fe0b41e5c2cb7c2fe13c9d2e62ff4dd6eb540ea841b8603db28369dd0",
+      "size": 563584
+    },
+    "preview/assets/tj_m6/right/meshes/Link2_R.STL": {
+      "mode": 420,
+      "sha256": "53eb9fc69c939d2ebd4f32c1df341c1c42bc3d9d0911db0c9fcee70aa2701b34",
+      "size": 1278784
+    },
+    "preview/assets/tj_m6/right/meshes/Link3_R.STL": {
+      "mode": 420,
+      "sha256": "122456d8fc3e81694f352fc1f29d0bc19066f7f3d7572857a1be1e7c030dec9c",
+      "size": 635484
+    },
+    "preview/assets/tj_m6/right/meshes/Link4_R.STL": {
+      "mode": 420,
+      "sha256": "77f18566339f38acac1785fae517b05ff1e5247b95404ce26536d215bbed9cd7",
+      "size": 1263484
+    },
+    "preview/assets/tj_m6/right/meshes/Link5_R.STL": {
+      "mode": 420,
+      "sha256": "2de51a340695c89b2fd58b1171dfacc4d85aa4e6cd50879e021a2d0bde8599a8",
+      "size": 1196684
+    },
+    "preview/assets/tj_m6/right/meshes/Link6_R.STL": {
+      "mode": 420,
+      "sha256": "49722d14b9ac34a84a41c95f49bd0b2a8859d4a05f66b247822bf36b0a703cd5",
+      "size": 310884
+    },
+    "preview/assets/tj_m6/right/meshes/Link7_R.STL": {
+      "mode": 420,
+      "sha256": "6eb75b059ff383e90a153be840bcce84b23d8f8afd074b1bc9dfec1b18c2351f",
+      "size": 2577384
+    },
+    "preview/assets/tj_m6/source.json": {
+      "mode": 420,
+      "sha256": "e195333e0d506a0d1cfb8d068ab2c5f85ec15520fb0d11cf027c35b93c3a9555",
+      "size": 2006
+    },
+    "preview/requirements-replay.txt": {
+      "mode": 420,
+      "sha256": "e269df295d9659cf1dac66d0743440c0e075f14dca72a90dc2bdb929323b0959",
+      "size": 215
+    },
+    "preview/scripts/analyze_training_speed.py": {
+      "mode": 420,
+      "sha256": "a4e80230c1dee019117e299b3d7385a37ddcc357bb152329c0d1b67ca21e0aaf",
+      "size": 4654
+    },
+    "preview/scripts/arm_motion_limits.py": {
+      "mode": 420,
+      "sha256": "eab60c713b90b13f5c7eefff8a95b48e9f443788302afc62706cd65bc38ca77c",
+      "size": 3132
+    },
+    "preview/scripts/benchmark_training_speed.py": {
+      "mode": 420,
+      "sha256": "8872a48fd6a8393a7a3fd64edd88e1bbc91719a0aea73948aacd319e9722b3d1",
+      "size": 2590
+    },
+    "preview/scripts/constrained_arm_motion.py": {
+      "mode": 420,
+      "sha256": "bcc9cffa2e64470c7d93854616906a7406aa7d656eda5d9c97cb6d2f27554a24",
+      "size": 12881
+    },
+    "preview/scripts/demo_arm_ik.py": {
+      "mode": 420,
+      "sha256": "095cf93be9618bf286ea4c775da18b9d2e2e82ce6c2e4dd9e83c2f69a9e96ff8",
+      "size": 4293
+    },
+    "preview/scripts/draw_arm_coordinate_frames.py": {
+      "mode": 420,
+      "sha256": "681b77c849b280586001173a2969b6e6c0a15d6cfcdab33dc6f98b8ffc6a2421",
+      "size": 14527
+    },
+    "preview/scripts/draw_collision_scope.py": {
+      "mode": 420,
+      "sha256": "abcc8dfac80a1a73a3a49a13399cfb0593e2ce9d574d8b2825fe4a252c597162",
+      "size": 6419
+    },
+    "preview/scripts/draw_connector_alignment.py": {
+      "mode": 420,
+      "sha256": "d4ebdfc3d48c1377729b5e886cb69451f44d1c0860883fe4565b685fc9cf5688",
+      "size": 9922
+    },
+    "preview/scripts/draw_fingering_reward_targets.py": {
+      "mode": 420,
+      "sha256": "43c622b21acc226b0064fc81a517102b0bec100e2099b41c1162daaf056a1e24",
+      "size": 13846
+    },
+    "preview/scripts/draw_fingertip_collision_audit.py": {
+      "mode": 420,
+      "sha256": "e34809d83eecfd50ed8242222d9b6ba212a01f36b8feea787b464c611e6d3039",
+      "size": 5722
+    },
+    "preview/scripts/draw_forearm_regions.py": {
+      "mode": 420,
+      "sha256": "1e61bbd8241f99d0968aa7e60606600dcc2000de8274dc1cd739d87621705567",
+      "size": 6440
+    },
+    "preview/scripts/draw_m6_forearm_regions.py": {
+      "mode": 420,
+      "sha256": "89fea71131fa5ebbb0945f78e5280171a0654a65af1e6685c3aa1b9ec87dd89c",
+      "size": 2363
+    },
+    "preview/scripts/draw_tianji_mount.py": {
+      "mode": 420,
+      "sha256": "623df1e0be3ae33492277acab6f4e6b6fd5911631cf27a9cd7fea5d0a36849b1",
+      "size": 3534
+    },
+    "preview/scripts/export_arm_installation_limits.py": {
+      "mode": 420,
+      "sha256": "87fcc64b15c83c7586b692ef883d783a365cc6645326780f1504682ce80c0dee",
+      "size": 26082
+    },
+    "preview/scripts/export_arm_mirror_palm_down_scene.py": {
+      "mode": 420,
+      "sha256": "d9171a1231302ef71d02032c22b0e40e5c6d9f7811447d9f0745431da9a91126",
+      "size": 17890
+    },
+    "preview/scripts/export_arm_zero_axes.py": {
+      "mode": 420,
+      "sha256": "56583ff9b067a33a47db29d96947c0769d0a069956621ffba772c5e913ef6e2f",
+      "size": 15491
+    },
+    "preview/scripts/export_best_mjlab.py": {
+      "mode": 420,
+      "sha256": "2a22b85e6627e4df3e0e9a8160850df18b8e412308c04ede45a569a3845e0f83",
+      "size": 12171
+    },
+    "preview/scripts/export_joint_curves.py": {
+      "mode": 420,
+      "sha256": "eca3b05a37a3fedf4d6c743f573d086fd702fa44a422aa1615abff9ad7f48573",
+      "size": 9078
+    },
+    "preview/scripts/export_latest_training_video.sh": {
+      "mode": 493,
+      "sha256": "49ccfdeb8a2e799195d0da9c41be184570063c230b78ab458d65d567d6a07f72",
+      "size": 2393
+    },
+    "preview/scripts/export_video_job.py": {
+      "mode": 420,
+      "sha256": "5846049e386b3b1d605939b7a3c90ea70ca16c51848ba0bd06a079d3a90027e1",
+      "size": 39292
+    },
+    "preview/scripts/import_hand_connector.py": {
+      "mode": 420,
+      "sha256": "840895485eb85b27c10b4045eb01e302e9d8d3fa560b82c05e6420e79c2c37dc",
+      "size": 5722
+    },
+    "preview/scripts/joint_motion_plots.py": {
+      "mode": 420,
+      "sha256": "de6135ba3c32f22dc80c23df9d1fa54762c6249ea7b8a87b19d985cb9f6740d5",
+      "size": 12793
+    },
+    "preview/scripts/plot_training_speed.py": {
+      "mode": 420,
+      "sha256": "dcfe30c18f17e76c28244a38d271e383554498e02589581b718322c5b896a020",
+      "size": 3119
+    },
+    "preview/scripts/preparation_frames.py": {
+      "mode": 420,
+      "sha256": "2fcfed5ec8ace1d50be7e927413f5ea54bdf3026d58fe62d99b98e0d19e188cf",
+      "size": 3103
+    },
+    "preview/scripts/preview_mjlab.py": {
+      "mode": 420,
+      "sha256": "f7a197a436e7cd10602919b6d8b411fd778d1af396c89027e2a32ea704b27839",
+      "size": 22254
+    },
+    "preview/scripts/preview_pose.py": {
+      "mode": 420,
+      "sha256": "22fbf8b1dfa9c1d003e597cca2b7875a5d3421a1a7cc852bf2420cd475cbaf5b",
+      "size": 20367
+    },
+    "preview/scripts/reframe_mjlab_recording.py": {
+      "mode": 420,
+      "sha256": "139877e168e9572f4f05b86dcf6b179c5865aaf1fe7a342d75f58b542252009d",
+      "size": 7048
+    },
+    "preview/scripts/render_jax_checkpoint.py": {
+      "mode": 420,
+      "sha256": "cc39b57e977afecfd34c4a7288821982ed1390de8663f96ad68fc43d0e89144b",
+      "size": 12745
+    },
+    "preview/scripts/render_mjlab_checkpoint.py": {
+      "mode": 420,
+      "sha256": "0e1d0c03117ba00432a2a686e10ec1db151eb96f5c9d2985f42ed251116264c7",
+      "size": 25067
+    },
+    "preview/scripts/render_recorded_native.py": {
+      "mode": 420,
+      "sha256": "08700bc497c6bd32772c550b5b3e0a950a2f224420f2189376700d518a98dfbc",
+      "size": 6091
+    },
+    "preview/scripts/replay_arm_csv.py": {
+      "mode": 420,
+      "sha256": "14b487d0d4836acfbafa3552f0f48a7c751fafa9ecf1c284df24725e9adc0910",
+      "size": 19996
+    },
+    "preview/scripts/replay_arm_ik.py": {
+      "mode": 420,
+      "sha256": "8c48b7608d32ec6016d40ce3779fbc3e4b686fb0e049af9dc37892f415d1837b",
+      "size": 23033
+    },
+    "preview/scripts/setup_piano_audio.py": {
+      "mode": 420,
+      "sha256": "4b07c45d1832b9ce03b5da8ed26423513baa7b8148a528f45a6696929d7be322",
+      "size": 3061
+    },
+    "preview_pose.py": {
+      "mode": 420,
+      "sha256": "729d20100a0501654a2a7c9dab2a019208a339cbd47a5009d0a2c0ae6edbed28",
+      "size": 335
+    },
+    "pyproject.toml": {
+      "mode": 420,
+      "sha256": "5a6af3317477d4bc138cca5fda8b0e939bda69d91202b349dc3d5ec58cfa393c",
+      "size": 1448
+    },
+    "requirements-sac-tested.txt": {
+      "mode": 420,
+      "sha256": "e65d534c07a75ed34399af26ba1bdf8ddfc82ca3a9cad79b0974bb8705a1e539",
+      "size": 1802
+    },
+    "requirements-tested.txt": {
+      "mode": 420,
+      "sha256": "40023ddbb6e5a57e7cd93798fbbb1c2ed02b32ab5f011513ee95d3b72e7584e4",
+      "size": 1363
+    },
+    "scripts/analyze_finger_clearance.py": {
+      "mode": 420,
+      "sha256": "8e860878afdcc45fe0de3bf458a3df091da49e8f9a2cca59a26951b7777fa59e",
+      "size": 11113
+    },
+    "scripts/analyze_motion_contacts.py": {
+      "mode": 420,
+      "sha256": "566b7c7790cff7f7251eca950562d4442db1a3dd5e167c3e01a93d36af26f328",
+      "size": 15447
+    },
+    "scripts/analyze_thumb_sampling.py": {
+      "mode": 420,
+      "sha256": "76340537008f1fe7a73d56e9e55339e01b08bb282fa541642b9355f6620009c8",
+      "size": 9832
+    },
+    "scripts/analyze_training_run.py": {
+      "mode": 420,
+      "sha256": "b6e89005baedc9cfd4c896e433ccbf91c603a9f846ba7731ebe45642edc17a09",
+      "size": 6397
+    },
+    "scripts/apply_hand_mass_revision.py": {
+      "mode": 420,
+      "sha256": "ad354890b518c8260cf984574c294988d66aee02159caf2a0e39839221865d0c",
+      "size": 5933
+    },
+    "scripts/audit_checkpoint_trajectories.py": {
+      "mode": 420,
+      "sha256": "ae1bdea209999afd10e8fc5cb4e2d13e21ad0392278260d34db6c53e172316d5",
+      "size": 27056
+    },
+    "scripts/audit_guard_switches.py": {
+      "mode": 420,
+      "sha256": "7c102e1ba8359a26a9667e857eaa6315977cf45c9c5ac16cefd97c2508a07992",
+      "size": 3801
+    },
+    "scripts/audit_target_key_reward.py": {
+      "mode": 420,
+      "sha256": "7d7aa233f8903ba629b827f110ab4898e3709ca1274de5264916395c9c054319",
+      "size": 4504
+    },
+    "scripts/capture_archive_render.py": {
+      "mode": 420,
+      "sha256": "80b3ed9e4e6a7ed0f938c3f9834e84e86027ee810abb4d58763d765e7a01d05f",
+      "size": 3694
+    },
+    "scripts/check_installed.py": {
+      "mode": 420,
+      "sha256": "652e69f731373b40a31fdbc6130683ed42737fad3133a3fd9da59b2154792b07",
+      "size": 2885
+    },
+    "scripts/compare_contact_candidates.py": {
+      "mode": 420,
+      "sha256": "c12f8434b5b1205d1412122e1f47d6954e0372147251c1cc2019d7fe6139b6c7",
+      "size": 2853
+    },
+    "scripts/derive_gravity_scene.py": {
+      "mode": 420,
+      "sha256": "fe40bc0e3dc287af5fb70b6cdb2ec05934b1f4406f3b37d1192ed75123d95cdc",
+      "size": 4742
+    },
+    "scripts/derive_gravity_task.py": {
+      "mode": 420,
+      "sha256": "7be4d84af5e693357ddd0d866667a980f7275b40de6f73a390a8b47d00751ea1",
+      "size": 4150
+    },
+    "scripts/derive_pose_task.py": {
+      "mode": 420,
+      "sha256": "d2bf274c2389ed6feab1aca396d1f0f4d8e876e0785cf1808261c069285d8f70",
+      "size": 3551
+    },
+    "scripts/diagnose_replay_start.py": {
+      "mode": 420,
+      "sha256": "4cd23a807eba7c92810f4e7b4c7e5734fae3ead384500d145904f1e0564cfe43",
+      "size": 6449
+    },
+    "scripts/diagnose_shadow_cpu_gpu_difference.py": {
+      "mode": 420,
+      "sha256": "564b2a63ce2026e526029481699f1603c41e639b691f726e2f67ab58ac78e4aa",
+      "size": 5123
+    },
+    "scripts/eval_from_source.py": {
+      "mode": 420,
+      "sha256": "289ba283e2ec6e32ae13e22c12727dc81d54a6aeb0fe4386bcebafff90d6c70a",
+      "size": 2550
+    },
+    "scripts/eval_from_source_archive.py": {
+      "mode": 420,
+      "sha256": "73a04173b083ae7d156746f725d3542f6974e34ae99d21788e4e87476fcb3f8b",
+      "size": 7748
+    },
+    "scripts/export_chat_answers.py": {
+      "mode": 420,
+      "sha256": "744d53ec408cb0248a39ecd9247866bef88655be45f7445e54d7fd01f687e010",
+      "size": 4334
+    },
+    "scripts/export_contact_stability_bundle.py": {
+      "mode": 420,
+      "sha256": "53fc5633b27a07a1fe9da5db07ea3058ae51d06b8fad051e012120839d38faf3",
+      "size": 5457
+    },
+    "scripts/export_m6_bundle.py": {
+      "mode": 420,
+      "sha256": "b43789eb2d639c507075714bef02543078975d67007de9d4dcc986d8b8cc3896",
+      "size": 6582
+    },
+    "scripts/export_mjlab_scene.py": {
+      "mode": 420,
+      "sha256": "6733bae4b9e91ffd9daa9704c096af9ef2332a5a046a5cdb6438981b5655a30b",
+      "size": 1245
+    },
+    "scripts/export_mjlab_task.py": {
+      "mode": 420,
+      "sha256": "7e6f452bd8b7157545b7d819b6188a0cfd4018afd8f1d13c40aa32a38d8a7995",
+      "size": 1981
+    },
+    "scripts/export_score_annotations.py": {
+      "mode": 420,
+      "sha256": "19c571cc2b34d77b8df37a19e3aab6ec266bc43bfc51c60f9c5e14d168caf2cf",
+      "size": 6342
+    },
+    "scripts/export_torch_sac_reference.py": {
+      "mode": 420,
+      "sha256": "baae9ef1c2c0633980d000c1eb06c84266a43594b6d4710fd0a41533a7084088",
+      "size": 9106
+    },
+    "scripts/export_videos.py": {
+      "mode": 420,
+      "sha256": "04d594c5dfb9b7639a7a23310e29cda8b2138f5a96b61912552d72e6cf7b8a2a",
+      "size": 17086
+    },
+    "scripts/finalize_training_video.py": {
+      "mode": 420,
+      "sha256": "58237a648fd021845c0a9e03ba1c05acd078f17c823f94626f917ecf702e70d1",
+      "size": 5122
+    },
+    "scripts/generate_candidate_fingering.py": {
+      "mode": 420,
+      "sha256": "b9d93502b3e73d3ef8dd93cdd9fe9ce4a76513a37f1c44956742f36086a5d7a9",
+      "size": 8534
+    },
+    "scripts/generate_collision_hulls.py": {
+      "mode": 420,
+      "sha256": "d09958486547a8e1f8a26ea6411de279678dd33234f54123699cf6e4fa3534c6",
+      "size": 6300
+    },
+    "scripts/generate_collision_proxies.py": {
+      "mode": 420,
+      "sha256": "8de373dc8cbed62ee3235fa1f5490b4a3b3b45242539f784a9ef6b310eea9749",
+      "size": 8562
+    },
+    "scripts/hpc/benchmark.py": {
+      "mode": 420,
+      "sha256": "d353d9a6cceaf15fea7cdf2e7ff15765335e124482fcb1b99f87db69ec648db7",
+      "size": 12847
+    },
+    "scripts/hpc/early_release_diagnostic.py": {
+      "mode": 420,
+      "sha256": "7e7503d6302184400724a16a9e66a02fde1e36c74c24c6d7608a8a467e5a76fb",
+      "size": 23748
+    },
+    "scripts/hpc/fix_windows_ssh.cmd": {
+      "mode": 420,
+      "sha256": "798abfdfbb2cb5b4abab9b306253be1fd8ea8aebcd2f11d930b58b7a0c066234",
+      "size": 5598
+    },
+    "scripts/hpc/job.sbatch": {
+      "mode": 420,
+      "sha256": "a58ed168cfe445df0c1ba2dde108c4cf9dd653cf5c6b7566a082920c2a35636f",
+      "size": 7790
+    },
+    "scripts/hpc/package_a32.py": {
+      "mode": 420,
+      "sha256": "0fa117cb8c5869e852fa8745446dd9534b05bf9e758660ea0422fbffc8618899",
+      "size": 13957
+    },
+    "scripts/hpc/parallel_twinkle_ablation.py": {
+      "mode": 420,
+      "sha256": "43231c3e59d95352b40588e57e279ed6dd7db31136641dbb2f922a04023aa2b9",
+      "size": 6625
+    },
+    "scripts/hpc/probe_gpus.py": {
+      "mode": 420,
+      "sha256": "5ac7a4c98cb422b90c4ae2370ae5a054e8bffb4847a7283847a4263d0ad90dca",
+      "size": 12011
+    },
+    "scripts/hpc/reserve.sbatch": {
+      "mode": 420,
+      "sha256": "0e222368eae9b8352b991a935b0da26df2f9e324f5ff88bb309d8f7c07da6137",
+      "size": 971
+    },
+    "scripts/hpc/run_speed_comparison.py": {
+      "mode": 420,
+      "sha256": "6fc78f6ce820c24e1eadb363aa44237cfc6cadd94f2f7b18b6fc58eb26dcbce9",
+      "size": 9694
+    },
+    "scripts/hpc/run_timing_allocation_queue.py": {
+      "mode": 420,
+      "sha256": "4d5a8412be6019fe7dd510e82c6c3cf1daab22e3440f1ffe2a84255b746027b5",
+      "size": 12067
+    },
+    "scripts/hpc/run_twinkle_ablation.py": {
+      "mode": 420,
+      "sha256": "4d1e4b0d02640b9b051c11da6aaa01184cfa3baafba1a066d47c9abccd521327",
+      "size": 9951
+    },
+    "scripts/hpc/run_twinkle_f1_finetune.py": {
+      "mode": 420,
+      "sha256": "b7e4191a868b1efc758c0b39c59b4c54bbf29214ff72dde7fd113baf0520562b",
+      "size": 23222
+    },
+    "scripts/hpc/run_twinkle_learner_finetune.py": {
+      "mode": 420,
+      "sha256": "61fe8857500e2e955d5eef5932e11427e2895f4ba104c9653ec6ff56fbbd40c8",
+      "size": 18502
+    },
+    "scripts/hpc/run_twinkle_reward_refine.py": {
+      "mode": 420,
+      "sha256": "29c7f23e60d56c6b75b4dd7827d74b8f2c390004118ba1e37092e556a35edac2",
+      "size": 13493
+    },
+    "scripts/hpc/setup_cuda.sh": {
+      "mode": 493,
+      "sha256": "ae73307428c0166e92f7f0c540315f6db8f0511cd2a3c51b854c371206254376",
+      "size": 11218
+    },
+    "scripts/hpc/setup_egl.sh": {
+      "mode": 493,
+      "sha256": "8cbc88b2114967425deade33ec94af0dc0af490615641899aa0e102b6b886561",
+      "size": 4596
+    },
+    "scripts/hpc/setup_envs.sh": {
+      "mode": 493,
+      "sha256": "d0680eaacb25ea789f1ed332e9a8c0770ec808bbdf9acde9c689e3ebf40dd7f4",
+      "size": 7192
+    },
+    "scripts/hpc/strike_timing_diagnostic.py": {
+      "mode": 420,
+      "sha256": "eb3a34453daac219bdcd4136c4de48e630b52377dfb40a44c0500e94b03b3324",
+      "size": 24894
+    },
+    "scripts/hpc/submit.sh": {
+      "mode": 493,
+      "sha256": "533f8254a9d7c9d4341b6366a390339715af2bf86fa39fa63a1ad458b2f8b636",
+      "size": 5594
+    },
+    "scripts/hpc/submit_twinkle_shadow_rewards.sh": {
+      "mode": 493,
+      "sha256": "994f0d71858f0cc0707b759010604a469333f4c2da4e9222cb893639f41c4c6c",
+      "size": 1109
+    },
+    "scripts/install_tianji_mount.py": {
+      "mode": 420,
+      "sha256": "11482f4dae318e32795805becdd0feb1073dad1d541ee07ff117fbc53c9884a5",
+      "size": 9972
+    },
+    "scripts/plot_recorded_key_contacts.py": {
+      "mode": 420,
+      "sha256": "228911ecbf20254f998be54fe0e8413ef85321fd407b01cdc1571db9c59f0b12",
+      "size": 2846
+    },
+    "scripts/plot_recorded_midi_comparison.py": {
+      "mode": 420,
+      "sha256": "4c3dcfd703c6dd96eb7f5ddaf48eb3cc1656943862bfa16321b2580a69a63af7",
+      "size": 9007
+    },
+    "scripts/plot_training_f1.py": {
+      "mode": 420,
+      "sha256": "afe6cc445777842407eebf219081c4e5d5afe650949fe81e1016e45176e47525",
+      "size": 10777
+    },
+    "scripts/plot_twinkle_gravity_comparison.py": {
+      "mode": 420,
+      "sha256": "db4b2ed716f5c4af72972146463e48c38516a4fbfed057a628af679b643b5fe7",
+      "size": 6488
+    },
+    "scripts/prepare_connector_mount.py": {
+      "mode": 420,
+      "sha256": "6ff2ca10791e5d3bb3f7ef54b85fb6d658077c81ebfe904b78c2991ade83ac4c",
+      "size": 3586
+    },
+    "scripts/prepare_models.py": {
+      "mode": 420,
+      "sha256": "3e4e62f417509b8377dc39c5aab1acb0e7cfe2f7fb0a68c714e4198384961fb0",
+      "size": 10318
+    },
+    "scripts/preview_preparation.py": {
+      "mode": 420,
+      "sha256": "38601dcd84f640e7666e88cba189e0fda39c6f4f03914690cfd2d24964b7feff",
+      "size": 7382
+    },
+    "scripts/probe_active_pad_reachability.py": {
+      "mode": 420,
+      "sha256": "bf19da20889d4ce099195ca2b2c6fcabc0f88f149b6667ee6e6b6a278ee16185",
+      "size": 4955
+    },
+    "scripts/probe_clearance_contacts.py": {
+      "mode": 420,
+      "sha256": "bb73c48767834484b02abc94106c26cb043165d3b57b2a73ef00d481b88359ea",
+      "size": 9259
+    },
+    "scripts/probe_clearance_keyboard_span.py": {
+      "mode": 420,
+      "sha256": "615bdf0738edb4bc702c573ab376018b99b25e8a469e10b08eb080e801947874",
+      "size": 4520
+    },
+    "scripts/probe_clearance_paths.py": {
+      "mode": 420,
+      "sha256": "53c7b6fe2e0f7f8e8b7a39c2664d8cf2c01e2110f11b76341ae2f905728bef48",
+      "size": 4286
+    },
+    "scripts/probe_control_limits.py": {
+      "mode": 420,
+      "sha256": "41e7acbe91e9a08da6883c101599233835e76f744316183520c66eac51858802",
+      "size": 5258
+    },
+    "scripts/probe_finger_clearance.py": {
+      "mode": 420,
+      "sha256": "0612faa3472f95ef22976743e1cd3b3bea2a1e976edfbea77250c1a4b031284b",
+      "size": 7150
+    },
+    "scripts/probe_limited_contacts.py": {
+      "mode": 420,
+      "sha256": "3d3475b66ba941d394f71934e69702afb71673abfc0605e4604eacf785e2e713",
+      "size": 4967
+    },
+    "scripts/probe_local_clearance_paths.py": {
+      "mode": 420,
+      "sha256": "d324f111fbcbdd3d6a84ea1045a4e9aa7e38c77ce7ced5a71d546aee58ccd1e0",
+      "size": 5389
+    },
+    "scripts/probe_thumb_pinky_chord.py": {
+      "mode": 420,
+      "sha256": "d35b8dc56f5f79f0e638d26fdadf94fbe2862d4344323e942a763040f3b91c9b",
+      "size": 14019
+    },
+    "scripts/profile_mjlab_training.py": {
+      "mode": 420,
+      "sha256": "f60f4f2d2ff0082bccc1fe541d77b0a52e99960e46ef5f7ef2f1ade4291a6c23",
+      "size": 4898
+    },
+    "scripts/remove_palm_tab.py": {
+      "mode": 420,
+      "sha256": "4156e3655bae20e56f149eeea15971164408b093189c0df719f514448a04577e",
+      "size": 4087
+    },
+    "scripts/replace_hand_mount_from_step.py": {
+      "mode": 420,
+      "sha256": "23e7985dd3ac5694c51f804bb59e106000a11c8cfd7689c63ae0b2642dec3c60",
+      "size": 8520
+    },
+    "scripts/setup_swanlab.sh": {
+      "mode": 493,
+      "sha256": "0a1ce3fed05c63a6831bc6eab480bbb66f8d0e4480f4c82fb24869b812765dce",
+      "size": 356
+    },
+    "scripts/summarize_checkpoint_audit.py": {
+      "mode": 420,
+      "sha256": "51ea29689a6b77e6285e79445fd327f14850da4de9e9c6018aa23c550b7772b1",
+      "size": 6411
+    },
+    "scripts/summarize_coupling_comparison.py": {
+      "mode": 420,
+      "sha256": "7c87a5466a507bd440566ecf310c424b9e8a4fc52b25c4037fd8186df228f2d7",
+      "size": 16486
+    },
+    "scripts/summarize_quality_trials.py": {
+      "mode": 420,
+      "sha256": "48aef96e85c781d363effe5cdce00920aebdddabb4c8dc78c2438d348e6a0e58",
+      "size": 13830
+    },
+    "scripts/summarize_range_trials.py": {
+      "mode": 420,
+      "sha256": "8cd0925cd482a9b239b0cb8209f0a886e588686863bfcfb0060f90d890f8a2fe",
+      "size": 14008
+    },
+    "scripts/swanlab_metrics.py": {
+      "mode": 420,
+      "sha256": "b7d8b7e3df93067291737464a218d85a1c0cdeb2c0bf55382ea784326e96c274",
+      "size": 15095
+    },
+    "scripts/swanlab_upload.py": {
+      "mode": 420,
+      "sha256": "c2880d4c8edc46f18891ad3463e66e46a3ab6fa9e9325bf249e644af886ce0ea",
+      "size": 11564
+    },
+    "scripts/sync_project_urdf.py": {
+      "mode": 420,
+      "sha256": "e53759750678515fb66888f01fa196f0242f88ee9c10860d3b55c50161013679",
+      "size": 18566
+    },
+    "scripts/train_from_source.py": {
+      "mode": 420,
+      "sha256": "dbee4858c516aeeb07ec05933ca2ed0ba905d67edc242bf56c490cd5cf92a291",
+      "size": 8150
+    },
+    "scripts/train_twinkle_h10_ty04_yaw015_no_tz.sh": {
+      "mode": 493,
+      "sha256": "7505e309be3c0d26ab7d045dc2e91718dece9b53d48546837e5988230f00cfff",
+      "size": 519
+    },
+    "scripts/train_twinkle_h10_ty04_yaw015_no_tz_no_yaw.sh": {
+      "mode": 493,
+      "sha256": "5a8bca16029d79763444cf36cabfb67d52fec8a796b7d2841322d88cfa0645b7",
+      "size": 191
+    },
+    "scripts/train_twinkle_h12_no_tz.sh": {
+      "mode": 493,
+      "sha256": "0cb88d05ea9ffb0c9535221faf040d91272d8bbd9312f4affb505b3aba950875",
+      "size": 516
+    },
+    "scripts/train_twinkle_h12_no_tz_no_yaw.sh": {
+      "mode": 493,
+      "sha256": "266ca8edbb13460cc960bc8ce8ab9beaa862fa1611f33432b5ae29d3707ca30a",
+      "size": 179
+    },
+    "scripts/validate_contact_stability.py": {
+      "mode": 420,
+      "sha256": "1cb3eed72431f628e7274101eb8a5aa4eb397dc253ba3da9016b21737146cd28",
+      "size": 7465
+    },
+    "scripts/validate_hand_detection_only.py": {
+      "mode": 420,
+      "sha256": "896a66f09f1c07c64a7da8f9ba791d99a2f972cba705a2c8891c3bd2dfcd501f",
+      "size": 2397
+    },
+    "scripts/validate_mjlab_batch.py": {
+      "mode": 420,
+      "sha256": "adba850f1e556f1f803ea946285901f871683480b50d166b01a4376c515fa552",
+      "size": 9660
+    },
+    "scripts/validate_mjlab_env.py": {
+      "mode": 420,
+      "sha256": "592214696a8d3ce57f9fc2afecd8dcac17c79861c9ee09c7ff0e5831d32fb955",
+      "size": 12039
+    },
+    "scripts/validate_mjlab_task.py": {
+      "mode": 420,
+      "sha256": "4cb7a6434f6e1f6a38bf12e46189aa0e0f5f5775aef6a1a3cb64c1d3b4ef961f",
+      "size": 10483
+    },
+    "scripts/validate_preview_contact_stability.py": {
+      "mode": 420,
+      "sha256": "309432fa90776fba4594b72e285bb4dc19d5bf81e9137a128a9636339f208f32",
+      "size": 2491
+    },
+    "scripts/validate_reward_options.py": {
+      "mode": 420,
+      "sha256": "6058572ac8c1e6dfbd33a007743a7ca727e5cd83c768a293105569aa475bd6ff",
+      "size": 4808
+    },
+    "scripts/validate_self_collision.py": {
+      "mode": 420,
+      "sha256": "6f83e7558d07ad253acf6cb3059cf0a7056f38f984978dc962cea3adc5648d8e",
+      "size": 3658
+    },
+    "scripts/validate_shadow_collision_proxies.py": {
+      "mode": 420,
+      "sha256": "2728b2648eb79cff3f158a7a3ba800aa0912d65f921856db0a094220cf204d1f",
+      "size": 6545
+    },
+    "scripts/validate_shadow_cpu_gpu.py": {
+      "mode": 420,
+      "sha256": "df7fb1c88d39cbbd07363a8706a6f5fd54326e41e511444558a6c151c5b1a07b",
+      "size": 7445
+    },
+    "scripts/validate_torch_sac.py": {
+      "mode": 420,
+      "sha256": "3f6b9d7169494d56e64551546026225b20dfd827001f31b0ca925da75732c119",
+      "size": 5260
+    },
+    "scripts/verify_control_limits_real.py": {
+      "mode": 420,
+      "sha256": "92ebada1f5c77f4947e2f208c3eb2bc3b10b00541bcdb529ee335212d47dfa54",
+      "size": 10530
+    },
+    "scripts/watch_training_transfer.py": {
+      "mode": 420,
+      "sha256": "33273875941268a30ea5928b929e4132cc4cbacb8d03c0dea3afa542adbeecaf",
+      "size": 15746
+    },
+    "smoke_env.py": {
+      "mode": 420,
+      "sha256": "c8ca26eae46fe14ab7931a1206b08889aa24c1fd2e27e3d544efb04285edc939",
+      "size": 1368
+    },
+    "tests/data/shadow_sac_reference.json": {
+      "mode": 420,
+      "sha256": "5197aa2f8f4d64ee9dbaeb6e3cd49b6e11bcafbe4bcc4cb188098ce030a60ced",
+      "size": 550
+    },
+    "tests/data/shadow_sac_reference.npz": {
+      "mode": 420,
+      "sha256": "17aac29f0a6c5181af92e9b57b138250702323e83d8a9377ec163e123b9ea551",
+      "size": 42513
+    },
+    "tests/data/torch_sac_reference.json": {
+      "mode": 420,
+      "sha256": "eea80eea1f36aeab7480d876674f875b9af82fbdfb6f8f8bf220e168ff404d05",
+      "size": 1518
+    },
+    "tests/data/torch_sac_reference.npz": {
+      "mode": 420,
+      "sha256": "a0be4689bd047ca9ec6a23a6af1ac25560d440f09f9b3974bdfbed06889b2094",
+      "size": 948007
+    },
+    "tests/test_a32_migration_bundle.py": {
+      "mode": 420,
+      "sha256": "c628237b61d43889ed6c3858eede001ef9e29393f5143fc246af57e7c30ab42b",
+      "size": 6455
+    },
+    "tests/test_acceleration_and_collision.py": {
+      "mode": 420,
+      "sha256": "869c8874572c784194443a1549154ac831da808b0940b7677d32a42760b0cdbf",
+      "size": 7922
+    },
+    "tests/test_action_checkpoint_contract.py": {
+      "mode": 420,
+      "sha256": "73a8cf5b8ca80312b059d01e73c0f1a304c494b6d0cb8caa4582e7d12108701f",
+      "size": 3764
+    },
+    "tests/test_action_mapping.py": {
+      "mode": 420,
+      "sha256": "2e19e870148a92e5434e48be9fd384f3164fdbcd8333442c66049fd57a221c18",
+      "size": 6962
+    },
+    "tests/test_action_source_fingerprint.py": {
+      "mode": 420,
+      "sha256": "aea60b0479c1372047e0a8acd1eb74ffda51ac7793aa1034f6aa4fabe221a619",
+      "size": 1622
+    },
+    "tests/test_anticipation.py": {
+      "mode": 420,
+      "sha256": "fc33122a175c026fc36a32c3674e85c28b56a92b9efed755ade8d22ef849f8b8",
+      "size": 2050
+    },
+    "tests/test_arm_parent_collision_filter.py": {
+      "mode": 420,
+      "sha256": "9137f3df0d4423ccdbfdcdb0d24e338bf3294c3f209f25996c173dad34d2e570",
+      "size": 12501
+    },
+    "tests/test_batched_evaluation.py": {
+      "mode": 420,
+      "sha256": "68d776d9d9cd2ca796a1b7908441acef93638cc253d4f425531275e0250410b6",
+      "size": 20482
+    },
+    "tests/test_best_checkpoint_selection.py": {
+      "mode": 420,
+      "sha256": "86c44e921ae260febb39c685e719ebc73c135885bf258b9bfb3b1d874c6635f2",
+      "size": 9168
+    },
+    "tests/test_clearance_launcher.py": {
+      "mode": 420,
+      "sha256": "71d54df3afa140749cdca237e17081b60a5447073ae3b4f667ee2c43928b863a",
+      "size": 5112
+    },
+    "tests/test_clearance_probe_tools.py": {
+      "mode": 420,
+      "sha256": "ee36d3a8d0477e6b63b16c9c3bd8f980f704bb0dcd54393ee43092a43ff9cec6",
+      "size": 3876
+    },
+    "tests/test_collector_pipeline.py": {
+      "mode": 420,
+      "sha256": "d32bbf4d0c630b2327494b0f434781dc4dcb79fc1649a707453ec86dfd663d9c",
+      "size": 10496
+    },
+    "tests/test_collision_diagnostics.py": {
+      "mode": 420,
+      "sha256": "40c1f30357b6125be73732205e66c7608c36909e35107b62ae9f0c5f52649960",
+      "size": 4254
+    },
+    "tests/test_collision_hull_profile.py": {
+      "mode": 420,
+      "sha256": "6fc195d5083bf64ab71801f8e6c086feef9c8155f275b1462e1c6ec7c8c639f1",
+      "size": 5480
+    },
+    "tests/test_collision_proxies.py": {
+      "mode": 420,
+      "sha256": "21b888fc8c0627a44595ee85d50455c92293cf000eb07040f142d644d5968152",
+      "size": 5633
+    },
+    "tests/test_constrained_arm_motion.py": {
+      "mode": 420,
+      "sha256": "d87b1ada68cebabea5e43e21d4eef42242cc15f5ebbb166a7303f36b75f2a5f3",
+      "size": 3872
+    },
+    "tests/test_contact_settings.py": {
+      "mode": 420,
+      "sha256": "16cf4dbe69f56f45031948e7e9428c4f105a594953ead9aaabfb352b27700c27",
+      "size": 4994
+    },
+    "tests/test_control_limits.py": {
+      "mode": 420,
+      "sha256": "6ea4d5830a2666e53a84a61f6b7a89479b6bb953d5a26b1a511a337c29630fd7",
+      "size": 7556
+    },
+    "tests/test_coupling_checkpoint_contract.py": {
+      "mode": 420,
+      "sha256": "6bc01993a0a709b7f256d6a746d558d25e2e59cc839e63462c432c7c521ae6af",
+      "size": 6515
+    },
+    "tests/test_detection_only_collision.py": {
+      "mode": 420,
+      "sha256": "29064dd03b0663327b1cc1bcfc6735f8b52ed30a1f2dc3459e38e85bb84c99a2",
+      "size": 3674
+    },
+    "tests/test_drive_profiles.py": {
+      "mode": 420,
+      "sha256": "fcf45283a7281904aeb156c2f442e113e8c8d00ead2bb1da4e90b08b0c0840b3",
+      "size": 5089
+    },
+    "tests/test_early_release_diagnostic.py": {
+      "mode": 420,
+      "sha256": "d1e89d39682aa44fe285f4e5eca7126230a46c35ed6875befbd9318fdbaf8a22",
+      "size": 2051
+    },
+    "tests/test_environment.py": {
+      "mode": 420,
+      "sha256": "940d0621ba1021bb054d38687c1fb24876e654f48f15fd8641fb71d57f510d15",
+      "size": 19505
+    },
+    "tests/test_eval_source_archive.py": {
+      "mode": 420,
+      "sha256": "63a9a388cb161ce6235dd45e2804bd59fbd2c2b081f19bd50ce51cf252af71d8",
+      "size": 2835
+    },
+    "tests/test_eval_source_config.py": {
+      "mode": 420,
+      "sha256": "9af07561a63ac7cc354389a2e8fd2a5ec2bda67a3b6e58acc2cdcb369d9413df",
+      "size": 5218
+    },
+    "tests/test_exact_note_timing.py": {
+      "mode": 420,
+      "sha256": "9534c8621d031e566de93607392d0cd37555662089111576c100e6dceda0bd6e",
+      "size": 4400
+    },
+    "tests/test_exact_timing_entry.py": {
+      "mode": 420,
+      "sha256": "7a35287eea2c5bae8e95720ac5a5081b1d835bef3801949921c38f19d39fd343",
+      "size": 4671
+    },
+    "tests/test_exact_timing_gpu.py": {
+      "mode": 420,
+      "sha256": "cd6a5117cbb7cbec666a38c4c33286275e9657dc11d4dd3a62d67e8810432a41",
+      "size": 4411
+    },
+    "tests/test_f1_training_repairs.py": {
+      "mode": 420,
+      "sha256": "8d756b6f07b38527a24f1a55a0bcf77dc433ba3beab715187218b66232c69bae",
+      "size": 11305
+    },
+    "tests/test_false_press_penalty.py": {
+      "mode": 420,
+      "sha256": "e02a1aa036274773b51376247d21fdbdead66a342ebf32073f4dc6a72d2a72aa",
+      "size": 6291
+    },
+    "tests/test_finger_clearance.py": {
+      "mode": 420,
+      "sha256": "dac18ba2bcf5bd22f781dc928b284b0117eb66d754d389a4fb1cff98abad75be",
+      "size": 14848
+    },
+    "tests/test_finger_coupling.py": {
+      "mode": 420,
+      "sha256": "328d3371f8e48df37c123487ee120b6dda7ffd450a101410eb74260c637b0fd7",
+      "size": 14519
+    },
+    "tests/test_fingering_targets.py": {
+      "mode": 420,
+      "sha256": "a96ff0ad8f50d48a9bc5ac1a3cd878ea05be45cdddad71a326eb1215d6569bf6",
+      "size": 6192
+    },
+    "tests/test_forearm_collision.py": {
+      "mode": 420,
+      "sha256": "9f16f62779fd3e2785d3d3bf780a00f470d3fce6b0328395b795db9d9ef636cc",
+      "size": 3261
+    },
+    "tests/test_hand_mass_revision.py": {
+      "mode": 420,
+      "sha256": "2192b71d33f1540ad9ad5c15edd5de5f75d6511795eee038c1054b5ccf3e5097",
+      "size": 4024
+    },
+    "tests/test_hard_joint_limits.py": {
+      "mode": 420,
+      "sha256": "6acb1bbec7c0139ec8b15a02c7ece2dbddebc4d2fd378616b5ed3116f40ff820",
+      "size": 4540
+    },
+    "tests/test_hard_joint_limits_gpu.py": {
+      "mode": 420,
+      "sha256": "2a4d335a8b0b004b33893c78ca23f05618a5ac589dc09cc62809b220e4122df9",
+      "size": 3333
+    },
+    "tests/test_hpc_benchmark.py": {
+      "mode": 420,
+      "sha256": "8d8041aaf186cb76e5310810427aee31d7e15b3983f0b544727b86a4bc48c6e1",
+      "size": 4688
+    },
+    "tests/test_hpc_environment.py": {
+      "mode": 420,
+      "sha256": "e3c3fb496edfd119c93c869f0bcef591869ac3c8d30ee0f355f9851aae4082ba",
+      "size": 8646
+    },
+    "tests/test_idle_lookahead_reward.py": {
+      "mode": 420,
+      "sha256": "c3edd60dcc9d6f88482545de4b16df7958996380e5baeca7b80153f9a7f682f3",
+      "size": 3867
+    },
+    "tests/test_joint_motion_limit_reward.py": {
+      "mode": 420,
+      "sha256": "a67d260f11552d228e2997a0ad8c47f805d62fee48242758b1ef547104481f98",
+      "size": 12280
+    },
+    "tests/test_joint_motion_plots.py": {
+      "mode": 420,
+      "sha256": "2c96d212b0fdb6705d0e54505494b9f94dde042313d48100f820ca4830fd57a8",
+      "size": 7577
+    },
+    "tests/test_key_contact_diagnostics.py": {
+      "mode": 420,
+      "sha256": "edd2f87513dd137721fd2e7adbcc6a5c65879a5b8a2b6bf6c941215c3899e439",
+      "size": 6337
+    },
+    "tests/test_key_substep_runtime.py": {
+      "mode": 420,
+      "sha256": "0fadb9cb8d91dc727cbac3b20ef648445603b00dba6667fed53634474a9b4774",
+      "size": 3503
+    },
+    "tests/test_learner_graph.py": {
+      "mode": 420,
+      "sha256": "9ab87117a2a1d08e28a068d72f648f830a4c3905bd570599cbca826cc6280a77",
+      "size": 7336
+    },
+    "tests/test_mjlab_bundle.py": {
+      "mode": 420,
+      "sha256": "e633bb6e40f624ca9f29a02e181abbd7345233b1002307e1815d544b73b0656c",
+      "size": 3281
+    },
+    "tests/test_mjlab_preview_sync.py": {
+      "mode": 420,
+      "sha256": "50b7b2d02c6416bd80ded615b5321134032ec12caaeda1b9dd8677f66dfee848",
+      "size": 3320
+    },
+    "tests/test_mjlab_task.py": {
+      "mode": 420,
+      "sha256": "5470ad797054f7248654507f0233969097fc017634ea62a2a3755943704e7018",
+      "size": 7704
+    },
+    "tests/test_model_derivation.py": {
+      "mode": 420,
+      "sha256": "bb0ab1a74ef0e075676cc63b5c5146e3ac0d6350c09e66ffaef3fcc25375e27b",
+      "size": 4043
+    },
+    "tests/test_note_timing_metrics.py": {
+      "mode": 420,
+      "sha256": "1c4dacd030f5c5baaeb8714aa3b0c7fe0eddc0cf638e24a894663caa39154add",
+      "size": 7662
+    },
+    "tests/test_optional_arm_follow.py": {
+      "mode": 420,
+      "sha256": "99994c911337eb88a885a5604c2ca4f0b2112e59e3a7b376a81853de8e120ab1",
+      "size": 33682
+    },
+    "tests/test_palm_tab_mesh.py": {
+      "mode": 420,
+      "sha256": "91fabc214aab638dd5a46d04fc2665eea9be80fb888bc36fa327c75c6ab5fa7d",
+      "size": 2172
+    },
+    "tests/test_paper_rewards.py": {
+      "mode": 420,
+      "sha256": "79ba09f7db16869690c92ba8c8db042ccb78ab4b340ad89cf67dc54990c8294b",
+      "size": 12788
+    },
+    "tests/test_parallel_twinkle_ablation.py": {
+      "mode": 420,
+      "sha256": "91d647e6aa7d21dcd297df673529c548f7f8da045fdfcfd5a80752341df9095f",
+      "size": 1250
+    },
+    "tests/test_performance_task_integration.py": {
+      "mode": 420,
+      "sha256": "45a371b5ee16d0c69595264b133397cae0b2c193572a4981edf3343f82e464cf",
+      "size": 6109
+    },
+    "tests/test_piano_contact_and_color.py": {
+      "mode": 420,
+      "sha256": "760b97889cc8a0b8f6528ac8013d79511558c29e9c9d7b23ee0b19585deb6ee5",
+      "size": 2467
+    },
+    "tests/test_preparation.py": {
+      "mode": 420,
+      "sha256": "0e4757843d9952d88b82e396c35d600143feeb4e8820deff4adab467d39a9fe9",
+      "size": 9959
+    },
+    "tests/test_preparation_checkpoint.py": {
+      "mode": 420,
+      "sha256": "826e379ef42a51266ee4cccfbf127cfcbdd7da357ec5e5f03c37af9609167c85",
+      "size": 7824
+    },
+    "tests/test_preparation_policy.py": {
+      "mode": 420,
+      "sha256": "98c904817a9e3465c105cc2966038c1b38fcabbaa7ac15d52b67ffff0af879bf",
+      "size": 9236
+    },
+    "tests/test_preparation_training_entry.py": {
+      "mode": 420,
+      "sha256": "4b53993e27b11d785ef8fee676873df67a05a057af54a768756e00af73de549d",
+      "size": 3977
+    },
+    "tests/test_preview_audio.py": {
+      "mode": 420,
+      "sha256": "0bda62e7aae21ad84d60424c3933708b8d28faa04c2ad84abfc3a1ea300a0a9f",
+      "size": 1764
+    },
+    "tests/test_preview_backend.py": {
+      "mode": 420,
+      "sha256": "0b8076dbacfe29b91fcb911248c50a85dd09e219b034193d74a02d22f94d410f",
+      "size": 1633
+    },
+    "tests/test_preview_camera.py": {
+      "mode": 420,
+      "sha256": "13a5fccd23d32ca0cd8fa6583c573e79a09c8ca0caa2d1834a393ffc8ab7000c",
+      "size": 913
+    },
+    "tests/test_preview_connector.py": {
+      "mode": 420,
+      "sha256": "39ec7f93436159d3de9d2fa5998bc6a86b01b7f54dd9a8ec56817342a242dfa6",
+      "size": 2139
+    },
+    "tests/test_preview_controls.py": {
+      "mode": 420,
+      "sha256": "a397e4999b7dad5cac3bbb845b7afb8cdfd7f1fc78e2588c74d639ea6e4b7b64",
+      "size": 13128
+    },
+    "tests/test_preview_pose_config.py": {
+      "mode": 420,
+      "sha256": "f3c7f14ff35ea092b4f8a33e810a20b2dc79f7ac2b92551d54930d2f31bf399d",
+      "size": 6782
+    },
+    "tests/test_preview_trajectory.py": {
+      "mode": 420,
+      "sha256": "2290e0f2a0aca343f95ae0803f43d412cc54d097363f9457613fdac47213ec73",
+      "size": 2449
+    },
+    "tests/test_quality_trial_summary.py": {
+      "mode": 420,
+      "sha256": "66c0299d5f4421d3260d2a3d914612c6941603cb16c3021476d600724c562f7b",
+      "size": 3627
+    },
+    "tests/test_range_trial_summary.py": {
+      "mode": 420,
+      "sha256": "da71d5dadb1e9e66e3655f852103f3c3e688678e6b265f8b3f6686874839d498",
+      "size": 4300
+    },
+    "tests/test_reward_defaults_20261006.py": {
+      "mode": 420,
+      "sha256": "11778d928d738a6d217712ac1c4d88a50d455b24948436e560e8171104bf1b46",
+      "size": 9923
+    },
+    "tests/test_reward_time_units.py": {
+      "mode": 420,
+      "sha256": "c693a745c663dd0b314c50b0b0d071aadcb0b987c079b5ee407730ebcc915637",
+      "size": 2261
+    },
+    "tests/test_sac.py": {
+      "mode": 420,
+      "sha256": "a7778016692827d4179b40217067d9ec25c214ad17a9d7f72108f9eda46ba4f3",
+      "size": 8674
+    },
+    "tests/test_score_conversion.py": {
+      "mode": 420,
+      "sha256": "72defba7a33e41fa28a1e7399a9e3af87c83ec421fdb84dfb4f9b89aa1965831",
+      "size": 2763
+    },
+    "tests/test_score_validation.py": {
+      "mode": 420,
+      "sha256": "c624768b32bbbd347ab960d8b90fc0ba7b23331759a659c9eae903487ce2b10c",
+      "size": 3248
+    },
+    "tests/test_self_collision_substep_sum.py": {
+      "mode": 420,
+      "sha256": "9f4a35d3f6e24a4ac1a2ddecf7946aef637033c91c0c48ebcaf0d1cd17494838",
+      "size": 10192
+    },
+    "tests/test_shadow_only_training_entry.py": {
+      "mode": 420,
+      "sha256": "5598c57b9b2e7ec2c46b73a3b245c3d4efe7a824308e1196c367721e7ad4f07d",
+      "size": 496
+    },
+    "tests/test_shadow_reward_only.py": {
+      "mode": 420,
+      "sha256": "5d399043a132e4160fb6184f8dc4c50863777d82f30ff3e934304855ae6141b1",
+      "size": 8402
+    },
+    "tests/test_shadow_task_profile.py": {
+      "mode": 420,
+      "sha256": "9315c433acf10c39c898d80b45a3a92a174e0113d5a112ccd45362e2156708b1",
+      "size": 7625
+    },
+    "tests/test_shadow_training_budget.py": {
+      "mode": 420,
+      "sha256": "795ed4bd28697500941c1fdc91ec49b4dd8f6e30b05826cc8fed60c2e641d0e9",
+      "size": 4312
+    },
+    "tests/test_source_runtime.py": {
+      "mode": 420,
+      "sha256": "6de9163f2189ef921bce75f6640cfc5856be07d170a84bd8da14c9bc1b120229",
+      "size": 6836
+    },
+    "tests/test_source_score_contract.py": {
+      "mode": 420,
+      "sha256": "94bf09ff30add23ad9da020b76718620532af9fe7b503be26ac6766d35366c39",
+      "size": 4654
+    },
+    "tests/test_step_mount_revision.py": {
+      "mode": 420,
+      "sha256": "c2c9a5012b2908b794f3c4cccf2fdf8d7197251df588fc8ef0a79d39fc5a9569",
+      "size": 4507
+    },
+    "tests/test_strike_timing_diagnostic.py": {
+      "mode": 420,
+      "sha256": "44f256b1f145cad2903795b0b860e99032f4449366dfd37aa2136e123fff7e43",
+      "size": 2041
+    },
+    "tests/test_substep_rewards.py": {
+      "mode": 420,
+      "sha256": "c03b97890348e3db68e7e606e276b7999fca6d88d39c0adc0229163c6336c8d1",
+      "size": 9066
+    },
+    "tests/test_substep_scene_integration.py": {
+      "mode": 420,
+      "sha256": "5a1aff32988f20b6758421994008acc8a24a28ed69f1ea1e5e2ff0d32791be40",
+      "size": 3629
+    },
+    "tests/test_summarize_coupling_comparison.py": {
+      "mode": 420,
+      "sha256": "ab695e6eeaa43a4c31f3da117e95b5b09b4b4d9de87826a70ba21bf7e66abf1f",
+      "size": 5481
+    },
+    "tests/test_swanlab_metrics.py": {
+      "mode": 420,
+      "sha256": "e26f74f8cabd9a71acc5de97ff28fe2f21f043002fe6366f90bb5ca2f5325c37",
+      "size": 13186
+    },
+    "tests/test_swanlab_upload.py": {
+      "mode": 420,
+      "sha256": "793102141be7b627418348e6a250f1a07918e7ab7bfb4a3240a7036984c9635b",
+      "size": 16502
+    },
+    "tests/test_target_key_cli.py": {
+      "mode": 420,
+      "sha256": "ec892910971f847e3ce0dc0224a411d9aec75c69d3cda5e3d11549060470b1ec",
+      "size": 1511
+    },
+    "tests/test_target_key_reward.py": {
+      "mode": 420,
+      "sha256": "f53fe0f4cc3cbbff9d9d4476311f4a6d052fd792031f4d57b19ae1a7d4d792c5",
+      "size": 3525
+    },
+    "tests/test_target_motion_limits.py": {
+      "mode": 420,
+      "sha256": "12185d53cc8d7a3e370e9136a75cd51c03776bc31cf413647f92d214ba15b8bf",
+      "size": 10687
+    },
+    "tests/test_tcp_motion_limits.py": {
+      "mode": 420,
+      "sha256": "3d75e2ca7e62c511e1205db899043f7a8f4d7706c98e535b8e47f9d22e6ffd42",
+      "size": 9822
+    },
+    "tests/test_timing_allocation_queue.py": {
+      "mode": 420,
+      "sha256": "74e309c4df4637858ee378c20dda88ce986705c94b028b33e8c3d60d769585d7",
+      "size": 6647
+    },
+    "tests/test_torch_sac.py": {
+      "mode": 420,
+      "sha256": "00425348f8733c5cb4a91383fcb731730fc9239836caa158ca2b7dda48ea895e",
+      "size": 8562
+    },
+    "tests/test_training_quality_control.py": {
+      "mode": 420,
+      "sha256": "c047257ec59f648e8b04ee209921c9eed925167a8555bd7474e8b727561420a2",
+      "size": 31463
+    },
+    "tests/test_training_transfer_delivery.py": {
+      "mode": 420,
+      "sha256": "722c28b61fd2eb54bc606257c2538bc9139c809d9ff23ed707f1da0e729a3a29",
+      "size": 2601
+    },
+    "tests/test_trajectory_compare_app.py": {
+      "mode": 420,
+      "sha256": "986db6d4f73e71883d1cf150f6b7d65301b9ea8d3f67fb93787b4ee909ded3cc",
+      "size": 10035
+    },
+    "tests/test_trajectory_compare_data.py": {
+      "mode": 420,
+      "sha256": "ec6b062e30bf92a5edc93994260b9c5bf7bb182815a8b21ce8664b9b5c27312f",
+      "size": 13608
+    },
+    "tests/test_twinkle_f1_finetune.py": {
+      "mode": 420,
+      "sha256": "aa802e4ae4e8313e4f60c44202ce9c9d01ba65d92472e1a05178a34a75c2177d",
+      "size": 10342
+    },
+    "tests/test_twinkle_learner_finetune.py": {
+      "mode": 420,
+      "sha256": "64ece85f3728fbe6955c2725118613dab7cc9651aeb57e0d972073194c671391",
+      "size": 9674
+    },
+    "tests/test_twinkle_reward_refine.py": {
+      "mode": 420,
+      "sha256": "bee90e3f6beb5bfc94f18268fed251626f5ba8edd44cc940d5ee4325d6a5faf8",
+      "size": 7268
+    },
+    "tests/test_tz_structural.py": {
+      "mode": 420,
+      "sha256": "2f855bc9951a1d476818650cf542b92b495bd7969aa039c609951bc36327a8e4",
+      "size": 2039
+    },
+    "tests/test_upcoming_press_permission.py": {
+      "mode": 420,
+      "sha256": "d0d8b5c2aba965e1ad7175332a342b9e4fd3b51bf6dbddfac0895ba2569a7df0",
+      "size": 7637
+    },
+    "tests/test_video_export.py": {
+      "mode": 420,
+      "sha256": "d8b3c1a3497d9a8ac48d859b8439c9ae1403982a499379ceecb7e7f63be0dc6d",
+      "size": 16718
+    },
+    "training_mjlab/inputs/clair_de_lune_beginner/README.md": {
+      "mode": 420,
+      "sha256": "345026b0134183bf8777ffc759e1813774acb8ecb0ac95ae172a2b03f1e569af",
+      "size": 2691
+    },
+    "training_mjlab/inputs/clair_de_lune_beginner/clair-de-lune-beginner.mid": {
+      "mode": 420,
+      "sha256": "08c5d793965c5858a4d4f92458c914d670c441fa42d52e6cc0465531e55b8567",
+      "size": 1109
+    },
+    "training_mjlab/inputs/clair_de_lune_beginner/fingering_template.csv": {
+      "mode": 420,
+      "sha256": "fd9e2556cbeb8e4fd5442828133548f15fac7a750c07f5b30465a706a3075124",
+      "size": 5909
+    },
+    "training_mjlab/inputs/clair_de_lune_beginner/generated_v1/clair-de-lune-beginner_fingered.proto": {
+      "mode": 420,
+      "sha256": "b3bae36cb7b77a82148674e0c124482c204ad1dee0be3e35ab585f94d02acb3b",
+      "size": 3915
+    },
+    "training_mjlab/inputs/clair_de_lune_beginner/generated_v1/fingering.csv": {
+      "mode": 420,
+      "sha256": "fd5aed130bfe878a92734bbc1fcc489167eed2de907b8499b5ff498095be7319",
+      "size": 10018
+    },
+    "training_mjlab/inputs/clair_de_lune_beginner/generated_v1/fingering_report.json": {
+      "mode": 420,
+      "sha256": "268d7ba58ede71a9031f61a0368db3035ab5515fdb808ff7a4b44a1f7bd090b6",
+      "size": 3148
+    },
+    "training_mjlab/inputs/clair_de_lune_beginner/inspection.json": {
+      "mode": 420,
+      "sha256": "b5731fe849e49e1f1e07268475e85f726f3347eeacd348145c8babcfa52c77f3",
+      "size": 884
+    },
+    "training_mjlab/inputs/nocturne_op9_no2_beginner/README.md": {
+      "mode": 420,
+      "sha256": "748402b8a249cca73c443bdca0d0ebb79745c00638a0a39322862e9cc2f6842a",
+      "size": 1219
+    },
+    "training_mjlab/inputs/nocturne_op9_no2_beginner/generated_40hz_candidate/fingering.csv": {
+      "mode": 420,
+      "sha256": "c153ca1b80c51419f08f68398be5a25aa1ff9fc63972ab78d831f711ddf750b3",
+      "size": 9744
+    },
+    "training_mjlab/inputs/nocturne_op9_no2_beginner/generated_40hz_candidate/fingering_report.json": {
+      "mode": 420,
+      "sha256": "3025b2eacc72e10f8d234cb0e6ed8e781f337dea2c0c9b39d11a3dad887da22d",
+      "size": 1100
+    },
+    "training_mjlab/inputs/nocturne_op9_no2_beginner/generated_40hz_candidate/nocturne-op-9-no-2-beginner_fingered.proto": {
+      "mode": 420,
+      "sha256": "dae6d80198fd13a4d9aa3f9a2ca965c881b23108819ebe15f89620106caaa167",
+      "size": 4713
+    },
+    "training_mjlab/inputs/nocturne_op9_no2_beginner/generated_v1/fingering.csv": {
+      "mode": 420,
+      "sha256": "6f01b9167680b7ba8d72b821f1b48b726ab2d83228505125d6abbdb575bd1b6e",
+      "size": 9744
+    },
+    "training_mjlab/inputs/nocturne_op9_no2_beginner/generated_v1/fingering_report.json": {
+      "mode": 420,
+      "sha256": "86d8ef36a3f2ea39b138dcd261ba2fcef33fdcaa99c6f2ba1c251795537ae708",
+      "size": 1098
+    },
+    "training_mjlab/inputs/nocturne_op9_no2_beginner/generated_v1/nocturne-op-9-no-2-beginner_fingered.proto": {
+      "mode": 420,
+      "sha256": "1b18576a4c3829d0d0a2e24db9832ef480daec8b9a0009e70f7cdca65b5ae3db",
+      "size": 4715
+    },
+    "training_mjlab/inputs/prelude_bwv847/README.md": {
+      "mode": 420,
+      "sha256": "1c9ebbb81c34ab6c7e4665a2ed04b83c6cc48a4bfcf57e55b69faa6265c781c4",
+      "size": 1846
+    },
+    "training_mjlab/inputs/prelude_bwv847/candidate_fingering/fingering.csv": {
+      "mode": 420,
+      "sha256": "de5d0427d531744d1dc92e3246d5958ac86ca6e2969a09d37b1c4fb3b0726fea",
+      "size": 51519
+    },
+    "training_mjlab/inputs/prelude_bwv847/candidate_fingering/fingering_report.json": {
+      "mode": 420,
+      "sha256": "a7eab59920ed7d6da888746dc4522075d53dc7cd633e571620348ae31ab72942",
+      "size": 3314
+    },
+    "training_mjlab/inputs/prelude_bwv847/candidate_fingering/prelude-bwv-847_fingered.proto": {
+      "mode": 420,
+      "sha256": "be5b424d18fe823bf4a066de6954660f9cc546974bbf53b25b01132ff024cf6c",
+      "size": 29227
+    },
+    "training_mjlab/inputs/prelude_bwv847/prelude-bwv-847_timing_normalized.mid": {
+      "mode": 420,
+      "sha256": "d331952a784bcee15735ae6d6c787cddddf06c00a2283384c3073d9bb4f30ef5",
+      "size": 8782
+    },
+    "training_mjlab/inputs/prelude_bwv847/timing_normalization.json": {
+      "mode": 420,
+      "sha256": "9d1b1ca2f5103ae77ada1057cc6eaf4d7457934ca0a1c8f74c99b9b63bb0f119",
+      "size": 1269
+    },
+    "training_mjlab/monitoring/requirements.txt": {
+      "mode": 420,
+      "sha256": "c0f0186a06185df0fb6d1a1be6faa90ccec0f5d510b1e58064b15c3ff51a3cb3",
+      "size": 16
+    },
+    "training_mjlab/requirements-tested.txt": {
+      "mode": 420,
+      "sha256": "7ca0b3e5db13cd913a51e484d31e18b7bc47622da975868295fa7b5ed7bcb1cf",
+      "size": 2758
+    },
+    "training_mjlab/setup.sh": {
+      "mode": 493,
+      "sha256": "399321bcae1e9c7a065a9407b2f3290478311016794dd053586142552a618d2d",
+      "size": 567
+    },
+    "tsensei_v3_2_pianist/__init__.py": {
+      "mode": 420,
+      "sha256": "cf69365703c17dff068378caf22d58f6858f69b4170a2f53fc95aca62ee14ab9",
+      "size": 225
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/left/Left_hand_palm_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "0b3a657214f180f647991fbedb16e40f171e4bc839bb5661dbb68c39e1eef9fd",
+      "size": 16684
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/left/base_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "5045594e5b86c6582b37e7ae4dc771e5c6ad9ba9de06df92bd6df4725e50c360",
+      "size": 92484
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_index_DIP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "4d508a3b3a98cd4fe67ddc332e621952517e6b0715adaeb2372eed54a86d3c4a",
+      "size": 201184
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_index_MCP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "6d5c14301084ef41c5472514e137b0e35dcf1fae75a4fa61e2659c9fafefde2d",
+      "size": 85184
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_index_PIP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "7bf8cfdbe3a62911c1d2be1f765f50f419f4bf1ec6b760ef445d97f8de7d4947",
+      "size": 62684
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_index_swing_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "9a8f6760704c3fe2a538036d4652a328c29133b28de169843f78b8df4b206067",
+      "size": 41184
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_mid_DIP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "4d508a3b3a98cd4fe67ddc332e621952517e6b0715adaeb2372eed54a86d3c4a",
+      "size": 201184
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_mid_MCP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "6d5c14301084ef41c5472514e137b0e35dcf1fae75a4fa61e2659c9fafefde2d",
+      "size": 85184
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_mid_PIP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "a0796807f0476adae400547529c176190acd79106e984335c0770e91d72c3e4a",
+      "size": 62684
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_mid_swing_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "6d3d2a741771804f206ab2e6c9c7907e09fbcafaba18a311b57086e96bd5f612",
+      "size": 40784
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_pinky_DIP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "fae4e1d57bc77d6ecb9da358dc559e5d235a0faf76313cfa40de853660308e0e",
+      "size": 177384
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_pinky_MCP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "6d5c14301084ef41c5472514e137b0e35dcf1fae75a4fa61e2659c9fafefde2d",
+      "size": 85184
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_pinky_PIP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "4f044789328bf3822832e2eaa92d1e70d5bdf27001fa0ded389e57eb55f07386",
+      "size": 115184
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_pinky_swing_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "9d9f266ca1ed4ac20a27ed92f2af66a536335c3b71b573c568a33d62f9f5f52e",
+      "size": 66084
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_ring_DIP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "e892995be39525275cb256261ef0b96bab2856063a4f35400313d44fb5d72108",
+      "size": 211884
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_ring_MCP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "6d5c14301084ef41c5472514e137b0e35dcf1fae75a4fa61e2659c9fafefde2d",
+      "size": 85184
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_ring_PIP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "7bf8cfdbe3a62911c1d2be1f765f50f419f4bf1ec6b760ef445d97f8de7d4947",
+      "size": 62684
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_ring_swing_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "1850e2b177305b9f957ea82910c80b96afc1b26e5415b26664aed7d356f53663",
+      "size": 40984
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_thumb_MCP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "309bfe1f8e4278dfec0c03ebb767a2e59f0d696c9b1162e82dadea1418c46a76",
+      "size": 55284
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_thumb_PIP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "b58bff68c03adcc4719edaab053c3489aa59bd2ca9b5e99f054d240a02138c55",
+      "size": 176884
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_thumb_rota_block_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "42bbb4a7d4e9eb6993b3a2e6ac723a9a39178aeffb46f1106b9a508da67e5cc4",
+      "size": 26384
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_thumb_rotaback_link2_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "1263b17583ef6763d1201333380b42452a1fd633b695dc677bb6aa8ba99cf7f8",
+      "size": 79384
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/right/Right_hand_palm_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "eec1ce0795dacf5e343cfbec680923ad7ae3789ebaba1834f291c2acaecc98d5",
+      "size": 16684
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/right/base_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "ea266aed335d820b793813ae9488be48f80b7612cd57c71d0fab64ffa93f8a63",
+      "size": 92484
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_index_DIP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "4f71ea522c91ef9fbf2bca07412dedb4ff7289dd637d16f57ed65611322f0537",
+      "size": 201184
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_index_MCP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "c60312548cdeb9a3c1642b0e5ded27a4c320ec452ba5681b96d19e4d15a6bb9f",
+      "size": 85184
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_index_PIP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "fd0a97683c4ababb84734aac6aa015187829a7144093a2a20b9846f72b04c9cd",
+      "size": 62684
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_index_swing_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "d80b82dc9c1dd949661274008977d96005c0fbb2ad20082f73fdd4967fbecd6e",
+      "size": 41184
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_mid_DIP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "4f71ea522c91ef9fbf2bca07412dedb4ff7289dd637d16f57ed65611322f0537",
+      "size": 201184
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_mid_MCP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "c60312548cdeb9a3c1642b0e5ded27a4c320ec452ba5681b96d19e4d15a6bb9f",
+      "size": 85184
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_mid_PIP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "2df08faea327b9da8a63f14bbaa0faab6d4a418fc0dd5336cd9af3885a9f7655",
+      "size": 62684
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_mid_swing_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "ea00f9c4715b373030d602733683de69dd96147d32eea1af11a7716f975e04da",
+      "size": 40784
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_pinky_DIP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "93d9b5f55506112dd1325bf0d6ec86546b2467d28287717990aecb95b6a4a5d1",
+      "size": 177384
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_pinky_MCP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "c60312548cdeb9a3c1642b0e5ded27a4c320ec452ba5681b96d19e4d15a6bb9f",
+      "size": 85184
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_pinky_PIP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "c162d75eea51bf59f9294d6ce663cbafac15632b41b457861ecb858596245d9e",
+      "size": 115184
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_pinky_swing_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "8244cd32ed2e3168fd65a22cd1fbfda19e71ea6b6e432944f68069e1bac1a434",
+      "size": 66084
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_ring_DIP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "a4f74e5a370b2f66d994838971aadcaf6844e8d0f7c7eb4cfdd7762204630499",
+      "size": 211884
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_ring_MCP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "c60312548cdeb9a3c1642b0e5ded27a4c320ec452ba5681b96d19e4d15a6bb9f",
+      "size": 85184
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_ring_PIP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "fd0a97683c4ababb84734aac6aa015187829a7144093a2a20b9846f72b04c9cd",
+      "size": 62684
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_ring_swing_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "63899f91cefee7cfc2b88a0e70faf4f4d63a79d3147d1ceec0fe2b2229f70f0f",
+      "size": 40984
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_thumb_MCP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "a0ded79dc87663aa8d5890e84547a1163aeaa8cdecbfd7b9de38d78fda1dcf4c",
+      "size": 55284
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_thumb_PIP_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "ec581437399a48456b713bf2ed5eb5d6f2ff79b0dab7f5cd052a397ba132b583",
+      "size": 176884
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_thumb_rota_block_link_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "b324bbc231997a929cac3832a66013ec5582796215f17389a1ff50e9020744a8",
+      "size": 26384
+    },
+    "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_thumb_rotaback_link2_convex_hull.stl": {
+      "mode": 420,
+      "sha256": "7b8af9506d88a7eea48304668f9341aebb2eae50cf90d7765da04e97bb2f1322",
+      "size": 79384
+    },
+    "tsensei_v3_2_pianist/assets/collision_proxies.json": {
+      "mode": 420,
+      "sha256": "729f72320d58e0d6f56251ee64df973a0623238a25a50cb0f292e42d8dda8588",
+      "size": 56349
+    },
+    "tsensei_v3_2_pianist/assets/collision_proxies_convex_hull.json": {
+      "mode": 420,
+      "sha256": "1e826975895e48f4c88110046972f5fa1194bddf72f0498e7a74cca207832a92",
+      "size": 56321
+    },
+    "tsensei_v3_2_pianist/assets/connector_mount_revision.json": {
+      "mode": 420,
+      "sha256": "dda227cb813a962eacd1b421665b23685897ad4ca6a955cc399cf0702cc16603",
+      "size": 4004
+    },
+    "tsensei_v3_2_pianist/assets/contact_settings.json": {
+      "mode": 420,
+      "sha256": "57c9830fd72468e2083cb2f92d53ea87e2c96965dd71676d9a6dd1e9090d7ab4",
+      "size": 519
+    },
+    "tsensei_v3_2_pianist/assets/drive_settings.json": {
+      "mode": 420,
+      "sha256": "1c3dbfd27e11673d7ce9cccbf0fe31184fb2a8f9c8b4c960c1109c7bac2e0638",
+      "size": 1925
+    },
+    "tsensei_v3_2_pianist/assets/inertia_update_report.json": {
+      "mode": 420,
+      "sha256": "2ecb477d695031a79b084a3b19359e4b59f3d943a3343eb201ff6ae0cea3039c",
+      "size": 52480
+    },
+    "tsensei_v3_2_pianist/assets/mass_update_report.json": {
+      "mode": 420,
+      "sha256": "5fa3edbe5ae40f88cd704d06eb171d26e49d68681d452fbdcc275906e7d83aeb",
+      "size": 11848
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/Left_hand_palm_link.STL": {
+      "mode": 420,
+      "sha256": "657573215a205b5764de1c4c9e14d7d769e183eefacdb4103002c073141f0aea",
+      "size": 122684
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/base_link.STL": {
+      "mode": 420,
+      "sha256": "c753d840a6f190a5256552646a2f9811eec7f43ef66392fe84369313a3d487a3",
+      "size": 1486234
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/base_without_old_mount.STL": {
+      "mode": 420,
+      "sha256": "a3e1f49cdfd4d5fd8ee734608460541514c8baa593da0fbdd2bfaea933c9b357",
+      "size": 1373634
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/left_hand_index_DIP_link.STL": {
+      "mode": 420,
+      "sha256": "7344a1c9bb92915bccef21113d98b197c5467ba910905433396b143d24ea1b17",
+      "size": 449334
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/left_hand_index_MCP_link.STL": {
+      "mode": 420,
+      "sha256": "3f5e06a0a51656f6e42bed303e3eef815df936ebe3eb4bb928b6413d0f1d76c2",
+      "size": 2030234
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/left_hand_index_PIP_link.STL": {
+      "mode": 420,
+      "sha256": "0d1adea25afb06c3cfddcb6da3c530e758e3dda962c9c4a441740309e30937d4",
+      "size": 459284
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/left_hand_index_swing_link.STL": {
+      "mode": 420,
+      "sha256": "3eb1aa4a607f7d79092adbf4c69e91a000809952dead60f498b328543dd18187",
+      "size": 542384
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/left_hand_mid_DIP_link.STL": {
+      "mode": 420,
+      "sha256": "67d18d9852a788ca7e78edd827e457fcd506c54f1567b1277ae40c263fe5850b",
+      "size": 408534
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/left_hand_mid_MCP_link.STL": {
+      "mode": 420,
+      "sha256": "812b3937ef2d2f05871b1409824f6fb31a257af768c137bc029778862fb03436",
+      "size": 1170884
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/left_hand_mid_PIP_link.STL": {
+      "mode": 420,
+      "sha256": "fca317af48b9575777e82e79b78c9e3024b678ce0839e638847ce438cae695fe",
+      "size": 282834
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/left_hand_mid_swing_link.STL": {
+      "mode": 420,
+      "sha256": "29712db1e418e6fe7f1ede985b9adb79068607b7a820cfb6863e3dbccffea429",
+      "size": 456184
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/left_hand_pinky_DIP_link.STL": {
+      "mode": 420,
+      "sha256": "e97b22fdad5d7d0fb19b6d72166ee213793e4c4f2d042ebf5d018bdd0a3327b3",
+      "size": 427334
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/left_hand_pinky_MCP_link.STL": {
+      "mode": 420,
+      "sha256": "22ecb0d59b31dbfa69aad56e7bbde12605dc4a494ed4e8b7c01dc533a7b18649",
+      "size": 1118584
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/left_hand_pinky_PIP_link.STL": {
+      "mode": 420,
+      "sha256": "de94c2ce66b32aedbba6134c7d69cc053534ed0d6bd9b66d1a3fce6d57bd8d6b",
+      "size": 392034
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/left_hand_pinky_SWING_link.STL": {
+      "mode": 420,
+      "sha256": "5d73f6f752abfa28c31bafe27828c6bc28531f4cf6a54c49859dab5f62fc0352",
+      "size": 391434
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/left_hand_ring_DIP_link.STL": {
+      "mode": 420,
+      "sha256": "1a793dcdd6cfbf71fbd39d2c0d6bae4874ab3691b0aa50b5c7e1f6232bd55214",
+      "size": 466134
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/left_hand_ring_MCP_link.STL": {
+      "mode": 420,
+      "sha256": "aa7a1c6584484a4fbefeacfb3e98dea4ea806ba09fcac9b285243828c176c5c0",
+      "size": 1977934
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/left_hand_ring_PIP_link.STL": {
+      "mode": 420,
+      "sha256": "1e9b3da367431ae965cfeb89297dab9d3df190c7d8e6d34368f766e823994028",
+      "size": 422434
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/left_hand_ring_swing_link.STL": {
+      "mode": 420,
+      "sha256": "557e83fb3b29f3f824b6ce2a318349e83b8321acd0a9ac344d3aea8be5dae2ad",
+      "size": 456184
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/left_hand_thumb_MCP_link.STL": {
+      "mode": 420,
+      "sha256": "b23187dceef1e935650351f21356c57deb31e60ccc39ba82c30b3a04fef6140d",
+      "size": 365934
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/left_hand_thumb_PIP_link.STL": {
+      "mode": 420,
+      "sha256": "03fb9fa6a3fe43d15668f83a295f9ad6ce513c112875a175f047e23ec518339e",
+      "size": 427334
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/left_hand_thumb_rota_block_link.STL": {
+      "mode": 420,
+      "sha256": "3e503a3fc9256a6ba154fe0d7f186e12f3139c2d6f0adca55679db21186b70e5",
+      "size": 1517984
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/left_hand_thumb_rotaback_link2.STL": {
+      "mode": 420,
+      "sha256": "4e9685398c2e79048b51b886dc444dfbc6967b53c4145ec6c3524d5903d12b7b",
+      "size": 657284
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/wrist_mount_from_step.STL": {
+      "mode": 420,
+      "sha256": "ce37cc66b624422017af877d977509da7a8cb2839a3fdd060dc840b025323d2d",
+      "size": 258884
+    },
+    "tsensei_v3_2_pianist/assets/meshes_left/wrist_mount_tianji_20260930.STL": {
+      "mode": 420,
+      "sha256": "70d921a467e52db2084ba7ab561f996f67e5c20351ed2ad8a73998f8f19cee8a",
+      "size": 324984
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/Right_hand_palm_link.STL": {
+      "mode": 420,
+      "sha256": "b0d11caccbfeb5b80881f59d4361527d15f1775fdb470b33c4707d09add31805",
+      "size": 122684
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/base_link.STL": {
+      "mode": 420,
+      "sha256": "f5068c3d98ac5580f1c90250f229ea88e35b977919c929ced3ea7186b8d0d79c",
+      "size": 1486234
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/base_without_old_mount.STL": {
+      "mode": 420,
+      "sha256": "68adf3e377e132baa9ce9a71535824779781e29b4c5cef5a14fac9feb25c4ae1",
+      "size": 1373634
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/right_hand_index_DIP_link.STL": {
+      "mode": 420,
+      "sha256": "a67f9d5c243dc5e9d9dacfd164cb10f2a1284ba8b06de9b398253417470036b0",
+      "size": 449334
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/right_hand_index_MCP_link.STL": {
+      "mode": 420,
+      "sha256": "dfa8aea8374cf8212b2d6179964f413aefeb9394dc2026fba94c21eacc690273",
+      "size": 2030234
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/right_hand_index_PIP_link.STL": {
+      "mode": 420,
+      "sha256": "5740c195666a93d35d128f60e4c6ee347ac925f0f415c8d7a55d9023c5a6c0b4",
+      "size": 459284
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/right_hand_index_swing_link.STL": {
+      "mode": 420,
+      "sha256": "d63a4122aec4e3f1c476843378e87275e19ee2a236a82e18a21ef32e0fa469a6",
+      "size": 542384
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/right_hand_mid_DIP_link.STL": {
+      "mode": 420,
+      "sha256": "8331b40b725f72e629f26f239379ff3a38cb440ed484e3d066140bc66b4dc8a9",
+      "size": 408534
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/right_hand_mid_MCP_link.STL": {
+      "mode": 420,
+      "sha256": "cce658b07646cf05ba85f987f6d17cfd01c713614c5375533066118aa95c108b",
+      "size": 1170884
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/right_hand_mid_PIP_link.STL": {
+      "mode": 420,
+      "sha256": "c1f50571b0ef55f3cf580d1bd844902c2796fa249dd03a8f2a54196872029ae4",
+      "size": 282834
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/right_hand_mid_swing_link.STL": {
+      "mode": 420,
+      "sha256": "c717fb76bd3a26b726e415729af9ddf0d260d71668ae628c919d46cb544986fa",
+      "size": 456184
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/right_hand_pinky_DIP_link.STL": {
+      "mode": 420,
+      "sha256": "f4a1e38d4d82ffd1c110b63c0a5b6270645fa1b04a12fe96f789997ad87c95bf",
+      "size": 427334
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/right_hand_pinky_MCP_link.STL": {
+      "mode": 420,
+      "sha256": "b062662f397526fb9dbff41628d608ab114bddc2f1f3948542b2db9a147e98a3",
+      "size": 1118584
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/right_hand_pinky_PIP_link.STL": {
+      "mode": 420,
+      "sha256": "191dcef38b55a76088c7424f55683773e487d8c70c0df70ec1c46a346dd1099f",
+      "size": 392034
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/right_hand_pinky_SWING_link.STL": {
+      "mode": 420,
+      "sha256": "e9bf1f3e834f71f5484b099fec868535d380bf125b38f319a5cbe5f86f00aa38",
+      "size": 391434
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/right_hand_ring_DIP_link.STL": {
+      "mode": 420,
+      "sha256": "dedfcc2e674b81a39c38557649fc934fbce3e00fa30393d1bf196f943d474e4d",
+      "size": 466134
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/right_hand_ring_MCP_link.STL": {
+      "mode": 420,
+      "sha256": "de3d8df18086569a045632a7a85b3e8a2890c9e6bd6d525b6560abe3591453bc",
+      "size": 1977934
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/right_hand_ring_PIP_link.STL": {
+      "mode": 420,
+      "sha256": "d8fc9a5e2bd7b1f95c576d1e55b19e46c797d6a8b2e0538f7a9e5aca183ef2a7",
+      "size": 422434
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/right_hand_ring_swing_link.STL": {
+      "mode": 420,
+      "sha256": "647de53ae285fe0c45d4bec9b3e4477e9be996bfe99dd302c4173d2cec52eefa",
+      "size": 456184
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/right_hand_thumb_MCP_link.STL": {
+      "mode": 420,
+      "sha256": "57e145a93222fdc65774403c47fff6c0eafabf17828dc659c22765b00f90396c",
+      "size": 365934
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/right_hand_thumb_PIP_link.STL": {
+      "mode": 420,
+      "sha256": "e00e81da98e65f4418b7b2030877de754ce686eceae1cfb423931f480eb8b60f",
+      "size": 427334
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/right_hand_thumb_rota_block_link.STL": {
+      "mode": 420,
+      "sha256": "1da15e34b7d84e0e58c50e86649458192ee3e955bbfdaa13482e9142be59684a",
+      "size": 1517984
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/right_hand_thumb_rotaback_link2.STL": {
+      "mode": 420,
+      "sha256": "9f854fdadbd7c12a9ff99970a3376e4ad523c41fcd84a5cd374106b61e24e543",
+      "size": 657284
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/wrist_mount_from_step.STL": {
+      "mode": 420,
+      "sha256": "61f85a1854958577cc62b117a619d3db05c4e760ed72ccf5f1b6d37bbe67ff0c",
+      "size": 258884
+    },
+    "tsensei_v3_2_pianist/assets/meshes_right/wrist_mount_tianji_20260930.STL": {
+      "mode": 420,
+      "sha256": "21bb1103042d791cd97b41bf368f6aa02bd79ea84673cbd9a03301e9abba6331",
+      "size": 324984
+    },
+    "tsensei_v3_2_pianist/assets/model_derivation.json": {
+      "mode": 420,
+      "sha256": "f98a959a59288cee21666e02857e544c73bb9f00265b5a4e8450d332733d9837",
+      "size": 8050
+    },
+    "tsensei_v3_2_pianist/assets/source/TsenseI_left_mass952_before_mount.urdf": {
+      "mode": 420,
+      "sha256": "4d8f6c76e231a66fa78c6a38ca28e5729f1195265c1f3ee3b2ed83a9522f6424",
+      "size": 26791
+    },
+    "tsensei_v3_2_pianist/assets/source/TsenseI_right_mass952_before_mount.urdf": {
+      "mode": 420,
+      "sha256": "694b15afdfd8dd8384f0d46a31b14d79633db2c7189ffb90ad600ff02b81c0ba",
+      "size": 27371
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/Left_hand_palm_link.STL": {
+      "mode": 420,
+      "sha256": "0cc746b1513390c90a5695a177b11ab1484f00b2a49f13257cffcd35537b8433",
+      "size": 433784
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/base_link.STL": {
+      "mode": 420,
+      "sha256": "535030193e2def4a5d73ceca10563acbe2b8d167dfcf3e1e143202c49fa2290c",
+      "size": 18487684
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/base_link.obj": {
+      "mode": 420,
+      "sha256": "0bcbaf9ea84d1e32eb9fc6fb1135addf8262d1dd4aec47c5b3a7c90f6761d324",
+      "size": 19914967
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_index_DIP_link.STL": {
+      "mode": 420,
+      "sha256": "304c5a7a2ed7e4427956e7a6f5679dd5424e9770b645fc8f6e5d775f29e2ab51",
+      "size": 895784
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_index_MCP_link.STL": {
+      "mode": 420,
+      "sha256": "bf53c9564e7a4348b62fab3aeb5b3997f7bbb8a8fa1d11397cf4964b5445d3de",
+      "size": 18813484
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_index_MCP_link.obj": {
+      "mode": 420,
+      "sha256": "02591cebb2fe39fad60a2a8498ec6d363aa4c38d2709314d48299540aee6fc4a",
+      "size": 20910926
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_index_PIP_link.STL": {
+      "mode": 420,
+      "sha256": "e26162a5d818bcb09eca61c732a2dbb1bd9bd55b93e53d37e304b07acc6113ba",
+      "size": 2067984
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_index_swing_link.STL": {
+      "mode": 420,
+      "sha256": "0256e1c9fd9706ea1e902378196f55df7baf8780ed1eccf05d4a40073b9ab431",
+      "size": 5332484
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_mid_DIP_link.STL": {
+      "mode": 420,
+      "sha256": "438c10f3c063cb909ddae61df0370c684c62e834d791ab58fe38ae68acd9dfee",
+      "size": 895784
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_mid_MCP_link.STL": {
+      "mode": 420,
+      "sha256": "e2e2e176e57920340b42785dd42e0fd4a16e5cf230ed73b512ed6ca12153b0ef",
+      "size": 18813484
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_mid_MCP_link.obj": {
+      "mode": 420,
+      "sha256": "f075f59a9ec4aa5085d2034fb64da280dbe6539c18c73ba4edc39cc921c38313",
+      "size": 20911140
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_mid_PIP_link.STL": {
+      "mode": 420,
+      "sha256": "00bdd42c4b2abf798414a235722b37d29982b2f40b9e643d8cec85cb1152594d",
+      "size": 2067984
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_mid_swing_link.STL": {
+      "mode": 420,
+      "sha256": "62f63e5955d5b99c30860db6ab6813f80eeceeafd5720956493b0acdc2d6593f",
+      "size": 5332484
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_pinky_DIP_link.STL": {
+      "mode": 420,
+      "sha256": "24033433d2dcc133214c66fb723bbc57d976235f068c22acfaaf056456f16dd1",
+      "size": 887084
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_pinky_MCP_link.STL": {
+      "mode": 420,
+      "sha256": "948a10c8683b4488f994aabaf6d950fe9a63dd319ee155fd4d90e865ed6d4aa8",
+      "size": 18702484
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_pinky_MCP_link.obj": {
+      "mode": 420,
+      "sha256": "6b82a6528187d3827d870054fc8616d47bb2e28381e649ce7043df311801ab7c",
+      "size": 20784168
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_pinky_PIP_link.STL": {
+      "mode": 420,
+      "sha256": "942fb59519bdf1064e965c5ead1e48a0e13cd3aac04dbea3e6d2379e03e96ed2",
+      "size": 1979384
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_pinky_swing_link.STL": {
+      "mode": 420,
+      "sha256": "4f9f03eab15b5d66bc24e46839d43d4d56b02fc16c89897673ded5baf3ca2dbc",
+      "size": 12831784
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_pinky_swing_link.obj": {
+      "mode": 420,
+      "sha256": "eca35895dc47b6b6daa4b93d3859e1d19bf9fad8e8ba1113b785f9fb92b9e437",
+      "size": 13954651
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_ring_DIP_link.STL": {
+      "mode": 420,
+      "sha256": "8e7f907a820c26ab7ef8cc9a043ceed4d445fab754b26a42d0bc99b459b938e0",
+      "size": 931384
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_ring_MCP_link.STL": {
+      "mode": 420,
+      "sha256": "d5af0efecd157317edb896b7e31036b2724b4d1b89561946d0cac8cbc1dcd75f",
+      "size": 18813484
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_ring_MCP_link.obj": {
+      "mode": 420,
+      "sha256": "445299e271849607d303f3336f5acdde79a8c8b87b896194d26c1d9515efbafc",
+      "size": 20910902
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_ring_PIP_link.STL": {
+      "mode": 420,
+      "sha256": "7ddf44dbe71c5f656b547512eb0485a4d24675494f0043f64b0a5dee70a1ffab",
+      "size": 2067984
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_ring_swing_link.STL": {
+      "mode": 420,
+      "sha256": "3a01b9e4b566223fa15a706018ce6c55a9b4b3981841782d826fe05dc5f98c30",
+      "size": 5332484
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_thumb_MCP_link.STL": {
+      "mode": 420,
+      "sha256": "26c1bc1ffd958bbb6fb3df8c278494ca0d733e70a4cdc05b9b5075865ea89684",
+      "size": 1924984
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_thumb_PIP_link.STL": {
+      "mode": 420,
+      "sha256": "90a368bec6308d8dce48849192564faacf98c26ca4cee515fbf47113bcfc8a26",
+      "size": 887084
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_thumb_rota_block_link.STL": {
+      "mode": 420,
+      "sha256": "4e420262a63a7b300f3d33580b663d4365a7758d1a6b786b24782833d8b27ec9",
+      "size": 2881684
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_thumb_rotaback_link2.STL": {
+      "mode": 420,
+      "sha256": "64175b3a416071fca9a87613a5e00ea9431d9ffefdd43288470b683384a8dfe9",
+      "size": 15323184
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/left/left_hand_thumb_rotaback_link2.obj": {
+      "mode": 420,
+      "sha256": "679d24b0c3e8a29e4c1b607974c44e7b8be446b5f947f1ded3f5813074899010",
+      "size": 16716551
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/Right_hand_palm_link.STL": {
+      "mode": 420,
+      "sha256": "43c966db83c7ddb04674a52c1ca490413f4d1b6aa3d0ee1aaf1bf634dfd79a7d",
+      "size": 433784
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/base_link.STL": {
+      "mode": 420,
+      "sha256": "21c9bc0759d741ac18357ffda9911ab974fb0853b9e7a7515b52a38d2ce53c93",
+      "size": 18487684
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/base_link.obj": {
+      "mode": 420,
+      "sha256": "b63fa43d20e6ee182803166fe1f39b36d46df8fce3288afaebbdd5a544f5c2fe",
+      "size": 19944518
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_index_DIP_link.STL": {
+      "mode": 420,
+      "sha256": "db84b7458bd9d4b00732049e21b8946e5d520d9226d267531a3d47c9bc99012b",
+      "size": 895784
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_index_MCP_link.STL": {
+      "mode": 420,
+      "sha256": "aeddeb68326496c3dcbd262528e3a9f2dd029fbc0fd8832f9e1f15b951809b55",
+      "size": 18813484
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_index_MCP_link.obj": {
+      "mode": 420,
+      "sha256": "9e5509be3925e5dc976fc7a97a9ca52a922cabfe2bbf659f6009c547ece16e2c",
+      "size": 21095965
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_index_PIP_link.STL": {
+      "mode": 420,
+      "sha256": "54271b1d19deb82a022fa8e2d4b58a21efd7889b0b77589bb5f0c520616ea65c",
+      "size": 2067984
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_index_swing_link.STL": {
+      "mode": 420,
+      "sha256": "82fd7eca89f49256bfa266a3bf756413fb9836f86b99d623b38abf82f06d91d4",
+      "size": 5332484
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_mid_DIP_link.STL": {
+      "mode": 420,
+      "sha256": "3cd5268f64175eea447540699b1fb896a2d9343883759b321f460814167b999b",
+      "size": 895784
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_mid_MCP_link.STL": {
+      "mode": 420,
+      "sha256": "d853189d07dde7956038a31c048a5443d1ca9e620c5eccf7c52979ec39ce1312",
+      "size": 18813484
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_mid_MCP_link.obj": {
+      "mode": 420,
+      "sha256": "ac6382f5148981c259be7c11383972415311856feaa47b65ccb3872fd04a46d3",
+      "size": 21096183
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_mid_PIP_link.STL": {
+      "mode": 420,
+      "sha256": "e0b2022ff020baf391f9391998aac9d00e6a6d0132b399974034105c4ef9b63e",
+      "size": 2067984
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_mid_swing_link.STL": {
+      "mode": 420,
+      "sha256": "fe8337af8257ae65b5e255a36765028be87ee05c82c0dbd6b18171e06ce5ad98",
+      "size": 5332484
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_pinky_DIP_link.STL": {
+      "mode": 420,
+      "sha256": "c5ba6e199e2f467bb54f976f5cf4a9f30307b9d45de336f1c08622da74dc4c06",
+      "size": 887084
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_pinky_MCP_link.STL": {
+      "mode": 420,
+      "sha256": "fc5747d4dfc08562972fa4efd96762927e3ded3bf6a5ee8768a554708b3c06e9",
+      "size": 18702484
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_pinky_MCP_link.obj": {
+      "mode": 420,
+      "sha256": "32ef0c7e0662bca725809b52b5b2edeef2fd62643fe1a923fb167e8c80590a25",
+      "size": 20968097
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_pinky_PIP_link.STL": {
+      "mode": 420,
+      "sha256": "92532d5995ac349daff897f271dfc9ad8afdc49a33773b95286943f1d079b2cb",
+      "size": 1979384
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_pinky_swing_link.STL": {
+      "mode": 420,
+      "sha256": "b79183d2fa9f324f14e80ff09d3a9ee285d72bfe544c37a73d9e02e1ce7c4b92",
+      "size": 12831784
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_pinky_swing_link.obj": {
+      "mode": 420,
+      "sha256": "dbecfe0fc3b87af1e4f5741b900f5ee35a7757f91db37433adc6660bae76826c",
+      "size": 13909994
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_ring_DIP_link.STL": {
+      "mode": 420,
+      "sha256": "defbd6827465a5270d0ad85e3d9600a32167d1f572c657809f7ad43bc350d2f1",
+      "size": 931384
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_ring_MCP_link.STL": {
+      "mode": 420,
+      "sha256": "e68812374c64f3b13ed5f93a475b497e3036966857cce896516a94e1bb2d7d26",
+      "size": 18813484
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_ring_MCP_link.obj": {
+      "mode": 420,
+      "sha256": "7201d662396497f941a836958ecec1a3b5967368075de080475648ef82f24d82",
+      "size": 21095943
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_ring_PIP_link.STL": {
+      "mode": 420,
+      "sha256": "86b5c0daa0ad7c757ea8c67b5b93b81f599487f81073e3b7143eae0df415297b",
+      "size": 2067984
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_ring_swing_link.STL": {
+      "mode": 420,
+      "sha256": "76058c9e37a01c786f6482d6905507417715f45be6f8a76a3ec81868be62071e",
+      "size": 5332484
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_thumb_MCP_link.STL": {
+      "mode": 420,
+      "sha256": "04137891deadc4df4d62f04e4c36b4dc10e5d4a22ef35cd28e2435612685f412",
+      "size": 1924984
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_thumb_PIP_link.STL": {
+      "mode": 420,
+      "sha256": "6dfa4b5aa4947708869fd27f4c1b304219aec841db83b803e55f1c95e39c0d14",
+      "size": 887084
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_thumb_rota_block_link.STL": {
+      "mode": 420,
+      "sha256": "567e71d05883211375c4561427f2e24b38a054d45bc623987c7e22b703c2aba1",
+      "size": 2881684
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_thumb_rotaback_link2.STL": {
+      "mode": 420,
+      "sha256": "d2c4974d47340e1415d74920d2dacc8ce91f845c5b6caf829f480dc6111fd52d",
+      "size": 15323184
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/meshes/right/right_hand_thumb_rotaback_link2.obj": {
+      "mode": 420,
+      "sha256": "33daa31d21180aa2b804cf23c12f9aa9a001f82de3691d6f43543946bca698d5",
+      "size": 16718413
+    },
+    "tsensei_v3_2_pianist/assets/source/latest_project/urdf/TsenseI_hand_left_v3_2_withid.urdf": {
+      "mode": 420,
+      "sha256": "c8016fef1ef6b235b5b327d9f35406a09299c1ca49d6ac5d5bfdefd94b45419d",
+      "size": 16987
+    },
+    "tsensei_v3_2_pianist/assets/source/left_original.urdf": {
+      "mode": 420,
+      "sha256": "c8016fef1ef6b235b5b327d9f35406a09299c1ca49d6ac5d5bfdefd94b45419d",
+      "size": 16987
+    },
+    "tsensei_v3_2_pianist/assets/source/vendor_manifest.json": {
+      "mode": 420,
+      "sha256": "d502ae7cf57c8d104f09ca229edcc6acbf992b0f7df4855e51ec867ceddebf46",
+      "size": 3531
+    },
+    "tsensei_v3_2_pianist/assets/urdf/TsenseI_left.urdf": {
+      "mode": 420,
+      "sha256": "b3b159c4fd999df567c46b3695a772dfd52faefd0eab93034ee200f78ce04711",
+      "size": 29879
+    },
+    "tsensei_v3_2_pianist/assets/urdf/TsenseI_left_updated_project.urdf": {
+      "mode": 420,
+      "sha256": "0511e4b48d563d3432fbd9aa5740d7486f28d5e45f4af554a9b04e13c9900cf6",
+      "size": 116118
+    },
+    "tsensei_v3_2_pianist/assets/urdf/TsenseI_right.urdf": {
+      "mode": 420,
+      "sha256": "2035d56974375df66648fa9ee331995c0dc153f7496bd9957195cc8519becaf3",
+      "size": 30152
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/base_link.stl": {
+      "mode": 420,
+      "sha256": "da6341d7671dc8ac276a6460d1da5f30fa6a088f1c3ab463a2019b5b8d5881c8",
+      "size": 5604884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_index_DIP_link.stl": {
+      "mode": 420,
+      "sha256": "ec4c6bf72561c618c3dda691f381e27b3a50a271d10f3ef623706697d5eed083",
+      "size": 895784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_index_MCP_link.obj": {
+      "mode": 420,
+      "sha256": "0a52565909bfbb26187b9ba95dc8ef73d7563bbf852733693cd2d4b8240dfd26",
+      "size": 24023674
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_index_MCP_link.stl": {
+      "mode": 420,
+      "sha256": "bc4437b02fe880e71ca48241a752ddca80057d2d3c21ba0007e07603d9d5fdda",
+      "size": 21550884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_index_PIP_link.stl": {
+      "mode": 420,
+      "sha256": "17b1ce9aae875d1cb6eabb97ec4822dce00beb619f01a4735d3c8ceb48c7c7b7",
+      "size": 1856584
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_index_swing_link.stl": {
+      "mode": 420,
+      "sha256": "ca863a9a6dde4b05086d5309fb08e31768f6c5454f3da25dae95dd10366d249c",
+      "size": 5167384
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_mid_DIP_link.stl": {
+      "mode": 420,
+      "sha256": "ec4c6bf72561c618c3dda691f381e27b3a50a271d10f3ef623706697d5eed083",
+      "size": 895784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_mid_MCP_link.obj": {
+      "mode": 420,
+      "sha256": "a85789e30895da9f56c6f27165902387f2ff76ab0fb3ad7da3bc7aad7d48ea55",
+      "size": 24023880
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_mid_MCP_link.stl": {
+      "mode": 420,
+      "sha256": "2ab2e1f278c0a27e091d895d66b29d1d104b8ed7f544dedb764aef4fbc71e2cc",
+      "size": 21550884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_mid_PIP_link.stl": {
+      "mode": 420,
+      "sha256": "aacbb294c2d134ab71535979247dce501d550b584c151fc7792450037764001e",
+      "size": 1856584
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_mid_swing_link.stl": {
+      "mode": 420,
+      "sha256": "e8e95146f5a14a8ecaa74b7d230bc53882d3774f07d7c4214271d8286150349b",
+      "size": 5167384
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_pinky_DIP_link.stl": {
+      "mode": 420,
+      "sha256": "054b74e471a00ec3c84fdf4080acbcfa2cc372771475858057893b40dc1c6db3",
+      "size": 887084
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_pinky_MCP_link.obj": {
+      "mode": 420,
+      "sha256": "ecc551cdcaac33021fd3b06437f8cc24debc9ad5ef83bc0e8a7151b57081160c",
+      "size": 23896902
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_pinky_MCP_link.stl": {
+      "mode": 420,
+      "sha256": "317567240f265ee032605b0b92fd277a476533f06770fd68005f56d386b5eb41",
+      "size": 21439884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_pinky_PIP_link.stl": {
+      "mode": 420,
+      "sha256": "bf730b8df84e384f733fea1199c8b1507a39044b9216a69eaf62c996b70acf23",
+      "size": 1767984
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_pinky_swing_link.obj": {
+      "mode": 420,
+      "sha256": "7f159e9d3e5fead53080cd7d630fe5306c45c094ec986ab7f30a7a5869f85636",
+      "size": 13712345
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_pinky_swing_link.stl": {
+      "mode": 420,
+      "sha256": "8dfade40449a4dedd2d9a4237cf5353b57c454f443fcc00b6f151e6b59f07792",
+      "size": 12618584
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_ring_DIP_link.stl": {
+      "mode": 420,
+      "sha256": "8dc413ebce9fb4efeadc9a6ad0a48a42686ebb46e6bddde61109fcd100dc5606",
+      "size": 931384
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_ring_MCP_link.obj": {
+      "mode": 420,
+      "sha256": "ad42abfd1e52caae4dddebb580052dcfba4e7652068bf754b34f225885696bdb",
+      "size": 24023634
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_ring_MCP_link.stl": {
+      "mode": 420,
+      "sha256": "f691c6e4cdcb0ec105b7670aa23beb21fa692801d8ab91c1ac019dc289b19a25",
+      "size": 21550884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_ring_PIP_link.stl": {
+      "mode": 420,
+      "sha256": "17b1ce9aae875d1cb6eabb97ec4822dce00beb619f01a4735d3c8ceb48c7c7b7",
+      "size": 1856584
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_ring_swing_link.stl": {
+      "mode": 420,
+      "sha256": "01f3c01e7d099b1f9cd5613782b5190c50d5c8602bd19b0e066743bbfef5796c",
+      "size": 5167384
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_thumb_MCP_link.stl": {
+      "mode": 420,
+      "sha256": "f66bbea7616d1e6c8b1186afe23f430da475f2b64b5258337a21d5314557130e",
+      "size": 1713584
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_thumb_PIP_link.stl": {
+      "mode": 420,
+      "sha256": "3c815606130ed9a15a57bcecea11679a4db58d28423451a796b19838fcbd0290",
+      "size": 887084
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_thumb_rota_block_link.stl": {
+      "mode": 420,
+      "sha256": "4615d80b3228a3ee0f2f63ee78859a391dce1d13d928c9f4f8a62a8a486bd6e3",
+      "size": 4419884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_thumb_rotaback_link2.obj": {
+      "mode": 420,
+      "sha256": "1fa2aceb89b0f9058ed59df3236d3169b6cc1ebbfa79d3a353a9c6357c3d61e1",
+      "size": 16530707
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/left/left_hand_thumb_rotaback_link2.stl": {
+      "mode": 420,
+      "sha256": "5bd5f1729886a39bc60b357dddd1010d4c114c865976bddfc1514a246e13b9b9",
+      "size": 15158084
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/base_link.stl": {
+      "mode": 420,
+      "sha256": "ebe5e1036b75b7a0b90c8c299e03958af218bd7704dff3d4d478dd60ab350558",
+      "size": 5604884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_index_DIP_link.stl": {
+      "mode": 420,
+      "sha256": "9bb91d454da08703368497d1e5da8dbe0683275f933da9c45420d86be0ade926",
+      "size": 895784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_index_MCP_link.obj": {
+      "mode": 420,
+      "sha256": "4ad6c27d9afbb9c89b713e2a6361f0c4c440a0ccc0c0971521f01fae6a470090",
+      "size": 24184473
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_index_MCP_link.stl": {
+      "mode": 420,
+      "sha256": "8cfa94f59a9f9f79e639fa93c1ff614fc9d4f5f0fbb4238b3ac673cdbd31089b",
+      "size": 21550884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_index_PIP_link.stl": {
+      "mode": 420,
+      "sha256": "576775e07c5bec87295bc5825601975a8386a7c8e64807ab310df63925fedcfc",
+      "size": 1856584
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_index_swing_link.stl": {
+      "mode": 420,
+      "sha256": "ea236e924abdd023717f37906a2a139ebd1e5bd733c3c18647525cc349e556ec",
+      "size": 5167384
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_mid_DIP_link.stl": {
+      "mode": 420,
+      "sha256": "9bb91d454da08703368497d1e5da8dbe0683275f933da9c45420d86be0ade926",
+      "size": 895784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_mid_MCP_link.obj": {
+      "mode": 420,
+      "sha256": "bac0e48f5ab6ca5d8e4d2ac2e0e601aff0719d1c0e2eaf04081f574fb49003a1",
+      "size": 24184683
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_mid_MCP_link.stl": {
+      "mode": 420,
+      "sha256": "1223de9bcb7028b2a1eab5b71eb86c97c06e2a7b93738be4450051db35ba1ae8",
+      "size": 21550884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_mid_PIP_link.stl": {
+      "mode": 420,
+      "sha256": "568ca6b0701225dc8286d42ef9c659e0f9f9dff6ecc34a9bfbeca4bcc688cce4",
+      "size": 1856584
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_mid_swing_link.stl": {
+      "mode": 420,
+      "sha256": "a0584cdfeb12a38f05f7fce8203695b31c57a25aa22e7ac203695b00801be7db",
+      "size": 5167384
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_pinky_DIP_link.stl": {
+      "mode": 420,
+      "sha256": "c45e7e9d2cd9ea06658ffcf7e511e7e603d087e082c9b5a5a535814aceb7002c",
+      "size": 887084
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_pinky_MCP_link.obj": {
+      "mode": 420,
+      "sha256": "a6f9e1748cb73cb946cbdc103fd5361e2eca90c8977bd43c2770f9b75400df16",
+      "size": 24056591
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_pinky_MCP_link.stl": {
+      "mode": 420,
+      "sha256": "f5c57f8b7f42cf55b7f15a54934fc9307deca0e764283521c9d7114b9574fb0d",
+      "size": 21439884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_pinky_PIP_link.stl": {
+      "mode": 420,
+      "sha256": "b091c5c7719b71cde15a488db83735afb6db7c59c8c3d7d6105dfcd9f4ef8917",
+      "size": 1767984
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_pinky_swing_link.obj": {
+      "mode": 420,
+      "sha256": "2fc3773a3544af50c52c6b6e2a33f5b53f7bda3b841fd255a83af95ad36cfa56",
+      "size": 13668926
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_pinky_swing_link.stl": {
+      "mode": 420,
+      "sha256": "c52df116637898421199881b4012c2137dcb5aefa459e5efbad2934a0d0ef150",
+      "size": 12618584
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_ring_DIP_link.stl": {
+      "mode": 420,
+      "sha256": "972c2288e408f4b8fd09b4a554a4b42e10b532ed76cd4a70ef1a15615dd87302",
+      "size": 931384
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_ring_MCP_link.obj": {
+      "mode": 420,
+      "sha256": "ab5cfb409d222f391ef5d62406d81917dd3a6379536e067d496392f74f8c7c9a",
+      "size": 24184435
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_ring_MCP_link.stl": {
+      "mode": 420,
+      "sha256": "5c8b5d32c247f11d48740cc4f54d70814944befe44a9cdf3cb829e168d8fc931",
+      "size": 21550884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_ring_PIP_link.stl": {
+      "mode": 420,
+      "sha256": "576775e07c5bec87295bc5825601975a8386a7c8e64807ab310df63925fedcfc",
+      "size": 1856584
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_ring_swing_link.stl": {
+      "mode": 420,
+      "sha256": "0eea0b0c03fb6e3af23d212f9d7b37e27b78ed840d87aa237aee0509e135eded",
+      "size": 5167384
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_thumb_MCP_link.stl": {
+      "mode": 420,
+      "sha256": "547e65790c358baf439910420468cd1409b29f8d47c1c28a43159b802a6da10f",
+      "size": 1713584
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_thumb_PIP_link.stl": {
+      "mode": 420,
+      "sha256": "86c90da99fc8f5516f57b3705f3aaa1afa2fa0d3bda6a058b5ab250f6a73d0c3",
+      "size": 887084
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_thumb_rota_block_link.stl": {
+      "mode": 420,
+      "sha256": "280c04cdb9d10bf717eca327e74bb5a8a7b4e28a9b9ba940462d1dc7c0da0d95",
+      "size": 4419884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_thumb_rotaback_link2.obj": {
+      "mode": 420,
+      "sha256": "c884e2ff99f6018731481759bd768c3610ce42d7f7344056a72beeecaa74d681",
+      "size": 16534182
+    },
+    "tsensei_v3_2_pianist/assets/urdf/collision_meshes_latest/right/right_hand_thumb_rotaback_link2.stl": {
+      "mode": 420,
+      "sha256": "54febcb99532d7933f5a30bb7902b6fade25fd4e7310e61014da1b789336bc72",
+      "size": 15158084
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0000.stl": {
+      "mode": 420,
+      "sha256": "bd7a5b0bcb3bc87b8e53fc65614fe3e0b86e5d7e28c68f092dde32020194d0db",
+      "size": 41484
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0001.stl": {
+      "mode": 420,
+      "sha256": "54883c5abc516443e3bfc1ce2ff66452e5fdba4674bfd7525e7bb438a7158bed",
+      "size": 3653884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0002.stl": {
+      "mode": 420,
+      "sha256": "5dd34a4c372c5f0a295cab09aa2fb842fe935eb38e4433c85fe277a14c7e06da",
+      "size": 51284
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0003.stl": {
+      "mode": 420,
+      "sha256": "7190162d23fb69ce97e70b3a4e72fc4324b375844c7c806b543a91d0993afced",
+      "size": 54584
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0004.stl": {
+      "mode": 420,
+      "sha256": "0005ecd2922c89ad9a03c438477bdca2c8df0903df74409c1b62b1a302c4a7ba",
+      "size": 95284
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0005.stl": {
+      "mode": 420,
+      "sha256": "c18661207c0033654e4bd3373c75434315d2e298f8a82691d2fd88e2460e5e73",
+      "size": 26684
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0006.stl": {
+      "mode": 420,
+      "sha256": "a71e33ff65e3da97cafa396c7a1cbf54352a02bc2e52898d354d063f126d6489",
+      "size": 63084
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0007.stl": {
+      "mode": 420,
+      "sha256": "86a871b83dba7741c18d77c9ddf7a9675ffd8732a0e553d1b423b7e4eb80477f",
+      "size": 55784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0008.stl": {
+      "mode": 420,
+      "sha256": "c513780d35c45fdff61a5c917ef15e86b83c65f046f2fc5c22749bbdcb2de0fd",
+      "size": 110784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0009.stl": {
+      "mode": 420,
+      "sha256": "52b0296db4be261eeb6147cb2248504d777cff475d8e68f9b567507318540da3",
+      "size": 187384
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0010.stl": {
+      "mode": 420,
+      "sha256": "c18661207c0033654e4bd3373c75434315d2e298f8a82691d2fd88e2460e5e73",
+      "size": 26684
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0011.stl": {
+      "mode": 420,
+      "sha256": "74d0efe0868ec663eaea2b29b931a8cf83f955e7854f788227d3a62d60aea9b6",
+      "size": 16884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0012.stl": {
+      "mode": 420,
+      "sha256": "610caf93a7fb88e5c5b327573b8ec5ecc35fae102885122d305f6b13af5c2fb0",
+      "size": 1359184
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0013.stl": {
+      "mode": 420,
+      "sha256": "d2ae2b1dc9b8801e6a4eb5e4d536a4c3e02818b615c6e5870e2dce318fc31029",
+      "size": 55284
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0014.stl": {
+      "mode": 420,
+      "sha256": "06ac5d320898216818d1d91440c2e4b8167840954a60db37e08aee53786b2307",
+      "size": 56784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0015.stl": {
+      "mode": 420,
+      "sha256": "eeb20abc0eda50de8e45f592dd98765f253f6ca6e6ccd36a9853838a7629fd9e",
+      "size": 109184
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0016.stl": {
+      "mode": 420,
+      "sha256": "1329595c213c6c1483e4da0bbc1d45bb7a6284aaa21e4de4ab4e9721722f4b97",
+      "size": 77984
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0017.stl": {
+      "mode": 420,
+      "sha256": "8e1afe5fd1006de61a0149d48161fb5114f0afc08a6235a6d949b2d92c0ab410",
+      "size": 2686284
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0018.stl": {
+      "mode": 420,
+      "sha256": "4fec36e6e2608ad9de853538b43f1a5d1298c60217b932893f32fa52a39998d4",
+      "size": 60784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0019.stl": {
+      "mode": 420,
+      "sha256": "8fd301fb4ed9fc0e461353becd8c1ecee60b7a89a2a3a55725d36cc51a96f407",
+      "size": 55584
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0020_housing.stl": {
+      "mode": 420,
+      "sha256": "b984081e776d3c2703ad552285d0eb6a481596cb42dfeb668229ebce1b1866a1",
+      "size": 1319184
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0020_output.stl": {
+      "mode": 420,
+      "sha256": "2223cb54a1df8ef3d509facc9db95427be044b9097d390b55095080e1aadd03d",
+      "size": 602684
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0021.stl": {
+      "mode": 420,
+      "sha256": "f2f38b1608b7b3ba5b0d8a92e341e192563c57b827d38f84ee07024ea7206516",
+      "size": 22784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0022.stl": {
+      "mode": 420,
+      "sha256": "e35e3e0bc337dd5c396389c1ac80cf272f7128364881175666a10ae80d6c842a",
+      "size": 16663484
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0023.stl": {
+      "mode": 420,
+      "sha256": "3c065ae13732cae1120a75885e18977ae1468900cb469eaf51b1e73ee5445179",
+      "size": 70884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0024.stl": {
+      "mode": 420,
+      "sha256": "2dda3af6521fb3422e6429135540f12bd0c365aead4fc7a88a309c3257d5bb7e",
+      "size": 89284
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0025.stl": {
+      "mode": 420,
+      "sha256": "9efd7987485276baec535ac1edb615e4e13007a07d65337c915aa82613778f69",
+      "size": 1327784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0026.stl": {
+      "mode": 420,
+      "sha256": "f279b90c609c535fef97e523b40e35efbd4b37893e8542f280a92368a197141d",
+      "size": 11228384
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0027.stl": {
+      "mode": 420,
+      "sha256": "37ef1d1f4cf9f4b535cf852f588bbc71679e3c3b3904e6fb885bc6bdd7dfa184",
+      "size": 106184
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0031.stl": {
+      "mode": 420,
+      "sha256": "4bb51d19d5ad75d9b68e2dda52f2a84bbe46ed9547cdcb1acb0b3f2b4ff57939",
+      "size": 172584
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0032.stl": {
+      "mode": 420,
+      "sha256": "c6c6d999d14945ade36506789b60b91075eb90dba2f270e0955291d839aa06d5",
+      "size": 46884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0033.stl": {
+      "mode": 420,
+      "sha256": "28bb2a8c84ac9c7221c7b462e1f068a872eed12d266e38d9f6b8b7ab06428285",
+      "size": 38984
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0034.stl": {
+      "mode": 420,
+      "sha256": "4c8ef3999d744f66c097d1d59c7c51bf9ac202d835a680e2646a811a7ab92cad",
+      "size": 261384
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0035.stl": {
+      "mode": 420,
+      "sha256": "cbd1880389d6617d1b8d02f54d8c4ff89f1c30b1955a05a1edb6992f7d8e8d22",
+      "size": 12856084
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0036.stl": {
+      "mode": 420,
+      "sha256": "98fbabde950c04c56737a03414ab7a8960930b9c309849de0ea1383cc59bfb7d",
+      "size": 119184
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0037.stl": {
+      "mode": 420,
+      "sha256": "20698fa5a0293cbb112fd177802edc9b7b942ece61a7ceca1037b23ae41f6aa0",
+      "size": 16084
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0038_housing.stl": {
+      "mode": 420,
+      "sha256": "741e31e076c0ea3602dd79e6fa33e9c86f61e0e2bef4ed7dc2d29caa83250be1",
+      "size": 1169184
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0038_output.stl": {
+      "mode": 420,
+      "sha256": "298d6e8af4d0f9449ea32448040fb912dba255f8181a0e1323a08d993032299b",
+      "size": 1109884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0040.stl": {
+      "mode": 420,
+      "sha256": "035fe643a0de31fe51afdfa0e6d6308ce83033e1c521517466d880ba1e1b2ac4",
+      "size": 113184
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0042.stl": {
+      "mode": 420,
+      "sha256": "dc27eb6e9d855937195dceaa136d1f758e30a2f6957fb70b0a84844c8e92dc1d",
+      "size": 76084
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0043.stl": {
+      "mode": 420,
+      "sha256": "7416e11af63c742cad6b9a9e747ade9917072391d5d53868e4dc1db3b352c83f",
+      "size": 9884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0044.stl": {
+      "mode": 420,
+      "sha256": "c9a26182d8a8c26bf3466aa7c599ca5a4e2d32598b8febcd6ac869d3a65742f1",
+      "size": 12884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0045.stl": {
+      "mode": 420,
+      "sha256": "732955071d9792c6b336724f222a1a801b03e1033a864b444717088112fdba7c",
+      "size": 169584
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0046.stl": {
+      "mode": 420,
+      "sha256": "cd7bf770b87a34d2abda88d54a3cb8fc565d367cddb8ee4902fd53ad93d46875",
+      "size": 131784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0047.stl": {
+      "mode": 420,
+      "sha256": "5415d0cd05deac07554a43e0dd95a88c7e77b034c0fd1dce24ab11f3ad8e1d97",
+      "size": 301784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0048.stl": {
+      "mode": 420,
+      "sha256": "18f071ca8f8e29a20ad8bec0b08e6eeab0d90ad84277ceffdeb54fbab3fa5f8f",
+      "size": 170584
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0049.stl": {
+      "mode": 420,
+      "sha256": "ce165a81745af82effc9873373919422f2d5d2843e559e798d5e753d4ea2435e",
+      "size": 376684
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0051.stl": {
+      "mode": 420,
+      "sha256": "8bacb38714c0aa8fbf0fb08f535cb7ac68f1a1bd99de905f68ad7fa601679b81",
+      "size": 149384
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0052.stl": {
+      "mode": 420,
+      "sha256": "98bfefad735d389d0a1abe1becb9832d97891d63c729b8b1592109c394a0aa35",
+      "size": 174584
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0053.stl": {
+      "mode": 420,
+      "sha256": "8697bcf197db39fe34e857e190420567dddd51172706c4e947653573af3fb874",
+      "size": 337884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0054.stl": {
+      "mode": 420,
+      "sha256": "d796a88220201712aedad1f6dff078ab29bde2888b219fa41f7350b919cbd8da",
+      "size": 137484
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0055.stl": {
+      "mode": 420,
+      "sha256": "1c896d71efffe1a3e815ff8f866a2c2738e44bd5ea050ad5872f61e1ec3462af",
+      "size": 146284
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0058.stl": {
+      "mode": 420,
+      "sha256": "bbd7c56456d9249a4eead6553fd29cd96621d9a3dfb000ace6ed752dcd9d49fd",
+      "size": 146184
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0059.stl": {
+      "mode": 420,
+      "sha256": "e63c8981441b28253460487c3fb380a22455ddcf8eec0345e781dde05760bd1d",
+      "size": 153284
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0060.stl": {
+      "mode": 420,
+      "sha256": "97bb8a4386fd721c2b0c3c222838e70b3e175834431d3186e9141604648fca99",
+      "size": 240984
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0061.stl": {
+      "mode": 420,
+      "sha256": "6801af5228aa227e422fc8975c8e605ced9138cd9ec78efaf058b0eb81fb8c85",
+      "size": 178784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0062.stl": {
+      "mode": 420,
+      "sha256": "f73f49594e8d55d77f56a17ebb50bca061838a678609a0277c99d7e65d21da22",
+      "size": 357684
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0066.stl": {
+      "mode": 420,
+      "sha256": "19391139151d3881409dca0868ffc1a83e2a8dc7a6c0a0cadda25e8323b5f490",
+      "size": 381284
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0067.stl": {
+      "mode": 420,
+      "sha256": "e965017b2386b8224b06e4f487ccd45b1d681cd80b8eddf0533858cc6fa1d114",
+      "size": 154684
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0068.stl": {
+      "mode": 420,
+      "sha256": "a11dfaaf74c77eb5687499f2005452eae1f9cac65fc13b1362709161e0c4cf9c",
+      "size": 141084
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0069.stl": {
+      "mode": 420,
+      "sha256": "0a8f3eb8a66ae4e8809f35772c2833dc0a521bb4a9902d35b8c35521e387fe6b",
+      "size": 143484
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0070.stl": {
+      "mode": 420,
+      "sha256": "515618e0644d9eed5afc8d333b8e68e5ec089a90e91e272724e5b885db70af7e",
+      "size": 167884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0071.stl": {
+      "mode": 420,
+      "sha256": "128db2a43b41e9412c9111399c914b13ce941fc14c0fd654acfe2516947805f0",
+      "size": 165684
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0072.stl": {
+      "mode": 420,
+      "sha256": "62fe2e2a3d06e66ebe917f6743202253a6e47414b1d0327e475b06466e891d87",
+      "size": 102984
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0073.stl": {
+      "mode": 420,
+      "sha256": "f5a69740bd650a665e0a42b88cfecdb5d4ea93733898a451c8dba0cb9f9a546b",
+      "size": 41084
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0074.stl": {
+      "mode": 420,
+      "sha256": "15a99a848da059cd3fb1b2549a8259c0aca803dd855ddaa89f506e44769acd69",
+      "size": 290684
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0075.stl": {
+      "mode": 420,
+      "sha256": "0558c70cef98fd5e5f56fe0fe7162df6e8cdb0427b17627438b8e3c313e4a4a7",
+      "size": 1711284
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0076.stl": {
+      "mode": 420,
+      "sha256": "dd8c7b56dc4e674b7904fb35f787b058c807e2c88a9f3a6fa98963ddb1aa2e1e",
+      "size": 306984
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0181.stl": {
+      "mode": 420,
+      "sha256": "137c7ed28bbb1b43919cb0ee928c41dd2e8ff59f983aa397688b1d88eed05f61",
+      "size": 510484
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0207.stl": {
+      "mode": 420,
+      "sha256": "ee114761894be1ad994be58ea185095735360ea26822569c9f9987fc4961171a",
+      "size": 50784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0208.stl": {
+      "mode": 420,
+      "sha256": "485032e7ec54fee611dbf074c7d3d8315b924c3acd27f0cb89f263c5d1110515",
+      "size": 38384
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0209.stl": {
+      "mode": 420,
+      "sha256": "a18699dbdfb31e2039c41342d042ea8007d4aff62f273b5ff4964480eb9c346d",
+      "size": 433784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0210.stl": {
+      "mode": 420,
+      "sha256": "f9a6385726d4d42808092d18411a0703189e2a37632ed2be7384385bb2d338ad",
+      "size": 51284
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0211.stl": {
+      "mode": 420,
+      "sha256": "f06d3c98fee64f884e286151dc67157f2d1be696cf3c0649b40710f84250d618",
+      "size": 52984
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0212.stl": {
+      "mode": 420,
+      "sha256": "ee114761894be1ad994be58ea185095735360ea26822569c9f9987fc4961171a",
+      "size": 50784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0213.stl": {
+      "mode": 420,
+      "sha256": "0f499c873d93a0e877c58075521cecb8f59fe3851731d76a9bb30a0233d41bd4",
+      "size": 38284
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0214.stl": {
+      "mode": 420,
+      "sha256": "de75bc32df4f3cf8131c927305446a59315bd5348d7d0693e8b75d1b0e5b6d1f",
+      "size": 195984
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0215.stl": {
+      "mode": 420,
+      "sha256": "229c20aa4dcc69b745512131587b703b9106cfa82d71cb7fb9bae8dd59a4f134",
+      "size": 69084
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual/NR_G0216.stl": {
+      "mode": 420,
+      "sha256": "015d0b35d039e936042ce68f7073fbe8e78a697abd03f0fa430ccb58577653a0",
+      "size": 102584
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0000.stl": {
+      "mode": 420,
+      "sha256": "4a1a4d15984e50054529b39423e73130140581aeb41207161d399a40375b9e04",
+      "size": 41484
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0001.stl": {
+      "mode": 420,
+      "sha256": "f04ff923f677bafd530941e991fcdd1a87536499c9bd3e1b8b27021b8f99884a",
+      "size": 3653884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0002.stl": {
+      "mode": 420,
+      "sha256": "6cbca72ecb400ff0669a5e702473747e1674c84bb5eeb8f476d478d4d1de689a",
+      "size": 51284
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0003.stl": {
+      "mode": 420,
+      "sha256": "d55ece44f6c7a216c1c1ac88360fb4966246c4fe797b872a909b68bf4cfb8f49",
+      "size": 54584
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0005.stl": {
+      "mode": 420,
+      "sha256": "04723cc309cce61a9757dcacd000dc596dc490f75fd5a26d4ad1db2c4cc13a2c",
+      "size": 26684
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0007.stl": {
+      "mode": 420,
+      "sha256": "bc7560dc77200c9e3e4508c462c875dde1715f250124bf532cfa33da96c63c16",
+      "size": 55784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0008.stl": {
+      "mode": 420,
+      "sha256": "27579ed4cb6b9b36f7d59aed132988893364488e26089ea6d702b7120703e6ba",
+      "size": 110784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0009.stl": {
+      "mode": 420,
+      "sha256": "92318c1805d7e4f1c0c0ebd6712a8df0876802f20add789f8d9f6e2953775f49",
+      "size": 187384
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0010.stl": {
+      "mode": 420,
+      "sha256": "04723cc309cce61a9757dcacd000dc596dc490f75fd5a26d4ad1db2c4cc13a2c",
+      "size": 26684
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0011.stl": {
+      "mode": 420,
+      "sha256": "0bc75dc82b0fd445a02a6d807c92a340e6bed4074cebbeceaea3af2c9bcf192f",
+      "size": 16884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0012.stl": {
+      "mode": 420,
+      "sha256": "77643645c10a26571cc6c7ddf6b01ef8fb53a4d2d041e9ee059870a799b0cb4b",
+      "size": 1359184
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0015.stl": {
+      "mode": 420,
+      "sha256": "15ca3d66fabfd638f8f4dd13337cf0204923516b01aadabae73c94e8fa356b0d",
+      "size": 109184
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0017.stl": {
+      "mode": 420,
+      "sha256": "a8e705af0af39a4ad808385a43d78fb702c90c301bc2a445664df0abbda55eaa",
+      "size": 2686284
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0019.stl": {
+      "mode": 420,
+      "sha256": "4e07c04f4f5661db661dd1bb79d36710ee32bd3ab81dc8caea7895cd64c826e8",
+      "size": 55584
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0020_housing.stl": {
+      "mode": 420,
+      "sha256": "aecd859dbfb3b097cdd5268a7d1bf2b1739ebe0fa6747bf167b943087ab1d9e2",
+      "size": 1319184
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0020_output.stl": {
+      "mode": 420,
+      "sha256": "b99cbc4ebf98851872ab6a3e10f47fd6c315c6df13ca53758e970d72e5bc8937",
+      "size": 602684
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0021.stl": {
+      "mode": 420,
+      "sha256": "1956ce7bb42899fda055435c737187d85679f47bec8dd5878646e9486a4a9d0c",
+      "size": 22784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0022.stl": {
+      "mode": 420,
+      "sha256": "070abfb02041617635d12f1601c17b7d399456a6df3b82c26d65c57533e981a3",
+      "size": 16663484
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0025.stl": {
+      "mode": 420,
+      "sha256": "59bcc7c380eed24a8b3508d46528de005b87dfda91070bac810868ff69a32573",
+      "size": 1327784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0026.stl": {
+      "mode": 420,
+      "sha256": "1912dc16744bb352c0ce296b31a2f69198645316b8aab74396030274c26a4e66",
+      "size": 11228384
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0027.stl": {
+      "mode": 420,
+      "sha256": "9d1afbb596a2b33d992019a4638606fcac2458426d48744c63cc7480bd17bd0c",
+      "size": 106184
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0031.stl": {
+      "mode": 420,
+      "sha256": "237f00264325f639b21b30b39cfe0ffe29385db2005ba1214272eeaeebc86611",
+      "size": 172584
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0032.stl": {
+      "mode": 420,
+      "sha256": "4f6ca126badc9354c2c00b72d662e46cfe056cc2eede748e5ed8b88af6c0826c",
+      "size": 46884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0033.stl": {
+      "mode": 420,
+      "sha256": "e4c383d061d9657b0060a9642d149526aeaa66c2b1421e618edb76cc6b2cd4f7",
+      "size": 38984
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0034.stl": {
+      "mode": 420,
+      "sha256": "e46864f89b7dfeb3818626637025543b760a685fc1801b9866b300a2d24259b1",
+      "size": 261384
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0035.stl": {
+      "mode": 420,
+      "sha256": "c76761f6d509aa82d51b2d12ed69febdda457ee5f09c08f772cbfeac0f77295f",
+      "size": 12856084
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0036.stl": {
+      "mode": 420,
+      "sha256": "65d3b14d320df57ebc2b6f0f3f05d664a6541b4117ecef699e475554867cc195",
+      "size": 119184
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0037.stl": {
+      "mode": 420,
+      "sha256": "ed835964881e097df49b981a1f8657d3433119e500f25359806a4b8dead1cc23",
+      "size": 16084
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0038_housing.stl": {
+      "mode": 420,
+      "sha256": "ad69f1e2689098899ff47195e99850bcffad607d3b0c0179965465c9c65dcc42",
+      "size": 1169184
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0038_output.stl": {
+      "mode": 420,
+      "sha256": "455fd698b64ec10cb8981bdee7e80e801ac6b8db3481d2b218313bfd5a05a667",
+      "size": 1109884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0040.stl": {
+      "mode": 420,
+      "sha256": "3bdd81701e36ed3240ccd6a9cb9fed91edf3ef59e8f48310fc842019341919d6",
+      "size": 113184
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0042.stl": {
+      "mode": 420,
+      "sha256": "7294c2dae7c1fb28cb49ac1d39370ff531a0e9b929cbea7da82fc95a084370ea",
+      "size": 76084
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0043.stl": {
+      "mode": 420,
+      "sha256": "e9e82f7924a9a646dc1b3ef49c520817ecb460c23e8d584853975c3766012adc",
+      "size": 9884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0044.stl": {
+      "mode": 420,
+      "sha256": "80a5f9a6813f2f86db339b1361f55a4bd89b5fe43ad4973990bf97103187c02a",
+      "size": 12884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0045.stl": {
+      "mode": 420,
+      "sha256": "7d4ecdb0a7a633c19b69e386bc3c0d67216e1c55ec0b683ac50d9cd30d45da5d",
+      "size": 169584
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0046.stl": {
+      "mode": 420,
+      "sha256": "e88e17e80ef82c86eeb13b0abaca014abd769b2951933c004db1a1a97de59fba",
+      "size": 131784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0047.stl": {
+      "mode": 420,
+      "sha256": "e6946da46a957697f463fbdc940412dd46c8eff6b999a9086c1eea8e641a009d",
+      "size": 301784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0048.stl": {
+      "mode": 420,
+      "sha256": "1a1bea96dc7679210b4863f64856aaff0cfc81d21720bfcd42144520ad5a8289",
+      "size": 170584
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0049.stl": {
+      "mode": 420,
+      "sha256": "9403565c97858ff75bf1c5a3037833a122a360cf3f7495e359d02503246eae3f",
+      "size": 376684
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0051.stl": {
+      "mode": 420,
+      "sha256": "8afbd8e7b89e9a6cdfc7c18c9982d17056919c036e2dda37cf2d9642ad4f9c41",
+      "size": 149384
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0052.stl": {
+      "mode": 420,
+      "sha256": "18f4894812648f1cf2a51c07faae6520e1e02436e0c2720ba44644c80f9f6655",
+      "size": 174584
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0053.stl": {
+      "mode": 420,
+      "sha256": "e9f72091d8e441933cdcc4a62d63abc99842bb16e77bc9696a114ca9e6d547ab",
+      "size": 337884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0054.stl": {
+      "mode": 420,
+      "sha256": "94b0756c3f71e6c948cc57309ba6a68a3c773bedca65180a1f3b2d8c3dfde9f6",
+      "size": 137484
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0055.stl": {
+      "mode": 420,
+      "sha256": "a60d5a4cd8a6003ceadeb2e435a5d2a93e102349cc97cfb04a7fe0ec907389a6",
+      "size": 146284
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0058.stl": {
+      "mode": 420,
+      "sha256": "4540ae44cab7dbcf135d9736059dd5a2d785441fe9622e267d99b51276a09493",
+      "size": 146184
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0059.stl": {
+      "mode": 420,
+      "sha256": "2e9a164526107f610f52f4e744818dc826962ea0fb1d8cc7089339ce9a27da46",
+      "size": 153284
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0060.stl": {
+      "mode": 420,
+      "sha256": "7277c98175967e9556bc67586bbdbf75453d26f0225614686dc86bf3f215e2b4",
+      "size": 240984
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0061.stl": {
+      "mode": 420,
+      "sha256": "efa3e070c545dc4cf4a556a2c4d15b076c6de437e004586d9ad3169e1fa6c61e",
+      "size": 178784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0062.stl": {
+      "mode": 420,
+      "sha256": "f8c6b9544ddf26c576298f78eb48f846373133628737a6e99cf6fbb90ab4217d",
+      "size": 357684
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0066.stl": {
+      "mode": 420,
+      "sha256": "3dc8e71e42c070d2e3f3a6a9d7aca532e167fa296a57a65ce47a2c94238f53de",
+      "size": 381284
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0067.stl": {
+      "mode": 420,
+      "sha256": "6564df2c8f88115a3be684027072d6f417ebd35552ebe274680b465b57533e46",
+      "size": 154684
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0068.stl": {
+      "mode": 420,
+      "sha256": "7002f244fb004fabde12eb7fb6b8038aa92df429831dc72873ff6c6a48695776",
+      "size": 141084
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0069.stl": {
+      "mode": 420,
+      "sha256": "1154507fe06fff0d345f8d16ec9893faba098830155d9c0f20249561058fe1e2",
+      "size": 143484
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0070.stl": {
+      "mode": 420,
+      "sha256": "0b60ae4056f17b4cf0a353a35aa23d1281acd2da648009cf3574fd1d385409a3",
+      "size": 167884
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0071.stl": {
+      "mode": 420,
+      "sha256": "ebd460a22bcd5bfc011030f6e5c015a89ad49df9155971c1c9f3fe1c34716e1f",
+      "size": 165684
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0072.stl": {
+      "mode": 420,
+      "sha256": "49152a2921f0c8cafccbcb264dfe1830440f757a0779cb818cf0e1c652899215",
+      "size": 102984
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0073.stl": {
+      "mode": 420,
+      "sha256": "d66c739a76dbcc6985373f58dffa33b037343d1f30e1940822ecf4e11230cbdd",
+      "size": 41084
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0074.stl": {
+      "mode": 420,
+      "sha256": "2bb711d34120a7d505407335d5ecf8369469cda54e2aed38566eccb9a223de5c",
+      "size": 290684
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0075.stl": {
+      "mode": 420,
+      "sha256": "c68a2fbbe870cffe4b4475afedc16c3a85f2f1f8b519743e834adc4655874c86",
+      "size": 1711284
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0076.stl": {
+      "mode": 420,
+      "sha256": "89856ca31303f9e6b5a3ee58e734641939bc0f3b8e210df4f5b21e671a79fa48",
+      "size": 306984
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0181.stl": {
+      "mode": 420,
+      "sha256": "7ecb5f723c41b7da496d2ef7e8cb44f596f9c061bbba2f63678fb56616e20f83",
+      "size": 510484
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0207.stl": {
+      "mode": 420,
+      "sha256": "086ebe182d97ac8d22bdeedb90db7e53311d99bad1ffb86eb1c3c0bdabc55327",
+      "size": 50784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0208.stl": {
+      "mode": 420,
+      "sha256": "99ad3c665b0cf50592d87b9d4f27c01356d20f061c1c243bd0cb387359b881ee",
+      "size": 38384
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0209.stl": {
+      "mode": 420,
+      "sha256": "0dd160d42c930a685449ef26c1196de6cef9454e0d6ff6e50bdfbc58aed62ab5",
+      "size": 433784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0210.stl": {
+      "mode": 420,
+      "sha256": "ace11d8eeaa1ae2e3e68ecd80b32b10c354640b6c8a8f2de0cb0589810f732a8",
+      "size": 51284
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0211.stl": {
+      "mode": 420,
+      "sha256": "ad5765201f869a7fad5a051e9cb045cb3676e456ddb0184673f826eefb2a9924",
+      "size": 52984
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0212.stl": {
+      "mode": 420,
+      "sha256": "086ebe182d97ac8d22bdeedb90db7e53311d99bad1ffb86eb1c3c0bdabc55327",
+      "size": 50784
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0213.stl": {
+      "mode": 420,
+      "sha256": "5f9a7ae24ac2e5a2b086a61252e48743066a619018724ae0fd0fb4baea0eea58",
+      "size": 38284
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0214.stl": {
+      "mode": 420,
+      "sha256": "87d88baa226c7beb1cedd2c214f97ef91d15c36c158404d32cfc55e946d19d84",
+      "size": 195984
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0215.stl": {
+      "mode": 420,
+      "sha256": "2f6ee9a5d31a7695eae33aa8c0a2e2d1fb84236306d030340e93401682e099ac",
+      "size": 69084
+    },
+    "tsensei_v3_2_pianist/assets/urdf/meshes/visual_right/NR_G0216.stl": {
+      "mode": 420,
+      "sha256": "d3ee2523cfd0dd59ab7a3d4c99e5d08516058a85bf27ebb1dd68f3cffb5f6ccc",
+      "size": 102584
+    },
+    "tsensei_v3_2_pianist/detection_only_collision.py": {
+      "mode": 420,
+      "sha256": "4ae05f626e5a2d67c661e4af955cfa19dd6023f780de2d3c9aa54156e798ddd2",
+      "size": 4178
+    },
+    "tsensei_v3_2_pianist/drive_settings.py": {
+      "mode": 420,
+      "sha256": "f1664f9e1297a07fc9d11a83bc551f5405df9b8e73b577590352dbc55a90b61d",
+      "size": 2186
+    },
+    "tsensei_v3_2_pianist/fingering_targets.py": {
+      "mode": 420,
+      "sha256": "9a68edb4d816a75ead8f9dffd49aadbc620283db1a7bf5fb7a3ee01bbd0a21d4",
+      "size": 5486
+    },
+    "tsensei_v3_2_pianist/forearm_collision.py": {
+      "mode": 420,
+      "sha256": "6c322fb4ebb557589528adcb91657b2a63b1b5339ca5ed90dceb0f44f41d93c0",
+      "size": 2709
+    },
+    "tsensei_v3_2_pianist/mjlab_env/__init__.py": {
+      "mode": 420,
+      "sha256": "cd3b29f2f3ced34f353e779c8fb70121e807abd51924cc7c345e353728b0d413",
+      "size": 87
+    },
+    "tsensei_v3_2_pianist/mjlab_env/acceptance_cases.py": {
+      "mode": 420,
+      "sha256": "664e852db5adda3c6216168bd0b8f7fc1f6505c17387f6c606e055dcdc26ed11",
+      "size": 1566
+    },
+    "tsensei_v3_2_pianist/mjlab_env/action_mapping.py": {
+      "mode": 420,
+      "sha256": "12af758d6ad65c27b9cb56000ec90af18a10819503f847295226998f9bdbf573",
+      "size": 6143
+    },
+    "tsensei_v3_2_pianist/mjlab_env/anticipation.py": {
+      "mode": 420,
+      "sha256": "dd1c0a65d58ea8c4facca7ffddb881a169a183c0a156893ef5ca621c4384d201",
+      "size": 2331
+    },
+    "tsensei_v3_2_pianist/mjlab_env/arm_follow.py": {
+      "mode": 420,
+      "sha256": "49f93ce0c3219963143f3da0a67109dec47279a7778a44a7021f25bc2432c242",
+      "size": 14285
+    },
+    "tsensei_v3_2_pianist/mjlab_env/arm_ik.py": {
+      "mode": 420,
+      "sha256": "fd73f8a61a50e04115c8a137fd5eac1fdec371d130b9ef053a3163d61655a0b6",
+      "size": 6297
+    },
+    "tsensei_v3_2_pianist/mjlab_env/arm_options.py": {
+      "mode": 420,
+      "sha256": "79c1f2df8820755b8a052eddfd891a0aa9ddc49d7b78569718db2285ebc432b3",
+      "size": 10232
+    },
+    "tsensei_v3_2_pianist/mjlab_env/arm_reachability.py": {
+      "mode": 420,
+      "sha256": "7a6e030fcef3930bcf19fdbdf06e37b2d6cb73b8f3a9222b3854146a60229cab",
+      "size": 13106
+    },
+    "tsensei_v3_2_pianist/mjlab_env/arm_scene.py": {
+      "mode": 420,
+      "sha256": "af0bb44910a5568807c9a9a2b467ccc4cd08e17a49ca49a32a655353648ee0ff",
+      "size": 21062
+    },
+    "tsensei_v3_2_pianist/mjlab_env/bundle.py": {
+      "mode": 420,
+      "sha256": "1547568421eea8a6656deba00ee3cd156eab3854d7c1adad6f2a5373ca5105ee",
+      "size": 17802
+    },
+    "tsensei_v3_2_pianist/mjlab_env/control_limits.py": {
+      "mode": 420,
+      "sha256": "87ff72e98a4110e2ff591b207249ceefc94bdf5a521c19e3924ed9847a6d302c",
+      "size": 12012
+    },
+    "tsensei_v3_2_pianist/mjlab_env/diagnostics.py": {
+      "mode": 420,
+      "sha256": "fd327ad9b7452469711ec31df34b68c5894157399c697257dde71d6ce1b54094",
+      "size": 2754
+    },
+    "tsensei_v3_2_pianist/mjlab_env/exact_score.py": {
+      "mode": 420,
+      "sha256": "5c09b45177da3bd5c390cf1b1e3d1d2bd87dc50c995f84cb61c9025b47f0de95",
+      "size": 9007
+    },
+    "tsensei_v3_2_pianist/mjlab_env/finger_clearance.py": {
+      "mode": 420,
+      "sha256": "99239c7a3bfebffcf446dae839a7ab45affd7303f5366bef5f2036075f898770",
+      "size": 38264
+    },
+    "tsensei_v3_2_pianist/mjlab_env/finger_coupling.py": {
+      "mode": 420,
+      "sha256": "7893283af8456703c68baad91ebaaaead77fd8dd46ecb327f9ebd80b0fb5f18f",
+      "size": 18920
+    },
+    "tsensei_v3_2_pianist/mjlab_env/fingering_experiments.py": {
+      "mode": 420,
+      "sha256": "3bfbeb91fc21d96a68e228feebfd738d0fda0f13a36cbf961c458b1d13c84043",
+      "size": 3833
+    },
+    "tsensei_v3_2_pianist/mjlab_env/joint_limits.py": {
+      "mode": 420,
+      "sha256": "838e86d302e75ca00d3688c7539d189ce71c3f0ac8db175fd467b02c70c4b3a9",
+      "size": 4280
+    },
+    "tsensei_v3_2_pianist/mjlab_env/joint_limits_warp.py": {
+      "mode": 420,
+      "sha256": "46ab88d8a7f3b8bd3456fd7812218998e3aaa376c67156d67efb2bd660baa54f",
+      "size": 1904
+    },
+    "tsensei_v3_2_pianist/mjlab_env/key_contact_diagnostics.py": {
+      "mode": 420,
+      "sha256": "4d5c67ba35a8d1e6cf0de43ba04029f3ad4391c998efca6d4918fd4b66b744b5",
+      "size": 5753
+    },
+    "tsensei_v3_2_pianist/mjlab_env/paths.py": {
+      "mode": 420,
+      "sha256": "2d0b15cab20a88dc0e1582920104182fffae8c80ad333550aab26fb56325ced9",
+      "size": 2131
+    },
+    "tsensei_v3_2_pianist/mjlab_env/performance_options.py": {
+      "mode": 420,
+      "sha256": "85175c3c9965eff4dc1e947d69a60e9e68120c2daa2180695d58fe597b47757b",
+      "size": 2609
+    },
+    "tsensei_v3_2_pianist/mjlab_env/preparation.py": {
+      "mode": 420,
+      "sha256": "bd7433b6af39eaf35c445929a8426b9d960ebfed233e499f45f799067c26a63d",
+      "size": 11266
+    },
+    "tsensei_v3_2_pianist/mjlab_env/preview_contract.py": {
+      "mode": 420,
+      "sha256": "a507e9c05c85f5b405d6490f003729bebadd0d51fdf2a289b1daaaced4e60fb5",
+      "size": 5040
+    },
+    "tsensei_v3_2_pianist/mjlab_env/reward_config.py": {
+      "mode": 420,
+      "sha256": "01cf6f6c7743acf7696eb253d6530a2e70317dfb5d84d76afe676dae6e75c699",
+      "size": 14291
+    },
+    "tsensei_v3_2_pianist/mjlab_env/rewards.py": {
+      "mode": 420,
+      "sha256": "35ba359c762472b5b28efa03eefd16df0c7c742fffa1f35ce202c796e55a79b9",
+      "size": 14747
+    },
+    "tsensei_v3_2_pianist/mjlab_env/scene.py": {
+      "mode": 420,
+      "sha256": "5a8e2ab4282712b4d136f414ccf0143bef310dce710de5778c6454281f4608bc",
+      "size": 37743
+    },
+    "tsensei_v3_2_pianist/mjlab_env/self_collision.py": {
+      "mode": 420,
+      "sha256": "9c6b025a44810678347ad780426d71b6db0a058a89a7ac5553abd4c6018bfe7e",
+      "size": 10995
+    },
+    "tsensei_v3_2_pianist/mjlab_env/source_runtime.py": {
+      "mode": 420,
+      "sha256": "026c9339c9698292eb9ca9fdb056bb639f2c41233f2dd32077c37b34a82632d5",
+      "size": 11738
+    },
+    "tsensei_v3_2_pianist/mjlab_env/substep_rewards.py": {
+      "mode": 420,
+      "sha256": "a9ff5735351ea92e75951a86f50f359f4957b63035ab6dcf22c9d09fbc2547e6",
+      "size": 7674
+    },
+    "tsensei_v3_2_pianist/mjlab_env/target_motion_limits.py": {
+      "mode": 420,
+      "sha256": "27345155c3c8163c8607f597c59b612bfc3399538d8444a8417c2962eced7f62",
+      "size": 7451
+    },
+    "tsensei_v3_2_pianist/mjlab_env/task.py": {
+      "mode": 420,
+      "sha256": "34abd9f3b610ca15776fd371a850dd2897bd48f1dae2c414ff797295a29c1139",
+      "size": 27220
+    },
+    "tsensei_v3_2_pianist/mjlab_env/task_bundle.py": {
+      "mode": 420,
+      "sha256": "020ea1170ed1850186b51e93929c36f193cb252e39417957685dd34ed923f41f",
+      "size": 21232
+    },
+    "tsensei_v3_2_pianist/mjlab_env/task_logic.py": {
+      "mode": 420,
+      "sha256": "8f5e15ec2b1b85b79de60bc69356f7395f39abcf6ed134494dc268c406472b0d",
+      "size": 10703
+    },
+    "tsensei_v3_2_pianist/mjlab_env/without_arms.py": {
+      "mode": 420,
+      "sha256": "cfd18dd309ca9454e402df44db08c2c9eba99fbd3ffb36a0cdad46fe4aa2473c",
+      "size": 3264
+    },
+    "tsensei_v3_2_pianist/models/__init__.py": {
+      "mode": 420,
+      "sha256": "043fb6477b3ef9e219f95c974d81fd96532473afdf831287baf7d474d89d99b8",
+      "size": 588
+    },
+    "tsensei_v3_2_pianist/models/arenas/__init__.py": {
+      "mode": 420,
+      "sha256": "877751681c6c2a3a4e6d83a49e1b7cd43de7f7e40fbd649a0bb0d5b43aed084b",
+      "size": 708
+    },
+    "tsensei_v3_2_pianist/models/arenas/stage.py": {
+      "mode": 420,
+      "sha256": "e501a9735457716d8f9a5fd400247cb317ef962aa0421162fe7d6331c23f175d",
+      "size": 2717
+    },
+    "tsensei_v3_2_pianist/models/hands/__init__.py": {
+      "mode": 420,
+      "sha256": "914615eeede071cfe08437cece2b65fbb861ec01555eda02486b74ce483b68bc",
+      "size": 773
+    },
+    "tsensei_v3_2_pianist/models/hands/base.py": {
+      "mode": 420,
+      "sha256": "dcea030d0d6e6d863d8d974a3cf72cd992571192705fc0c5fd361a8d73e5d489",
+      "size": 3414
+    },
+    "tsensei_v3_2_pianist/models/hands/collision_proxies.py": {
+      "mode": 420,
+      "sha256": "861766bf1e1fb41ee71b0e151d2f57edb111e7ce8dfd1d285a2184e95470d49c",
+      "size": 2942
+    },
+    "tsensei_v3_2_pianist/models/hands/fingertip_geometry.py": {
+      "mode": 420,
+      "sha256": "b5cd0eba7dbee336e6ff718a2ba2486112545aa5061ff4ef578eedb232037474",
+      "size": 2709
+    },
+    "tsensei_v3_2_pianist/models/hands/tsensei_hand.py": {
+      "mode": 420,
+      "sha256": "ca765d442532924dd5624449ad4bae0e387765eb97a0a204bb9a4d4d37db58ac",
+      "size": 9709
+    },
+    "tsensei_v3_2_pianist/models/hands/tsensei_hand_constants.py": {
+      "mode": 420,
+      "sha256": "dc9313b63f26d7468c17b6a9a48295ea479ea664501b4055590ad59cc06be890",
+      "size": 8307
+    },
+    "tsensei_v3_2_pianist/models/hands/urdf_model.py": {
+      "mode": 420,
+      "sha256": "543927bc050c02eacf637816ea489e4783c8bfeea98e8b03f832c3abf4b57430",
+      "size": 7209
+    },
+    "tsensei_v3_2_pianist/models/piano/__init__.py": {
+      "mode": 420,
+      "sha256": "c01875a16d5e22b755d35062eb056dffb50e5aa631a5e298803356c9ca5ef88b",
+      "size": 675
+    },
+    "tsensei_v3_2_pianist/models/piano/midi_module.py": {
+      "mode": 420,
+      "sha256": "29883975b4ac288e83672df5f64835e8f3d14b5089aa7d7c0a1a5a637b8db2f3",
+      "size": 5301
+    },
+    "tsensei_v3_2_pianist/models/piano/piano.py": {
+      "mode": 420,
+      "sha256": "b0c37042bdcd73351cd1ea37a55d811e1dee7157e6600ea08831eb505799864a",
+      "size": 11909
+    },
+    "tsensei_v3_2_pianist/models/piano/piano_constants.py": {
+      "mode": 420,
+      "sha256": "bf20ec2be1c54778c92f89cc51afbc40b1d35350edf3136027325b1196df0b4e",
+      "size": 3184
+    },
+    "tsensei_v3_2_pianist/models/piano/piano_mjcf.py": {
+      "mode": 420,
+      "sha256": "22dc21022be5a19d7a616bfc2609eff5cbf8bc6768bc69cbd89b9c7637add6d7",
+      "size": 12132
+    },
+    "tsensei_v3_2_pianist/music/__init__.py": {
+      "mode": 420,
+      "sha256": "0d8b8aafec5f885c7c49b29ddba7ac7c02924534a5a371302f0acb69a3693968",
+      "size": 3433
+    },
+    "tsensei_v3_2_pianist/music/audio.py": {
+      "mode": 420,
+      "sha256": "8fdb125b626034e241e548b552191d188748de76076b31fa88ccdf81a307bd28",
+      "size": 1901
+    },
+    "tsensei_v3_2_pianist/music/constants.py": {
+      "mode": 420,
+      "sha256": "d9e6d964bcefea57b9b20b72f4171c7fd11e4c93d704e85be425b56720c5511a",
+      "size": 1941
+    },
+    "tsensei_v3_2_pianist/music/data/rousseau/nocturne-trimmed.mid": {
+      "mode": 420,
+      "sha256": "f6886fc10b4fff9a020a7190a7e16238105685e8654a1082065de9503e3fcaf0",
+      "size": 1720
+    },
+    "tsensei_v3_2_pianist/music/data/rousseau/twinkle-twinkle-trimmed.mid": {
+      "mode": 420,
+      "sha256": "af583c13275d4fd1477f7c6d19b20714f470a40ccf84084b525fef027c14ed98",
+      "size": 2207
+    },
+    "tsensei_v3_2_pianist/music/data/stan/README.md": {
+      "mode": 420,
+      "sha256": "db8d8433dd9a0879c6d8644ddd61bd91fc87c210718875ceeb41e031fada8eb8",
+      "size": 3038
+    },
+    "tsensei_v3_2_pianist/music/data/stan/Stan_1.mid": {
+      "mode": 420,
+      "sha256": "8c9b4ff7b51f02fc4fd4ed10ce594389e8fea8e6614928f58b4017de7e50e335",
+      "size": 1833
+    },
+    "tsensei_v3_2_pianist/music/data/stan/stan_1.json": {
+      "mode": 420,
+      "sha256": "a85561677f4f5854252ae61fb17070a0d167c2e5fd714201ef22df8d74590faf",
+      "size": 1642
+    },
+    "tsensei_v3_2_pianist/music/data/stan/stan_1_fingering.json": {
+      "mode": 420,
+      "sha256": "ab16f53245098f18f4a3e6eae422929805d3b08c9840620e283172cb495143ab",
+      "size": 5240
+    },
+    "tsensei_v3_2_pianist/music/data/stan/stan_1_key_frames.npz": {
+      "mode": 420,
+      "sha256": "b0b8b091acb015f1de7c29668bd0800fda77518ff56f2bd9c4bac55613a17463",
+      "size": 952
+    },
+    "tsensei_v3_2_pianist/music/library.py": {
+      "mode": 420,
+      "sha256": "4cc2e189993a749af66c35e9ed08a6c42c9f4462b5b2dc4e5c24c880878b9fe9",
+      "size": 14795
+    },
+    "tsensei_v3_2_pianist/music/midi_file.py": {
+      "mode": 420,
+      "sha256": "d6774ea64d71ab9b485c2fc0a9ec3ca930fa38fdf5982dbb790903e5b5d621c0",
+      "size": 15507
+    },
+    "tsensei_v3_2_pianist/music/midi_message.py": {
+      "mode": 420,
+      "sha256": "c36f214249d85615c71fade8b95c59d12aee691d4655da0ce9f9b7f5d71f6d45",
+      "size": 2768
+    },
+    "tsensei_v3_2_pianist/music/piano_roll.py": {
+      "mode": 420,
+      "sha256": "233b26a6811bd652b268f9b8e8244db26855198b0d5067963c0edab32b8f13cd",
+      "size": 10083
+    },
+    "tsensei_v3_2_pianist/physics_settings.py": {
+      "mode": 420,
+      "sha256": "cc95f812a74895778b05462fc09cf372c9a97cf7af77c0a7a351d37ccd1ba7d4",
+      "size": 9210
+    },
+    "tsensei_v3_2_pianist/preview_arm_collision.py": {
+      "mode": 420,
+      "sha256": "27ec810c0f85d896f368f5496c6b273eab0a9bfc885add9a9492da6b47d48579",
+      "size": 3853
+    },
+    "tsensei_v3_2_pianist/preview_arm_ik.py": {
+      "mode": 420,
+      "sha256": "238880f37a5ef151ff19285efafc138382bb22e22282d938ec0d69ff316fe2af",
+      "size": 21537
+    },
+    "tsensei_v3_2_pianist/preview_audio.py": {
+      "mode": 420,
+      "sha256": "0c14874bbb1ffb952925a88fa20250196bba2e930e221246f08651d2f8d6f07e",
+      "size": 8188
+    },
+    "tsensei_v3_2_pianist/preview_backend.py": {
+      "mode": 420,
+      "sha256": "0763f567f40a2d93541e0f88ab6bb131df502e41781bcdc309b3078831a38df0",
+      "size": 2071
+    },
+    "tsensei_v3_2_pianist/preview_camera.py": {
+      "mode": 420,
+      "sha256": "e3606bf58e890a21aeff94f05907650732a62b80a6ba5dd0fc879084c84c092c",
+      "size": 1484
+    },
+    "tsensei_v3_2_pianist/preview_connector.py": {
+      "mode": 420,
+      "sha256": "047948e6e340e18706ca4a2a6d58c318c113d7603fa39df30cf254cf597172c0",
+      "size": 8942
+    },
+    "tsensei_v3_2_pianist/preview_contacts.py": {
+      "mode": 420,
+      "sha256": "d6f61c448194b83e541faff1a950384ae8fd1e38bca5a824948047e77f5ca3d1",
+      "size": 3967
+    },
+    "tsensei_v3_2_pianist/preview_fingering.py": {
+      "mode": 420,
+      "sha256": "c2840b2b629aa1ac09017e8ff2f718c1dc515e849b6e52c843b5853b97781fad",
+      "size": 4052
+    },
+    "tsensei_v3_2_pianist/preview_frames.py": {
+      "mode": 420,
+      "sha256": "6219476d48782fb0df580943763be0ee56e8e957ef3ee5a00c0df0e7c12bfa09",
+      "size": 4652
+    },
+    "tsensei_v3_2_pianist/preview_geometry.py": {
+      "mode": 420,
+      "sha256": "62dbe84cc96c84e6f668a25e1d47c01139186387b4e1bcf029289b723aae8449",
+      "size": 6719
+    },
+    "tsensei_v3_2_pianist/preview_keys.py": {
+      "mode": 420,
+      "sha256": "001b8543311b0f48c3398a8729f570952cc6cf9088ec2a5ec4c50e023aead0b6",
+      "size": 2066
+    },
+    "tsensei_v3_2_pianist/preview_pose_config.py": {
+      "mode": 420,
+      "sha256": "8ce5cb8841ef7cd9ddd3fcd7e5160e91427b2ad46a40bd30335b7913c72340d1",
+      "size": 7319
+    },
+    "tsensei_v3_2_pianist/preview_runtime.py": {
+      "mode": 420,
+      "sha256": "def8ccb937d702df0d32e702ddaf25ad9676da1b784b976c14c861970917aa19",
+      "size": 10114
+    },
+    "tsensei_v3_2_pianist/preview_trajectory.py": {
+      "mode": 420,
+      "sha256": "0d7743bb9196181505942f1fc2f3d3d2ab4db56d22bf6010cb2a3a72600cde5c",
+      "size": 7911
+    },
+    "tsensei_v3_2_pianist/rl/__init__.py": {
+      "mode": 420,
+      "sha256": "56a0b13353b76fab38b431568e37ffe737d6e7e1eaa17a92815a89ccd3626902",
+      "size": 76
+    },
+    "tsensei_v3_2_pianist/rl/checkpoint.py": {
+      "mode": 420,
+      "sha256": "04071f52caa4c1fd324eca9da93dbc93ffa42536acc747b4f4e7cd7e04dab5cf",
+      "size": 1296
+    },
+    "tsensei_v3_2_pianist/rl/distributions.py": {
+      "mode": 420,
+      "sha256": "b40a82061c5c1597d9884eedf165b745adb63bccbd8208a3731cd3aabb851048",
+      "size": 2215
+    },
+    "tsensei_v3_2_pianist/rl/environment.py": {
+      "mode": 420,
+      "sha256": "9a29ebb602ffea25ebcfcc271ea168b891ca56a294c9699438326ed5309f77a4",
+      "size": 5833
+    },
+    "tsensei_v3_2_pianist/rl/networks.py": {
+      "mode": 420,
+      "sha256": "93078b97007c0d12571b8f62ae9953228b08364a246959accb75b7b370b48f03",
+      "size": 2857
+    },
+    "tsensei_v3_2_pianist/rl/replay.py": {
+      "mode": 420,
+      "sha256": "eb48276bffa81ef4dab04694aea73fb62d780cfbdb479ade8b5bdaffec8454b1",
+      "size": 2335
+    },
+    "tsensei_v3_2_pianist/rl/sac.py": {
+      "mode": 420,
+      "sha256": "3a2cfcfd8689bd4d872cec7dd2b56efc2e999c7aaae08a78ea79a9363bfc264e",
+      "size": 11122
+    },
+    "tsensei_v3_2_pianist/rl/specs.py": {
+      "mode": 420,
+      "sha256": "1ca0f74912f28522fceb57ee2fb0a4a9a5f95f516b857625dbfb98902ca62a3e",
+      "size": 1272
+    },
+    "tsensei_v3_2_pianist/rl/train.py": {
+      "mode": 420,
+      "sha256": "9cc1d6a6b7b62bd4759f7ac9d2ef65496841bb4b3961c54526d9ca3ab7b10da1",
+      "size": 10843
+    },
+    "tsensei_v3_2_pianist/rl_torch/__init__.py": {
+      "mode": 420,
+      "sha256": "9599dff35de311e70f298e424b4c89ae343f59110e4fbc75da5177adc87cab8c",
+      "size": 83
+    },
+    "tsensei_v3_2_pianist/rl_torch/adam_execution.py": {
+      "mode": 420,
+      "sha256": "264913410ae0a355a205d9c4cbe5d39f30da9970b4bcec0f018fb30ff266302f",
+      "size": 6789
+    },
+    "tsensei_v3_2_pianist/rl_torch/checkpoint.py": {
+      "mode": 420,
+      "sha256": "bd2048cc24e3c2c407493af907feebd0bd2d4a23939dcfc7e8a44f1f880c91e8",
+      "size": 25353
+    },
+    "tsensei_v3_2_pianist/rl_torch/collector_pipeline.py": {
+      "mode": 420,
+      "sha256": "b0dab2891c554d3adbdd91e0400e763f48e126c1df06ffd1f45570128a56e6de",
+      "size": 9147
+    },
+    "tsensei_v3_2_pianist/rl_torch/coupling_evaluation.py": {
+      "mode": 420,
+      "sha256": "18f8202e1c58cfdf186d0aea1c2e6d9b68038f0cef15362aae745c2df35918ed",
+      "size": 4491
+    },
+    "tsensei_v3_2_pianist/rl_torch/evaluate.py": {
+      "mode": 420,
+      "sha256": "964ab9cd8a2e4f4c8f41d26116128d2a044f3358e77f647209761b716aaace35",
+      "size": 2634
+    },
+    "tsensei_v3_2_pianist/rl_torch/evaluation_graph.py": {
+      "mode": 420,
+      "sha256": "ba365f2f52c964affd1457a39dfbfda59dae19182dd698f27d24a7107e538c8d",
+      "size": 2556
+    },
+    "tsensei_v3_2_pianist/rl_torch/learner_graph.py": {
+      "mode": 420,
+      "sha256": "7732413c116b13c0d6758c5895a99a2139ed6920f3341fbb5965081d9e88ee4e",
+      "size": 8085
+    },
+    "tsensei_v3_2_pianist/rl_torch/note_timing_metrics.py": {
+      "mode": 420,
+      "sha256": "939df37de7170016c3a3b22198f4ad4651ad8a9b9fc6903b6f34e1ce7046bffb",
+      "size": 13489
+    },
+    "tsensei_v3_2_pianist/rl_torch/replay.py": {
+      "mode": 420,
+      "sha256": "107ee1699619eb38ed56424fbf716eff759a5c4b9bd1ea0c8355058698fd96be",
+      "size": 4435
+    },
+    "tsensei_v3_2_pianist/rl_torch/sac.py": {
+      "mode": 420,
+      "sha256": "92d697776b9837c9200cbd226340658ff9f2f9347156fabe3653bd34cc174f6e",
+      "size": 16917
+    },
+    "tsensei_v3_2_pianist/rl_torch/train.py": {
+      "mode": 420,
+      "sha256": "55bb66c73d8a8a9d3b6ccee7c4609d99a4e105a219723b6daee541e3764afb34",
+      "size": 95975
+    },
+    "tsensei_v3_2_pianist/score_validation.py": {
+      "mode": 420,
+      "sha256": "ca8527c6e9eb1f34fedcc9f03dffb6707c59556787ba966d902cca2714ba9e5b",
+      "size": 6320
+    },
+    "tsensei_v3_2_pianist/suite/__init__.py": {
+      "mode": 420,
+      "sha256": "a7c76201ae3b5b336f87b46f54eade61944e4bb7011b962d782dc0e63465f08a",
+      "size": 656
+    },
+    "tsensei_v3_2_pianist/suite/composite_reward.py": {
+      "mode": 420,
+      "sha256": "230a0f5fe5ea6d282d810cc452e18a2f9d017f6aabee16ca493203fe66c4fb1b",
+      "size": 2164
+    },
+    "tsensei_v3_2_pianist/suite/tasks/__init__.py": {
+      "mode": 420,
+      "sha256": "7191740971b9346f7cca4f50ba663f7c0bb2f4a017111c71ce7e5a19312c711f",
+      "size": 625
+    },
+    "tsensei_v3_2_pianist/suite/tasks/base.py": {
+      "mode": 420,
+      "sha256": "23c3af579979a03ef444f5edbd5813d98678e3cdff95d00ef42cd621f3c2ed08",
+      "size": 7542
+    },
+    "tsensei_v3_2_pianist/suite/tasks/piano_with_tsensei_hands.py": {
+      "mode": 420,
+      "sha256": "cb9b9d4e825808c2e61a7b2dbb0b85f8577918a176a88049a97830704f6a3f60",
+      "size": 23344
+    },
+    "tsensei_v3_2_pianist/suite/variations.py": {
+      "mode": 420,
+      "sha256": "fdf97f453eb6c1065d1bdc544826ef24be6e96343eb24575a072fa51317c603c",
+      "size": 6968
+    }
+  },
+  "includes_m6_assets": true,
+  "includes_training_artifacts": false,
+  "model": "TsenseI_A3.2",
+  "schema": "tsensei_a32_source_bundle_v1",
+  "total_file_bytes": 1333264930
+}

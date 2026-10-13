@@ -1,0 +1,25 @@
+{
+  "reference": "unchanged robopianist-rl SAC; runtime KeyArray annotation alias only",
+  "seed": 12,
+  "input_seed": 19,
+  "updates": 3,
+  "hidden_dims": [
+    16,
+    16
+  ],
+  "state_dim": 7,
+  "action_dim": 3,
+  "discount": 0.8,
+  "critic_dropout_rate": 0.01,
+  "critic_layer_norm": true,
+  "leaf_count": 75,
+  "versions": {
+    "jax": "0.11.1",
+    "jaxlib": "0.11.1",
+    "flax": "0.12.9",
+    "optax": "0.2.8",
+    "distrax": "0.1.9",
+    "numpy": "2.5.3"
+  },
+  "sha256": "17aac29f0a6c5181af92e9b57b138250702323e83d8a9377ec163e123b9ea551"
+}

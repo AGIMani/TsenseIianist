@@ -1,0 +1,344 @@
+{
+  "graphics": {
+    "vendor": "NVIDIA Corporation",
+    "renderer": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition/PCIe/SSE2",
+    "version": "4.6.0 NVIDIA 580.173.02",
+    "software_renderer": false
+  },
+  "capture": "headless_snapshot",
+  "interactive_start_paused": false,
+  "model_version": "daxian_v3.2",
+  "mounting_frame": "normalized V3-style frame, not the original V3.2 CAD base frame",
+  "canonical_from_source_root": [
+    [
+      -3.6732051033050448e-06,
+      -0.999999999993254,
+      0.0,
+      0.03060002938559428
+    ],
+    [
+      0.9999999999932538,
+      -3.6732051033050448e-06,
+      0.0,
+      -0.0014999746548308183
+    ],
+    [
+      0.0,
+      0.0,
+      1.0000000000000002,
+      0.0891380069844
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "right_hand_source": "provisional mirror of the supplied left hand; TODO(V32-10)",
+  "finger_effort_nm": 0.6,
+  "finger_effort_is_provisional": true,
+  "assembly_collision_exclusions": true,
+  "pose": "reset",
+  "settle_steps": 0,
+  "show_pad_collisions": false,
+  "show_fingertips": false,
+  "show_coordinate_frames": false,
+  "transparent_model": false,
+  "coordinate_frame_definition": "World origin and normalized wrist base_link body frames; RGB = +X,+Y,+Z",
+  "coordinate_frames": [],
+  "collision_wireframe_geoms": [],
+  "collision_wireframe_edges": 0,
+  "nq": 138,
+  "nv": 138,
+  "nu": 50,
+  "action_size_including_sustain": 51,
+  "contact_count": 0,
+  "penetrations": [],
+  "hands": {
+    "right_": {
+      "root_position": [
+        0.18,
+        0.15,
+        0.12
+      ],
+      "root_quaternion_wxyz": [
+        0.0,
+        0.7071067811865476,
+        0.0,
+        -0.7071067811865476
+      ],
+      "fingertips_world_xyz": [
+        [
+          0.07696531413083231,
+          0.07163546102565789,
+          0.04436804165488997
+        ],
+        [
+          0.005427367166024795,
+          0.11290832505338397,
+          0.052476132558684246
+        ],
+        [
+          -0.003037983976922034,
+          0.14850001285627182,
+          0.045902015683406475
+        ],
+        [
+          0.01642053265768621,
+          0.17971034199490063,
+          0.04421688448880663
+        ],
+        [
+          0.03878314843451472,
+          0.2023626241796211,
+          0.04776025829683169
+        ]
+      ],
+      "fingertip_definition": "Provisional midpoint of the bounding box of collision vertices maximizing local +Z; TODO(V32-07): calibrate real contact pad",
+      "fingertips_local": [
+        {
+          "finger": "thumb",
+          "frame": "right_hand_thumb_PIP_link",
+          "position_m": [
+            -0.004100000020116568,
+            0.0,
+            0.016599999740719795
+          ]
+        },
+        {
+          "finger": "index",
+          "frame": "right_hand_index_DIP_link",
+          "position_m": [
+            0.0020999464322812855,
+            1.499941572546959e-05,
+            0.022299999371170998
+          ]
+        },
+        {
+          "finger": "mid",
+          "frame": "right_hand_mid_DIP_link",
+          "position_m": [
+            -0.001500000013038516,
+            0.0,
+            0.02329999953508377
+          ]
+        },
+        {
+          "finger": "ring",
+          "frame": "right_hand_ring_DIP_link",
+          "position_m": [
+            0.0020999464322812855,
+            1.499941572546959e-05,
+            0.022299999371170998
+          ]
+        },
+        {
+          "finger": "pinky",
+          "frame": "right_hand_pinky_DIP_link",
+          "position_m": [
+            0.0021213743020780385,
+            -2.8570648282766342e-06,
+            0.014800000004470348
+          ]
+        }
+      ],
+      "action_names": [
+        "R_Thumb_Rot",
+        "R_Thumb_Rot2",
+        "R_Thumb_MCP",
+        "R_Thumb_PIP",
+        "R_Index_MCP",
+        "R_Index_SW",
+        "R_Index_PIP",
+        "R_Index_DIP",
+        "R_Mid_MCP",
+        "R_Mid_SW",
+        "R_Mid_PIP",
+        "R_Mid_DIP",
+        "R_Ring_MCP",
+        "R_Ring_SW",
+        "R_Ring_PIP",
+        "R_Ring_DIP",
+        "R_Pinky_MCP",
+        "R_Pinky_SW",
+        "R_Pinky_PIP",
+        "R_Pinky_DIP",
+        "R_Wrist_TX",
+        "R_Wrist_TY",
+        "R_Wrist_TZ",
+        "R_Wrist_Pitch",
+        "R_Wrist_Yaw"
+      ],
+      "neutral_control": [
+        1.0,
+        0.4,
+        0.25,
+        0.35,
+        0.22,
+        0.0,
+        0.35,
+        0.18,
+        0.25,
+        0.0,
+        0.38,
+        0.2,
+        0.28,
+        0.0,
+        0.42,
+        0.22,
+        0.32,
+        0.0,
+        0.45,
+        0.24,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "left_": {
+      "root_position": [
+        0.18,
+        -0.15,
+        0.12
+      ],
+      "root_quaternion_wxyz": [
+        0.0,
+        0.7071067811865476,
+        0.0,
+        -0.7071067811865476
+      ],
+      "fingertips_world_xyz": [
+        [
+          0.07696531413083231,
+          -0.07163546102565789,
+          0.04436804165488997
+        ],
+        [
+          0.005427367166024795,
+          -0.11290832505338397,
+          0.052476132558684246
+        ],
+        [
+          -0.003037983976922034,
+          -0.14850001285627182,
+          0.045902015683406475
+        ],
+        [
+          0.01642053265768621,
+          -0.17971034199490063,
+          0.04421688448880663
+        ],
+        [
+          0.03878314843451472,
+          -0.2023626241796211,
+          0.04776025829683169
+        ]
+      ],
+      "fingertip_definition": "Provisional midpoint of the bounding box of collision vertices maximizing local +Z; TODO(V32-07): calibrate real contact pad",
+      "fingertips_local": [
+        {
+          "finger": "thumb",
+          "frame": "left_hand_thumb_PIP_link",
+          "position_m": [
+            -0.004100000020116568,
+            0.0,
+            0.016599999740719795
+          ]
+        },
+        {
+          "finger": "index",
+          "frame": "left_hand_index_DIP_link",
+          "position_m": [
+            0.0020999464322812855,
+            -1.499941572546959e-05,
+            0.022299999371170998
+          ]
+        },
+        {
+          "finger": "mid",
+          "frame": "left_hand_mid_DIP_link",
+          "position_m": [
+            -0.001500000013038516,
+            0.0,
+            0.02329999953508377
+          ]
+        },
+        {
+          "finger": "ring",
+          "frame": "left_hand_ring_DIP_link",
+          "position_m": [
+            0.0020999464322812855,
+            -1.499941572546959e-05,
+            0.022299999371170998
+          ]
+        },
+        {
+          "finger": "pinky",
+          "frame": "left_hand_pinky_DIP_link",
+          "position_m": [
+            0.0021213743020780385,
+            2.8570648282766342e-06,
+            0.014800000004470348
+          ]
+        }
+      ],
+      "action_names": [
+        "L_Thumb_Rot",
+        "L_Thumb_Rot2",
+        "L_Thumb_MCP",
+        "L_Thumb_PIP",
+        "L_Index_MCP",
+        "L_Index_SW",
+        "L_Index_PIP",
+        "L_Index_DIP",
+        "L_Mid_MCP",
+        "L_Mid_SW",
+        "L_Mid_PIP",
+        "L_Mid_DIP",
+        "L_Ring_MCP",
+        "L_Ring_SW",
+        "L_Ring_PIP",
+        "L_Ring_DIP",
+        "L_Pinky_MCP",
+        "L_Pinky_SW",
+        "L_Pinky_PIP",
+        "L_Pinky_DIP",
+        "L_Wrist_TX",
+        "L_Wrist_TY",
+        "L_Wrist_TZ",
+        "L_Wrist_Pitch",
+        "L_Wrist_Yaw"
+      ],
+      "neutral_control": [
+        1.0,
+        0.4,
+        0.25,
+        0.35,
+        0.22,
+        0.0,
+        0.35,
+        0.18,
+        0.25,
+        0.0,
+        0.38,
+        0.2,
+        0.28,
+        0.0,
+        0.42,
+        0.22,
+        0.32,
+        0.0,
+        0.45,
+        0.24,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "date": "2026-09-17",
+  "scope": "Plan, status, documentation and comments only; no MJLab installation or runtime verification",
+  "mjlab_reference_commit": "8ee51fbcf806a7419189f706d9e394cbeb7790fa",
+  "upstream_checks": [
+    "official architecture and PyTorch interface",
+    "official RSL-RL on-policy training integration",
+    "pinned ManagerBasedRlEnvCfg auto_reset and scale_rewards_by_dt",
+    "pinned step reset order and derived-state sampling caveat",
+    "pinned dependency declaration"
+  ],
+  "local_checks": {
+    "markdown_files": 4,
+    "local_links_exist": 29,
+    "fences_balanced": true,
+    "python_comments_only_ast_unchanged": true,
+    "replay_memory_and_update_budget_arithmetic": true
+  },
+  "todo_v32_01": "simulation phase substantially complete, user acceptance; hardware follow-up does not block GPU migration",
+  "next_milestone": "P0/P1: frozen scene export, MJLab single-GPU reset/step, 1/16/64 world control/contact checks",
+  "not_executed": [
+    "MJLab dependency installation",
+    "new Torch SAC implementation",
+    "A100 remote checks",
+    "GPU physics or dual-GPU training",
+    "training convergence tests"
+  ]
+}

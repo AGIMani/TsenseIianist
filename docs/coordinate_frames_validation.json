@@ -1,0 +1,55 @@
+{
+  "date": "2026-09-16",
+  "test_command": ".venv/bin/python -m pytest tests -q",
+  "tests_passed": 23,
+  "desktop_command": ".venv/bin/python preview/scripts/preview_pose.py --show-coordinate-frames --show-pad-collisions --duration 3 --profile-output preview/outputs/performance_coordinate_frames.json",
+  "desktop_exit_code": 0,
+  "desktop": {
+    "gpu_selection": "auto",
+    "graphics": {
+      "vendor": "NVIDIA Corporation",
+      "renderer": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition/PCIe/SSE2",
+      "version": "4.6.0 NVIDIA 580.173.02",
+      "software_renderer": false
+    },
+    "model_load_and_reset_s": 2.2599544471595436,
+    "startup_s": 3.0246127140708268,
+    "model_bytes": 563307460,
+    "mesh_triangles": 3059266,
+    "interactive": {
+      "viewer_load_s": 0.9879155780654401,
+      "state_only_sync": true,
+      "frames": 187,
+      "elapsed_s": 3.00619392702356,
+      "update_hz": 62.20490245788939,
+      "timings": {
+        "sync_ms": {
+          "median": 0.23075309582054615,
+          "p95": 0.28380374424159527
+        },
+        "physics_ms": {
+          "median": 0.6664888933300972,
+          "p95": 0.8277473039925098
+        },
+        "wire_ms": {
+          "median": 1.9684829749166965,
+          "p95": 2.0820664474740624
+        },
+        "axes_ms": {
+          "median": 0.061592087149620056,
+          "p95": 0.06875898689031601
+        },
+        "work_ms": {
+          "median": 2.9499370139092207,
+          "p95": 3.166901785880327
+        }
+      }
+    }
+  },
+  "headless_checks": [
+    "default off through root compatibility entry from /tmp",
+    "explicit --show-coordinate-frames --transparent-model through preview/scripts from /tmp",
+    "three frames; enabled/disabled physical state and contacts identical"
+  ],
+  "scope": "Actual GPU desktop launch/run/close; control input transport mocked in tests, actual MuJoCo physics and rendered axis endpoint transforms verified; not remote-client FPS"
+}

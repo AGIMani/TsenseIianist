@@ -1,0 +1,57 @@
+{
+  "date": "2026-09-16",
+  "source_urdf": "/home/houjue/A3.2 URDF/urdf/A3.1V6 26.8.4-2.urdf",
+  "source_sha256": "84fc48faf5d89b97a8766be439fca469f9ab47c3e4bb5faf4cdde4583d3d23f3",
+  "backup": "model_backups/before_a32_20260916_141929.tar.gz",
+  "left_source_meshes": 22,
+  "right_generated_meshes": 22,
+  "right_hand_is_provisional_mirror": true,
+  "generated_files_reproducible": 28,
+  "tests": {
+    "existing_suite": 24,
+    "new_pinky_regressions": 2,
+    "status": "passed",
+    "commands": [
+      "MUJOCO_GL=egl .venv/bin/python -m pytest tests -q",
+      "MUJOCO_GL=egl .venv/bin/python -m pytest tests/test_environment.py -k updated_a32 -q"
+    ]
+  },
+  "smoke": {
+    "steps": 100,
+    "completed_episodes": 4,
+    "status": "passed"
+  },
+  "dimensions": {
+    "nq": 138,
+    "nv": 138,
+    "nu": 50,
+    "action_size_including_sustain": 51
+  },
+  "default_contacts": 0,
+  "unexcluded_contacts": 4,
+  "maximum_unexcluded_penetration_m": 0.00251067210971052,
+  "previews": [
+    "pose_preview.png",
+    "pad_collision_preview.png",
+    "assembly_collision_preview.png"
+  ],
+  "pinky_order": [
+    "rotaback",
+    "MCP",
+    "swing",
+    "PIP"
+  ],
+  "pinky_initial_targets_rad": [
+    0.32,
+    0,
+    0.45,
+    0.24
+  ],
+  "limitations": [
+    "Right is mathematically mirrored, not a supplied manufacturer model (V32-10)",
+    "Source effort and velocity remain zero; provisional force limits retained (V32-04/05)",
+    "Palm/thumb hull overlap still excluded by default (V32-06)",
+    "No policy training or real-hardware validation performed",
+    "Prior UI/GPU timing records refer to the previous model revision"
+  ]
+}

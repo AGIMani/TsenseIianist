@@ -1,0 +1,698 @@
+{
+  "date": "2026-09-17",
+  "scope": "V3.2 activation color, contact stops, Wrist_TZ [-0.025, 0] m, batched MJLab physics; no RL training",
+  "manifest_sha256": "2a7b6f761fbe5c4658c6f71c15f10c50ae1d4ea44426160a7741bad45a27f395",
+  "physics_dt": 0.0005,
+  "control_dt": 0.05,
+  "decimation": 100,
+  "cpu_tests": {
+    "passed": 32,
+    "warnings": 126,
+    "elapsed_s": 39.71,
+    "command": "MUJOCO_GL=egl .venv/bin/python -m pytest tests/test_mjlab_bundle.py tests/test_environment.py tests/test_preview_controls.py tests/test_piano_contact_and_color.py -q"
+  },
+  "reports": {
+    "single": {
+      "status": "passed",
+      "checks_passed": 45,
+      "checks": {
+        "reset_qpos": {
+          "passed": true,
+          "max_error": 1.3113021835042815e-08,
+          "tolerance": 1e-06
+        },
+        "right_initial_pose": {
+          "passed": true,
+          "root_error_m": 7.152557379708213e-09,
+          "fingertip_error_m": 1.9352485294832356e-08,
+          "rotation_error": 1.1920928932873665e-07
+        },
+        "left_initial_pose": {
+          "passed": true,
+          "root_error_m": 7.152557379708213e-09,
+          "fingertip_error_m": 1.9352485294832356e-08,
+          "rotation_error": 1.1920928932873665e-07
+        },
+        "reset_ctrl": {
+          "passed": true
+        },
+        "Yaw_world_direction_-0.1": {
+          "passed": true
+        },
+        "Yaw_world_direction_0.1": {
+          "passed": true
+        },
+        "Pitch_world_direction_-0.1": {
+          "passed": true
+        },
+        "Pitch_world_direction_0.1": {
+          "passed": true
+        },
+        "neutral_trajectory": {
+          "passed": true,
+          "max_slide_error_m": 5.917142938182964e-08,
+          "max_hinge_error_rad": 1.8568105699667825e-06,
+          "slide_tolerance_m": 0.0005,
+          "hinge_tolerance_rad": 0.01
+        },
+        "neutral_original_cpu": {
+          "passed": true,
+          "max_slide_error_m": 5.917142938182964e-08,
+          "max_hinge_error_rad": 1.8568105699667825e-06,
+          "exporter_mujoco_version": "3.13.0"
+        },
+        "R_finger_trajectory": {
+          "passed": true,
+          "max_slide_error_m": 5.918102651738143e-08,
+          "max_hinge_error_rad": 1.8574014786221227e-06,
+          "slide_tolerance_m": 0.0005,
+          "hinge_tolerance_rad": 0.01
+        },
+        "R_finger_original_cpu": {
+          "passed": true,
+          "max_slide_error_m": 5.918102651738143e-08,
+          "max_hinge_error_rad": 1.8574014786221227e-06,
+          "exporter_mujoco_version": "3.13.0"
+        },
+        "R_finger_R_Index_MCP_responds": {
+          "passed": true,
+          "signed_displacement": 0.15177583694458008
+        },
+        "L_finger_trajectory": {
+          "passed": true,
+          "max_slide_error_m": 5.917144359268436e-08,
+          "max_hinge_error_rad": 1.8574014786221227e-06,
+          "slide_tolerance_m": 0.0005,
+          "hinge_tolerance_rad": 0.01
+        },
+        "L_finger_original_cpu": {
+          "passed": true,
+          "max_slide_error_m": 5.917144359268436e-08,
+          "max_hinge_error_rad": 1.8574014786221227e-06,
+          "exporter_mujoco_version": "3.13.0"
+        },
+        "L_finger_L_Index_MCP_responds": {
+          "passed": true,
+          "signed_displacement": 0.15177583694458008
+        },
+        "wrist_TX_trajectory": {
+          "passed": true,
+          "max_slide_error_m": 3.739833470337017e-08,
+          "max_hinge_error_rad": 1.7170302764046852e-06,
+          "slide_tolerance_m": 0.0005,
+          "hinge_tolerance_rad": 0.01
+        },
+        "wrist_TX_original_cpu": {
+          "passed": true,
+          "max_slide_error_m": 3.739833470337017e-08,
+          "max_hinge_error_rad": 1.7170302764046852e-06,
+          "exporter_mujoco_version": "3.13.0"
+        },
+        "wrist_TX_R_Wrist_TX_responds": {
+          "passed": true,
+          "signed_displacement": 0.011938365176320076
+        },
+        "wrist_TX_L_Wrist_TX_responds": {
+          "passed": true,
+          "signed_displacement": 0.011938361451029778
+        },
+        "wrist_TY_trajectory": {
+          "passed": true,
+          "max_slide_error_m": 5.891766819860687e-08,
+          "max_hinge_error_rad": 1.7883242162675117e-06,
+          "slide_tolerance_m": 0.0005,
+          "hinge_tolerance_rad": 0.01
+        },
+        "wrist_TY_original_cpu": {
+          "passed": true,
+          "max_slide_error_m": 5.891766819860687e-08,
+          "max_hinge_error_rad": 1.7883242162675117e-06,
+          "exporter_mujoco_version": "3.13.0"
+        },
+        "wrist_TY_R_Wrist_TY_responds": {
+          "passed": true,
+          "signed_displacement": 0.007958939298987389
+        },
+        "wrist_TY_L_Wrist_TY_responds": {
+          "passed": true,
+          "signed_displacement": 0.007958939298987389
+        },
+        "wrist_TZ_trajectory": {
+          "passed": true,
+          "max_slide_error_m": 5.908274486436613e-08,
+          "max_hinge_error_rad": 1.8457932045023995e-06,
+          "slide_tolerance_m": 0.0005,
+          "hinge_tolerance_rad": 0.01
+        },
+        "wrist_TZ_original_cpu": {
+          "passed": true,
+          "max_slide_error_m": 5.908274486436613e-08,
+          "max_hinge_error_rad": 1.8457932045023995e-06,
+          "exporter_mujoco_version": "3.13.0"
+        },
+        "wrist_TZ_R_Wrist_TZ_responds": {
+          "passed": true,
+          "signed_displacement": 0.006680932827293873
+        },
+        "wrist_TZ_L_Wrist_TZ_responds": {
+          "passed": true,
+          "signed_displacement": 0.006680932827293873
+        },
+        "wrist_Pitch_trajectory": {
+          "passed": true,
+          "max_slide_error_m": 5.8753275705836143e-08,
+          "max_hinge_error_rad": 1.8586670473830225e-06,
+          "slide_tolerance_m": 0.0005,
+          "hinge_tolerance_rad": 0.01
+        },
+        "wrist_Pitch_original_cpu": {
+          "passed": true,
+          "max_slide_error_m": 5.8753275705836143e-08,
+          "max_hinge_error_rad": 1.8586670473830225e-06,
+          "exporter_mujoco_version": "3.13.0"
+        },
+        "wrist_Pitch_R_Wrist_Pitch_responds": {
+          "passed": true,
+          "signed_displacement": 0.09997779130935669
+        },
+        "wrist_Pitch_L_Wrist_Pitch_responds": {
+          "passed": true,
+          "signed_displacement": 0.09997779875993729
+        },
+        "wrist_Yaw_trajectory": {
+          "passed": true,
+          "max_slide_error_m": 6.042512582050633e-08,
+          "max_hinge_error_rad": 1.934423114802186e-06,
+          "slide_tolerance_m": 0.0005,
+          "hinge_tolerance_rad": 0.01
+        },
+        "wrist_Yaw_original_cpu": {
+          "passed": true,
+          "max_slide_error_m": 6.042512582050633e-08,
+          "max_hinge_error_rad": 1.934423114802186e-06,
+          "exporter_mujoco_version": "3.13.0"
+        },
+        "wrist_Yaw_R_Wrist_Yaw_responds": {
+          "passed": true,
+          "signed_displacement": 0.1495486944913864
+        },
+        "wrist_Yaw_L_Wrist_Yaw_responds": {
+          "passed": true,
+          "signed_displacement": 0.1495486944913864
+        },
+        "press_release_trajectory": {
+          "passed": true,
+          "max_slide_error_m": 1.5431310381632012e-05,
+          "max_hinge_error_rad": 0.001133780224196493,
+          "slide_tolerance_m": 0.002,
+          "hinge_tolerance_rad": 0.05
+        },
+        "press_release_original_cpu": {
+          "passed": true,
+          "max_slide_error_m": 1.543131022930654e-05,
+          "max_hinge_error_rad": 0.0011337802243583444,
+          "exporter_mujoco_version": "3.13.0"
+        },
+        "hand_key_contacts": {
+          "passed": true,
+          "pairs": [
+            [
+              "piano/black_key_geom_33",
+              "left_/left_hand_mid_DIP_link_collision_0"
+            ],
+            [
+              "piano/black_key_geom_35",
+              "left_/left_hand_index_DIP_link_collision_0"
+            ],
+            [
+              "piano/black_key_geom_52",
+              "right_/right_hand_index_DIP_link_collision_0"
+            ],
+            [
+              "piano/black_key_geom_54",
+              "right_/right_hand_mid_DIP_link_collision_0"
+            ],
+            [
+              "piano/white_key_geom_31",
+              "left_/left_hand_ring_DIP_link_collision_0"
+            ],
+            [
+              "piano/white_key_geom_56",
+              "right_/right_hand_ring_DIP_link_collision_0"
+            ]
+          ]
+        },
+        "keys_activated": {
+          "passed": true,
+          "cpu": [
+            33,
+            54
+          ],
+          "gpu": [
+            33,
+            54
+          ]
+        },
+        "keys_released": {
+          "passed": true
+        },
+        "sustain_trajectory": {
+          "passed": true,
+          "max_slide_error_m": 3.801615150670578e-08,
+          "max_hinge_error_rad": 3.3393245679746997e-07,
+          "slide_tolerance_m": 0.0005,
+          "hinge_tolerance_rad": 0.01
+        },
+        "sustain_original_cpu": {
+          "passed": true,
+          "max_slide_error_m": 3.801615150670578e-08,
+          "max_hinge_error_rad": 3.3393245679746997e-07,
+          "exporter_mujoco_version": "3.13.0"
+        },
+        "sustain_action": {
+          "passed": true
+        },
+        "reset_after_motion": {
+          "passed": true
+        }
+      },
+      "physics_dt": 0.0005,
+      "decimation": 100,
+      "manifest_sha256": "2a7b6f761fbe5c4658c6f71c15f10c50ae1d4ea44426160a7741bad45a27f395"
+    },
+    "batch16": {
+      "status": "passed",
+      "checks_passed": 49,
+      "checks": {
+        "hard_contact_profile": {
+          "passed": true
+        },
+        "wrist_25mm_range": {
+          "passed": true
+        },
+        "initial_state_all_worlds": {
+          "passed": true
+        },
+        "finite_0": {
+          "passed": true
+        },
+        "finite_1": {
+          "passed": true
+        },
+        "finite_2": {
+          "passed": true
+        },
+        "finite_3": {
+          "passed": true
+        },
+        "finite_4": {
+          "passed": true
+        },
+        "finite_5": {
+          "passed": true
+        },
+        "finite_6": {
+          "passed": true
+        },
+        "finite_7": {
+          "passed": true
+        },
+        "finite_8": {
+          "passed": true
+        },
+        "finite_9": {
+          "passed": true
+        },
+        "finite_10": {
+          "passed": true
+        },
+        "finite_11": {
+          "passed": true
+        },
+        "finite_12": {
+          "passed": true
+        },
+        "finite_13": {
+          "passed": true
+        },
+        "finite_14": {
+          "passed": true
+        },
+        "finite_15": {
+          "passed": true
+        },
+        "finite_16": {
+          "passed": true
+        },
+        "finite_17": {
+          "passed": true
+        },
+        "finite_18": {
+          "passed": true
+        },
+        "finite_19": {
+          "passed": true
+        },
+        "finite_20": {
+          "passed": true
+        },
+        "finite_21": {
+          "passed": true
+        },
+        "finite_22": {
+          "passed": true
+        },
+        "finite_23": {
+          "passed": true
+        },
+        "finite_24": {
+          "passed": true
+        },
+        "finite_25": {
+          "passed": true
+        },
+        "finite_26": {
+          "passed": true
+        },
+        "finite_27": {
+          "passed": true
+        },
+        "finite_28": {
+          "passed": true
+        },
+        "finite_29": {
+          "passed": true
+        },
+        "independent_actions": {
+          "passed": true
+        },
+        "independent_sustain": {
+          "passed": true
+        },
+        "same_actions_same_state": {
+          "passed": true,
+          "max_slide_m": 1.7131678760051727e-06,
+          "max_hinge_rad": 0.000257641077041626,
+          "slide_tolerance_m": 5e-05,
+          "hinge_tolerance_rad": 0.002
+        },
+        "cpu_trajectory": {
+          "passed": true,
+          "max_slide_error_m": 3.220420188342254e-05,
+          "max_hinge_error_rad": 0.0011128934528155917,
+          "slide_tolerance_m": 0.002,
+          "hinge_tolerance_rad": 0.05
+        },
+        "R_bottom_stop": {
+          "passed": true,
+          "max_angle_error": 8.912322033149955e-08
+        },
+        "R_blocked_target": {
+          "passed": true,
+          "minimum_target_gap_rad": 0.12119746804237364
+        },
+        "L_bottom_stop": {
+          "passed": true,
+          "max_angle_error": 8.912322033149955e-08
+        },
+        "L_blocked_target": {
+          "passed": true,
+          "minimum_target_gap_rad": 0.12119545638561247
+        },
+        "no_overflow_any_substep": {
+          "passed": true
+        },
+        "contact_penetration": {
+          "passed": true,
+          "tolerance_m": 0.0005
+        },
+        "key_stop_overtravel": {
+          "passed": true,
+          "tolerance_m": 0.0001
+        },
+        "partial_reset_selected": {
+          "passed": true
+        },
+        "partial_reset_unselected_unchanged": {
+          "passed": true
+        },
+        "next_step_after_partial_reset": {
+          "passed": true,
+          "max_qpos_error": 0.0006091965198475707
+        },
+        "release_under_physics": {
+          "passed": true
+        },
+        "repeated_reset_reverse_ids": {
+          "passed": true
+        }
+      },
+      "gpu": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition",
+      "physics_dt": 0.0005,
+      "decimation": 100,
+      "manifest_sha256": "2a7b6f761fbe5c4658c6f71c15f10c50ae1d4ea44426160a7741bad45a27f395",
+      "elapsed_s": 11.433229703921825,
+      "pressure_audit": {
+        "max_penetration_mm": 0.32606266904622316,
+        "max_key_front_overtravel_mm": 0.04316948616178706,
+        "max_total_contacts": 48,
+        "max_constraints_per_world": 112,
+        "all_overflow_bits_zero": true
+      }
+    },
+    "batch64": {
+      "status": "passed",
+      "checks_passed": 49,
+      "checks": {
+        "hard_contact_profile": {
+          "passed": true
+        },
+        "wrist_25mm_range": {
+          "passed": true
+        },
+        "initial_state_all_worlds": {
+          "passed": true
+        },
+        "finite_0": {
+          "passed": true
+        },
+        "finite_1": {
+          "passed": true
+        },
+        "finite_2": {
+          "passed": true
+        },
+        "finite_3": {
+          "passed": true
+        },
+        "finite_4": {
+          "passed": true
+        },
+        "finite_5": {
+          "passed": true
+        },
+        "finite_6": {
+          "passed": true
+        },
+        "finite_7": {
+          "passed": true
+        },
+        "finite_8": {
+          "passed": true
+        },
+        "finite_9": {
+          "passed": true
+        },
+        "finite_10": {
+          "passed": true
+        },
+        "finite_11": {
+          "passed": true
+        },
+        "finite_12": {
+          "passed": true
+        },
+        "finite_13": {
+          "passed": true
+        },
+        "finite_14": {
+          "passed": true
+        },
+        "finite_15": {
+          "passed": true
+        },
+        "finite_16": {
+          "passed": true
+        },
+        "finite_17": {
+          "passed": true
+        },
+        "finite_18": {
+          "passed": true
+        },
+        "finite_19": {
+          "passed": true
+        },
+        "finite_20": {
+          "passed": true
+        },
+        "finite_21": {
+          "passed": true
+        },
+        "finite_22": {
+          "passed": true
+        },
+        "finite_23": {
+          "passed": true
+        },
+        "finite_24": {
+          "passed": true
+        },
+        "finite_25": {
+          "passed": true
+        },
+        "finite_26": {
+          "passed": true
+        },
+        "finite_27": {
+          "passed": true
+        },
+        "finite_28": {
+          "passed": true
+        },
+        "finite_29": {
+          "passed": true
+        },
+        "independent_actions": {
+          "passed": true
+        },
+        "independent_sustain": {
+          "passed": true
+        },
+        "same_actions_same_state": {
+          "passed": true,
+          "max_slide_m": 3.8901023799553514e-05,
+          "max_hinge_rad": 0.0002783160889521241,
+          "slide_tolerance_m": 5e-05,
+          "hinge_tolerance_rad": 0.002
+        },
+        "cpu_trajectory": {
+          "passed": true,
+          "max_slide_error_m": 3.1201669511900565e-05,
+          "max_hinge_error_rad": 0.0011232389177439255,
+          "slide_tolerance_m": 0.002,
+          "hinge_tolerance_rad": 0.05
+        },
+        "R_bottom_stop": {
+          "passed": true,
+          "max_angle_error": 8.912322033149955e-08
+        },
+        "R_blocked_target": {
+          "passed": true,
+          "minimum_target_gap_rad": 0.12120065689086912
+        },
+        "L_bottom_stop": {
+          "passed": true,
+          "max_angle_error": 8.912322033149955e-08
+        },
+        "L_blocked_target": {
+          "passed": true,
+          "minimum_target_gap_rad": 0.12119275927543638
+        },
+        "no_overflow_any_substep": {
+          "passed": true
+        },
+        "contact_penetration": {
+          "passed": true,
+          "tolerance_m": 0.0005
+        },
+        "key_stop_overtravel": {
+          "passed": true,
+          "tolerance_m": 0.0001
+        },
+        "partial_reset_selected": {
+          "passed": true
+        },
+        "partial_reset_unselected_unchanged": {
+          "passed": true
+        },
+        "next_step_after_partial_reset": {
+          "passed": true,
+          "max_qpos_error": 0.000604958234519542
+        },
+        "release_under_physics": {
+          "passed": true
+        },
+        "repeated_reset_reverse_ids": {
+          "passed": true
+        }
+      },
+      "gpu": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition",
+      "physics_dt": 0.0005,
+      "decimation": 100,
+      "manifest_sha256": "2a7b6f761fbe5c4658c6f71c15f10c50ae1d4ea44426160a7741bad45a27f395",
+      "elapsed_s": 12.142621204955503,
+      "pressure_audit": {
+        "max_penetration_mm": 0.32606266904622316,
+        "max_key_front_overtravel_mm": 0.04317753337090835,
+        "max_total_contacts": 186,
+        "max_constraints_per_world": 112,
+        "all_overflow_bits_zero": true
+      }
+    }
+  },
+  "cpu_preview_profile": {
+    "gpu_selection": "auto",
+    "graphics": {
+      "vendor": "NVIDIA Corporation",
+      "renderer": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition/PCIe/SSE2",
+      "version": "4.6.0 NVIDIA 580.173.02",
+      "software_renderer": false
+    },
+    "model_load_and_reset_s": 2.0391432989854366,
+    "startup_s": 2.7391533609479666,
+    "model_bytes": 535936575,
+    "mesh_triangles": 2900550,
+    "interactive": {
+      "viewer_load_s": 0.9462593549396843,
+      "state_only_sync": true,
+      "frames": 121,
+      "elapsed_s": 2.006041896995157,
+      "update_hz": 60.317783083815684,
+      "timings": {
+        "sync_ms": {
+          "median": 0.16217492520809174,
+          "p95": 0.2097790129482746
+        },
+        "physics_ms": {
+          "median": 2.2810620721429586,
+          "p95": 2.44959001429379
+        },
+        "wire_ms": {
+          "median": 0.0001180451363325119,
+          "p95": 0.00024400651454925537
+        },
+        "axes_ms": {
+          "median": 0.09603402577340603,
+          "p95": 0.12745708227157593
+        },
+        "work_ms": {
+          "median": 2.514007966965437,
+          "p95": 2.7379279490560293
+        }
+      }
+    }
+  },
+  "gui": {
+    "mjlab": "X11 --bottom-out --duration 4: [] -> [33,54] -> []; clean exit; tested scene_wrist25, identical XML to default final scene",
+    "cpu": "X11 --show-coordinate-frames --duration 2: clean exit",
+    "mouse_controls_tested": false
+  },
+  "limits": [
+    "Fixed short trajectories, not arbitrary impact proof",
+    "Positive finite compliance; not mathematically zero penetration",
+    "Torch peak memory excludes Warp allocations",
+    "No remote A100 or SAC learning validation",
+    "V32-GPU-03 music task migration is next; hardware calibration TODOs retained"
+  ]
+}

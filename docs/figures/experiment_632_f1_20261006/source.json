@@ -1,0 +1,440 @@
+{
+  "job": 632,
+  "source": "/home/houj/projects/tsensei_v3_2_pianist/logs/hpc/training_status_20261006_1715/status.json",
+  "remote_output": "/home/houj/projects/tsensei_motion_experiment_20261006/training_mjlab/outputs/hpc/legacy_idle1_motion_scratch_20261006-20261006-143200-455369",
+  "checked_utc": "2026-10-06T09:15:11.187922+00:00",
+  "metric": "200Hz original MIDI music micro F1; minimum across 3 training-evaluation episodes",
+  "best": {
+    "step": 19500,
+    "transitions": 9984000,
+    "micro_min": 0.7778293135435993,
+    "micro_aggregate": 0.7819952457633617,
+    "self_collision_substeps_max": 0.0,
+    "inter_hand_collision_substeps_max": 0.0,
+    "key_underside_substeps_max": 0.0,
+    "complete": true
+  },
+  "final": {
+    "step": 19532,
+    "transitions": 10000384,
+    "micro_min": 0.7745098039215687,
+    "micro_aggregate": 0.7794927480027922,
+    "self_collision_substeps_max": 0.0,
+    "inter_hand_collision_substeps_max": 0.0,
+    "key_underside_substeps_max": 0.0,
+    "complete": true
+  },
+  "best_checkpoint_sha256": "628192eec4aa42c4d8759dd977628570dd191f997a5d2970bebf40e0f775fd74",
+  "evaluations": [
+    {
+      "step": 0,
+      "transitions": 0,
+      "micro_min": 0.0,
+      "micro_aggregate": 0.0,
+      "self_collision_substeps_max": 1311.0,
+      "inter_hand_collision_substeps_max": 1780.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 500,
+      "transitions": 256000,
+      "micro_min": 0.1857451403887689,
+      "micro_aggregate": 0.21818819608874856,
+      "self_collision_substeps_max": 158.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 1000,
+      "transitions": 512000,
+      "micro_min": 0.43370087644896804,
+      "micro_aggregate": 0.44021483086780366,
+      "self_collision_substeps_max": 33.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 923.0,
+      "complete": true
+    },
+    {
+      "step": 1500,
+      "transitions": 768000,
+      "micro_min": 0.3826891671203048,
+      "micro_aggregate": 0.43590651558073656,
+      "self_collision_substeps_max": 188.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 211.0,
+      "complete": true
+    },
+    {
+      "step": 2000,
+      "transitions": 1024000,
+      "micro_min": 0.49730285127151297,
+      "micro_aggregate": 0.5512053342451702,
+      "self_collision_substeps_max": 287.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 2500,
+      "transitions": 1280000,
+      "micro_min": 0.5053191489361702,
+      "micro_aggregate": 0.5357641311933008,
+      "self_collision_substeps_max": 78.0,
+      "inter_hand_collision_substeps_max": 4.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 3000,
+      "transitions": 1536000,
+      "micro_min": 0.49923664122137407,
+      "micro_aggregate": 0.5095782149299888,
+      "self_collision_substeps_max": 106.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 3500,
+      "transitions": 1792000,
+      "micro_min": 0.4598842018196857,
+      "micro_aggregate": 0.4634213674427165,
+      "self_collision_substeps_max": 27.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 4000,
+      "transitions": 2048000,
+      "micro_min": 0.44686336293325696,
+      "micro_aggregate": 0.45581835383159885,
+      "self_collision_substeps_max": 165.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 4500,
+      "transitions": 2304000,
+      "micro_min": 0.4993118634737132,
+      "micro_aggregate": 0.5052573325954621,
+      "self_collision_substeps_max": 64.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 5000,
+      "transitions": 2560000,
+      "micro_min": 0.3402860548271752,
+      "micro_aggregate": 0.36767317939609234,
+      "self_collision_substeps_max": 5.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 5500,
+      "transitions": 2816000,
+      "micro_min": 0.45222929936305734,
+      "micro_aggregate": 0.4572192513368984,
+      "self_collision_substeps_max": 16.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 6000,
+      "transitions": 3072000,
+      "micro_min": 0.39669421487603307,
+      "micro_aggregate": 0.40288190049654365,
+      "self_collision_substeps_max": 57.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 6500,
+      "transitions": 3328000,
+      "micro_min": 0.502558577969297,
+      "micro_aggregate": 0.5092424791591156,
+      "self_collision_substeps_max": 24.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 7000,
+      "transitions": 3584000,
+      "micro_min": 0.5131004366812227,
+      "micro_aggregate": 0.5186865021770682,
+      "self_collision_substeps_max": 22.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 7500,
+      "transitions": 3840000,
+      "micro_min": 0.30774172823642787,
+      "micro_aggregate": 0.33434970034696665,
+      "self_collision_substeps_max": 27.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 8000,
+      "transitions": 4096000,
+      "micro_min": 0.5477707006369427,
+      "micro_aggregate": 0.5499724922061251,
+      "self_collision_substeps_max": 6.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 8500,
+      "transitions": 4352000,
+      "micro_min": 0.5424854691392195,
+      "micro_aggregate": 0.5476168525859685,
+      "self_collision_substeps_max": 12.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 9000,
+      "transitions": 4608000,
+      "micro_min": 0.5583153347732182,
+      "micro_aggregate": 0.5623590945982505,
+      "self_collision_substeps_max": 3.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 9500,
+      "transitions": 4864000,
+      "micro_min": 0.6186596583442838,
+      "micro_aggregate": 0.6199300699300699,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 10000,
+      "transitions": 5120000,
+      "micro_min": 0.5926122774382142,
+      "micro_aggregate": 0.598883077741335,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 10500,
+      "transitions": 5376000,
+      "micro_min": 0.6246403348155899,
+      "micro_aggregate": 0.6256759113901971,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 11000,
+      "transitions": 5632000,
+      "micro_min": 0.6157068062827226,
+      "micro_aggregate": 0.6189227002448409,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 11500,
+      "transitions": 5888000,
+      "micro_min": 0.6272466788226101,
+      "micro_aggregate": 0.6306009030913512,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 12000,
+      "transitions": 6144000,
+      "micro_min": 0.6273081924577373,
+      "micro_aggregate": 0.627866574009729,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 12500,
+      "transitions": 6400000,
+      "micro_min": 0.6436372872745746,
+      "micro_aggregate": 0.6515623683988883,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 13000,
+      "transitions": 6656000,
+      "micro_min": 0.6447606727037516,
+      "micro_aggregate": 0.650919086067686,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 13500,
+      "transitions": 6912000,
+      "micro_min": 0.6740890688259109,
+      "micro_aggregate": 0.6752086318806373,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 14000,
+      "transitions": 7168000,
+      "micro_min": 0.6548899129544291,
+      "micro_aggregate": 0.6654246760945042,
+      "self_collision_substeps_max": 13.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 14500,
+      "transitions": 7424000,
+      "micro_min": 0.6722433460076046,
+      "micro_aggregate": 0.6737534801316123,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 15000,
+      "transitions": 7680000,
+      "micro_min": 0.6945065871240368,
+      "micro_aggregate": 0.698809130003308,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 15500,
+      "transitions": 7936000,
+      "micro_min": 0.7041346868036643,
+      "micro_aggregate": 0.7094494658997534,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 16000,
+      "transitions": 8192000,
+      "micro_min": 0.7227626459143969,
+      "micro_aggregate": 0.7242551813471503,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 16500,
+      "transitions": 8448000,
+      "micro_min": 0.7225558491472496,
+      "micro_aggregate": 0.7277684227407586,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 17000,
+      "transitions": 8704000,
+      "micro_min": 0.7328684779995192,
+      "micro_aggregate": 0.7356891589382795,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 17500,
+      "transitions": 8960000,
+      "micro_min": 0.7372718539865514,
+      "micro_aggregate": 0.7382077360454873,
+      "self_collision_substeps_max": 38.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 18000,
+      "transitions": 9216000,
+      "micro_min": 0.7525552650344663,
+      "micro_aggregate": 0.7531274742676168,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 18500,
+      "transitions": 9472000,
+      "micro_min": 0.7231031959014393,
+      "micro_aggregate": 0.7352065051123098,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 19000,
+      "transitions": 9728000,
+      "micro_min": 0.7443752991862135,
+      "micro_aggregate": 0.7457085828343314,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 19500,
+      "transitions": 9984000,
+      "micro_min": 0.7778293135435993,
+      "micro_aggregate": 0.7819952457633617,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 19532,
+      "transitions": 10000384,
+      "micro_min": 0.7745098039215687,
+      "micro_aggregate": 0.7794927480027922,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    }
+  ]
+}

@@ -1,0 +1,207 @@
+{
+  "rows": [
+    {
+      "side": "left",
+      "link": "left_hand_thumb_PIP_link",
+      "source_mesh": "tsensei_v3_2_pianist/assets/meshes_left/left_hand_thumb_PIP_link.STL",
+      "mesh_sha256": "03fb9fa6a3fe43d15668f83a295f9ad6ce513c112875a175f047e23ec518339e",
+      "mesh_span_mm": [
+        20.734683610498905,
+        14.558061491698027,
+        26.348020881414413
+      ],
+      "old_diameter_mm": 4.666361724957824,
+      "new_diameter_mm": 11.719717758636818,
+      "tip_shift_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "old_maximum_vertex_outside_mm": 11.676487978547812,
+      "new_maximum_vertex_outside_mm": 6.358328234535455
+    },
+    {
+      "side": "left",
+      "link": "left_hand_index_DIP_link",
+      "source_mesh": "tsensei_v3_2_pianist/assets/meshes_left/left_hand_index_DIP_link.STL",
+      "mesh_sha256": "7344a1c9bb92915bccef21113d98b197c5467ba910905433396b143d24ea1b17",
+      "mesh_span_mm": [
+        20.640146918594837,
+        14.964750036597252,
+        30.47398431226611
+      ],
+      "old_diameter_mm": 4.838349297642708,
+      "new_diameter_mm": 11.818359607712352,
+      "tip_shift_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "old_maximum_vertex_outside_mm": 11.32736822109685,
+      "new_maximum_vertex_outside_mm": 4.784598879210692
+    },
+    {
+      "side": "left",
+      "link": "left_hand_mid_DIP_link",
+      "source_mesh": "tsensei_v3_2_pianist/assets/meshes_left/left_hand_mid_DIP_link.STL",
+      "mesh_sha256": "67d18d9852a788ca7e78edd827e457fcd506c54f1567b1277ae40c263fe5850b",
+      "mesh_span_mm": [
+        21.78871026262641,
+        16.004761680960655,
+        33.89090113341808
+      ],
+      "old_diameter_mm": 4.022525157779455,
+      "new_diameter_mm": 12.82300767730472,
+      "tip_shift_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "old_maximum_vertex_outside_mm": 12.23433157429099,
+      "new_maximum_vertex_outside_mm": 5.649540815155705
+    },
+    {
+      "side": "left",
+      "link": "left_hand_ring_DIP_link",
+      "source_mesh": "tsensei_v3_2_pianist/assets/meshes_left/left_hand_ring_DIP_link.STL",
+      "mesh_sha256": "1a793dcdd6cfbf71fbd39d2c0d6bae4874ab3691b0aa50b5c7e1f6232bd55214",
+      "mesh_span_mm": [
+        21.03762933984399,
+        14.999999664723873,
+        33.173983450978994
+      ],
+      "old_diameter_mm": 4.818107699975371,
+      "new_diameter_mm": 12.229113068745644,
+      "tip_shift_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "old_maximum_vertex_outside_mm": 11.487683397717774,
+      "new_maximum_vertex_outside_mm": 4.719241189468437
+    },
+    {
+      "side": "left",
+      "link": "left_hand_pinky_DIP_link",
+      "source_mesh": "tsensei_v3_2_pianist/assets/meshes_left/left_hand_pinky_DIP_link.STL",
+      "mesh_sha256": "e97b22fdad5d7d0fb19b6d72166ee213793e4c4f2d042ebf5d018bdd0a3327b3",
+      "mesh_span_mm": [
+        20.734683610498905,
+        14.558061491698027,
+        26.348020881414413
+      ],
+      "old_diameter_mm": 4.666361724957824,
+      "new_diameter_mm": 11.71971775924011,
+      "tip_shift_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "old_maximum_vertex_outside_mm": 11.676487978547812,
+      "new_maximum_vertex_outside_mm": 6.3583282338682565
+    },
+    {
+      "side": "right",
+      "link": "right_hand_thumb_PIP_link",
+      "source_mesh": "tsensei_v3_2_pianist/assets/meshes_right/right_hand_thumb_PIP_link.STL",
+      "mesh_sha256": "e00e81da98e65f4418b7b2030877de754ce686eceae1cfb423931f480eb8b60f",
+      "mesh_span_mm": [
+        20.734683610498905,
+        14.558061491698027,
+        26.348020881414413
+      ],
+      "old_diameter_mm": 4.666361724957824,
+      "new_diameter_mm": 11.719717758636817,
+      "tip_shift_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "old_maximum_vertex_outside_mm": 11.676487978547812,
+      "new_maximum_vertex_outside_mm": 6.358328234535456
+    },
+    {
+      "side": "right",
+      "link": "right_hand_index_DIP_link",
+      "source_mesh": "tsensei_v3_2_pianist/assets/meshes_right/right_hand_index_DIP_link.STL",
+      "mesh_sha256": "a67f9d5c243dc5e9d9dacfd164cb10f2a1284ba8b06de9b398253417470036b0",
+      "mesh_span_mm": [
+        20.640146918594837,
+        14.964750036597252,
+        30.47398431226611
+      ],
+      "old_diameter_mm": 4.838349297642708,
+      "new_diameter_mm": 11.818359607712352,
+      "tip_shift_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "old_maximum_vertex_outside_mm": 11.32736822109685,
+      "new_maximum_vertex_outside_mm": 4.784598879210692
+    },
+    {
+      "side": "right",
+      "link": "right_hand_mid_DIP_link",
+      "source_mesh": "tsensei_v3_2_pianist/assets/meshes_right/right_hand_mid_DIP_link.STL",
+      "mesh_sha256": "8331b40b725f72e629f26f239379ff3a38cb440ed484e3d066140bc66b4dc8a9",
+      "mesh_span_mm": [
+        21.78871026262641,
+        16.004761680960655,
+        33.89090113341808
+      ],
+      "old_diameter_mm": 4.022525157779455,
+      "new_diameter_mm": 12.823007677304721,
+      "tip_shift_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "old_maximum_vertex_outside_mm": 12.23433157429099,
+      "new_maximum_vertex_outside_mm": 5.649540815155704
+    },
+    {
+      "side": "right",
+      "link": "right_hand_ring_DIP_link",
+      "source_mesh": "tsensei_v3_2_pianist/assets/meshes_right/right_hand_ring_DIP_link.STL",
+      "mesh_sha256": "dedfcc2e674b81a39c38557649fc934fbce3e00fa30393d1bf196f943d474e4d",
+      "mesh_span_mm": [
+        21.03762933984399,
+        14.999999664723873,
+        33.173983450978994
+      ],
+      "old_diameter_mm": 4.818107699975371,
+      "new_diameter_mm": 12.229113068745644,
+      "tip_shift_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "old_maximum_vertex_outside_mm": 11.487683397717774,
+      "new_maximum_vertex_outside_mm": 4.719241189468437
+    },
+    {
+      "side": "right",
+      "link": "right_hand_pinky_DIP_link",
+      "source_mesh": "tsensei_v3_2_pianist/assets/meshes_right/right_hand_pinky_DIP_link.STL",
+      "mesh_sha256": "f4a1e38d4d82ffd1c110b63c0a5b6270645fa1b04a12fe96f789997ad87c95bf",
+      "mesh_span_mm": [
+        20.734683610498905,
+        14.558061491698027,
+        26.348020881414413
+      ],
+      "old_diameter_mm": 4.666361724957824,
+      "new_diameter_mm": 11.71971775924011,
+      "tip_shift_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "old_maximum_vertex_outside_mm": 11.676487978547812,
+      "new_maximum_vertex_outside_mm": 6.3583282338682565
+    }
+  ],
+  "before_sha256": "83012304fcbc44e9668b8477636d8587c59af99ea2d741e991ad3a0cc89fb940",
+  "after_sha256": "c7c1a141f5fcdf2505f277775cc7bff1c6135fe1073b547075a97a28b09ac8ea",
+  "note": "Vertex deviation is a geometric diagnostic, not a surface-area or collision-frequency measurement"
+}

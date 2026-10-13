@@ -1,0 +1,18 @@
+{
+  "zip_sha256": "a86ee434844f4c37f84a61531cc78a4faeea23abd9920566996c915b469aeb53",
+  "upload_path": "/home/houjue/TsenseI_A3.2__hand_withid",
+  "project_model_path": "/home/houjue/pianist_v2/TsenseI_A3.2",
+  "upload_file_count": 30,
+  "upload_differences": [
+    {
+      "file": "urdf/A3.1V6 26.9.27(6).urdf",
+      "status": "different"
+    }
+  ],
+  "project_matching_source_files": 30,
+  "project_differences": [],
+  "upload_urdf_difference": {
+    "uri_replacements": 44,
+    "only_difference_is_mesh_uri": true
+  }
+}

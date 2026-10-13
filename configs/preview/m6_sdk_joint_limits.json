@@ -1,0 +1,123 @@
+{
+  "schema": 1,
+  "model": "Marvin M6-CCS-696 V4.0",
+  "source": {
+    "repository": "https://github.com/cynthia-you/TJ_FX_ROBOT_CONTRL_SDK",
+    "commit": "a0f8c1134895a1b3ab2a5621bb93ae4ba0634990",
+    "path": "TJ_FX_ROBOT_CONTRL_SDK/CommonConfig/ccs_m6_40.MvKDCfg",
+    "sha256": "ce20b1a80974c3ed58cdac4973152625096c8ad93a779e5fd4108c26ce19bd52",
+    "url": "https://github.com/cynthia-you/TJ_FX_ROBOT_CONTRL_SDK/blob/a0f8c1134895a1b3ab2a5621bb93ae4ba0634990/CommonConfig/ccs_m6_40.MvKDCfg",
+    "file_columns_one_based": {
+      "velocity": 7,
+      "acceleration": 8
+    },
+    "block_order": [
+      "left",
+      "right"
+    ],
+    "references": [
+      {
+        "path": "TJ_FX_ROBOT_CONTRL_SDK/kinematicsSDK/FxRobot.cpp",
+        "lines": [
+          40,
+          71,
+          525,
+          528
+        ],
+        "sha256": "bc5a22f3746a2dd99364623d09f7ef5534c21118adb4d2b922dcd87724172868",
+        "meaning": "LOADMvCfg reads file columns 7/8 into PNVA[2]/[3]; CCS initialization assigns joint velocity/acceleration limits."
+      },
+      {
+        "path": "TJ_FX_ROBOT_CONTRL_SDK/kinematicsSDK/AxisPln.cpp",
+        "lines": [
+          343,
+          2085,
+          2092
+        ],
+        "sha256": "17c6815c16dd06501824a40e565ae567ec805a5dfc5bad2c122a71a809b15de0",
+        "meaning": "Separate velocity and acceleration limits; a is used in v^2/(2*a) and sqrt(displacement/a), not jerk."
+      },
+      {
+        "path": "TJ_FX_ROBOT_CONTRL_SDK/SDK_PYTHON/fx_kine.py",
+        "lines": [
+          333,
+          338,
+          392
+        ],
+        "sha256": "c6603de2f315dfc0fc85369be07165af7da0118e3cc4006ca94f8787c04087c5",
+        "meaning": "Configuration block 0=left, 1=right; angular degree units; PNVA is upper/lower/velocity/acceleration."
+      },
+      {
+        "path": "TJ_FX_ROBOT_CONTRL_SDK/contrlSDK/MarvinSDK.h",
+        "lines": [
+          291
+        ],
+        "sha256": "dd8b60b0e66ae04c11ca7648cd5e3ee580d1a1bf03f70f820a897f331994db2d",
+        "meaning": "Runtime mode percentages are a separate control setting; this snapshot does not query a controller."
+      }
+    ]
+  },
+  "interpretation": "Nominal limits from the supplied M6 SDK planning configuration. Degree-based angles imply deg/s and deg/s^2; the load_config prose has velocity/acceleration/jerk wording errors, resolved against the C++ loader, CCS limit assignments and acceleration formulas. No controller query, payload derating, ratio scaling or hardware feasibility validation.",
+  "units": {
+    "velocity": "deg/s",
+    "acceleration": "deg/s^2"
+  },
+  "joints": {
+    "left_J1": {
+      "velocity": 180.0,
+      "acceleration": 450.0
+    },
+    "left_J2": {
+      "velocity": 180.0,
+      "acceleration": 450.0
+    },
+    "left_J3": {
+      "velocity": 180.0,
+      "acceleration": 900.0
+    },
+    "left_J4": {
+      "velocity": 180.0,
+      "acceleration": 900.0
+    },
+    "left_J5": {
+      "velocity": 180.0,
+      "acceleration": 900.0
+    },
+    "left_J6": {
+      "velocity": 180.0,
+      "acceleration": 900.0
+    },
+    "left_J7": {
+      "velocity": 180.0,
+      "acceleration": 900.0
+    },
+    "right_J1": {
+      "velocity": 180.0,
+      "acceleration": 450.0
+    },
+    "right_J2": {
+      "velocity": 180.0,
+      "acceleration": 450.0
+    },
+    "right_J3": {
+      "velocity": 180.0,
+      "acceleration": 900.0
+    },
+    "right_J4": {
+      "velocity": 180.0,
+      "acceleration": 900.0
+    },
+    "right_J5": {
+      "velocity": 180.0,
+      "acceleration": 900.0
+    },
+    "right_J6": {
+      "velocity": 180.0,
+      "acceleration": 900.0
+    },
+    "right_J7": {
+      "velocity": 180.0,
+      "acceleration": 900.0
+    }
+  }
+}

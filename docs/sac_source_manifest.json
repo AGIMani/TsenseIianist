@@ -1,0 +1,33 @@
+{
+  "upstream": "https://github.com/kevinzakka/robopianist-rl",
+  "imported_commit": "f3b62a91910eceef6d7133b876407e4c962dccbe",
+  "source_files": {
+    "sac.py": "5ed6b11dea9833d11816b0c2785c6ba8786dc9325e89ff3a88536594020acfed",
+    "networks.py": "3a342e0592054e533445fcf974daa81944dfd71b2cab48ffe2534b6f70e15739",
+    "distributions.py": "737c4681d0b5acd8d7b56e32b400a5bb4cafc59967b9244e1b94d2b59f203e0a",
+    "specs.py": "d80c8ea7f30e593adcb9db88600c071bfaa902da5940aee7e3dd17f33a826cf0",
+    "replay.py": "f5dc84bc74fdce6fa1b74e5a77957481fd7d5946ccae2d59c6f4a23042eb8afc",
+    "train.py": "d7bcf22344ebe647ef2151cba2df6ec711e2872fc2651920aa1ed7c47a78cdd9",
+    "run.sh": "3b20ddeeb153c878bca78a315b34c27345179afbc5505d9360afc3200e35e29a"
+  },
+  "local_files": {
+    "__init__.py": "56a0b13353b76fab38b431568e37ffe737d6e7e1eaa17a92815a89ccd3626902",
+    "specs.py": "1ca0f74912f28522fceb57ee2fb0a4a9a5f95f516b857625dbfb98902ca62a3e",
+    "environment.py": "b7c55e3c4ba62f35e8d9e4c609f3b963dc0b81126dd9f09a5893cd3f8744bb42",
+    "checkpoint.py": "04071f52caa4c1fd324eca9da93dbc93ffa42536acc747b4f4e7cd7e04dab5cf",
+    "replay.py": "eb48276bffa81ef4dab04694aea73fb62d780cfbdb479ade8b5bdaffec8454b1",
+    "networks.py": "93078b97007c0d12571b8f62ae9953228b08364a246959accb75b7b370b48f03",
+    "sac.py": "3a2cfcfd8689bd4d872cec7dd2b56efc2e999c7aaae08a78ea79a9363bfc264e",
+    "distributions.py": "b40a82061c5c1597d9884eedf165b745adb63bccbd8208a3731cd3aabb851048",
+    "train.py": "9cc1d6a6b7b62bd4759f7ac9d2ef65496841bb4b3961c54526d9ca3ab7b10da1"
+  },
+  "compatibility_changes": [
+    "relative imports",
+    "jax.Array annotation",
+    "dict/FrozenDict subsampling",
+    "explicit target_entropy=0",
+    "configuration validation",
+    "device-resident action method"
+  ],
+  "reference_fixture": "tests/data/shadow_sac_reference.npz"
+}

@@ -1,0 +1,2397 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="TsenseI_A3.2_left_updated_project_compatible">
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0.011543099682429009 0.0040318741870570786 0.036364328173666402" rpy="0 0 0" />
+      <mass value="0.15" />
+      <inertia ixx="0.000098387178786796999" ixy="-0.0000012913832260820987" ixz="0.0000016778729450149051" iyy="0.000046505778008583841" iyz="0.000012831147427021091" izz="0.000070319343107243382" />
+    </inertial>
+    <visual name="visual_NRP0002">
+      <origin rpy="1.570796326794926 -0.007142664979146618 -0.121494428865941" xyz="0.005958695112795627 -0.04288461281823903 -0.01104688628389432" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0076.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0002_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0003">
+      <origin rpy="0 0 0" xyz="0.008260605347004894 -0.04269263489931545 4.831904489948063e-06" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0075.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0003_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0005">
+      <origin rpy="1.570796326794921 -0.007142664979146618 -0.1214944288659406" xyz="0.006659140382214088 -0.03662039799160424 -0.03106824976512356" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0074.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0005_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0006">
+      <origin rpy="1.530090058387863e-05 4.845770804196015e-05 -1.531961812451379e-06" xyz="0.007946288006861101 -0.009993999180722421 -0.0386920912936256" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0073.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0006_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0143">
+      <origin rpy="-3.141592653589793 0 3.019917350342283" xyz="0.03057631847129895 -0.03570859585534921 0.0003000000022239118" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0181.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0143_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0285">
+      <origin rpy="0 0 0" xyz="-0.00649999999999987 -0.03649999999965736 -0.02745000004370193" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0208.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0285_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0286">
+      <origin rpy="0 0 0" xyz="0.00649999999999987 -0.03649999999965736 -0.02745000004370193" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0208.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0286_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0341">
+      <origin rpy="0 0 0" xyz="0.009715303778648376 -0.04131900332868099 -0.02810000001334081" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0209.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0341_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0342">
+      <origin rpy="-3.141592653589793 0 -2.748497843163273" xyz="-0.0127105304369548 -0.04795935382935059 -0.03110000001334082" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0210.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0342_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0344">
+      <origin rpy="0 0 0" xyz="0.002422716179489377 -0.05086556373922766 -0.0272349999781927" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0207.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0344_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0345">
+      <origin rpy="-3.141592653589793 0 -2.748497843163273" xyz="-0.01318873799544822 -0.007999999999632976 -0.03110000001334082" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0210.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0345_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0346">
+      <origin rpy="-3.141592653589793 0 -2.748497843163273" xyz="0.03058768707903551 -0.05828522953719782 -0.03110000001334082" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0210.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0346_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0347">
+      <origin rpy="-3.141592653589793 0 -2.910341693091254" xyz="0.0346757622806737 -0.01828522953719782 -0.03110000001334082" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0210.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0347_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0348">
+      <origin rpy="1.570796326794897 0 -0.04320806084191964" xyz="-0.003999999999999999 -0.07213800698440007 -0.02910000017725359" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0211.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0348_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0349">
+      <origin rpy="0 0 0" xyz="0.007419410814430327 -0.05068378715890897 -0.0272349999781927" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0207.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0349_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0350">
+      <origin rpy="0 0 0" xyz="0.02184641958502984 -0.0621668798578749 -0.0272349999781927" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0207.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0350_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0351">
+      <origin rpy="0 0 0" xyz="-0.01859424904193867 -0.009162594280151367 -0.02745000004370193" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0208.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0351_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0353">
+      <origin rpy="0 0 0" xyz="0.01684972495008889 -0.06234865643819359 -0.0272349999781927" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0207.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0353_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0354">
+      <origin rpy="0 0 0" xyz="0.01685810057764418 -0.0160531478401368 -0.02745000004370193" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0208.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0354_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0355">
+      <origin rpy="0 0 0" xyz="0.03454609053598993 -0.05322805764767582 -0.02745000004370193" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0208.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0355_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0356">
+      <origin rpy="0 0 0" xyz="0.00649999999999986 -0.009499999999657675 -0.02745000004370193" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0208.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0356_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0357">
+      <origin rpy="0 0 0" xyz="0.01450489552400752 -0.04295040469026307 -0.02745000004370193" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0208.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0357_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0358">
+      <origin rpy="0 0 0" xyz="0.02980863165283688 -0.01718617249585315 -0.02745000004370193" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0208.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0358_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0359">
+      <origin rpy="3.141592653589792 2.220446049250313e-16 -3.105229324234303" xyz="0.008701520294444171 -0.06529683598963718 -0.007170000000302312" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0214.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0359_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0360">
+      <origin rpy="0 0 0" xyz="0.02745542660002241 -0.04408342934605441 -0.02745000004370193" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0208.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0360_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0361">
+      <origin rpy="0 0 0" xyz="0.03781837591944474 -0.02642708474799884 -0.02745000004370193" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0208.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0361_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0362">
+      <origin rpy="0 0 0" xyz="0.04745026267287138 -0.05480360246193185 -0.02745000004370193" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0208.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0362_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0363">
+      <origin rpy="0 0 0.06007589467937614" xyz="-0.02857511008419662 -0.03741825588725342 -0.02745000004370193" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0208.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0363_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0364">
+      <origin rpy="0 0 0" xyz="-0.00649999999999987 -0.009499999999657671 -0.02745000004370193" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0208.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0364_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0365">
+      <origin rpy="0 0 0" xyz="0.05072254805632619 -0.02800262956225488 -0.02745000004370193" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0208.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0365_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0366">
+      <origin rpy="0 0 0" xyz="-0.01225701745897759 -0.01199999999963298 -0.01609999990903269" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0213.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0366_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0367">
+      <origin rpy="0 0 0" xyz="-0.001929270870710386 -0.06328526416507786 -0.01609999990903269" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0213.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0367_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0368">
+      <origin rpy="0 0 -0.02940475357863044" xyz="0.009689784265748146 -0.03629659337942479 -0.0005999999528048527" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0215.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0368_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0369">
+      <origin rpy="0 0 0.03636332935548972" xyz="0.01215274552634175 -0.05701589087859413 -0.0145999997320814" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0216.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0369_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0370">
+      <origin rpy="3.141592653589793 0 1.536332157060583" xyz="-0.01225701745897751 -0.01199999999963305 -0.002549999965948115" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0032.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0370_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0371">
+      <origin rpy="0 0 0" xyz="-0.01271052488963635 -0.04795933056841412 -0.03143644997819281" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0212.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0371_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0426">
+      <origin rpy="-1.570796326794896 -0.03636332935548992 0.03636332935549003" xyz="0.01391169443717592 -0.06410663152098318 -0.01757000000030232" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0019.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0426_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0427">
+      <origin rpy="0 0 0" xyz="0.0305876953253671 -0.05828519607765476 -0.03143644997819281" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0212.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0427_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0428">
+      <origin rpy="-1.570796326794896 -0.03636332935549014 0.03636332935549003" xyz="0.01391169443717592 -0.06410663152098321 -0.007170000000302309" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0019.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0428_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0429">
+      <origin rpy="3.141592653589792 6.661338147750939e-16 -3.105229324234303" xyz="0.008701520294444171 -0.06529683598963715 -0.01757000000030231" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0214.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0429_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0431">
+      <origin rpy="0 0 0" xyz="0.03467576228067369 -0.01828522953719782 -0.03143644997819281" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0212.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0431_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0432">
+      <origin rpy="3.141592653589793 0 -0.9209656039472023" xyz="0.04376143981712501 -0.03138389738396613 -0.002649999965948141" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0032.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0432_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0433">
+      <origin rpy="-3.141592653589786 0 0" xyz="-0.001929270870710263 -0.06328526416507788 -0.002549999965948615" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0032.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0433_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0438">
+      <origin rpy="-3.141592653589793 0 -3.141592653589793" xyz="-0.002000001221895226 -0.07863800723026923 -0.0170999995383663" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0031.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0438_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0447">
+      <origin rpy="0 0 0.0363635669658974" xyz="0.01015493410847431 -0.0335832229608686 -0.03320072499538726" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0042.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0447_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0463">
+      <origin rpy="-1.570796326794897 -2.220446049250313e-16 1.44917698434452" xyz="0.04943898147754697 -0.04306988520666655 -0.0155350004741485" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0043.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0463_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0464">
+      <origin rpy="0 0 -0.02940475357863039" xyz="0.01094811131262624 -0.03356329498532131 0.0002999999971714817" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0044.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0464_color">
+        <color rgba=".55 .63 .67 1" />
+      </material>
+    </visual>
+  </link>
+  <link name="left_hand_index_MCP_link">
+    <inertial>
+      <origin xyz="-0.0106142746199819 4.74881676214185E-05 0.00791287328660866" rpy="0 0 0" />
+      <mass value="0.03" />
+      <inertia ixx="0.0000011634383725196219" ixy="-6.2834032675062344e-10" ixz="-1.9481005508301516e-8" iyy="0.0000011487732125175695" iyz="-8.7952313477132828e-10" izz="0.0000013685479829882309" />
+    </inertial>
+    <visual name="visual_NRP0213">
+      <origin rpy="-3.141592653589791 4.440892098500626e-16 -2.764173442884567" xyz="0.01320037878246029 -5.576268613527446e-15 -0.0009999999999795173" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0213_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0214">
+      <origin rpy="1.570796326794897 -4.729550084903167e-14 -2.711830374493104" xyz="0.002554850889762574 0.003426038137639645 0.005400000000007468" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0019.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0214_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0223">
+      <origin rpy="1.570796326794897 -4.729550084903167e-14 -2.711830374493104" xyz="0.002554850889762473 0.003426038137639775 -0.007399999999992649" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0019.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0223_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0224">
+      <origin rpy="-3.141592653589793 0 -2.711830374493105" xyz="0.01120448252531225 0.002097621763238192 -0.0009999999999931453" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0015.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0224_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0225">
+      <origin rpy="-3.141592653589791 6.661338147750939e-16 -2.711830374494086" xyz="1.000269955383665e-06 4.584570572543378e-07 -0.0009999999999927567" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0010.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0225_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0226">
+      <origin rpy="-1.570796326795361 1.102437115103402 0.4297622790962743" xyz="0.01582719730402896 0.009509196910829101 -0.007399999999998522" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0019.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0226_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0227">
+      <origin rpy="1.570796326794897 -4.729550084903167e-14 -2.711830374493104" xyz="0.01582719730401891 0.00950919691084056 0.005400000000007413" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0019.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0227_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0229">
+      <origin rpy="-1.570796326794896 1.178999914608696 -1.141034047698207" xyz="-0.003090712690720777 0.002433473578459191 -0.007499999999996794" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0021.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0229_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0230">
+      <origin rpy="-1.570796326794897 1.178999914608697 -1.141034047698207" xyz="-0.003090712690716479 0.002433473578449802 0.005500000000003249" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0021.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0230_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0231">
+      <origin rpy="0.4297622790966892 -1.570796326794522 0" xyz="-0.006186707717398144 0.008157266643378427 -0.001000000053122885" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0022.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0231_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0233">
+      <origin rpy="-3.141592653589793 0.01032033491157724 2.000558605891586" xyz="0.004840620013970253 0.01319932923572455 -0.001111891345842925" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0020_housing.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0233_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0466">
+      <origin rpy="0.4297622790966882 -1.570796326794688 0" xyz="0.0003298524118963333 0.01098065868912093 -0.001000000000000575" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0049.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0466_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+  </link>
+  <link name="left_hand_index_swing_link">
+    <inertial>
+      <origin xyz="0.0020049364439405 9.15892972866428E-06 0.0193456563502929" rpy="0 0 0" />
+      <mass value="0.07" />
+      <inertia ixx="0.0000078645564596793719" ixy="-1.5891420461034171e-8" ixz="-8.0145615330731014e-8" iyy="0.0000057201022155560266" iyz="6.3527512154159416e-10" izz="0.0000043339953699145099" />
+    </inertial>
+    <visual name="visual_NRP0191">
+      <origin rpy="0.03388279193141033 1.570796326794897 0" xyz="0.02598506823406277 -0.0008808312093402382 -0.01590001934346275" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0001.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0191_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0192">
+      <origin rpy="-3.141592653589793 0 -0.03388279192801669" xyz="0.004151100284938432 -0.004442382966872808 -0.001800000054016052" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0192_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0195">
+      <origin rpy="0 2.220446049250313e-16 -1.604679118726307" xyz="0.001285468992272218 -4.357195384319424e-05 -0.002500000071246712" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0009.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0195_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0196">
+      <origin rpy="-3.141592653589793 0 -0.03388279192801669" xyz="-0.00444238296687575 -0.004151100284948374 -0.001800000054016052" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0196_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0201">
+      <origin rpy="-3.141592653589793 0 -0.03388279192801669" xyz="-0.004151100284951316 0.004442382966865809 -0.001800000054016052" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0201_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0205">
+      <origin rpy="-2.220446049250313e-16 0 3.107709861661777" xyz="0.0002059679596245358 0.006076510281367349 -0.001999999905004705" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0011.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0205_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0206">
+      <origin rpy="-3.141592653589793 0 -0.03388279192801669" xyz="0.004442382966862876 0.004151100284941375 -0.001800000054016052" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0206_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0207">
+      <origin rpy="-3.141592653589793 0 -0.03388279192801669" xyz="0.01016364187694475 0.004658367074099207 -0.002549999944119985" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0003.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0207_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0208">
+      <origin rpy="-1.570796326794897 0.9239983948651966 3.107709861658382" xyz="0.04097646735799491 -0.001388928675112172 -0.02700000000000015" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0208_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0210">
+      <origin rpy="3.141592653589793 2.220446049250313e-16 -2.694324567030826" xyz="0.009824878785446434 -0.005335893257102822 -0.002549999944119991" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0003.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0210_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0233_OUTPUT">
+      <origin rpy="1.570796326794896 2.620126338115369e-14 -0.04420312684298744" xyz="-2.914507858466243e-17 -1.007847283809661e-18 -0.004025000594556863" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0020_output.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0233_OUTPUT_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0482">
+      <origin rpy="3.141592653589791 4.440892098500626e-16 1.536913534863275" xyz="0.02253705793370059 -0.0007639108014009218 -0.02435000000658524" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0051.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0482_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0483">
+      <origin rpy="3.141592653589791 4.440892098500626e-16 1.536913534863275" xyz="0.02346727743740851 -0.0007767801299719615 -0.02960374128227283" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0052.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0483_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+  </link>
+  <link name="left_hand_index_PIP_link">
+    <inertial>
+      <origin xyz="-0.00653284320407401 -9.72527428279302E-06 0.0112984123710339" rpy="0 0 0" />
+      <mass value="0.04" />
+      <inertia ixx="0.0000025446876908400989" ixy="2.2225508661452004e-9" ixz="1.3690607523151023e-8" iyy="0.0000022008613858776934" iyz="8.2294113980756971e-11" izz="0.0000018836803085620113" />
+    </inertial>
+    <visual name="visual_NRP0209">
+      <origin rpy="-3.141592653589793 0 -2.089638401539233" xyz="0.01094707859849968 -5.148659276699163e-15 0.0007716076492158691" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0209_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0219">
+      <origin rpy="-3.141592653589793 0 0.9527678683719594" xyz="-0.005312051284644011 0.02584555140227504 -0.001389726331972915" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0005.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0219_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0220">
+      <origin rpy="-1.570796326794897 0 -2.767536307590409" xyz="0.004347427812841698 0.01353096927946029 -0.001389740624286206" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0012.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0220_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0488">
+      <origin rpy="0.3740563459993682 -1.570796326794687 0" xyz="-0.002227721524771981 0.01255408033090773 -0.001389726332050206" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0060.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0488_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0489">
+      <origin rpy="0.3740563459993682 -1.570796326794687 0" xyz="-0.006623888263689008 0.00987165504997772 -0.001371121458307825" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0061.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0489_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+  </link>
+  <link name="left_hand_index_DIP_link">
+    <inertial>
+      <origin xyz="-0.00583473671136419 3.37569599070664E-05 0.00905338354281131" rpy="0 0 0" />
+      <mass value="0.015" />
+      <inertia ixx="7.2980867273898945e-7" ixy="-9.0616082327015123e-10" ixz="-1.4317957815261916e-7" iyy="6.6634720679316464e-7" iyz="7.4569815309147156e-11" izz="2.9211211028827194e-7" />
+    </inertial>
+    <visual name="visual_NRP0190">
+      <origin rpy="-1.570796326794897 6.661338147750939e-16 -1.325777819014722" xyz="-0.001358160070010875 0.009244985314155848 0.003121320343112424" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0000.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0190_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0194">
+      <origin rpy="3.141592653589793 0 0.245018507780175" xyz="0.002532966045375958 0.005967813606412598 0.003121320341263174" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0008.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0194_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0197">
+      <origin rpy="-3.141592653589793 -2.220446049250313e-16 -2.896572258303289" xyz="0.008244897201685499 -7.123052148116926e-13 0.003121320343621489" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0197_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0203">
+      <origin rpy="-3.141592653589793 -2.220446049250313e-16 -2.870921388215833" xyz="4.180541329779075e-12 -7.071565555349935e-13 0.003121320343616053" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0203_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0507">
+      <origin rpy="0.2450185077686982 -1.570796326794131 0" xyz="0.0009906101126756356 0.01151052691462977 0.003121291006876441" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0054.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0507_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0508">
+      <origin rpy="0.2450185077801695 -1.570796326792995 0" xyz="-0.002117067873834848 0.01037799942004997 0.003120873774349685" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0055.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0508_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0510">
+      <origin rpy="0.2450185077801761 -1.570796326794687 0" xyz="0.005038852992174089 0.01439425371620653 0.003121321740516735" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0062.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0510_color">
+        <color rgba=".53 .67 .65 1" />
+      </material>
+    </visual>
+  </link>
+  <link name="left_hand_mid_MCP_link">
+    <inertial>
+      <origin xyz="-0.0097449039142485 -2.22520005175301E-05 0.00692633469007895" rpy="0 0 0" />
+      <mass value="0.03" />
+      <inertia ixx="0.0000012171692624236225" ixy="-9.9600531348087661e-11" ixz="-3.5804287905567007e-8" iyy="0.0000012646367851955083" iyz="-7.4355850465050874e-10" izz="0.0000016001873979606324" />
+    </inertial>
+    <visual name="visual_NRP0158">
+      <origin rpy="3.141592653589787 0 -2.779057660563487" xyz="1.028808049895293e-06 3.902266573016524e-07 -0.0009999999999996245" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0005.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0158_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0160">
+      <origin rpy="3.141592653589793 0 -2.486986879928482" xyz="0.01320037878244408 1.517883041479706e-18 -0.0009999999999999979" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0160_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0163">
+      <origin rpy="-1.570796326794897 1.148520283329548 -1.141034047698208" xyz="-0.003090735511320962 0.002433523368857418 -0.007499999999999539" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0021.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0163_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0164">
+      <origin rpy="-1.570796326794898 1.17899991460929 -1.141034047698209" xyz="-0.003090735511320963 0.002433523368857429 0.005500000000000457" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0021.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0164_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0165">
+      <origin rpy="1.570796326794896 -7.549516567451064e-14 -2.711830374493105" xyz="0.002554850889762682 0.003426038137639498 -0.007399999999999546" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0019.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0165_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0167">
+      <origin rpy="0.4297622790966882 -1.57079632679452 0" xyz="-0.006186730537996612 0.008157316433775798 -0.001000000053134694" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0022.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0167_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0169">
+      <origin rpy="-3.141592653589793 0 -2.711830374493105" xyz="0.01120448252531225 0.00209762176323819 -0.0009999999999998792" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0015.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0169_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0170">
+      <origin rpy="1.570796326794896 -7.593925488436071e-14 -2.711830374493105" xyz="0.01582719730401923 0.009509196910840409 0.00540000000000064" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0019.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0170_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0171">
+      <origin rpy="1.570796326794896 -7.549516567451064e-14 -2.711830374493105" xyz="0.01582719730401923 0.009509196910840404 -0.007399999999999548" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0019.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0171_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0174">
+      <origin rpy="1.570796326794896 -7.593925488436071e-14 -2.711830374493105" xyz="0.002554850889762685 0.003426038137639488 0.00540000000000064" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0019.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0174_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0188">
+      <origin rpy="-3.141592653589793 0.01032033491157747 2.000558605891585" xyz="0.004840620013970249 0.01319932923572456 -0.001111891345849649" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0020_housing.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0188_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0467">
+      <origin rpy="0.4297622790966887 -1.570796326794896 0" xyz="0.0003298524118871419 0.01098065868913111 -0.0009999999999998816" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0049.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0467_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+  </link>
+  <link name="left_hand_mid_swing_link">
+    <inertial>
+      <origin xyz="0.000114017921113242 -2.51064367484513E-06 0.0183589698058963" rpy="0 0 0" />
+      <mass value="0.07" />
+      <inertia ixx="0.0000069317651853575683" ixy="-5.5020910846371330e-10" ixz="-6.9226017712075117e-8" iyy="0.0000052666708565674381" iyz="-6.9629101321535217e-10" izz="0.0000039656424474042828" />
+    </inertial>
+    <visual name="visual_NRP0145">
+      <origin rpy="-0.03388307761929962 1.570796326794871 0" xyz="0.02598508444768532 0.000880732094240777 -0.01491956646701698" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0001.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0145_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0146">
+      <origin rpy="3.141592653589793 -2.575717417130363e-14 0.03388307762324438" xyz="-0.004442370901505112 0.004151087295878968 -0.0008195471775716318" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0146_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0147">
+      <origin rpy="3.141592653589793 -2.575717417130363e-14 0.03388307762324438" xyz="0.01016365645907329 -0.004658375890403263 -0.001569547067675193" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0003.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0147_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0148">
+      <origin rpy="2.220446049250313e-16 2.597921877622866e-14 -3.107709575966549" xyz="-0.0002059564443333273 0.006076498502597478 -0.001019547028559903" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0011.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0148_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0149">
+      <origin rpy="2.597921877622866e-14 -2.220446049250313e-16 -1.536913249175597" xyz="0.001285482231107466 4.356060115555404e-05 -0.001519547194800947" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0009.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0149_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0150">
+      <origin rpy="3.141592653589793 -2.575717417130363e-14 0.03388307762324438" xyz="0.004442397404071647 -0.004151110735740063 -0.0008195471775714028" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0150_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0152">
+      <origin rpy="3.141592653589793 -2.575717417130363e-14 0.03388307762324438" xyz="-0.004151085764526245 -0.00444239587271892 -0.0008195471775716283" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0152_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0153">
+      <origin rpy="3.141592653589793 -2.575717417130363e-14 0.03388307762324438" xyz="0.004151112267092786 0.004442372432857825 -0.0008195471775714028" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0153_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0154">
+      <origin rpy="3.141592653589793 -2.575717417130363e-14 0.03388307762324438" xyz="0.009824890512335472 0.005335884344017834 -0.001569547067675193" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0003.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0154_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0172">
+      <origin rpy="1.570796326794888 1.503569040724052 0.03388307761929676" xyz="0.04097648021236942 0.001388928662882732 -0.02601954712355278" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0172_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0188_OUTPUT">
+      <origin rpy="1.570796326794897 0 0.02356274270772196" xyz="1.325128331543246e-08 -1.171993054910553e-08 -0.003044547718111135" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0020_output.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0188_OUTPUT_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0490">
+      <origin rpy="3.141592653589748 -4.440892098500626e-16 1.604679404414196" xyz="0.02253707096675715 0.0007639055200238964 -0.02336954713014338" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0051.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0490_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0502">
+      <origin rpy="3.141592653589722 -4.440892098500626e-16 1.604679404414169" xyz="0.0234660268385395 0.0008140546274544788 -0.02860328840583012" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0052.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0502_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+  </link>
+  <link name="left_hand_mid_PIP_link">
+    <inertial>
+      <origin xyz="-0.00583018996016443 -2.66510051889372E-06 0.0137400658635952" rpy="0 0 0" />
+      <mass value="0.04" />
+      <inertia ixx="0.0000039157764551018839" ixy="4.8252740760661561e-10" ixz="1.2979015817047082e-8" iyy="0.0000034095739016913850" iyz="7.2574228200688065e-11" izz="0.0000019181637641965276" />
+    </inertial>
+    <visual name="visual_STD004_NRP0209">
+      <origin rpy="-3.141592653589793 -2.220446049250313e-16 -2.089638401539209" xyz="0.01094707859849997 -4.961309141293668e-15 0.003551060313278259" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_STD004_NRP0209_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_STD004_NRP0219">
+      <origin rpy="-3.141592653589793 2.220446049250313e-16 0.9527678683719825" xyz="-0.005312051284644329 0.02584555140227486 0.001389726332089461" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0005.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_STD004_NRP0219_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_STD004_NRP0220">
+      <origin rpy="-1.570796326794897 0 -2.767536307590385" xyz="0.004347427812841476 0.01353096927946074 0.001389712039776114" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0012.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_STD004_NRP0220_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_STD004_NRP0488">
+      <origin rpy="0.3740563459993913 -1.570796326794687 0" xyz="-0.002227721524771985 0.0125540803309076 0.001389726332012174" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0060.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_STD004_NRP0488_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_STD004_NRP0489">
+      <origin rpy="0.3740563459993913 -1.570796326794687 0" xyz="-0.006623888263688952 0.009871655049977513 0.001408331205754558" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0061.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_STD004_NRP0489_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+  </link>
+  <link name="left_hand_mid_DIP_link">
+    <inertial>
+      <origin xyz="-0.00508651465017483 -5.42974594518582E-06 0.0100479890816567" rpy="0 0 0" />
+      <mass value="0.015" />
+      <inertia ixx="9.4201809035765782e-7" ixy="-3.0703543261234813e-10" ixz="-1.6349777292123494e-7" iyy="8.1591565721779961e-7" iyz="-6.0847124355377723e-10" izz="3.5796355138807683e-7" />
+    </inertial>
+    <visual name="visual_STD004_NRP0190">
+      <origin rpy="-1.570796326794897 6.661338147750939e-16 -1.325777819014721" xyz="-0.001358160070010882 0.009244985314155863 0.003121320343112431" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0000.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_STD004_NRP0190_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_STD004_NRP0194">
+      <origin rpy="3.141592653589793 0 0.2450185077801754" xyz="0.002532966045375951 0.005967813606412613 0.003121320341263181" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0008.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_STD004_NRP0194_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_STD004_NRP0197">
+      <origin rpy="-3.141592653589793 -2.220446049250313e-16 -2.896572258303289" xyz="0.008244897201685496 -7.123052148116926e-13 0.003121320343621492" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_STD004_NRP0197_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_STD004_NRP0203">
+      <origin rpy="3.141592653589793 0 -2.870921388215832" xyz="4.180536125608647e-12 -7.071565555349935e-13 0.003121320343616053" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_STD004_NRP0203_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_STD004_NRP0507">
+      <origin rpy="0.245018507768699 -1.570796326794131 0" xyz="0.0009906101126756321 0.01151052691462977 0.003121291006876444" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0054.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_STD004_NRP0507_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_STD004_NRP0508">
+      <origin rpy="0.24501850778017 -1.570796326792995 0" xyz="-0.002117067873834855 0.01037799942004998 0.003120873774349686" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0055.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_STD004_NRP0508_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_STD004_NRP0510">
+      <origin rpy="0.2450185077801761 -1.570796326794687 0" xyz="0.005038852992174077 0.01439425371620656 0.003121321740516738" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0062.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_STD004_NRP0510_color">
+        <color rgba=".55 .62 .71 1" />
+      </material>
+    </visual>
+  </link>
+  <link name="left_hand_ring_MCP_link">
+    <inertial>
+      <origin xyz="-0.0106014117842674 6.57849972365218E-05 0.00803611569969116" rpy="0 0 0" />
+      <mass value="0.03" />
+      <inertia ixx="0.0000011734224514103369" ixy="-6.2972359809919072e-10" ixz="-1.9660031001347819e-8" iyy="0.0000011592325391646831" iyz="-8.8757485175927812e-10" izz="0.0000013804199268782989" />
+    </inertial>
+    <visual name="visual_NRP0238">
+      <origin rpy="-1.570796326794896 1.178999914608696 -1.141034047698207" xyz="-0.003090712690722714 0.00243347357846471 -0.007499999999996575" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0021.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0238_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0239">
+      <origin rpy="-3.141592653589791 6.661338147750939e-16 -2.711830374494086" xyz="1.000269952649307e-06 4.584570602753586e-07 -0.0009999999999968749" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0010.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0239_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0241">
+      <origin rpy="1.570796326794896 -4.707345624410664e-14 -2.711830374493105" xyz="0.00255485088976272 0.003426038137639726 -0.007399999999997738" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0019.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0241_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0242">
+      <origin rpy="1.570796326794896 -4.75175454539567e-14 -2.711830374493105" xyz="0.01582719730401939 0.009509196910840772 0.005400000000002479" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0019.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0242_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0243">
+      <origin rpy="1.570796326794896 -4.75175454539567e-14 -2.711830374493105" xyz="0.01582719730401943 0.009509196910840638 -0.007399999999997773" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0019.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0243_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0245">
+      <origin rpy="-1.570796326794897 1.178999914608697 -1.141034047698207" xyz="-0.003090712690719091 0.002433473578455054 0.005500000000002239" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0021.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0245_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0246">
+      <origin rpy="1.570796326794896 -4.707345624410664e-14 -2.711830374493105" xyz="0.002554850889762677 0.003426038137639865 0.00540000000000251" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0019.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0246_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0248">
+      <origin rpy="0.429762279096689 -1.570796326794522 0" xyz="-0.006186707717398675 0.008157266643378441 -0.001000000053128061" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0022.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0248_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0250">
+      <origin rpy="3.141592653589793 0.01032033491157702 2.000558605891587" xyz="0.004840620013969838 0.01319932923572457 -0.001111891345847963" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0020_housing.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0250_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0273">
+      <origin rpy="-3.141592653589793 0 -2.711830374493105" xyz="0.01120448252531225 0.002097621763238191 -0.0009999999999982141" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0015.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0273_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0279">
+      <origin rpy="-3.141592653589791 6.661338147750939e-16 -2.764173442884567" xyz="0.01320037878244732 1.292368989602721e-16 -0.0009999999999969894" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0279_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0491">
+      <origin rpy="0.4297622790966891 -1.570796326794896 0" xyz="0.0003298524118867776 0.01098065868913171 -0.0009999999999969853" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0049.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0491_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+  </link>
+  <link name="left_hand_ring_swing_link">
+    <inertial>
+      <origin xyz="0.000114018372146359 -7.2466380404354E-06 0.0183589692757444" rpy="0 0 0" />
+      <mass value="0.07" />
+      <inertia ixx="0.0000069317651770289352" ixy="-5.5003543111751788e-10" ixz="-6.9225639897602559e-8" iyy="0.0000052666716619542305" iyz="-6.9641035226130294e-10" izz="0.0000039656421354627814" />
+    </inertial>
+    <visual name="visual_NRP0250_OUTPUT">
+      <origin rpy="1.570796326794897 2.620126338115369e-14 -0.04420312684296734" xyz="-2.827907434153155e-17 -1.021700912897827e-18 -0.004025000594556235" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0020_output.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0250_OUTPUT_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0253">
+      <origin rpy="0 4.440892098500626e-16 -1.604679118726287" xyz="0.001285468992272207 -4.357195384315806e-05 -0.002500000071246081" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0009.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0253_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0254">
+      <origin rpy="-3.141592653589793 0 -0.0338827919279967" xyz="0.004442382966867748 0.004151100284945257 -0.001800000054014185" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0254_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0255">
+      <origin rpy="-3.141592653589793 0 -0.0338827919279967" xyz="0.01016364187694933 0.0046583670741031 -0.002549999944117632" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0003.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0255_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0258">
+      <origin rpy="-1.570796326794897 0.9239983948651966 3.107709861658402" xyz="0.04097646735792709 -0.001388928675143127 -0.02699999999999637" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0258_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0259">
+      <origin rpy="0.03388279193139031 1.570796326794897 0" xyz="0.02598506823406321 -0.0008808312093396831 -0.01590001934346208" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0001.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0259_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0263">
+      <origin rpy="-3.141592653589793 -2.220446049250313e-16 -0.0338827919279967" xyz="0.004151100284943472 -0.004442382966868145 -0.001800000054013699" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0263_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0264">
+      <origin rpy="-3.141592653589793 0 -0.0338827919279967" xyz="-0.004151100284946011 0.004442382966869559 -0.001800000054015004" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0264_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0265">
+      <origin rpy="-3.141592653589793 0 -0.0338827919279967" xyz="-0.004442382966870285 -0.004151100284943829 -0.001800000054014511" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0265_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0266">
+      <origin rpy="3.141592653589793 2.220446049250313e-16 -2.694324567030806" xyz="0.009824878785451213 -0.00533589325709802 -0.002549999944117077" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0003.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0266_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0267">
+      <origin rpy="-4.440892098500626e-16 0 3.107709861661797" xyz="0.0002059679596295986 0.006076510281370995 -0.001999999905003341" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0011.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0267_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0484">
+      <origin rpy="-3.141592653589791 2.220446049250313e-16 1.536913534863504" xyz="0.02253705793371497 -0.0007639108013888186 -0.02435000000658877" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0051.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0484_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0503">
+      <origin rpy="-3.141592653589791 -1.554312234475219e-15 1.536913534863503" xyz="0.02346601383064723 -0.0008140593240933656 -0.02958374128227624" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0052.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0503_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+  </link>
+  <link name="left_hand_ring_PIP_link">
+    <inertial>
+      <origin xyz="-0.00655441791124188 2.52914385609135E-05 0.011335766386824" rpy="0 0 0" />
+      <mass value="0.04" />
+      <inertia ixx="0.0000025529878978103810" ixy="2.2307099154343406e-9" ixz="1.3735405935504704e-8" iyy="0.0000022079943811336202" iyz="8.4328376540530964e-11" izz="0.0000018897956970263185" />
+    </inertial>
+    <visual name="visual_NRP0268">
+      <origin rpy="-3.141592653589793 0 -2.089638401539219" xyz="0.01094707859851907 -3.05311331771918e-15 0.0007716076492252991" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0268_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0271">
+      <origin rpy="-3.141592653589793 2.220446049250313e-16 0.9527678683719736" xyz="-0.005312051284604625 0.02584555140218159 -0.001389726332029537" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0005.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0271_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0280">
+      <origin rpy="-1.570796326794897 2.220446049250313e-16 -2.767536307590395" xyz="0.004347427812841587 0.01353096927946051 -0.001389740624285318" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0012.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0280_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0536">
+      <origin rpy="0.3740563459993886 -1.570796326794893 0" xyz="-0.00222772152477918 0.01255408033091963 -0.001389726332029903" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0060.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0536_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0537">
+      <origin rpy="0.3740563459993886 -1.570796326794893 0" xyz="-0.006623888263696153 0.009871655049989551 -0.00137112145828773" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0061.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0537_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+  </link>
+  <link name="left_hand_ring_DIP_link">
+    <inertial>
+      <origin xyz="-0.00542827837463897 -1.16179503534715E-05 0.0103335082324084" rpy="0 0 0" />
+      <mass value="0.015" />
+      <inertia ixx="8.4710669906599156e-7" ixy="-3.6669641131589474e-10" ixz="-1.4908281068077731e-7" iyy="7.6384722984868145e-7" iyz="-8.4951883604945327e-10" izz="3.0841880439551668e-7" />
+    </inertial>
+    <visual name="visual_NRP0256">
+      <origin rpy="3.141592653589793 0 0.2450185077801741" xyz="0.002532966045375957 0.005967813606412625 0.003121320342000015" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0008.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0256_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0260">
+      <origin rpy="-1.570796326794897 4.440892098500626e-16 -1.325777819014722" xyz="-0.001358160066137665 0.00924498531325153 0.003121320343552915" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0000.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0260_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0262">
+      <origin rpy="-3.141592653589793 0 -2.89657225830329" xyz="0.008244897201372264 -8.984618604657157e-13 0.003121320343558571" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0262_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0269">
+      <origin rpy="-3.141592653589793 -2.220446049250313e-16 -2.870921388215834" xyz="3.871482995299047e-12 -8.959222252968857e-13 0.003121320343559782" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0269_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0504">
+      <origin rpy="0.2450185077801725 -1.570796326794893 0" xyz="0.004246887456235934 0.0155877902993122 0.003121320343558545" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0066.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0504_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0514">
+      <origin rpy="1.570796327077075 -1.568496321589829 -1.325777819297291" xyz="0.0004337906257803927 0.0126112165107858 0.003147378691650209" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0068.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0514_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0515">
+      <origin rpy="2.57087918022749 -1.566539924884202 -2.3257042941012" xyz="-0.002962892265752737 0.01159226241141978 0.003146568286514228" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0067.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0515_color">
+        <color rgba=".65 .63 .71 1" />
+      </material>
+    </visual>
+  </link>
+  <link name="left_hand_pinky_MCP_link">
+    <inertial>
+      <origin xyz="-0.00971195415666607 -3.46049200662668E-06 0.00710789940158277" rpy="0 0 0" />
+      <mass value="0.03" />
+      <inertia ixx="0.0000012338308456839026" ixy="-1.0110682652574451e-10" ixz="-3.6327365138889273e-8" iyy="0.0000012829620431216725" iyz="-7.5446472448057347e-10" izz="0.0000016224505448672845" />
+    </inertial>
+    <visual name="visual_NRP0299">
+      <origin rpy="-3.141592653589789 -8.881784197001252e-16 -2.665048293082633" xyz="0.01320037878244412 -1.994931997373328e-16 -0.001000000000001618" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0299_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0301">
+      <origin rpy="3.14159265358979 2.442490654175344e-15 1.050793065781734" xyz="-5.46734499605105e-07 -9.548844092216379e-07 -0.001000000000001534" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0005.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0301_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0306">
+      <origin rpy="3.141592653589793 0.01032033491157747 2.000558605891584" xyz="0.004840620013969892 0.01319932923572459 -0.001111891345850602" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0020_housing.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0306_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0325">
+      <origin rpy="1.570796326794896 -0.0467820814105131 -2.711830374493105" xyz="0.01582719730401926 0.009509196910840489 0.005399999999999662" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0019.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0325_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0334">
+      <origin rpy="-3.141592653589793 0 -2.711830374493105" xyz="0.01120448252531225 0.002097621763238192 -0.001000000000000896" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0015.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0334_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0336">
+      <origin rpy="1.570796326794896 -0.04678208141051265 -2.711830374493105" xyz="0.01582719730401922 0.009509196910840493 -0.00740000000000051" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0019.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0336_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0338">
+      <origin rpy="0.4297622790966873 -1.57079632679452 0" xyz="-0.006186730537997266 0.008157316433775841 -0.001000000053135646" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0022.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0338_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0339">
+      <origin rpy="-1.570796326794896 0.8980635120033158 -1.141034047698209" xyz="-0.003090735511322024 0.002433523368857375 -0.007500000000000846" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0021.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0339_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0340">
+      <origin rpy="-1.570796326794896 0.8980635120033194 -1.141034047698209" xyz="-0.003090735511322085 0.002433523368857363 0.005499999999999047" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0021.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0340_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0486">
+      <origin rpy="0.4297622790966855 -1.570796326794892 0" xyz="0.0003298524118832101 0.01098065868912861 -0.001000000000000219" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0049.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0486_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+  </link>
+  <link name="left_hand_pinky_swing_link">
+    <inertial>
+      <origin xyz="0.000274204155159384 -7.56933162854995E-06 0.0172239133681881" rpy="0 0 0" />
+      <mass value="0.07" />
+      <inertia ixx="0.0000053695558324703811" ixy="4.9649944402722229e-11" ixz="-7.2267142897419904e-8" iyy="0.0000037876631283759538" iyz="-1.4994483479820389e-9" izz="0.0000032100798477473220" />
+    </inertial>
+    <visual name="visual_NRP0306_OUTPUT">
+      <origin rpy="1.570796326794897 2.597921877622866e-14 -0.09121665976703652" xyz="-2.927853533512238e-17 -3.15857719021353e-18 -0.004025000594556623" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0020_output.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0306_OUTPUT_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0308">
+      <origin rpy="-3.06069632873433 1.570796326794896 0" xyz="0.02454527779947258 -0.001979873686217104 -0.01476498653802583" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0026.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0308_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0310">
+      <origin rpy="3.141592653589793 -4.440892098500626e-16 -0.03411424344498393" xyz="-0.004632560438959112 -0.003937738409213881 -0.001800000054016742" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0310_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0311">
+      <origin rpy="3.141592653589793 -4.440892098500626e-16 -0.03411424344498393" xyz="-0.003937738409213868 0.004632560438958253 -0.001800000054016739" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0311_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0312">
+      <origin rpy="4.440892098500626e-16 2.220446049250313e-16 -1.651692651650356" xyz="0.001282000918720085 -0.0001039359882613993 -0.002500000071246459" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0009.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0312_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0313">
+      <origin rpy="3.141592653589793 -4.440892098500626e-16 -0.03411424344498393" xyz="0.004632560438958275 0.003937738409213021 -0.001800000054016742" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0313_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0315">
+      <origin rpy="3.141592653589793 -4.440892098500626e-16 -0.03411424344498393" xyz="0.00393773840921303 -0.004632560438959127 -0.001800000054016739" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0315_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0318">
+      <origin rpy="3.141592653589793 -4.440892098500626e-16 -0.03411424344498393" xyz="0.009563256164247028 -0.005791729580789169 -0.002549999944120668" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0003.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0318_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0320">
+      <origin rpy="3.141592653589793 -4.440892098500626e-16 -0.03411424344498393" xyz="0.01037133736317905 0.004175567182924278 -0.002549999944120671" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0003.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0320_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0530">
+      <origin rpy="3.141592653589791 -8.881784197001252e-16 1.489900001939438" xyz="0.02037375533300855 -0.001670069758333864 -0.02907757070467961" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0071.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0530_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0531">
+      <origin rpy="3.141592653589791 -8.881784197001252e-16 1.489900001939438" xyz="0.02253045096151664 -0.001826619347264165 -0.02405155336645585" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0072.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0531_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+  </link>
+  <link name="left_hand_pinky_PIP_link">
+    <inertial>
+      <origin xyz="-0.00256036575895302 0.000117999611699414 0.0126670531721035" rpy="0 0 0" />
+      <mass value="0.04" />
+      <inertia ixx="0.0000025372503022235211" ixy="1.3659355326211771e-8" ixz="-2.1126126300761932e-8" iyy="0.0000019446483015489526" iyz="7.8600796305774999e-9" izz="0.0000018128273087665459" />
+    </inertial>
+    <visual name="visual_NRP0292">
+      <origin rpy="-1.570796326794897 -0.02584727269806453 -2.896617497063619" xyz="0.001955122606187687 0.01286509180893969 -0.003044213720221456" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0025.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0292_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0293">
+      <origin rpy="3.127212659017722 -0.02147857215875448 -2.306585596233587" xyz="-0.006302507066605349 0.02522519069184212 -0.002914588816986704" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0005.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0293_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0316">
+      <origin rpy="-3.141592653589793 -8.881784197001252e-16 -2.84983541565312" xyz="0.008246326917588915 0 -0.003121320343560552" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0316_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0323">
+      <origin rpy="-3.141592653589792 0 1.937514899705185" xyz="4.250072516143177e-17 -3.05311331771918e-16 -0.0031213203435611" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0323_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0533">
+      <origin rpy="1.912220382038754e-13 -1.544949054096831 0.2449751565259812" xyz="-0.009872851149654454 0.01157467417207262 -0.002757780669407142" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0069.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0533_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0534">
+      <origin rpy="1.912220382038754e-13 -1.544949054096831 0.2449751565259812" xyz="-0.004713143156495103 0.01170642363534133 -0.002869686607038553" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0070.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0534_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+  </link>
+  <link name="left_hand_pinky_DIP_link">
+    <inertial>
+      <origin xyz="-0.00527669330617801 -6.71735892755071E-06 0.0073246804908844" rpy="0 0 0" />
+      <mass value="0.015" />
+      <inertia ixx="5.4348776924579158e-7" ixy="-4.2350731191334170e-10" ixz="-1.1987834221503031e-7" iyy="4.8265878985996448e-7" iyz="-5.4617296270026136e-10" izz="3.0229372228460263e-7" />
+    </inertial>
+    <visual name="visual_NRP0294">
+      <origin rpy="-1.570796326794897 4.440892098500626e-16 -1.325777819014722" xyz="-0.001188358074126043 0.008565892329216718 0.003121320343559601" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0000.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0294_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0304">
+      <origin rpy="3.141592653589788 -8.881784197001252e-16 -2.849796008613381" xyz="0.008244897197498543 -6.938893903907228e-18 0.000763828497634865" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0304_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0307">
+      <origin rpy="3.141592653589793 0 0.2450185077801745" xyz="0.003052152074664857 0.005742904618130523 0.003121320341711274" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0027.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0307_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0309">
+      <origin rpy="3.141592653589788 -8.881784197001252e-16 -2.849796008613381" xyz="-2.567390744445674e-16 -1.040834085586084e-16 0.002987316478632429" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0309_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0517">
+      <origin rpy="0.2450185077801728 -1.570796326794891 0" xyz="0.00522791451673079 0.01230982667552422 0.003121320343560105" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0053.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0517_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0522">
+      <origin rpy="0.2450185077729161 -1.57079632679466 0" xyz="0.001623395118453581 0.0100312408654912 0.003121319645070346" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0058.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0522_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0527">
+      <origin rpy="0.2450185077728876 -1.570796326794875 0" xyz="-0.002957414566989933 0.008495308886076473 0.003120872610228402" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0059.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0527_color">
+        <color rgba=".68 .67 .69 1" />
+      </material>
+    </visual>
+  </link>
+  <link name="left_hand_thumb_rota_block_link">
+    <!--Restored thumb_mount motor visuals; thumb_rot1 has zero origin so these geometry poses are in the rota-block link frame.-->
+    <inertial>
+      <origin xyz="-0.00287775233854371 -0.014221429943222 0.00759780701699019" rpy="0 0 0" />
+      <mass value="0.035" />
+      <inertia ixx="0.0000034697447116161892" ixy="-6.2574594223511107e-7" ixz="-3.7953329622616734e-8" iyy="0.0000016552168948205018" iyz="-1.6043970779262275e-7" izz="0.0000039888476254530798" />
+    </inertial>
+    <visual name="visual_NRP0373">
+      <origin rpy="-6.661338147750939e-16 -2.220446049250313e-15 2.585771122586974" xyz="0.005913314226150014 -0.006910612018024042 0.002533998688087673" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0040.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0373_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0374">
+      <origin rpy="3.141592653589792 1.554312234475219e-15 -1.088209142064132" xyz="0.006583371212735298 -0.004089220399455798 0.002983999025226433" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0374_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0377">
+      <origin rpy="-1.570796326794887 1.409387893946304 -0.5558215310028092" xyz="0.02235675585307759 -0.02188923592190255 -0.005757380173952588" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0038_housing.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0377_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0378">
+      <origin rpy="3.141592653589792 1.554312234475219e-15 -1.088209142064132" xyz="0.004089220399486677 0.006583371212813703 0.002983999025183148" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0378_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0379">
+      <origin rpy="-1.110223024625157e-15 -1.332267629550188e-15 -3.123075797180609" xyz="0.007546661901850533 0.001763630953448494 0.002783999174182663" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0011.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0379_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0381">
+      <origin rpy="-1.5707963267949 0.8281056013282582 2.585771122586973" xyz="0.01718880058326809 -0.009852671444187288 0.003483999079236127" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0003.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0381_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0382">
+      <origin rpy="3.141592653589792 1.554312234475219e-15 -1.088209142064132" xyz="-0.004089220399456005 -0.006583371212735388 0.00298399902522644" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0382_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0383">
+      <origin rpy="3.141592653589792 1.554312234475219e-15 -1.088209142064132" xyz="-0.006583371212735563 0.004089220399456023 0.00298399902522644" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0383_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0384_OUTPUT">
+      <origin rpy="0 0 0.9062360785580895" xyz="-1.027170591354101e-11 4.733656613117431e-10 0.0007339990715132457" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0038_output.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0384_OUTPUT_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0385">
+      <origin rpy="1.570796326794895 -0.420418311771998 2.585771122586976" xyz="0.01278019823085473 -0.02547874672831217 0.003483999079236976" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0003.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0385_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0386">
+      <origin rpy="-1.5707963267949 0.8281056013282582 2.585771122586973" xyz="0.02101140322292112 -0.01222705748258092 0.003483999079236932" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0003.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0386_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0387">
+      <origin rpy="1.570796326794895 -0.4204183117720082 2.585771122586977" xyz="0.008957595591241352 -0.02310436068986087 0.003483999079159579" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0003.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0387_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0388">
+      <origin rpy="-1.570796326794899 0.8281056013282813 2.585771122586971" xyz="0.01920563017146818 -0.01086997101273258 0.002583999079236554" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0037.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0388_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0390">
+      <origin rpy="-1.570796326794898 0.8281056013282573 2.585771122586976" xyz="0.01076336870162396 -0.02446144706483196 0.002583999079236237" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0037.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0390_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0394">
+      <origin rpy="1.720845688168993e-15 1.110223024625157e-15 0.9062360785580481" xyz="-0.006461555059663015 -0.01495754042651545 -0.006366000800057359" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0036.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0394_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+  </link>
+  <link name="left_hand_thumb_rotaback_link2">
+    <inertial>
+      <origin xyz="0.00918852823167288 -0.00282990228475839 0.0194294177118104" rpy="0 0 0" />
+      <mass value="0.075" />
+      <inertia ixx="0.0000089989057536960922" ixy="5.3320381866852324e-8" ixz="0.0000011781157711660845" iyy="0.0000082192258315186962" iyz="6.9941813085608363e-7" izz="0.0000048893639270824023" />
+    </inertial>
+    <visual name="visual_NRP0377_OUTPUT">
+      <origin rpy="-3.141592653589793 0 -2.586879519481126" xyz="-4.693865623603671e-10 6.210314024713008e-11 0.009819358772402986" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0038_output.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0377_OUTPUT_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0380">
+      <origin rpy="1.387778780781446e-15 0 -0.3493860242065567" xyz="-0.007698090136512512 0.0008954932998839037 0.007769358859668139" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0011.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0380_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0391">
+      <origin rpy="0.9819041647890704 0.2956584951301442 2.845819905314457" xyz="0.01739279215910201 -0.01161252452173794 0.01069724547544117" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0033.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0391_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0392">
+      <origin rpy="-1.332267629550188e-15 -1.110223024625157e-15 2.792206629383237" xyz="-0.00607662925752524 -0.004810101544312263 0.007569358818689767" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0392_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0393">
+      <origin rpy="1.570796326794903 1.010614957180763 1.467241873750968" xyz="0.03519214077047206 -0.004802079341758025 0.01314885181192166" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0035.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0393_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0395">
+      <origin rpy="-3.108624468950438e-15 -2.220446049250313e-15 2.792206629383235" xyz="0.00481010154431224 -0.006076629257524994 0.007569358818689687" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0395_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0396">
+      <origin rpy="-2.442490654175344e-15 -4.440892098500626e-16 2.792206629383233" xyz="-0.004810101544312784 0.006076629257524726 0.00756935881868968" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0396_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0397">
+      <origin rpy="2.254143694371377 0.5706745485948583 0.3108163425008003" xyz="0.01889900225546211 0.002880548821736526 0.01983629091965067" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0033.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0397_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0400">
+      <origin rpy="-3.141592653589792 -6.661338147750939e-16 1.467241873750964" xyz="0.004760983301134122 -0.001632114030026152 0.01551577129987101" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0034.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0400_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0401">
+      <origin rpy="2.220446049250313e-16 -4.440892098500626e-16 3.079233423276866" xyz="0.006076629257524225 0.004810101544313078 0.007569358818689927" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0007.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0401_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0406">
+      <origin rpy="3.010416746161588 -0.5462088789911144 1.71596873438321" xyz="0.01767354804648088 -0.008911031763771152 0.02255233344319184" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0033.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0406_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0409">
+      <origin rpy="1.032852715855567 -0.280425143651462 -3.067077181602308" xyz="0.05281381953616977 -4.828009174517867e-05 0.006842163894736221" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0409_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0410">
+      <origin rpy="1.032852715855567 -0.280425143651462 -3.067077181602308" xyz="0.04810405664650758 -0.004606871350301855 0.01561005469597688" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0410_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0473">
+      <origin rpy="3.141592653589772 -0.5601813696141358 1.467241873750962" xyz="0.0304421508762388 0.002436353081940887 0.00249452911425839" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0048.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0473_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0474">
+      <origin rpy="3.141592653589772 -0.5601813696141358 1.467241873750962" xyz="0.03143985607708313 -0.0003153103600257515 0.006650143919671621" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0047.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0474_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+  </link>
+  <link name="left_hand_thumb_MCP_link">
+    <inertial>
+      <origin xyz="-0.00660144359751896 -1.7635235690372E-06 0.0112994982600339" rpy="0 0 0" />
+      <mass value="0.04" />
+      <inertia ixx="0.0000024875198912131291" ixy="8.1371606209394175e-10" ixz="1.0983654508132432e-8" iyy="0.0000021538306901224122" iyz="3.3676625014570043e-11" izz="0.0000018949625957653452" />
+    </inertial>
+    <visual name="visual_NRP0412">
+      <origin rpy="-3.141592653589791 -2.220446049250313e-15 2.568086422455152" xyz="-0.005310489441813681 0.02584585117764531 -0.001389726332029911" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0005.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0412_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0414">
+      <origin rpy="3.117593388995329 0.04046704071523499 -3.032911757282652" xyz="0.0007182233605036801 0.001394455753385113 0.00080816520063694" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0005.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0414_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0418">
+      <origin rpy="-1.570796326794899 -1.998401444325282e-15 -2.767536307590396" xyz="0.004347427812842253 0.01353096927946029 -0.001389740624284874" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0012.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0418_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0477">
+      <origin rpy="0.3740563459996267 -1.570796326794893 0" xyz="-0.002214554643112997 0.0128256647750699 -0.001389726332030428" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0046.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0477_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0478">
+      <origin rpy="0.3740563459996267 -1.570796326794893 0" xyz="-0.006604396086260716 0.009862498915945886 -0.001367949694399989" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0045.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0478_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+  </link>
+  <link name="left_hand_thumb_PIP_link">
+    <inertial>
+      <origin xyz="-0.00527653952258859 -6.66768763222386E-06 0.00732466227018678" rpy="0 0 0" />
+      <mass value="0.015" />
+      <inertia ixx="5.4349142382641509e-7" ixy="-4.3127322231585773e-10" ixz="-1.1988143763217868e-7" iyy="4.8267589499929878e-7" iyz="-5.5314433493714850e-10" izz="3.0229677864916670e-7" />
+    </inertial>
+    <visual name="visual_NRP0398">
+      <origin rpy="1.570796326794897 8.881784197001252e-16 1.815814834575052" xyz="-0.001188358074125765 0.008565892329216614 0.003121320343558802" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0000.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0398_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0399">
+      <origin rpy="0 -2.220446049250313e-16 -1.6774726348107" xyz="0.008244897197498914 3.191891195797325e-16 0.003121320343559282" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0399_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0402">
+      <origin rpy="-3.14159265358979 6.661338147750939e-16 0.245018507780157" xyz="0.003052152074664805 0.005742904618130621 0.003121320341710121" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0027.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0402_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0405">
+      <origin rpy="-1.332267629550188e-15 8.881784197001252e-16 -1.677472634810695" xyz="2.775557561562891e-16 2.359223927328458e-16 0.003121320341710053" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0002.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0405_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0492">
+      <origin rpy="0.2450185077801562 -1.570796326794871 0" xyz="0.005227914526942845 0.01230982667807788 0.003121320326809165" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0053.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0492_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0497">
+      <origin rpy="0.2450185077801903 -1.57079632679252 0" xyz="-0.00295741455671238 0.008495308888635155 0.003120872593495189" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0059.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0497_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+    <visual name="visual_NRP0498">
+      <origin rpy="0.2450185077801903 -1.57079632679252 0" xyz="0.001623395128720072 0.0100312408680832 0.003121319628338363" />
+      <geometry>
+        <mesh filename="../meshes_updated/visual/NR_G0058.stl" scale="1 1 1" />
+      </geometry>
+      <material name="visual_NRP0498_color">
+        <color rgba=".76 .64 .45 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="left_hand_index_MCP_joint" type="revolute">
+    <origin rpy="-1.553654826495876 1.14097839568116 -1.446043379639398" xyz="-0.02507638881393399 -0.001322171550076971 -0.003493176255082145" />
+    <parent link="base_link" />
+    <child link="left_hand_index_MCP_link" />
+    <axis xyz="0 0 1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="left_hand_index_swing_joint" type="revolute">
+    <parent link="left_hand_index_MCP_link" />
+    <child link="left_hand_index_swing_link" />
+    <origin rpy="1.570796326794896 -0.03388279193141019 2.00055860589156" xyz="0.01819644753826805 0.01934035410707618 -0.0009999999999928226" />
+    <axis xyz="0 0 1" />
+    <limit effort="1.0" lower="-0.35" upper="0.35" velocity="1.0" />
+  </joint>
+  <joint name="left_hand_index_PIP_joint" type="revolute">
+    <parent link="left_hand_index_swing_link" />
+    <child link="left_hand_index_PIP_link" />
+    <origin rpy="1.570796326794896 -1.196739980795512 3.107709861658383" xyz="0.04102354615678475 -3.469446951953614e-18 -0.02699999999999959" />
+    <axis xyz="0 0 1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="left_hand_index_DIP_joint" type="revolute">
+    <parent link="left_hand_index_PIP_link" />
+    <child link="left_hand_index_DIP_link" />
+    <origin rpy="-2.775557561562891e-17 0 0.1290378382192092" xyz="-0.005311413726146914 0.02584644819483798 -0.004511046675588968" />
+    <axis xyz="0 0 1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="left_hand_mid_MCP_joint" type="revolute">
+    <origin rpy="-1.570796326794896 1.141034047698233 -1.570796326794896" xyz="0.001000000000048976 -0.0009999999996576079 -0.003399999999989422" />
+    <parent link="base_link" />
+    <child link="left_hand_mid_MCP_link" />
+    <axis xyz="0 0 1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="left_hand_mid_swing_joint" type="revolute">
+    <parent link="left_hand_mid_MCP_link" />
+    <child link="left_hand_mid_swing_link" />
+    <origin rpy="1.570796326794897 0.03388307761929954 2.000558605891585" xyz="0.01730515767040128 0.01893183211925449 -0.0009999878378876119" />
+    <axis xyz="0 0 1" />
+    <limit effort="1.0" lower="-0.35" upper="0.35" velocity="1.0" />
+  </joint>
+  <joint name="left_hand_mid_PIP_joint" type="revolute">
+    <parent link="left_hand_mid_swing_link" />
+    <child link="left_hand_mid_PIP_link" />
+    <origin rpy="1.570796326794897 -1.196739980795463 -3.107709575970494" xyz="0.04102355940806787 2.710505431213761e-19 -0.02601954712355318" />
+    <axis xyz="0 0 1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="left_hand_mid_DIP_joint" type="revolute">
+    <parent link="left_hand_mid_PIP_link" />
+    <child link="left_hand_mid_DIP_link" />
+    <origin rpy="-5.551115123125783e-17 0 0.1290378382192321" xyz="-0.005311413726147234 0.02584644819483781 -0.001731594011526591" />
+    <axis xyz="0 0 1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="left_hand_ring_MCP_joint" type="revolute">
+    <origin rpy="-1.553654826495876 1.140978395681161 -1.6424801869511" xyz="0.02498141640901864 -0.008231377266501451 -0.00349317625508322" />
+    <parent link="base_link" />
+    <child link="left_hand_ring_MCP_link" />
+    <axis xyz="0 0 1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="left_hand_ring_swing_joint" type="revolute">
+    <parent link="left_hand_ring_MCP_link" />
+    <child link="left_hand_ring_swing_link" />
+    <origin rpy="1.570796326794896 -0.03388279193139021 2.00055860589156" xyz="0.01819644753826706 0.01934035410707593 -0.0009999999999978533" />
+    <axis xyz="0 0 1" />
+    <limit effort="1.0" lower="-0.35" upper="0.35" velocity="1.0" />
+  </joint>
+  <joint name="left_hand_ring_PIP_joint" type="revolute">
+    <parent link="left_hand_ring_swing_link" />
+    <child link="left_hand_ring_PIP_link" />
+    <origin rpy="1.570796326794896 -1.196739980795498 3.107709861658403" xyz="0.04102354615678494 -3.469446951953614e-18 -0.02699999999999893" />
+    <axis xyz="0 0 1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="left_hand_ring_DIP_joint" type="revolute">
+    <parent link="left_hand_ring_PIP_link" />
+    <child link="left_hand_ring_DIP_link" />
+    <origin rpy="-2.775557561562891e-17 0 0.1290378382192242" xyz="-0.005311413725825335 0.02584644819497153 -0.004511046675589315" />
+    <axis xyz="0 0 1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="left_hand_pinky_MCP_joint" type="revolute">
+    <origin rpy="-1.553654826495875 1.140978395681137 -1.676708153217579" xyz="0.04620460479214415 -0.01888788583182845 -0.003493176255086374" />
+    <parent link="base_link" />
+    <child link="left_hand_pinky_MCP_link" />
+    <axis xyz="0 0 1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="left_hand_pinky_swing_joint" type="revolute">
+    <parent link="left_hand_pinky_MCP_link" />
+    <child link="left_hand_pinky_swing_link" />
+    <origin rpy="1.570796326794896 -0.08089632485545883 2.000558605891558" xyz="0.01819644753826749 0.01934035410707609 -0.001000000000000494" />
+    <axis xyz="0 0 1" />
+    <limit effort="1.0" lower="-0.35" upper="0.35" velocity="1.0" />
+  </joint>
+  <joint name="left_hand_pinky_PIP_joint" type="revolute">
+    <parent link="left_hand_pinky_swing_link" />
+    <child link="left_hand_pinky_PIP_link" />
+    <origin rpy="1.570796326794896 -1.325821170268723 3.060696328734331" xyz="0.03862632056884393 -6.938893903907228e-18 -0.02181000000000018" />
+    <axis xyz="0 0 1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="left_hand_pinky_DIP_joint" type="revolute">
+    <parent link="left_hand_pinky_PIP_link" />
+    <child link="left_hand_pinky_DIP_link" />
+    <origin rpy="-0.006271197985727549 0.02507512362385311 -0.0001219811640235922" xyz="-0.006381505546490999 0.02520481046164712 -0.006034842938728309" />
+    <axis xyz="0 0 1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="left_hand_thumb_rota_block_joint" type="revolute">
+    <origin rpy="1.962326313574879 -0.4706239270674217 -3.1012094576184" xyz="-0.01681989561050347 -0.05471222240879722 -0.01050479008026069" />
+    <parent link="base_link" />
+    <child link="left_hand_thumb_rota_block_link" />
+    <axis xyz="0 0 1" />
+    <limit effort="1.0" lower="0.0" upper="2.09" velocity="1.0" />
+  </joint>
+  <joint name="left_hand_thumb_rotaback_joint2" type="revolute">
+    <parent link="left_hand_thumb_rota_block_link" />
+    <child link="left_hand_thumb_rotaback_link2" />
+    <origin rpy="1.5707963267949 -1.177491625534822 -0.5558215310028214" xyz="0.02590653476157174 0 -0.01051606509627911" />
+    <axis xyz="0 0 -1" />
+    <limit effort="1.0" lower="0" upper="1.74" velocity="1.0" />
+  </joint>
+  <joint name="left_hand_thumb_MCP_joint" type="revolute">
+    <parent link="left_hand_thumb_rotaback_link2" />
+    <child link="left_hand_thumb_MCP_link" />
+    <origin rpy="0.5275107839615538 -0.9084965891297637 -2.310624851632107" xyz="0.05177736995572636 -1.387778780781446e-17 0.005415700735475509" />
+    <axis xyz="0 0 1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="left_hand_thumb_PIP_joint" type="revolute">
+    <parent link="left_hand_thumb_MCP_link" />
+    <child link="left_hand_thumb_PIP_link" />
+    <origin rpy="1.790234627208065e-15 2.442490654175344e-15 0.1290378382192411" xyz="-0.005311413721871997 0.02584644819457983 -0.004511046675589415" />
+    <axis xyz="0 0 1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+</robot>

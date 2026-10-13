@@ -1,0 +1,202 @@
+{
+  "schema": 1,
+  "alignment": {
+    "status": "A3.2_tianji CAD four-hole and mating-plane alignment",
+    "assembly_from_left_hand": [
+      [
+        0.0,
+        1.0,
+        0.0,
+        -0.004
+      ],
+      [
+        1.0,
+        0.0,
+        0.0,
+        -0.013500000000000002
+      ],
+      [
+        0.0,
+        0.0,
+        -1.0,
+        -0.02599999988079071
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "method": "match four mounting-hole centres and opposing normals; preserve existing hand axes",
+    "source_alignment_point_m": [
+      0.013500000000000002,
+      0.004,
+      -0.004
+    ],
+    "target_alignment_point_m": [
+      0.0,
+      0.0,
+      -0.02199999988079071
+    ],
+    "step_mount_face_size_mm": [
+      24.59999918937683,
+      45.60000076889992,
+      0.0
+    ],
+    "urdf_mount_face_size_mm": [
+      24.6,
+      45.6,
+      0.0
+    ],
+    "mounting_hole_centres_assembly_m": [
+      [
+        -0.009500000160187483,
+        -0.019999999552965164,
+        -0.02199999988079071
+      ],
+      [
+        -0.009500000160187483,
+        0.019999999552965164,
+        -0.02199999988079071
+      ],
+      [
+        0.009500000160187483,
+        -0.019999999552965164,
+        -0.02199999988079071
+      ],
+      [
+        0.009500000160187483,
+        0.019999999552965164,
+        -0.02199999988079071
+      ]
+    ],
+    "plate_hole_diameter_mm": 4.3,
+    "holder_hole_diameter_mm": 3.7,
+    "max_plate_holder_axis_error_mm": 9.599853366654508e-07,
+    "max_original_urdf_hole_axis_error_mm": 4.7486858659737853e-07,
+    "limitations": [
+      "TODO(V32-MOUNT-01): hardware screw/thread fit and flange clocking remain uncalibrated"
+    ]
+  },
+  "source_step_sha256": "91090eee6c2012f8c617f1d37d428d639963d9c4a607f2ef4dc2af7e933df8d3",
+  "right_hand_connector": "provisional mirror of left attachment; not a manufacturer right-hand design",
+  "meshes": {
+    "left": [
+      "preview/assets/hand_connector/tianji_20260930/left_01.stl",
+      "preview/assets/hand_connector/tianji_20260930/left_02.stl",
+      "preview/assets/hand_connector/tianji_20260930/left_03.stl",
+      "preview/assets/hand_connector/tianji_20260930/left_04.stl",
+      "preview/assets/hand_connector/tianji_20260930/left_05.stl",
+      "preview/assets/hand_connector/tianji_20260930/left_06.stl"
+    ],
+    "right": [
+      "preview/assets/hand_connector/tianji_20260930/right_01.stl",
+      "preview/assets/hand_connector/tianji_20260930/right_02.stl",
+      "preview/assets/hand_connector/tianji_20260930/right_03.stl",
+      "preview/assets/hand_connector/tianji_20260930/right_04.stl",
+      "preview/assets/hand_connector/tianji_20260930/right_05.stl",
+      "preview/assets/hand_connector/tianji_20260930/right_06.stl"
+    ]
+  },
+  "mesh_sha256": {
+    "preview/assets/hand_connector/tianji_20260930/left_01.stl": "a0f91e78ae1ebf347e13896e8dff3cefe400cd1b66386baf90efcbf3cdb62616",
+    "preview/assets/hand_connector/tianji_20260930/left_02.stl": "e18de2707f0b16c9e3ad99f48c4035c89cb5a9dde143cff7e3a1a710fb929923",
+    "preview/assets/hand_connector/tianji_20260930/left_03.stl": "c8fcca651c06b28cb458b33e6fd51a7ead9a26c7467f86f95ac3b3f4436c7554",
+    "preview/assets/hand_connector/tianji_20260930/left_04.stl": "16d47d4d06767d15a6f89b77bbd10cdd71f5eeaef4be873fc50d66f67c526122",
+    "preview/assets/hand_connector/tianji_20260930/left_05.stl": "831905770cf17e1ddc2a6715104733144e3c81184c8fbe1f2f0b1ff980184b71",
+    "preview/assets/hand_connector/tianji_20260930/left_06.stl": "a4a29c0e81d0b83894061e3bcac9a00f463c833650a33918ee654702e7a511ba",
+    "preview/assets/hand_connector/tianji_20260930/right_01.stl": "7cd3763ba4e5af725ffebf49893fa3611137d528d633c7022617d24eb02b361c",
+    "preview/assets/hand_connector/tianji_20260930/right_02.stl": "7771bacfcda545c45f3adacde9d78c94e047a4d7ffc6c948f6a5d7bc40a6b7e0",
+    "preview/assets/hand_connector/tianji_20260930/right_03.stl": "b98b294583a5fe182af027ae2d0a22a60c1a8a648f230699afb6649802f7a929",
+    "preview/assets/hand_connector/tianji_20260930/right_04.stl": "4b4bc6c7a684e2352e1eaf81d98b3164f884efc3c2c5e0849a40735a65ad4622",
+    "preview/assets/hand_connector/tianji_20260930/right_05.stl": "b825fbe1939a1f353f8e8b865138d7f547387eabee8617e7fced56d8dd84168d",
+    "preview/assets/hand_connector/tianji_20260930/right_06.stl": "4fc82e068c568e8e1efbff20345c556e6351fd2c49a0fea3f5a4dec44bf3085a"
+  },
+  "nominal_link7_to_hand": {
+    "left": [
+      [
+        -1.0,
+        0.0,
+        0.0,
+        0.013500000000000002
+      ],
+      [
+        0.0,
+        -2.220446049250313e-16,
+        -1.0,
+        -0.12099999988079072
+      ],
+      [
+        0.0,
+        -1.0,
+        2.220446049250313e-16,
+        0.004000000000000006
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "right": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        -0.013500000000000002
+      ],
+      [
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        -0.12099999988079072
+      ],
+      [
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.004000000000000006
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ]
+  },
+  "offsets": {
+    "left": {
+      "xyz_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rpy_deg": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "right": {
+      "xyz_mm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rpy_deg": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "limitations": [
+    "TJ-ARM-03: screw-hole fit and flange clocking need calibration",
+    "Connector visuals only: no assumed mass, inertia or collision forces"
+  ],
+  "source_filename": "A3.2_tianji.stp",
+  "alignment_label": "左右四孔及法兰单孔按当前网格对齐"
+}

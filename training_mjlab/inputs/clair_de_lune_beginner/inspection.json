@@ -1,0 +1,32 @@
+{
+  "source_filename": "clair-de-lune-beginner.mid",
+  "sha256": "08c5d793965c5858a4d4f92458c914d670c441fa42d52e6cc0465531e55b8567",
+  "midi_type": 1,
+  "tracks": 2,
+  "duration_seconds": 65.08694025,
+  "parsed_note_count": 146,
+  "has_fingering": false,
+  "parts": [
+    0
+  ],
+  "pitch_min": 36,
+  "pitch_max": 79,
+  "parsed_total_time": 65.08512865624999,
+  "tracks_summary": [
+    {
+      "index": 0,
+      "name": "Piano",
+      "note_on_count": 100
+    },
+    {
+      "index": 1,
+      "name": "Piano",
+      "note_on_count": 46
+    }
+  ],
+  "status": "candidate_fingering_generated_training_started",
+  "warning": "pretty_midi reports key signature on nonzero track; tempo is on track0. Source bytes preserved, no tempo/key edits.",
+  "planned_self_collision_weight": 0.2,
+  "generated_fingering": "generated_v1/fingering.csv",
+  "training_run": "sac-20260920-204729-873996"
+}

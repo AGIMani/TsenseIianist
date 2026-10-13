@@ -1,0 +1,434 @@
+{
+  "status": "passed",
+  "stage": "single physical scene; not training",
+  "checks": {
+    "reset_qpos": {
+      "passed": true,
+      "max_error": 1.3113021835042815e-08,
+      "tolerance": 1e-06
+    },
+    "right_initial_pose": {
+      "passed": true,
+      "root_error_m": 7.152557379708213e-09,
+      "fingertip_error_m": 1.9352485294832356e-08,
+      "rotation_error": 1.1920928932873665e-07
+    },
+    "left_initial_pose": {
+      "passed": true,
+      "root_error_m": 7.152557379708213e-09,
+      "fingertip_error_m": 1.9352485294832356e-08,
+      "rotation_error": 1.1920928932873665e-07
+    },
+    "reset_ctrl": {
+      "passed": true
+    },
+    "Yaw_world_direction_-0.1": {
+      "passed": true
+    },
+    "Yaw_world_direction_0.1": {
+      "passed": true
+    },
+    "Pitch_world_direction_-0.1": {
+      "passed": true
+    },
+    "Pitch_world_direction_0.1": {
+      "passed": true
+    },
+    "neutral_trajectory": {
+      "passed": true,
+      "max_slide_error_m": 5.924239208347278e-08,
+      "max_hinge_error_rad": 4.2687830670296023e-07,
+      "slide_tolerance_m": 0.0005,
+      "hinge_tolerance_rad": 0.01
+    },
+    "neutral_original_cpu": {
+      "passed": true,
+      "max_slide_error_m": 5.924239208347278e-08,
+      "max_hinge_error_rad": 4.2687830670296023e-07,
+      "exporter_mujoco_version": "3.13.0"
+    },
+    "R_finger_trajectory": {
+      "passed": true,
+      "max_slide_error_m": 5.9243448615583465e-08,
+      "max_hinge_error_rad": 4.2704207015020756e-07,
+      "slide_tolerance_m": 0.0005,
+      "hinge_tolerance_rad": 0.01
+    },
+    "R_finger_original_cpu": {
+      "passed": true,
+      "max_slide_error_m": 5.9243448615583465e-08,
+      "max_hinge_error_rad": 4.2704207015020756e-07,
+      "exporter_mujoco_version": "3.13.0"
+    },
+    "R_finger_R_Index_MCP_responds": {
+      "passed": true,
+      "signed_displacement": 0.15177541971206665
+    },
+    "L_finger_trajectory": {
+      "passed": true,
+      "max_slide_error_m": 5.924227484392138e-08,
+      "max_hinge_error_rad": 4.2704207015020756e-07,
+      "slide_tolerance_m": 0.0005,
+      "hinge_tolerance_rad": 0.01
+    },
+    "L_finger_original_cpu": {
+      "passed": true,
+      "max_slide_error_m": 5.924227484392138e-08,
+      "max_hinge_error_rad": 4.2704207015020756e-07,
+      "exporter_mujoco_version": "3.13.0"
+    },
+    "L_finger_L_Index_MCP_responds": {
+      "passed": true,
+      "signed_displacement": 0.15177541971206665
+    },
+    "wrist_TX_trajectory": {
+      "passed": true,
+      "max_slide_error_m": 3.608151840500673e-08,
+      "max_hinge_error_rad": 3.295824348992227e-07,
+      "slide_tolerance_m": 0.0005,
+      "hinge_tolerance_rad": 0.01
+    },
+    "wrist_TX_original_cpu": {
+      "passed": true,
+      "max_slide_error_m": 3.608151840500673e-08,
+      "max_hinge_error_rad": 3.295824348992227e-07,
+      "exporter_mujoco_version": "3.13.0"
+    },
+    "wrist_TX_R_Wrist_TX_responds": {
+      "passed": true,
+      "signed_displacement": 0.01194119080901146
+    },
+    "wrist_TX_L_Wrist_TX_responds": {
+      "passed": true,
+      "signed_displacement": 0.011941189877688885
+    },
+    "wrist_TY_trajectory": {
+      "passed": true,
+      "max_slide_error_m": 5.914205408607829e-08,
+      "max_hinge_error_rad": 2.54417342526736e-07,
+      "slide_tolerance_m": 0.0005,
+      "hinge_tolerance_rad": 0.01
+    },
+    "wrist_TY_original_cpu": {
+      "passed": true,
+      "max_slide_error_m": 5.914205408607829e-08,
+      "max_hinge_error_rad": 2.54417342526736e-07,
+      "exporter_mujoco_version": "3.13.0"
+    },
+    "wrist_TY_R_Wrist_TY_responds": {
+      "passed": true,
+      "signed_displacement": 0.007960822433233261
+    },
+    "wrist_TY_L_Wrist_TY_responds": {
+      "passed": true,
+      "signed_displacement": 0.007960822433233261
+    },
+    "wrist_TZ_trajectory": {
+      "passed": true,
+      "max_slide_error_m": 5.9188254031848275e-08,
+      "max_hinge_error_rad": 4.1746930268260485e-07,
+      "slide_tolerance_m": 0.0005,
+      "hinge_tolerance_rad": 0.01
+    },
+    "wrist_TZ_original_cpu": {
+      "passed": true,
+      "max_slide_error_m": 5.9188254031848275e-08,
+      "max_hinge_error_rad": 4.1746930268260485e-07,
+      "exporter_mujoco_version": "3.13.0"
+    },
+    "wrist_TZ_R_Wrist_TZ_responds": {
+      "passed": true,
+      "signed_displacement": 0.006680958438664675
+    },
+    "wrist_TZ_L_Wrist_TZ_responds": {
+      "passed": true,
+      "signed_displacement": 0.006680958438664675
+    },
+    "wrist_Pitch_trajectory": {
+      "passed": true,
+      "max_slide_error_m": 5.916419917612488e-08,
+      "max_hinge_error_rad": 3.203581619981577e-07,
+      "slide_tolerance_m": 0.0005,
+      "hinge_tolerance_rad": 0.01
+    },
+    "wrist_Pitch_original_cpu": {
+      "passed": true,
+      "max_slide_error_m": 5.916419917612488e-08,
+      "max_hinge_error_rad": 3.203581619981577e-07,
+      "exporter_mujoco_version": "3.13.0"
+    },
+    "wrist_Pitch_R_Wrist_Pitch_responds": {
+      "passed": true,
+      "signed_displacement": 0.09998007118701935
+    },
+    "wrist_Pitch_L_Wrist_Pitch_responds": {
+      "passed": true,
+      "signed_displacement": 0.09998007118701935
+    },
+    "wrist_Yaw_trajectory": {
+      "passed": true,
+      "max_slide_error_m": 5.949364387252899e-08,
+      "max_hinge_error_rad": 5.349288401124142e-07,
+      "slide_tolerance_m": 0.0005,
+      "hinge_tolerance_rad": 0.01
+    },
+    "wrist_Yaw_original_cpu": {
+      "passed": true,
+      "max_slide_error_m": 5.949364387252899e-08,
+      "max_hinge_error_rad": 5.349288401124142e-07,
+      "exporter_mujoco_version": "3.13.0"
+    },
+    "wrist_Yaw_R_Wrist_Yaw_responds": {
+      "passed": true,
+      "signed_displacement": 0.14955124258995056
+    },
+    "wrist_Yaw_L_Wrist_Yaw_responds": {
+      "passed": true,
+      "signed_displacement": 0.14955124258995056
+    },
+    "press_release_trajectory": {
+      "passed": true,
+      "max_slide_error_m": 4.8076948905860116e-05,
+      "max_hinge_error_rad": 0.0024250426586946983,
+      "slide_tolerance_m": 0.002,
+      "hinge_tolerance_rad": 0.05
+    },
+    "press_release_original_cpu": {
+      "passed": true,
+      "max_slide_error_m": 4.158076010329979e-05,
+      "max_hinge_error_rad": 0.0023286971983985175,
+      "exporter_mujoco_version": "3.13.0"
+    },
+    "hand_key_contacts": {
+      "passed": true,
+      "pairs": [
+        [
+          "piano/black_key_geom_30",
+          "left_/left_hand_ring_DIP_link_collision_0"
+        ],
+        [
+          "piano/black_key_geom_33",
+          "left_/left_hand_mid_DIP_link_collision_0"
+        ],
+        [
+          "piano/black_key_geom_35",
+          "left_/left_hand_index_DIP_link_collision_0"
+        ],
+        [
+          "piano/black_key_geom_52",
+          "right_/right_hand_index_DIP_link_collision_0"
+        ],
+        [
+          "piano/black_key_geom_54",
+          "right_/right_hand_mid_DIP_link_collision_0"
+        ],
+        [
+          "piano/black_key_geom_57",
+          "right_/right_hand_ring_DIP_link_collision_0"
+        ],
+        [
+          "piano/white_key_geom_29",
+          "left_/left_hand_pinky_DIP_link_collision_0"
+        ],
+        [
+          "piano/white_key_geom_31",
+          "left_/left_hand_ring_DIP_link_collision_0"
+        ],
+        [
+          "piano/white_key_geom_56",
+          "right_/right_hand_ring_DIP_link_collision_0"
+        ],
+        [
+          "piano/white_key_geom_58",
+          "right_/right_hand_pinky_DIP_link_collision_0"
+        ]
+      ]
+    },
+    "keys_activated": {
+      "passed": true,
+      "cpu": [
+        33,
+        54
+      ],
+      "gpu": [
+        33,
+        54
+      ]
+    },
+    "keys_released": {
+      "passed": true
+    },
+    "sustain_trajectory": {
+      "passed": true,
+      "max_slide_error_m": 3.79610191381741e-08,
+      "max_hinge_error_rad": 1.3934263942694258e-07,
+      "slide_tolerance_m": 0.0005,
+      "hinge_tolerance_rad": 0.01
+    },
+    "sustain_original_cpu": {
+      "passed": true,
+      "max_slide_error_m": 3.79610191381741e-08,
+      "max_hinge_error_rad": 1.3934263942694258e-07,
+      "exporter_mujoco_version": "3.13.0"
+    },
+    "sustain_action": {
+      "passed": true
+    },
+    "reset_after_motion": {
+      "passed": true
+    }
+  },
+  "cases": {
+    "neutral": {
+      "control_steps": 10,
+      "cpu_active_keys": [],
+      "gpu_active_keys": [],
+      "max_qpos_error": 4.2687830670296023e-07,
+      "max_contacts_at_control_boundary": 0,
+      "max_constraints_at_control_boundary": 90
+    },
+    "R_finger": {
+      "control_steps": 10,
+      "cpu_active_keys": [],
+      "gpu_active_keys": [],
+      "max_qpos_error": 4.2704207015020756e-07,
+      "max_contacts_at_control_boundary": 0,
+      "max_constraints_at_control_boundary": 90
+    },
+    "L_finger": {
+      "control_steps": 10,
+      "cpu_active_keys": [],
+      "gpu_active_keys": [],
+      "max_qpos_error": 4.2704207015020756e-07,
+      "max_contacts_at_control_boundary": 0,
+      "max_constraints_at_control_boundary": 90
+    },
+    "wrist_TX": {
+      "control_steps": 10,
+      "cpu_active_keys": [],
+      "gpu_active_keys": [],
+      "max_qpos_error": 3.295824348992227e-07,
+      "max_contacts_at_control_boundary": 0,
+      "max_constraints_at_control_boundary": 90
+    },
+    "wrist_TY": {
+      "control_steps": 10,
+      "cpu_active_keys": [],
+      "gpu_active_keys": [],
+      "max_qpos_error": 2.54417342526736e-07,
+      "max_contacts_at_control_boundary": 0,
+      "max_constraints_at_control_boundary": 88
+    },
+    "wrist_TZ": {
+      "control_steps": 10,
+      "cpu_active_keys": [],
+      "gpu_active_keys": [],
+      "max_qpos_error": 4.1746930268260485e-07,
+      "max_contacts_at_control_boundary": 0,
+      "max_constraints_at_control_boundary": 90
+    },
+    "wrist_Pitch": {
+      "control_steps": 10,
+      "cpu_active_keys": [],
+      "gpu_active_keys": [],
+      "max_qpos_error": 3.203581619981577e-07,
+      "max_contacts_at_control_boundary": 0,
+      "max_constraints_at_control_boundary": 88
+    },
+    "wrist_Yaw": {
+      "control_steps": 10,
+      "cpu_active_keys": [],
+      "gpu_active_keys": [],
+      "max_qpos_error": 5.349288401124142e-07,
+      "max_contacts_at_control_boundary": 0,
+      "max_constraints_at_control_boundary": 90
+    },
+    "press_release": {
+      "control_steps": 32,
+      "cpu_active_keys": [
+        33,
+        54
+      ],
+      "gpu_active_keys": [
+        33,
+        54
+      ],
+      "max_qpos_error": 0.0024250426586946983,
+      "max_contacts_at_control_boundary": 12,
+      "max_constraints_at_control_boundary": 130
+    },
+    "sustain": {
+      "control_steps": 2,
+      "cpu_active_keys": [],
+      "gpu_active_keys": [],
+      "max_qpos_error": 1.3934263942694258e-07,
+      "max_contacts_at_control_boundary": 0,
+      "max_constraints_at_control_boundary": 90
+    }
+  },
+  "device": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition",
+  "manifest_sha256": "808aa84207926a8bf5c6f24ae70d38c92df81509661edfa290edd5b662689ffb",
+  "versions": {
+    "mjlab": "1.6.0",
+    "mujoco": "3.11.0",
+    "mujoco-warp": "3.11.0",
+    "warp-lang": "1.17.0",
+    "torch": "2.10.0+cu128"
+  },
+  "gravity_compensation": false,
+  "dimensions": {
+    "nq": 138,
+    "nv": 138,
+    "nu": 50,
+    "actions": 51
+  },
+  "physics_dt": 0.002,
+  "decimation": 25,
+  "unsupported_exporter_default_options": [],
+  "load_seconds": 1.6382941971533,
+  "elapsed_seconds": 5.487008517142385,
+  "date": "2026-09-17",
+  "mjlab_commit": "8ee51fbcf806a7419189f706d9e394cbeb7790fa",
+  "first_compile_load_seconds": 92.29238484194502,
+  "cpu_tests": {
+    "command": "MUJOCO_GL=egl .venv/bin/python -m pytest tests/test_mjlab_bundle.py -q",
+    "passed": 4,
+    "seconds": 8.07
+  },
+  "dependency_check": "pip check: no broken requirements",
+  "scope_limits": [
+    "No music task/reward/termination managers",
+    "No SAC training",
+    "No 16/64 environments",
+    "No remote A100 test",
+    "No hardware calibration"
+  ],
+  "gui": {
+    "backend": "NVIDIA/X11 desktop session",
+    "command": "training_mjlab/.venv/bin/python preview/scripts/preview_mjlab.py --demo --duration 4",
+    "exit_code": 0,
+    "observed_activation_sequence": [
+      [],
+      [
+        33,
+        54
+      ],
+      [],
+      [
+        33,
+        54
+      ],
+      []
+    ],
+    "manual_mouse_drag_tested": false,
+    "render_thread_join": true,
+    "paused_duration_2_exit_code": 0
+  },
+  "documentation_checks": {
+    "local_links": 52,
+    "scope": "current project docs and newest root log entry; historical root rename links excluded",
+    "python_syntax": true,
+    "shell_syntax": true,
+    "git_diff_check": true
+  }
+}

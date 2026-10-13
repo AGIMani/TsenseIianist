@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "mode": "full_finger_clearance_v1",
+  "clearance_m": 0.002,
+  "contact_slack_m": 0.001,
+  "projection_iterations": 6,
+  "max_joint_correction_rad": 0.25,
+  "active_command_mode": "active_contact_v1",
+  "active_contact_slack_m": 0.005,
+  "active_support_xy_margin_m": 0.002,
+  "active_recovery_delta_rad": 0.2,
+  "wrist_clearance_interlock": false
+}

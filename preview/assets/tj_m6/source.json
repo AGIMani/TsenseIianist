@@ -1,0 +1,25 @@
+{
+  "repository": "https://github.com/cynthia-you/TJ_FX_ROBOT_CONTRL_SDK",
+  "commit": "1a9cf30770ef6654cc1edfc048e1d0861be27eea",
+  "archive_sha256": "8471d1d8c77c56d41101bdbc51ba38323c42a835e870658b363d9f6cb02a027c",
+  "files": {
+    "left/meshes/Base_L.STL": "f22c309ed8cacd2fc776e2f72a2fc5618d9da84315267377edd3205e91ebbcb5",
+    "left/meshes/Link1_L.STL": "d00097eec49600a4111ee5a124d6636f50ea09a7a1dc8486d98f4370dde7a932",
+    "left/meshes/Link2_L.STL": "4776a6a2086ddc61b1643aff93386e545baccef2751db29d863fe027a76f325e",
+    "left/meshes/Link3_L.STL": "d58f1039bd3eb2ccc1a1959b89d2de7ae714344ad8cb8b78ef97b92dcd317d26",
+    "left/meshes/Link4_L.STL": "77f18566339f38acac1785fae517b05ff1e5247b95404ce26536d215bbed9cd7",
+    "left/meshes/Link5_L.STL": "573f15ee62b0a9b2d62aceeb756800fd86969a685535e91416b73d51f1c57613",
+    "left/meshes/Link6_L.STL": "b6b7570d8ebf1d2acb01baf8941b892f5a5f72aaa05503ab8340da8a2a7b2c13",
+    "left/meshes/Link7_L.STL": "126cc7d41c37049ce34d2636bfe2d460c21e3429ed080877d1c5e983109ef798",
+    "left/arm.urdf": "506269fd5a69e4101ab8085e4d27a37ab7175e8c464b142034b063af4b485507",
+    "right/meshes/Base_R.STL": "f22c309ed8cacd2fc776e2f72a2fc5618d9da84315267377edd3205e91ebbcb5",
+    "right/meshes/Link1_R.STL": "fdb1075fe0b41e5c2cb7c2fe13c9d2e62ff4dd6eb540ea841b8603db28369dd0",
+    "right/meshes/Link2_R.STL": "53eb9fc69c939d2ebd4f32c1df341c1c42bc3d9d0911db0c9fcee70aa2701b34",
+    "right/meshes/Link3_R.STL": "122456d8fc3e81694f352fc1f29d0bc19066f7f3d7572857a1be1e7c030dec9c",
+    "right/meshes/Link4_R.STL": "77f18566339f38acac1785fae517b05ff1e5247b95404ce26536d215bbed9cd7",
+    "right/meshes/Link5_R.STL": "2de51a340695c89b2fd58b1171dfacc4d85aa4e6cd50879e021a2d0bde8599a8",
+    "right/meshes/Link6_R.STL": "49722d14b9ac34a84a41c95f49bd0b2a8859d4a05f66b247822bf36b0a703cd5",
+    "right/meshes/Link7_R.STL": "6eb75b059ff383e90a153be840bcce84b23d8f8afd074b1bc9dfec1b18c2351f",
+    "right/arm.urdf": "d75d0bfad5cb8bf2cf5240c5bd5ffcc4b013c5e2e94e2ccbb0c18a7ee994a8bb"
+  }
+}

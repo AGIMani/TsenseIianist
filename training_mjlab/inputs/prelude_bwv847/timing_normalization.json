@@ -1,0 +1,50 @@
+{
+  "original_file": "/home/hj/\u4e0b\u8f7d/prelude-bwv-847.mid",
+  "original_sha256": "9e29d5b640d875bcfa93824cc963a4d9419ce2139cfd4e786148d45127e602d8",
+  "normalized_file": "prelude-bwv-847_timing_normalized.mid",
+  "normalized_sha256": "d331952a784bcee15735ae6d6c787cddddf06c00a2283384c3073d9bb4f30ef5",
+  "mido_duration_seconds": 79.0,
+  "note_tick_events_preserved": true,
+  "conductor_events": [
+    {
+      "tick": 0,
+      "type": "key_signature",
+      "key": "Cm",
+      "time": 0
+    },
+    {
+      "tick": 0,
+      "type": "set_tempo",
+      "tempo": 500000,
+      "time": 0
+    },
+    {
+      "tick": 0,
+      "type": "time_signature",
+      "numerator": 4,
+      "denominator": 4,
+      "clocks_per_click": 18,
+      "notated_32nd_notes_per_beat": 8,
+      "time": 0
+    },
+    {
+      "tick": 41472,
+      "type": "set_tempo",
+      "tempo": 375000,
+      "time": 0
+    },
+    {
+      "tick": 50688,
+      "type": "set_tempo",
+      "tempo": 1500000,
+      "time": 0
+    },
+    {
+      "tick": 52224,
+      "type": "set_tempo",
+      "tempo": 625000,
+      "time": 0
+    }
+  ],
+  "reason": "Move tempo/key/time-signature events to conductor track; existing pretty_midi importer otherwise ignores nonzero-track tempo changes. Original file unchanged."
+}

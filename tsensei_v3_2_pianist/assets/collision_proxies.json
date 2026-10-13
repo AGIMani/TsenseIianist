@@ -1,0 +1,1604 @@
+{
+  "schema": 1,
+  "profile": "shadow_primitive_v1",
+  "units": "metres; all active collision meshes are scipy convex hulls of the supplied merged per-link STL",
+  "reference": "Deprecated profile name retained only as a hull-only alias",
+  "source_urdf": "source/latest_project/urdf/TsenseI_hand_left_v3_2_withid.urdf",
+  "source_urdf_sha256": "c8016fef1ef6b235b5b327d9f35406a09299c1ca49d6ac5d5bfdefd94b45419d",
+  "preserve_original_mesh_links": [],
+  "limitations": [
+    "Convex hulls fill concave cavities and are an outer collision approximation.",
+    "The right hand is a geometric mirror candidate, not a manufacturer right-hand model.",
+    "The supplied export has no inertial tags; dynamics must be reviewed before hardware claims."
+  ],
+  "hands": {
+    "left": {
+      "base_link": {
+        "source_mesh": "source/latest_project/meshes/left/base_link.STL",
+        "source_sha256": "535030193e2def4a5d73ceca10563acbe2b8d167dfcf3e1e143202c49fa2290c",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/left/base_link_convex_hull.stl",
+        "physical_role": "rigid_mount",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.15,
+        "inertial_origin_xyz_m": [
+          0.012543886773968504,
+          0.005169529330261761,
+          0.0462415450806863
+        ],
+        "inertia_kg_m2": [
+          [
+            0.00018981930673541865,
+            2.3170498438480423e-06,
+            4.899578224219758e-06
+          ],
+          [
+            2.3170498438480423e-06,
+            0.00012197835841304161,
+            3.3209972911397525e-06
+          ],
+          [
+            4.899578224219758e-06,
+            3.320997291139756e-06,
+            0.00011079307971544695
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 184109,
+        "hull_vertex_count": 926,
+        "hull_triangle_count": 1848,
+        "hull_sha256": "5045594e5b86c6582b37e7ae4dc771e5c6ad9ba9de06df92bd6df4725e50c360"
+      },
+      "Left_hand_palm_link": {
+        "source_mesh": "source/latest_project/meshes/left/Left_hand_palm_link.STL",
+        "source_sha256": "0cc746b1513390c90a5695a177b11ab1484f00b2a49f13257cffcd35537b8433",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/left/Left_hand_palm_link_convex_hull.stl",
+        "physical_role": "rigid_mount",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.017,
+        "inertial_origin_xyz_m": [
+          -0.021200000307706454,
+          -0.0001751587589460735,
+          0.005817111075988579
+        ],
+        "inertia_kg_m2": [
+          [
+            1.3970394518754335e-05,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            5.749882709901274e-06,
+            2.3422772835612155e-07
+          ],
+          [
+            0.0,
+            2.3422772835612147e-07,
+            8.246003168028111e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 4259,
+        "hull_vertex_count": 168,
+        "hull_triangle_count": 332,
+        "hull_sha256": "0b3a657214f180f647991fbedb16e40f171e4bc839bb5661dbb68c39e1eef9fd"
+      },
+      "left_hand_thumb_rota_block_link": {
+        "source_mesh": "source/latest_project/meshes/left/left_hand_thumb_rota_block_link.STL",
+        "source_sha256": "4e420262a63a7b300f3d33580b663d4365a7758d1a6b786b24782833d8b27ec9",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/left/left_hand_thumb_rota_block_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.035,
+        "inertial_origin_xyz_m": [
+          0.013152307688155004,
+          -0.01546619022058579,
+          -0.0058576081543448375
+        ],
+        "inertia_kg_m2": [
+          [
+            5.025443466219744e-06,
+            1.8897011963507633e-06,
+            7.242319044381273e-07
+          ],
+          [
+            1.8897011963507629e-06,
+            4.538201276957969e-06,
+            -7.910651134590856e-07
+          ],
+          [
+            7.242319044381276e-07,
+            -7.910651134590855e-07,
+            6.487856039728869e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 29051,
+        "hull_vertex_count": 265,
+        "hull_triangle_count": 526,
+        "hull_sha256": "42bbb4a7d4e9eb6993b3a2e6ac723a9a39178aeffb46f1106b9a508da67e5cc4"
+      },
+      "left_hand_thumb_rotaback_link2": {
+        "source_mesh": "source/latest_project/meshes/left/left_hand_thumb_rotaback_link2.STL",
+        "source_sha256": "64175b3a416071fca9a87613a5e00ea9431d9ffefdd43288470b683384a8dfe9",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/left/left_hand_thumb_rotaback_link2_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.075,
+        "inertial_origin_xyz_m": [
+          0.026031713107455702,
+          -0.003232627835889502,
+          0.01145077603078771
+        ],
+        "inertia_kg_m2": [
+          [
+            5.622976170919185e-06,
+            1.549208804391713e-06,
+            -9.695484487440579e-07
+          ],
+          [
+            1.549208804391713e-06,
+            2.0564591310742848e-05,
+            5.645494428065366e-07
+          ],
+          [
+            -9.695484487440579e-07,
+            5.645494428065388e-07,
+            2.0299959311144604e-05
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 153387,
+        "hull_vertex_count": 795,
+        "hull_triangle_count": 1586,
+        "hull_sha256": "1263b17583ef6763d1201333380b42452a1fd633b695dc677bb6aa8ba99cf7f8"
+      },
+      "left_hand_thumb_MCP_link": {
+        "source_mesh": "source/latest_project/meshes/left/left_hand_thumb_MCP_link.STL",
+        "source_sha256": "26c1bc1ffd958bbb6fb3df8c278494ca0d733e70a4cdc05b9b5075865ea89684",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/left/left_hand_thumb_MCP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.04,
+        "inertial_origin_xyz_m": [
+          0.0032791126767443553,
+          0.013972845185338652,
+          -0.0013895372982137143
+        ],
+        "inertia_kg_m2": [
+          [
+            3.394960843462182e-06,
+            3.8428760005977155e-07,
+            0.0
+          ],
+          [
+            3.8428760005977155e-07,
+            2.375934594499149e-06,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            4.311594882931582e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 19226,
+        "hull_vertex_count": 554,
+        "hull_triangle_count": 1104,
+        "hull_sha256": "309bfe1f8e4278dfec0c03ebb767a2e59f0d696c9b1162e82dadea1418c46a76"
+      },
+      "left_hand_thumb_PIP_link": {
+        "source_mesh": "source/latest_project/meshes/left/left_hand_thumb_PIP_link.STL",
+        "source_sha256": "90a368bec6308d8dce48849192564faacf98c26ca4cee515fbf47113bcfc8a26",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/left/left_hand_thumb_PIP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.015,
+        "inertial_origin_xyz_m": [
+          0.0027670199897001624,
+          0.0074275053126238956,
+          0.003121329855509911
+        ],
+        "inertia_kg_m2": [
+          [
+            5.618077434093758e-07,
+            1.1429320522649197e-07,
+            4.153814901884483e-23
+          ],
+          [
+            1.1429320522649193e-07,
+            5.349847793947356e-07,
+            0.0
+          ],
+          [
+            4.153814901884483e-23,
+            0.0,
+            7.482847697717209e-07
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 8848,
+        "hull_vertex_count": 1770,
+        "hull_triangle_count": 3536,
+        "hull_sha256": "b58bff68c03adcc4719edaab053c3489aa59bd2ca9b5e99f054d240a02138c55"
+      },
+      "left_hand_index_MCP_link": {
+        "source_mesh": "source/latest_project/meshes/left/left_hand_index_MCP_link.STL",
+        "source_sha256": "bf53c9564e7a4348b62fab3aeb5b3997f7bbb8a8fa1d11397cf4964b5445d3de",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/left/left_hand_index_MCP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.03,
+        "inertial_origin_xyz_m": [
+          0.004165413828378664,
+          0.009747811893902161,
+          -0.0010000018909042826
+        ],
+        "inertia_kg_m2": [
+          [
+            1.8596324353060838e-06,
+            -1.1123557254755653e-07,
+            0.0
+          ],
+          [
+            -1.1123557254755656e-07,
+            2.605174121267503e-06,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.855690101550026e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 187499,
+        "hull_vertex_count": 853,
+        "hull_triangle_count": 1702,
+        "hull_sha256": "6d5c14301084ef41c5472514e137b0e35dcf1fae75a4fa61e2659c9fafefde2d"
+      },
+      "left_hand_index_swing_link": {
+        "source_mesh": "source/latest_project/meshes/left/left_hand_index_swing_link.STL",
+        "source_sha256": "0256e1c9fd9706ea1e902378196f55df7baf8780ed1eccf05d4a40073b9ab431",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/left/left_hand_index_swing_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.07,
+        "inertial_origin_xyz_m": [
+          0.01914591150034168,
+          -0.0006488156388254618,
+          -0.015620483551029985
+        ],
+        "inertia_kg_m2": [
+          [
+            6.665950145560446e-06,
+            3.0326003853132334e-07,
+            2.033594656012365e-06
+          ],
+          [
+            3.0326003853132334e-07,
+            1.5600391088300606e-05,
+            -6.884525493811355e-08
+          ],
+          [
+            2.033594656012365e-06,
+            -6.884525493811357e-08,
+            1.2977271013335727e-05
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 53363,
+        "hull_vertex_count": 413,
+        "hull_triangle_count": 822,
+        "hull_sha256": "9a8f6760704c3fe2a538036d4652a328c29133b28de169843f78b8df4b206067"
+      },
+      "left_hand_index_PIP_link": {
+        "source_mesh": "source/latest_project/meshes/left/left_hand_index_PIP_link.STL",
+        "source_sha256": "e26162a5d818bcb09eca61c732a2dbb1bd9bd55b93e53d37e304b07acc6113ba",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/left/left_hand_index_PIP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.04,
+        "inertial_origin_xyz_m": [
+          0.0032577075825765693,
+          0.013903779353034357,
+          -0.0013763609546612095
+        ],
+        "inertia_kg_m2": [
+          [
+            3.4283173776264894e-06,
+            3.9180084205140064e-07,
+            -2.4132108845176876e-22
+          ],
+          [
+            3.918008420514006e-07,
+            2.3854052126903512e-06,
+            0.0
+          ],
+          [
+            -2.4132108845176876e-22,
+            0.0,
+            4.347254256112124e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 20648,
+        "hull_vertex_count": 628,
+        "hull_triangle_count": 1252,
+        "hull_sha256": "7bf8cfdbe3a62911c1d2be1f765f50f419f4bf1ec6b760ef445d97f8de7d4947"
+      },
+      "left_hand_index_DIP_link": {
+        "source_mesh": "source/latest_project/meshes/left/left_hand_index_DIP_link.STL",
+        "source_sha256": "304c5a7a2ed7e4427956e7a6f5679dd5424e9770b645fc8f6e5d775f29e2ab51",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/left/left_hand_index_DIP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.015,
+        "inertial_origin_xyz_m": [
+          0.0028434074735079976,
+          0.009016331895065047,
+          0.0031213118942064995
+        ],
+        "inertia_kg_m2": [
+          [
+            7.3193704193089e-07,
+            1.5308285327329623e-07,
+            -5.1119831701683086e-23
+          ],
+          [
+            1.5308285327329618e-07,
+            5.327292100594909e-07,
+            0.0
+          ],
+          [
+            -5.1119831701683086e-23,
+            0.0,
+            9.20893020011772e-07
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 8971,
+        "hull_vertex_count": 2013,
+        "hull_triangle_count": 4022,
+        "hull_sha256": "4d508a3b3a98cd4fe67ddc332e621952517e6b0715adaeb2372eed54a86d3c4a"
+      },
+      "left_hand_mid_MCP_link": {
+        "source_mesh": "source/latest_project/meshes/left/left_hand_mid_MCP_link.STL",
+        "source_sha256": "e2e2e176e57920340b42785dd42e0fd4a16e5cf230ed73b512ed6ca12153b0ef",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/left/left_hand_mid_MCP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.03,
+        "inertial_origin_xyz_m": [
+          0.004165413828378664,
+          0.009747811893902161,
+          -0.0010000018909042826
+        ],
+        "inertia_kg_m2": [
+          [
+            1.8596324353060838e-06,
+            -1.1123557254755653e-07,
+            0.0
+          ],
+          [
+            -1.1123557254755656e-07,
+            2.605174121267503e-06,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.855690101550026e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 187496,
+        "hull_vertex_count": 853,
+        "hull_triangle_count": 1702,
+        "hull_sha256": "6d5c14301084ef41c5472514e137b0e35dcf1fae75a4fa61e2659c9fafefde2d"
+      },
+      "left_hand_mid_swing_link": {
+        "source_mesh": "source/latest_project/meshes/left/left_hand_mid_swing_link.STL",
+        "source_sha256": "62f63e5955d5b99c30860db6ab6813f80eeceeafd5720956493b0acdc2d6593f",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/left/left_hand_mid_swing_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.07,
+        "inertial_origin_xyz_m": [
+          0.019144611176145434,
+          0.0006490532001282852,
+          -0.014635176863917401
+        ],
+        "inertia_kg_m2": [
+          [
+            6.662671570932023e-06,
+            -3.031810727856616e-07,
+            2.0328871401221002e-06
+          ],
+          [
+            -3.031810727856616e-07,
+            1.5598620140375123e-05,
+            6.898416060086548e-08
+          ],
+          [
+            2.0328871401221002e-06,
+            6.898416060086548e-08,
+            1.297934700891156e-05
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 53362,
+        "hull_vertex_count": 409,
+        "hull_triangle_count": 814,
+        "hull_sha256": "6d3d2a741771804f206ab2e6c9c7907e09fbcafaba18a311b57086e96bd5f612"
+      },
+      "left_hand_mid_PIP_link": {
+        "source_mesh": "source/latest_project/meshes/left/left_hand_mid_PIP_link.STL",
+        "source_sha256": "00bdd42c4b2abf798414a235722b37d29982b2f40b9e643d8cec85cb1152594d",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/left/left_hand_mid_PIP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.04,
+        "inertial_origin_xyz_m": [
+          0.0032577075395853437,
+          0.013903779340682721,
+          0.0014030917743241785
+        ],
+        "inertia_kg_m2": [
+          [
+            3.4283173625040646e-06,
+            3.918008396010275e-07,
+            0.0
+          ],
+          [
+            3.918008396010275e-07,
+            2.3854052019609006e-06,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            4.3472542538919814e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 20648,
+        "hull_vertex_count": 628,
+        "hull_triangle_count": 1252,
+        "hull_sha256": "a0796807f0476adae400547529c176190acd79106e984335c0770e91d72c3e4a"
+      },
+      "left_hand_mid_DIP_link": {
+        "source_mesh": "source/latest_project/meshes/left/left_hand_mid_DIP_link.STL",
+        "source_sha256": "438c10f3c063cb909ddae61df0370c684c62e834d791ab58fe38ae68acd9dfee",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/left/left_hand_mid_DIP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.015,
+        "inertial_origin_xyz_m": [
+          0.0028434074735079976,
+          0.009016331895065047,
+          0.0031213118942064995
+        ],
+        "inertia_kg_m2": [
+          [
+            7.3193704193089e-07,
+            1.5308285327329623e-07,
+            -5.1119831701683086e-23
+          ],
+          [
+            1.5308285327329618e-07,
+            5.327292100594909e-07,
+            0.0
+          ],
+          [
+            -5.1119831701683086e-23,
+            0.0,
+            9.20893020011772e-07
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 8971,
+        "hull_vertex_count": 2013,
+        "hull_triangle_count": 4022,
+        "hull_sha256": "4d508a3b3a98cd4fe67ddc332e621952517e6b0715adaeb2372eed54a86d3c4a"
+      },
+      "left_hand_ring_MCP_link": {
+        "source_mesh": "source/latest_project/meshes/left/left_hand_ring_MCP_link.STL",
+        "source_sha256": "d5af0efecd157317edb896b7e31036b2724b4d1b89561946d0cac8cbc1dcd75f",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/left/left_hand_ring_MCP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.03,
+        "inertial_origin_xyz_m": [
+          0.004165413828378664,
+          0.009747811893902161,
+          -0.0010000018909042826
+        ],
+        "inertia_kg_m2": [
+          [
+            1.8596324353060838e-06,
+            -1.1123557254755653e-07,
+            0.0
+          ],
+          [
+            -1.1123557254755656e-07,
+            2.605174121267503e-06,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.855690101550026e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 187499,
+        "hull_vertex_count": 853,
+        "hull_triangle_count": 1702,
+        "hull_sha256": "6d5c14301084ef41c5472514e137b0e35dcf1fae75a4fa61e2659c9fafefde2d"
+      },
+      "left_hand_ring_swing_link": {
+        "source_mesh": "source/latest_project/meshes/left/left_hand_ring_swing_link.STL",
+        "source_sha256": "3a01b9e4b566223fa15a706018ce6c55a9b4b3981841782d826fe05dc5f98c30",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/left/left_hand_ring_swing_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.07,
+        "inertial_origin_xyz_m": [
+          0.01914460016066509,
+          -0.0006489908488464271,
+          -0.01561563034235439
+        ],
+        "inertia_kg_m2": [
+          [
+            6.662683982450692e-06,
+            3.033554372307329e-07,
+            2.0328850942880475e-06
+          ],
+          [
+            3.0335543723073284e-07,
+            1.5598607635875903e-05,
+            -6.904724602358112e-08
+          ],
+          [
+            2.0328850942880484e-06,
+            -6.904724602358112e-08,
+            1.2979345887572868e-05
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 53362,
+        "hull_vertex_count": 411,
+        "hull_triangle_count": 818,
+        "hull_sha256": "1850e2b177305b9f957ea82910c80b96afc1b26e5415b26664aed7d356f53663"
+      },
+      "left_hand_ring_PIP_link": {
+        "source_mesh": "source/latest_project/meshes/left/left_hand_ring_PIP_link.STL",
+        "source_sha256": "7ddf44dbe71c5f656b547512eb0485a4d24675494f0043f64b0a5dee70a1ffab",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/left/left_hand_ring_PIP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.04,
+        "inertial_origin_xyz_m": [
+          0.0032577075825765693,
+          0.013903779353034357,
+          -0.0013763609546612095
+        ],
+        "inertia_kg_m2": [
+          [
+            3.4283173776264894e-06,
+            3.9180084205140064e-07,
+            -2.4132108845176876e-22
+          ],
+          [
+            3.918008420514006e-07,
+            2.3854052126903512e-06,
+            0.0
+          ],
+          [
+            -2.4132108845176876e-22,
+            0.0,
+            4.347254256112124e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 20648,
+        "hull_vertex_count": 628,
+        "hull_triangle_count": 1252,
+        "hull_sha256": "7bf8cfdbe3a62911c1d2be1f765f50f419f4bf1ec6b760ef445d97f8de7d4947"
+      },
+      "left_hand_ring_DIP_link": {
+        "source_mesh": "source/latest_project/meshes/left/left_hand_ring_DIP_link.STL",
+        "source_sha256": "8e7f907a820c26ab7ef8cc9a043ceed4d445fab754b26a42d0bc99b459b938e0",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/left/left_hand_ring_DIP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.015,
+        "inertial_origin_xyz_m": [
+          0.002276436773385763,
+          0.010057809994633179,
+          0.003121332664489144
+        ],
+        "inertia_kg_m2": [
+          [
+            8.562346744801459e-07,
+            1.9074180599850333e-07,
+            0.0
+          ],
+          [
+            1.907418059985034e-07,
+            5.78678985640692e-07,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0710407887923501e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 9323,
+        "hull_vertex_count": 2120,
+        "hull_triangle_count": 4236,
+        "hull_sha256": "e892995be39525275cb256261ef0b96bab2856063a4f35400313d44fb5d72108"
+      },
+      "left_hand_pinky_MCP_link": {
+        "source_mesh": "source/latest_project/meshes/left/left_hand_pinky_MCP_link.STL",
+        "source_sha256": "948a10c8683b4488f994aabaf6d950fe9a63dd319ee155fd4d90e865ed6d4aa8",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/left/left_hand_pinky_MCP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.03,
+        "inertial_origin_xyz_m": [
+          0.004165413828378664,
+          0.009747811893902161,
+          -0.0010000018909042826
+        ],
+        "inertia_kg_m2": [
+          [
+            1.8596324353060838e-06,
+            -1.1123557254755653e-07,
+            0.0
+          ],
+          [
+            -1.1123557254755656e-07,
+            2.605174121267503e-06,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.855690101550026e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 186382,
+        "hull_vertex_count": 853,
+        "hull_triangle_count": 1702,
+        "hull_sha256": "6d5c14301084ef41c5472514e137b0e35dcf1fae75a4fa61e2659c9fafefde2d"
+      },
+      "left_hand_pinky_swing_link": {
+        "source_mesh": "source/latest_project/meshes/left/left_hand_pinky_swing_link.STL",
+        "source_sha256": "4f9f03eab15b5d66bc24e46839d43d4d56b02fc16c89897673ded5baf3ca2dbc",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/left/left_hand_pinky_swing_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.07,
+        "inertial_origin_xyz_m": [
+          0.017351394850595305,
+          -0.0014070708711414128,
+          -0.014991404515528085
+        ],
+        "inertia_kg_m2": [
+          [
+            6.17085096930818e-06,
+            6.035047394755147e-07,
+            2.1219761228196837e-06
+          ],
+          [
+            6.035047394755147e-07,
+            1.3566876445723428e-05,
+            -1.7178813773376447e-07
+          ],
+          [
+            2.121976122819684e-06,
+            -1.7178813773376447e-07,
+            1.0840706666273051e-05
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 128504,
+        "hull_vertex_count": 662,
+        "hull_triangle_count": 1320,
+        "hull_sha256": "9d9f266ca1ed4ac20a27ed92f2af66a536335c3b71b573c568a33d62f9f5f52e"
+      },
+      "left_hand_pinky_PIP_link": {
+        "source_mesh": "source/latest_project/meshes/left/left_hand_pinky_PIP_link.STL",
+        "source_sha256": "942fb59519bdf1064e965c5ead1e48a0e13cd3aac04dbea3e6d2379e03e96ed2",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/left/left_hand_pinky_PIP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.04,
+        "inertial_origin_xyz_m": [
+          0.001071489060374288,
+          0.013311346794565679,
+          -0.003026075661700161
+        ],
+        "inertia_kg_m2": [
+          [
+            3.1610515117712935e-06,
+            3.668427971345338e-07,
+            1.7209256926487074e-08
+          ],
+          [
+            3.668427971345338e-07,
+            2.258771705848299e-06,
+            7.331773822239767e-10
+          ],
+          [
+            1.7209256926487074e-08,
+            7.331773822239726e-10,
+            3.944104382140149e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 19786,
+        "hull_vertex_count": 1153,
+        "hull_triangle_count": 2302,
+        "hull_sha256": "4f044789328bf3822832e2eaa92d1e70d5bdf27001fa0ded389e57eb55f07386"
+      },
+      "left_hand_pinky_DIP_link": {
+        "source_mesh": "source/latest_project/meshes/left/left_hand_pinky_DIP_link.STL",
+        "source_sha256": "24033433d2dcc133214c66fb723bbc57d976235f068c22acfaaf056456f16dd1",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/left/left_hand_pinky_DIP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.015,
+        "inertial_origin_xyz_m": [
+          0.0027712476817273635,
+          0.007419788077040574,
+          0.0031170630899578513
+        ],
+        "inertia_kg_m2": [
+          [
+            5.624593348646637e-07,
+            1.1467757178385792e-07,
+            4.1565574340490456e-23
+          ],
+          [
+            1.1467757178385793e-07,
+            5.350793087077834e-07,
+            0.0
+          ],
+          [
+            4.1565574340490456e-23,
+            0.0,
+            7.487788204450963e-07
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 8856,
+        "hull_vertex_count": 1775,
+        "hull_triangle_count": 3546,
+        "hull_sha256": "fae4e1d57bc77d6ecb9da358dc559e5d235a0faf76313cfa40de853660308e0e"
+      }
+    },
+    "right": {
+      "base_link": {
+        "source_mesh": "source/latest_project/meshes/right/base_link.STL",
+        "source_sha256": "21c9bc0759d741ac18357ffda9911ab974fb0853b9e7a7515b52a38d2ce53c93",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/right/base_link_convex_hull.stl",
+        "physical_role": "rigid_mount",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.15,
+        "inertial_origin_xyz_m": [
+          0.012543886773968504,
+          -0.005169529330261761,
+          0.0462415450806863
+        ],
+        "inertia_kg_m2": [
+          [
+            0.00018981930673541865,
+            -2.3170498438480423e-06,
+            4.899578224219758e-06
+          ],
+          [
+            -2.3170498438480423e-06,
+            0.00012197835841304161,
+            -3.3209972911397525e-06
+          ],
+          [
+            4.899578224219758e-06,
+            -3.320997291139756e-06,
+            0.00011079307971544695
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 184109,
+        "hull_vertex_count": 926,
+        "hull_triangle_count": 1848,
+        "hull_sha256": "ea266aed335d820b793813ae9488be48f80b7612cd57c71d0fab64ffa93f8a63"
+      },
+      "Right_hand_palm_link": {
+        "source_mesh": "source/latest_project/meshes/right/Right_hand_palm_link.STL",
+        "source_sha256": "43c966db83c7ddb04674a52c1ca490413f4d1b6aa3d0ee1aaf1bf634dfd79a7d",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/right/Right_hand_palm_link_convex_hull.stl",
+        "physical_role": "rigid_mount",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.017,
+        "inertial_origin_xyz_m": [
+          -0.021200000307706454,
+          0.0001751587589460735,
+          0.005817111075988579
+        ],
+        "inertia_kg_m2": [
+          [
+            1.3970394518754335e-05,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            5.749882709901274e-06,
+            -2.3422772835612155e-07
+          ],
+          [
+            0.0,
+            -2.3422772835612147e-07,
+            8.246003168028111e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 4259,
+        "hull_vertex_count": 168,
+        "hull_triangle_count": 332,
+        "hull_sha256": "eec1ce0795dacf5e343cfbec680923ad7ae3789ebaba1834f291c2acaecc98d5"
+      },
+      "right_hand_thumb_rota_block_link": {
+        "source_mesh": "source/latest_project/meshes/right/right_hand_thumb_rota_block_link.STL",
+        "source_sha256": "567e71d05883211375c4561427f2e24b38a054d45bc623987c7e22b703c2aba1",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/right/right_hand_thumb_rota_block_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.035,
+        "inertial_origin_xyz_m": [
+          0.013152307688155004,
+          0.01546619022058579,
+          -0.0058576081543448375
+        ],
+        "inertia_kg_m2": [
+          [
+            5.025443466219744e-06,
+            -1.8897011963507633e-06,
+            7.242319044381273e-07
+          ],
+          [
+            -1.8897011963507629e-06,
+            4.538201276957969e-06,
+            7.910651134590856e-07
+          ],
+          [
+            7.242319044381276e-07,
+            7.910651134590855e-07,
+            6.487856039728869e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 29051,
+        "hull_vertex_count": 265,
+        "hull_triangle_count": 526,
+        "hull_sha256": "b324bbc231997a929cac3832a66013ec5582796215f17389a1ff50e9020744a8"
+      },
+      "right_hand_thumb_rotaback_link2": {
+        "source_mesh": "source/latest_project/meshes/right/right_hand_thumb_rotaback_link2.STL",
+        "source_sha256": "d2c4974d47340e1415d74920d2dacc8ce91f845c5b6caf829f480dc6111fd52d",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/right/right_hand_thumb_rotaback_link2_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.075,
+        "inertial_origin_xyz_m": [
+          0.026031713107455702,
+          0.003232627835889502,
+          0.01145077603078771
+        ],
+        "inertia_kg_m2": [
+          [
+            5.622976170919185e-06,
+            -1.549208804391713e-06,
+            -9.695484487440579e-07
+          ],
+          [
+            -1.549208804391713e-06,
+            2.0564591310742848e-05,
+            -5.645494428065366e-07
+          ],
+          [
+            -9.695484487440579e-07,
+            -5.645494428065388e-07,
+            2.0299959311144604e-05
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 153387,
+        "hull_vertex_count": 795,
+        "hull_triangle_count": 1586,
+        "hull_sha256": "7b8af9506d88a7eea48304668f9341aebb2eae50cf90d7765da04e97bb2f1322"
+      },
+      "right_hand_thumb_MCP_link": {
+        "source_mesh": "source/latest_project/meshes/right/right_hand_thumb_MCP_link.STL",
+        "source_sha256": "04137891deadc4df4d62f04e4c36b4dc10e5d4a22ef35cd28e2435612685f412",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/right/right_hand_thumb_MCP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.04,
+        "inertial_origin_xyz_m": [
+          0.0032791126767443553,
+          -0.013972845185338652,
+          -0.0013895372982137143
+        ],
+        "inertia_kg_m2": [
+          [
+            3.394960843462182e-06,
+            -3.8428760005977155e-07,
+            0.0
+          ],
+          [
+            -3.8428760005977155e-07,
+            2.375934594499149e-06,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            4.311594882931582e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 19226,
+        "hull_vertex_count": 554,
+        "hull_triangle_count": 1104,
+        "hull_sha256": "a0ded79dc87663aa8d5890e84547a1163aeaa8cdecbfd7b9de38d78fda1dcf4c"
+      },
+      "right_hand_thumb_PIP_link": {
+        "source_mesh": "source/latest_project/meshes/right/right_hand_thumb_PIP_link.STL",
+        "source_sha256": "6dfa4b5aa4947708869fd27f4c1b304219aec841db83b803e55f1c95e39c0d14",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/right/right_hand_thumb_PIP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.015,
+        "inertial_origin_xyz_m": [
+          0.0027670199897001624,
+          -0.0074275053126238956,
+          0.003121329855509911
+        ],
+        "inertia_kg_m2": [
+          [
+            5.618077434093758e-07,
+            -1.1429320522649197e-07,
+            4.153814901884483e-23
+          ],
+          [
+            -1.1429320522649193e-07,
+            5.349847793947356e-07,
+            0.0
+          ],
+          [
+            4.153814901884483e-23,
+            0.0,
+            7.482847697717209e-07
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 8848,
+        "hull_vertex_count": 1770,
+        "hull_triangle_count": 3536,
+        "hull_sha256": "ec581437399a48456b713bf2ed5eb5d6f2ff79b0dab7f5cd052a397ba132b583"
+      },
+      "right_hand_index_MCP_link": {
+        "source_mesh": "source/latest_project/meshes/right/right_hand_index_MCP_link.STL",
+        "source_sha256": "aeddeb68326496c3dcbd262528e3a9f2dd029fbc0fd8832f9e1f15b951809b55",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/right/right_hand_index_MCP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.03,
+        "inertial_origin_xyz_m": [
+          0.004165413828378664,
+          -0.009747811893902161,
+          -0.0010000018909042826
+        ],
+        "inertia_kg_m2": [
+          [
+            1.8596324353060838e-06,
+            1.1123557254755653e-07,
+            0.0
+          ],
+          [
+            1.1123557254755656e-07,
+            2.605174121267503e-06,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.855690101550026e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 187499,
+        "hull_vertex_count": 853,
+        "hull_triangle_count": 1702,
+        "hull_sha256": "c60312548cdeb9a3c1642b0e5ded27a4c320ec452ba5681b96d19e4d15a6bb9f"
+      },
+      "right_hand_index_swing_link": {
+        "source_mesh": "source/latest_project/meshes/right/right_hand_index_swing_link.STL",
+        "source_sha256": "82fd7eca89f49256bfa266a3bf756413fb9836f86b99d623b38abf82f06d91d4",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/right/right_hand_index_swing_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.07,
+        "inertial_origin_xyz_m": [
+          0.01914591150034168,
+          0.0006488156388254618,
+          -0.015620483551029985
+        ],
+        "inertia_kg_m2": [
+          [
+            6.665950145560446e-06,
+            -3.0326003853132334e-07,
+            2.033594656012365e-06
+          ],
+          [
+            -3.0326003853132334e-07,
+            1.5600391088300606e-05,
+            6.884525493811355e-08
+          ],
+          [
+            2.033594656012365e-06,
+            6.884525493811357e-08,
+            1.2977271013335727e-05
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 53363,
+        "hull_vertex_count": 413,
+        "hull_triangle_count": 822,
+        "hull_sha256": "d80b82dc9c1dd949661274008977d96005c0fbb2ad20082f73fdd4967fbecd6e"
+      },
+      "right_hand_index_PIP_link": {
+        "source_mesh": "source/latest_project/meshes/right/right_hand_index_PIP_link.STL",
+        "source_sha256": "54271b1d19deb82a022fa8e2d4b58a21efd7889b0b77589bb5f0c520616ea65c",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/right/right_hand_index_PIP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.04,
+        "inertial_origin_xyz_m": [
+          0.0032577075825765693,
+          -0.013903779353034357,
+          -0.0013763609546612095
+        ],
+        "inertia_kg_m2": [
+          [
+            3.4283173776264894e-06,
+            -3.9180084205140064e-07,
+            -2.4132108845176876e-22
+          ],
+          [
+            -3.918008420514006e-07,
+            2.3854052126903512e-06,
+            0.0
+          ],
+          [
+            -2.4132108845176876e-22,
+            0.0,
+            4.347254256112124e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 20648,
+        "hull_vertex_count": 628,
+        "hull_triangle_count": 1252,
+        "hull_sha256": "fd0a97683c4ababb84734aac6aa015187829a7144093a2a20b9846f72b04c9cd"
+      },
+      "right_hand_index_DIP_link": {
+        "source_mesh": "source/latest_project/meshes/right/right_hand_index_DIP_link.STL",
+        "source_sha256": "db84b7458bd9d4b00732049e21b8946e5d520d9226d267531a3d47c9bc99012b",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/right/right_hand_index_DIP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.015,
+        "inertial_origin_xyz_m": [
+          0.0028434074735079976,
+          -0.009016331895065047,
+          0.0031213118942064995
+        ],
+        "inertia_kg_m2": [
+          [
+            7.3193704193089e-07,
+            -1.5308285327329623e-07,
+            -5.1119831701683086e-23
+          ],
+          [
+            -1.5308285327329618e-07,
+            5.327292100594909e-07,
+            0.0
+          ],
+          [
+            -5.1119831701683086e-23,
+            0.0,
+            9.20893020011772e-07
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 8971,
+        "hull_vertex_count": 2013,
+        "hull_triangle_count": 4022,
+        "hull_sha256": "4f71ea522c91ef9fbf2bca07412dedb4ff7289dd637d16f57ed65611322f0537"
+      },
+      "right_hand_mid_MCP_link": {
+        "source_mesh": "source/latest_project/meshes/right/right_hand_mid_MCP_link.STL",
+        "source_sha256": "d853189d07dde7956038a31c048a5443d1ca9e620c5eccf7c52979ec39ce1312",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/right/right_hand_mid_MCP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.03,
+        "inertial_origin_xyz_m": [
+          0.004165413828378664,
+          -0.009747811893902161,
+          -0.0010000018909042826
+        ],
+        "inertia_kg_m2": [
+          [
+            1.8596324353060838e-06,
+            1.1123557254755653e-07,
+            0.0
+          ],
+          [
+            1.1123557254755656e-07,
+            2.605174121267503e-06,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.855690101550026e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 187496,
+        "hull_vertex_count": 853,
+        "hull_triangle_count": 1702,
+        "hull_sha256": "c60312548cdeb9a3c1642b0e5ded27a4c320ec452ba5681b96d19e4d15a6bb9f"
+      },
+      "right_hand_mid_swing_link": {
+        "source_mesh": "source/latest_project/meshes/right/right_hand_mid_swing_link.STL",
+        "source_sha256": "fe8337af8257ae65b5e255a36765028be87ee05c82c0dbd6b18171e06ce5ad98",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/right/right_hand_mid_swing_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.07,
+        "inertial_origin_xyz_m": [
+          0.019144611176145434,
+          -0.0006490532001282852,
+          -0.014635176863917401
+        ],
+        "inertia_kg_m2": [
+          [
+            6.662671570932023e-06,
+            3.031810727856616e-07,
+            2.0328871401221002e-06
+          ],
+          [
+            3.031810727856616e-07,
+            1.5598620140375123e-05,
+            -6.898416060086548e-08
+          ],
+          [
+            2.0328871401221002e-06,
+            -6.898416060086548e-08,
+            1.297934700891156e-05
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 53362,
+        "hull_vertex_count": 409,
+        "hull_triangle_count": 814,
+        "hull_sha256": "ea00f9c4715b373030d602733683de69dd96147d32eea1af11a7716f975e04da"
+      },
+      "right_hand_mid_PIP_link": {
+        "source_mesh": "source/latest_project/meshes/right/right_hand_mid_PIP_link.STL",
+        "source_sha256": "e0b2022ff020baf391f9391998aac9d00e6a6d0132b399974034105c4ef9b63e",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/right/right_hand_mid_PIP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.04,
+        "inertial_origin_xyz_m": [
+          0.0032577075395853437,
+          -0.013903779340682721,
+          0.0014030917743241785
+        ],
+        "inertia_kg_m2": [
+          [
+            3.4283173625040646e-06,
+            -3.918008396010275e-07,
+            0.0
+          ],
+          [
+            -3.918008396010275e-07,
+            2.3854052019609006e-06,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            4.3472542538919814e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 20648,
+        "hull_vertex_count": 628,
+        "hull_triangle_count": 1252,
+        "hull_sha256": "2df08faea327b9da8a63f14bbaa0faab6d4a418fc0dd5336cd9af3885a9f7655"
+      },
+      "right_hand_mid_DIP_link": {
+        "source_mesh": "source/latest_project/meshes/right/right_hand_mid_DIP_link.STL",
+        "source_sha256": "3cd5268f64175eea447540699b1fb896a2d9343883759b321f460814167b999b",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/right/right_hand_mid_DIP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.015,
+        "inertial_origin_xyz_m": [
+          0.0028434074735079976,
+          -0.009016331895065047,
+          0.0031213118942064995
+        ],
+        "inertia_kg_m2": [
+          [
+            7.3193704193089e-07,
+            -1.5308285327329623e-07,
+            -5.1119831701683086e-23
+          ],
+          [
+            -1.5308285327329618e-07,
+            5.327292100594909e-07,
+            0.0
+          ],
+          [
+            -5.1119831701683086e-23,
+            0.0,
+            9.20893020011772e-07
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 8971,
+        "hull_vertex_count": 2013,
+        "hull_triangle_count": 4022,
+        "hull_sha256": "4f71ea522c91ef9fbf2bca07412dedb4ff7289dd637d16f57ed65611322f0537"
+      },
+      "right_hand_ring_MCP_link": {
+        "source_mesh": "source/latest_project/meshes/right/right_hand_ring_MCP_link.STL",
+        "source_sha256": "e68812374c64f3b13ed5f93a475b497e3036966857cce896516a94e1bb2d7d26",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/right/right_hand_ring_MCP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.03,
+        "inertial_origin_xyz_m": [
+          0.004165413828378664,
+          -0.009747811893902161,
+          -0.0010000018909042826
+        ],
+        "inertia_kg_m2": [
+          [
+            1.8596324353060838e-06,
+            1.1123557254755653e-07,
+            0.0
+          ],
+          [
+            1.1123557254755656e-07,
+            2.605174121267503e-06,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.855690101550026e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 187499,
+        "hull_vertex_count": 853,
+        "hull_triangle_count": 1702,
+        "hull_sha256": "c60312548cdeb9a3c1642b0e5ded27a4c320ec452ba5681b96d19e4d15a6bb9f"
+      },
+      "right_hand_ring_swing_link": {
+        "source_mesh": "source/latest_project/meshes/right/right_hand_ring_swing_link.STL",
+        "source_sha256": "76058c9e37a01c786f6482d6905507417715f45be6f8a76a3ec81868be62071e",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/right/right_hand_ring_swing_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.07,
+        "inertial_origin_xyz_m": [
+          0.01914460016066509,
+          0.0006489908488464271,
+          -0.01561563034235439
+        ],
+        "inertia_kg_m2": [
+          [
+            6.662683982450692e-06,
+            -3.033554372307329e-07,
+            2.0328850942880475e-06
+          ],
+          [
+            -3.0335543723073284e-07,
+            1.5598607635875903e-05,
+            6.904724602358112e-08
+          ],
+          [
+            2.0328850942880484e-06,
+            6.904724602358112e-08,
+            1.2979345887572868e-05
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 53362,
+        "hull_vertex_count": 411,
+        "hull_triangle_count": 818,
+        "hull_sha256": "63899f91cefee7cfc2b88a0e70faf4f4d63a79d3147d1ceec0fe2b2229f70f0f"
+      },
+      "right_hand_ring_PIP_link": {
+        "source_mesh": "source/latest_project/meshes/right/right_hand_ring_PIP_link.STL",
+        "source_sha256": "86b5c0daa0ad7c757ea8c67b5b93b81f599487f81073e3b7143eae0df415297b",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/right/right_hand_ring_PIP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.04,
+        "inertial_origin_xyz_m": [
+          0.0032577075825765693,
+          -0.013903779353034357,
+          -0.0013763609546612095
+        ],
+        "inertia_kg_m2": [
+          [
+            3.4283173776264894e-06,
+            -3.9180084205140064e-07,
+            -2.4132108845176876e-22
+          ],
+          [
+            -3.918008420514006e-07,
+            2.3854052126903512e-06,
+            0.0
+          ],
+          [
+            -2.4132108845176876e-22,
+            0.0,
+            4.347254256112124e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 20648,
+        "hull_vertex_count": 628,
+        "hull_triangle_count": 1252,
+        "hull_sha256": "fd0a97683c4ababb84734aac6aa015187829a7144093a2a20b9846f72b04c9cd"
+      },
+      "right_hand_ring_DIP_link": {
+        "source_mesh": "source/latest_project/meshes/right/right_hand_ring_DIP_link.STL",
+        "source_sha256": "defbd6827465a5270d0ad85e3d9600a32167d1f572c657809f7ad43bc350d2f1",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/right/right_hand_ring_DIP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.015,
+        "inertial_origin_xyz_m": [
+          0.002276436773385763,
+          -0.010057809994633179,
+          0.003121332664489144
+        ],
+        "inertia_kg_m2": [
+          [
+            8.562346744801459e-07,
+            -1.9074180599850333e-07,
+            0.0
+          ],
+          [
+            -1.907418059985034e-07,
+            5.78678985640692e-07,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0710407887923501e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 9323,
+        "hull_vertex_count": 2120,
+        "hull_triangle_count": 4236,
+        "hull_sha256": "a4f74e5a370b2f66d994838971aadcaf6844e8d0f7c7eb4cfdd7762204630499"
+      },
+      "right_hand_pinky_MCP_link": {
+        "source_mesh": "source/latest_project/meshes/right/right_hand_pinky_MCP_link.STL",
+        "source_sha256": "fc5747d4dfc08562972fa4efd96762927e3ded3bf6a5ee8768a554708b3c06e9",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/right/right_hand_pinky_MCP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.03,
+        "inertial_origin_xyz_m": [
+          0.004165413828378664,
+          -0.009747811893902161,
+          -0.0010000018909042826
+        ],
+        "inertia_kg_m2": [
+          [
+            1.8596324353060838e-06,
+            1.1123557254755653e-07,
+            0.0
+          ],
+          [
+            1.1123557254755656e-07,
+            2.605174121267503e-06,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            2.855690101550026e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 186382,
+        "hull_vertex_count": 853,
+        "hull_triangle_count": 1702,
+        "hull_sha256": "c60312548cdeb9a3c1642b0e5ded27a4c320ec452ba5681b96d19e4d15a6bb9f"
+      },
+      "right_hand_pinky_swing_link": {
+        "source_mesh": "source/latest_project/meshes/right/right_hand_pinky_swing_link.STL",
+        "source_sha256": "b79183d2fa9f324f14e80ff09d3a9ee285d72bfe544c37a73d9e02e1ce7c4b92",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/right/right_hand_pinky_swing_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.07,
+        "inertial_origin_xyz_m": [
+          0.017351394850595305,
+          0.0014070708711414128,
+          -0.014991404515528085
+        ],
+        "inertia_kg_m2": [
+          [
+            6.17085096930818e-06,
+            -6.035047394755147e-07,
+            2.1219761228196837e-06
+          ],
+          [
+            -6.035047394755147e-07,
+            1.3566876445723428e-05,
+            1.7178813773376447e-07
+          ],
+          [
+            2.121976122819684e-06,
+            1.7178813773376447e-07,
+            1.0840706666273051e-05
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 128504,
+        "hull_vertex_count": 662,
+        "hull_triangle_count": 1320,
+        "hull_sha256": "8244cd32ed2e3168fd65a22cd1fbfda19e71ea6b6e432944f68069e1bac1a434"
+      },
+      "right_hand_pinky_PIP_link": {
+        "source_mesh": "source/latest_project/meshes/right/right_hand_pinky_PIP_link.STL",
+        "source_sha256": "92532d5995ac349daff897f271dfc9ad8afdc49a33773b95286943f1d079b2cb",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/right/right_hand_pinky_PIP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.04,
+        "inertial_origin_xyz_m": [
+          0.001071489060374288,
+          -0.013311346794565679,
+          -0.003026075661700161
+        ],
+        "inertia_kg_m2": [
+          [
+            3.1610515117712935e-06,
+            -3.668427971345338e-07,
+            1.7209256926487074e-08
+          ],
+          [
+            -3.668427971345338e-07,
+            2.258771705848299e-06,
+            -7.331773822239767e-10
+          ],
+          [
+            1.7209256926487074e-08,
+            -7.331773822239726e-10,
+            3.944104382140149e-06
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 19786,
+        "hull_vertex_count": 1153,
+        "hull_triangle_count": 2302,
+        "hull_sha256": "c162d75eea51bf59f9294d6ce663cbafac15632b41b457861ecb858596245d9e"
+      },
+      "right_hand_pinky_DIP_link": {
+        "source_mesh": "source/latest_project/meshes/right/right_hand_pinky_DIP_link.STL",
+        "source_sha256": "c5ba6e199e2f467bb54f976f5cf4a9f30307b9d45de336f1c08622da74dc4c06",
+        "type": "mesh",
+        "mesh_file": "collision_hulls/right/right_hand_pinky_DIP_link_convex_hull.stl",
+        "physical_role": "finger_link",
+        "hull_method": "scipy_convex_hull_v1",
+        "mass_kg": 0.015,
+        "inertial_origin_xyz_m": [
+          0.0027712476817273635,
+          -0.007419788077040574,
+          0.0031170630899578513
+        ],
+        "inertia_kg_m2": [
+          [
+            5.624593348646637e-07,
+            -1.1467757178385792e-07,
+            4.1565574340490456e-23
+          ],
+          [
+            -1.1467757178385793e-07,
+            5.350793087077834e-07,
+            0.0
+          ],
+          [
+            4.1565574340490456e-23,
+            0.0,
+            7.487788204450963e-07
+          ]
+        ],
+        "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
+        "source_vertex_count": 8856,
+        "hull_vertex_count": 1775,
+        "hull_triangle_count": 3546,
+        "hull_sha256": "93d9b5f55506112dd1325bf0d6ec86546b2467d28287717990aecb95b6a4a5d1"
+      }
+    }
+  }
+}

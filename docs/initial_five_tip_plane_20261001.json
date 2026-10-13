@@ -1,0 +1,456 @@
+{
+  "source_sha256": "dc9313b63f26d7468c17b6a9a48295ea479ea664501b4055590ad59cc06be890",
+  "method": "CPU MuJoCo reset + forward; five provisional fingertip sites, thumb/index/mid/ring/pinky; horizontal piano white-key top z=0.0225 m.",
+  "lift_m": 0.025,
+  "changed_angles": {
+    "right": {
+      "thumb_rota_block": {
+        "before_rad": 1.13,
+        "after_rad": 1.135929529,
+        "delta_deg": 0.33973698620043324
+      },
+      "thumb_rotaback_joint2": {
+        "before_rad": 0.4,
+        "after_rad": 0.476648962,
+        "delta_deg": 4.391662026658625
+      },
+      "thumb_MCP": {
+        "before_rad": 0.25,
+        "after_rad": 0.241250147,
+        "delta_deg": -0.501329648259882
+      },
+      "thumb_PIP": {
+        "before_rad": 0.35,
+        "after_rad": 0.34598514,
+        "delta_deg": -0.23003453333589102
+      },
+      "index_MCP": {
+        "before_rad": 0.22,
+        "after_rad": 0.274966111,
+        "delta_deg": 3.1493261765476097
+      },
+      "index_PIP": {
+        "before_rad": 0.35,
+        "after_rad": 0.376053926,
+        "delta_deg": 1.4927799995461632
+      },
+      "index_DIP": {
+        "before_rad": 0.18,
+        "after_rad": 0.191980845,
+        "delta_deg": 0.6864518535004158
+      },
+      "mid_MCP": {
+        "before_rad": 0.25,
+        "after_rad": 0.226118825,
+        "delta_deg": -1.368290537313334
+      },
+      "mid_PIP": {
+        "before_rad": 0.38,
+        "after_rad": 0.367534728,
+        "delta_deg": -0.7142074760826003
+      },
+      "mid_DIP": {
+        "before_rad": 0.2,
+        "after_rad": 0.194547042,
+        "delta_deg": -0.3124314792620988
+      },
+      "ring_MCP": {
+        "before_rad": 0.28,
+        "after_rad": 0.231149339,
+        "delta_deg": -2.7989367017243305
+      },
+      "ring_PIP": {
+        "before_rad": 0.42,
+        "after_rad": 0.396375195,
+        "delta_deg": -1.3536016183195632
+      },
+      "ring_DIP": {
+        "before_rad": 0.22,
+        "after_rad": 0.208665629,
+        "delta_deg": -0.649411621735475
+      },
+      "pinky_MCP": {
+        "before_rad": 0.32,
+        "after_rad": 0.258693121,
+        "delta_deg": -3.512625421819216
+      },
+      "pinky_PIP": {
+        "before_rad": 0.45,
+        "after_rad": 0.422932915,
+        "delta_deg": -1.5508297342218573
+      },
+      "pinky_DIP": {
+        "before_rad": 0.24,
+        "after_rad": 0.228418149,
+        "delta_deg": -0.6635911812493722
+      }
+    },
+    "left": {
+      "thumb_rota_block": {
+        "before_rad": 1.13,
+        "after_rad": 1.135929529,
+        "delta_deg": 0.33973698620043324
+      },
+      "thumb_rotaback_joint2": {
+        "before_rad": 0.4,
+        "after_rad": 0.476648962,
+        "delta_deg": 4.391662026658625
+      },
+      "thumb_MCP": {
+        "before_rad": 0.25,
+        "after_rad": 0.241250147,
+        "delta_deg": -0.501329648259882
+      },
+      "thumb_PIP": {
+        "before_rad": 0.35,
+        "after_rad": 0.34598514,
+        "delta_deg": -0.23003453333589102
+      },
+      "index_MCP": {
+        "before_rad": 0.22,
+        "after_rad": 0.274966111,
+        "delta_deg": 3.1493261765476097
+      },
+      "index_PIP": {
+        "before_rad": 0.35,
+        "after_rad": 0.376053926,
+        "delta_deg": 1.4927799995461632
+      },
+      "index_DIP": {
+        "before_rad": 0.18,
+        "after_rad": 0.191980845,
+        "delta_deg": 0.6864518535004158
+      },
+      "mid_MCP": {
+        "before_rad": 0.25,
+        "after_rad": 0.226118825,
+        "delta_deg": -1.368290537313334
+      },
+      "mid_PIP": {
+        "before_rad": 0.38,
+        "after_rad": 0.367534728,
+        "delta_deg": -0.7142074760826003
+      },
+      "mid_DIP": {
+        "before_rad": 0.2,
+        "after_rad": 0.194547042,
+        "delta_deg": -0.3124314792620988
+      },
+      "ring_MCP": {
+        "before_rad": 0.28,
+        "after_rad": 0.231149339,
+        "delta_deg": -2.7989367017243305
+      },
+      "ring_PIP": {
+        "before_rad": 0.42,
+        "after_rad": 0.396375195,
+        "delta_deg": -1.3536016183195632
+      },
+      "ring_DIP": {
+        "before_rad": 0.22,
+        "after_rad": 0.208665629,
+        "delta_deg": -0.649411621735475
+      },
+      "pinky_MCP": {
+        "before_rad": 0.32,
+        "after_rad": 0.258693121,
+        "delta_deg": -3.512625421819216
+      },
+      "pinky_PIP": {
+        "before_rad": 0.45,
+        "after_rad": 0.422932915,
+        "delta_deg": -1.5508297342218573
+      },
+      "pinky_DIP": {
+        "before_rad": 0.24,
+        "after_rad": 0.228418149,
+        "delta_deg": -0.6635911812493722
+      }
+    }
+  },
+  "only_finger_angles_changed": true,
+  "states": {
+    "origin": {
+      "contacts": 0,
+      "hands": {
+        "right": {
+          "tip_xyz_m": [
+            [
+              0.007368230476361693,
+              0.10005612103658913,
+              0.053766140340334535
+            ],
+            [
+              -0.047738111750363695,
+              0.11219077662159364,
+              0.05376614034803283
+            ],
+            [
+              -0.059296140481427034,
+              0.14850000005725414,
+              0.053766140299945114
+            ],
+            [
+              -0.04380930704146055,
+              0.18036450722471997,
+              0.053766140393857735
+            ],
+            [
+              -0.021701270661955308,
+              0.20379322396152244,
+              0.05376614032607749
+            ]
+          ],
+          "height_above_white_keys_mm": [
+            31.266140340334537,
+            31.26614034803283,
+            31.266140299945114,
+            31.266140393857736,
+            31.26614032607749
+          ],
+          "height_spread_mm": 9.391262073554785e-08,
+          "plane_tilt_deg": 8.730496455712615e-09,
+          "plane_residual_max_mm": 5.0346332734534504e-08
+        },
+        "left": {
+          "tip_xyz_m": [
+            [
+              0.00736823047636169,
+              -0.10005612103658913,
+              0.05376614034033454
+            ],
+            [
+              -0.047738111750363695,
+              -0.11219077662159364,
+              0.05376614034803283
+            ],
+            [
+              -0.059296140481427034,
+              -0.14850000005725414,
+              0.053766140299945114
+            ],
+            [
+              -0.04380930704146055,
+              -0.18036450722471997,
+              0.053766140393857735
+            ],
+            [
+              -0.02170127066195533,
+              -0.20379322396152244,
+              0.05376614032607749
+            ]
+          ],
+          "height_above_white_keys_mm": [
+            31.266140340334545,
+            31.26614034803283,
+            31.266140299945114,
+            31.266140393857736,
+            31.26614032607749
+          ],
+          "height_spread_mm": 9.391262073554785e-08,
+          "plane_tilt_deg": 8.730499139316879e-09,
+          "plane_residual_max_mm": 5.034633465331632e-08
+        }
+      },
+      "joint_and_actuator_limits_pass": true,
+      "bilateral_mirror_pass": true
+    },
+    "initial": {
+      "contacts": 0,
+      "hands": {
+        "right": {
+          "tip_xyz_m": [
+            [
+              0.007368230476361693,
+              0.10005612103658913,
+              0.07876614034033454
+            ],
+            [
+              -0.047738111750363695,
+              0.11219077662159364,
+              0.07876614034803282
+            ],
+            [
+              -0.059296140481427034,
+              0.14850000005725414,
+              0.07876614029994511
+            ],
+            [
+              -0.04380930704146055,
+              0.18036450722471997,
+              0.07876614039385774
+            ],
+            [
+              -0.021701270661955308,
+              0.20379322396152244,
+              0.07876614032607748
+            ]
+          ],
+          "height_above_white_keys_mm": [
+            56.26614034033454,
+            56.26614034803283,
+            56.26614029994511,
+            56.26614039385774,
+            56.26614032607748
+          ],
+          "height_spread_mm": 9.391262767444175e-08,
+          "plane_tilt_deg": 8.730499387896149e-09,
+          "plane_residual_max_mm": 5.0346340608498056e-08
+        },
+        "left": {
+          "tip_xyz_m": [
+            [
+              0.00736823047636169,
+              -0.10005612103658913,
+              0.07876614034033454
+            ],
+            [
+              -0.047738111750363695,
+              -0.11219077662159364,
+              0.07876614034803282
+            ],
+            [
+              -0.059296140481427034,
+              -0.14850000005725414,
+              0.07876614029994511
+            ],
+            [
+              -0.04380930704146055,
+              -0.18036450722471997,
+              0.07876614039385774
+            ],
+            [
+              -0.02170127066195533,
+              -0.20379322396152244,
+              0.07876614032607748
+            ]
+          ],
+          "height_above_white_keys_mm": [
+            56.26614034033454,
+            56.26614034803283,
+            56.26614029994511,
+            56.26614039385774,
+            56.26614032607748
+          ],
+          "height_spread_mm": 9.391262767444175e-08,
+          "plane_tilt_deg": 8.730499387896154e-09,
+          "plane_residual_max_mm": 5.0346340608498056e-08
+        }
+      },
+      "joint_and_actuator_limits_pass": true,
+      "bilateral_mirror_pass": true
+    }
+  },
+  "before_fit": {
+    "success": true,
+    "message": "Optimization terminated successfully",
+    "before_angles": {
+      "thumb_rota_block": 1.13,
+      "thumb_rotaback_joint2": 0.4,
+      "thumb_MCP": 0.25,
+      "thumb_PIP": 0.35,
+      "index_MCP": 0.22,
+      "index_PIP": 0.35,
+      "index_DIP": 0.18,
+      "mid_MCP": 0.25,
+      "mid_PIP": 0.38,
+      "mid_DIP": 0.2,
+      "ring_MCP": 0.28,
+      "ring_PIP": 0.42,
+      "ring_DIP": 0.22,
+      "pinky_MCP": 0.32,
+      "pinky_PIP": 0.45,
+      "pinky_DIP": 0.24
+    },
+    "after_angles": {
+      "thumb_rota_block": 1.1359295288608964,
+      "thumb_rotaback_joint2": 0.4766489617840015,
+      "thumb_MCP": 0.2412501466872956,
+      "thumb_PIP": 0.3459851397777572,
+      "index_MCP": 0.2749661108219996,
+      "index_PIP": 0.37605392622477396,
+      "index_DIP": 0.1919808449175859,
+      "mid_MCP": 0.22611882467079072,
+      "mid_PIP": 0.3675347275029826,
+      "mid_DIP": 0.19454704227615943,
+      "ring_MCP": 0.231149339274457,
+      "ring_PIP": 0.3963751950031054,
+      "ring_DIP": 0.20866562941046737,
+      "pinky_MCP": 0.25869312063565547,
+      "pinky_PIP": 0.4229329150971334,
+      "pinky_DIP": 0.22841814886933995
+    },
+    "before_origin_xyz": [
+      [
+        0.006834037235984067,
+        0.10269661287576753,
+        0.06089043295509252
+      ],
+      [
+        -0.050048088919555936,
+        0.11186933043451278,
+        0.06068427214013672
+      ],
+      [
+        -0.05804907590072912,
+        0.14850000005725414,
+        0.050370352246105116
+      ],
+      [
+        -0.04130055236854243,
+        0.18002525636239494,
+        0.047570976496714504
+      ],
+      [
+        -0.018742357754959187,
+        0.2032795410949826,
+        0.04721459839766201
+      ]
+    ],
+    "after_origin_xyz": [
+      [
+        0.0073682304793610265,
+        0.10005612101516713,
+        0.053766140356751424
+      ],
+      [
+        -0.04773811175206377,
+        0.11219077662129606,
+        0.053766140356751445
+      ],
+      [
+        -0.05929614050069751,
+        0.14850000005725414,
+        0.05376614035675151
+      ],
+      [
+        -0.04380930702588913,
+        0.18036450722264144,
+        0.053766140356751445
+      ],
+      [
+        -0.021701270671905106,
+        0.2037932239634174,
+        0.05376614035675145
+      ]
+    ],
+    "objective": 0.01830023728697472,
+    "contacts": []
+  },
+  "regression": {
+    "passed": 22,
+    "failed": 3,
+    "command": "MUJOCO_GL=disable CUDA_VISIBLE_DEVICES='' training/.venv/bin/python -m pytest tests/test_environment.py tests/test_preview_pose_config.py -q --tb=short",
+    "baseline_reproduced_failures": [
+      "test_provisional_tip_is_on_distal_collision_hull",
+      "test_assembly_exclusion_can_be_disabled",
+      "test_normalized_left_preserves_original_urdf_kinematics_and_inertia"
+    ]
+  },
+  "render": {
+    "slurm_step": "1364.13",
+    "path": "preview/outputs/initial_five_tip_plane_20261001/initial.png",
+    "height_offset_m": 0.025,
+    "settle_steps": 0
+  }
+}

@@ -1,0 +1,39 @@
+# Local Python environments and generated caches
+.venv
+venv
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+build/
+dist/
+.DS_Store
+
+# Credentials belong outside the repository
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+
+# Local experiments, deployments, exports, and duplicate project bundle
+/results/
+/deployments/
+/pianist.zip
+outputs/
+*.pt
+*.pth
+*.pid
+*.lock
+
+# Keep the exact source archive required by all_use_this_train.sh
+/logs/*
+!/logs/mount_alignment_20261013/
+/logs/mount_alignment_20261013/*
+!/logs/mount_alignment_20261013/source_mount_aligned.tar.gz
+!/logs/mount_alignment_20261013/source_mount_aligned.tar.gz.sha256
+!/logs/mount_alignment_20261013/source_mount_aligned.tar.gz.manifest.json

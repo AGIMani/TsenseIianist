@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "score": "TwinkleTwinkleRousseau",
+  "score_frame": 10,
+  "thumb_key": 39,
+  "checks": [
+    "thumb_target_color",
+    "physics_and_model_unchanged",
+    "pressed_green_with_fingering_marker",
+    "silent_frame_clears_targets"
+  ],
+  "note": "Render-only pressed state set for overlay verification; no contact or training claim",
+  "date": "2026-09-17",
+  "source_sha256": {
+    "preview/scripts/preview_mjlab.py": "a34d5c740e6d810b260fcbe5af3c49b6f6851fb340e5c6fef07e81b0ce58fb66",
+    "tsensei_v3_2_pianist/preview_fingering.py": "c2840b2b629aa1ac09017e8ff2f718c1dc515e849b6e52c843b5853b97781fad"
+  },
+  "desktop_previews": {
+    "paused_toy": "exit 0; initial frame assignments and legend observed in screenshot",
+    "running_toy": "exit 0; assignments changed at frames 0/10/20, active keys [33,54], score completed",
+    "disabled": "exit 0; no fingering text or annotations requested; preview closed cleanly"
+  },
+  "outputs": [
+    "preview/outputs/fingering_gui.png",
+    "preview/outputs/fingering_thumb_target.png",
+    "preview/outputs/fingering_thumb_pressed.png"
+  ],
+  "limitations": [
+    "No policy training",
+    "No physics/reward/score changes",
+    "Render-only pressed state manually set to check overlay precedence",
+    "Existing task validation JSON is a historical test snapshot; its older preview script hash was not rewritten"
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "date": "2026-09-16",
+  "environment": "Linux; Python 3.12; MuJoCo 3.13.0; dm_control 1.0.46; NVIDIA driver 580.173.02",
+  "scope": "3-second actual desktop viewer; update_hz measures the Python control loop, not displayed FPS or remote-desktop latency",
+  "desktop_command": ".venv/bin/python preview/scripts/preview_pose.py --duration 3 --show-pad-collisions --profile-output preview/outputs/performance_gpu.json",
+  "desktop_exit_code": 0,
+  "desktop": {
+    "gpu_selection": "auto",
+    "graphics": {
+      "vendor": "NVIDIA Corporation",
+      "renderer": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition/PCIe/SSE2",
+      "version": "4.6.0 NVIDIA 580.173.02",
+      "software_renderer": false
+    },
+    "model_load_and_reset_s": 2.214630739064887,
+    "startup_s": 2.953758749878034,
+    "model_bytes": 563310940,
+    "mesh_triangles": 3059266,
+    "interactive": {
+      "viewer_load_s": 0.9726020260713995,
+      "state_only_sync": true,
+      "frames": 187,
+      "elapsed_s": 3.006229863036424,
+      "update_hz": 62.204158869981356,
+      "timings": {
+        "sync_ms": {
+          "median": 0.230519101023674,
+          "p95": 0.29298756271600723
+        },
+        "physics_ms": {
+          "median": 0.6487169302999973,
+          "p95": 0.7183026522397995
+        },
+        "wire_ms": {
+          "median": 2.001899993047118,
+          "p95": 2.274765004403889
+        },
+        "work_ms": {
+          "median": 2.900464925915003,
+          "p95": 3.181076911278069
+        }
+      }
+    }
+  },
+  "headless_command": ".venv/bin/python preview/scripts/preview_pose.py --headless --show-pad-collisions --show-fingertips --profile-output preview/outputs/performance_headless.json",
+  "headless_exit_code": 0,
+  "headless": {
+    "gpu_selection": "auto",
+    "graphics": {
+      "vendor": "NVIDIA Corporation",
+      "renderer": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition/PCIe/SSE2",
+      "version": "4.6.0 NVIDIA 580.173.02",
+      "software_renderer": false
+    },
+    "model_load_and_reset_s": 2.1717021090444177,
+    "startup_s": 2.874987871851772,
+    "model_bytes": 563310940,
+    "mesh_triangles": 3059266,
+    "renderer_init_s": 0.5247140368446708,
+    "render_and_save_s": 0.07873426796868443
+  },
+  "tests": {
+    "command": ".venv/bin/python -m pytest tests -q",
+    "passed": 21
+  },
+  "system_renderer_before": "llvmpipe (LLVM 20.1.2, 256 bits) / Mesa 25.2.8-0ubuntu0.24.04.2",
+  "full_sync_same_gpu_and_cached_wire": {
+    "gpu_selection": "auto",
+    "graphics": {
+      "vendor": "NVIDIA Corporation",
+      "renderer": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition/PCIe/SSE2",
+      "version": "4.6.0 NVIDIA 580.173.02",
+      "software_renderer": false
+    },
+    "model_load_and_reset_s": 2.1784216777887195,
+    "startup_s": 2.9159333950374275,
+    "model_bytes": 563310940,
+    "mesh_triangles": 3059266,
+    "interactive": {
+      "viewer_load_s": 0.9585277307778597,
+      "state_only_sync": false,
+      "frames": 130,
+      "elapsed_s": 3.0076351519674063,
+      "update_hz": 43.22332777463455,
+      "timings": {
+        "sync_ms": {
+          "median": 20.89819998946041,
+          "p95": 21.533027838449925
+        },
+        "physics_ms": {
+          "median": 0.6445685867220163,
+          "p95": 0.8216248475946485
+        },
+        "wire_ms": {
+          "median": 1.5069254441186786,
+          "p95": 1.5832518925890326
+        },
+        "work_ms": {
+          "median": 23.080999380908906,
+          "p95": 23.76625861506909
+        }
+      }
+    }
+  },
+  "wire_benchmark_ms": {
+    "rebuild_ms": {
+      "median": 10.173936956562102,
+      "p95": 10.269220918416977
+    },
+    "cached_moving_ms": {
+      "median": 1.4722205232828856,
+      "p95": 1.5065682935528457
+    },
+    "cached_static_ms": {
+      "median": 0.012887991033494473,
+      "p95": 0.01589093590155244
+    }
+  },
+  "wire_benchmark_method": "60 iterations: step 8 + forward; time old append_to_scene after clearing ngeom; time update_scene on moving pose; time update_scene again with unchanged pose. Verify both line endpoints at atol=1e-7. Physics excluded from wire timings."
+}

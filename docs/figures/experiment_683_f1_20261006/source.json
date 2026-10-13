@@ -1,0 +1,460 @@
+{
+  "checked_utc": "2026-10-06T10:46:54.343985+00:00",
+  "job": 683,
+  "path": "/home/houj/projects/tsensei_motion_experiment_20261006/training_mjlab/outputs/hpc/continue_632_best_20261006-20261006-172319-231976",
+  "slurm": "683|COMPLETED|0:0|01:05:52|2026-10-06T17:23:11|2026-10-06T18:29:03",
+  "steps": 19532,
+  "transitions": 10000384,
+  "updates": 4949248,
+  "new_updates": 2476672,
+  "config_sha_matches": true,
+  "best": {
+    "step": 19000,
+    "transitions": 9728000,
+    "micro_min": 0.8923141891891891,
+    "micro_aggregate": 0.8933445898410018,
+    "self_collision_substeps_max": 0.0,
+    "inter_hand_collision_substeps_max": 0.0,
+    "key_underside_substeps_max": 0.0,
+    "complete": true
+  },
+  "best_score": 0.8923141891891891,
+  "best_checkpoint_sha256": "aef93caab214301f83dea08b92ff6d41afb84677cae2fbf721f447b82cda4f00",
+  "evaluations": [
+    {
+      "step": 0,
+      "transitions": 0,
+      "micro_min": 0.7661176470588236,
+      "micro_aggregate": 0.7728264256777813,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 500,
+      "transitions": 256000,
+      "micro_min": 0.7137964774951077,
+      "micro_aggregate": 0.7276245766811804,
+      "self_collision_substeps_max": 53.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 1000,
+      "transitions": 512000,
+      "micro_min": 0.7743136342484876,
+      "micro_aggregate": 0.775282638996438,
+      "self_collision_substeps_max": 5.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 1500,
+      "transitions": 768000,
+      "micro_min": 0.7621951219512195,
+      "micro_aggregate": 0.7670761286284329,
+      "self_collision_substeps_max": 3.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 2000,
+      "transitions": 1024000,
+      "micro_min": 0.7758620689655172,
+      "micro_aggregate": 0.7807296104097281,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 2500,
+      "transitions": 1280000,
+      "micro_min": 0.7832752613240418,
+      "micro_aggregate": 0.7844107639962883,
+      "self_collision_substeps_max": 10.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 3000,
+      "transitions": 1536000,
+      "micro_min": 0.796054140857995,
+      "micro_aggregate": 0.797192125743934,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 3500,
+      "transitions": 1792000,
+      "micro_min": 0.7919061853299609,
+      "micro_aggregate": 0.7971665778048594,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 4000,
+      "transitions": 2048000,
+      "micro_min": 0.7980725103258376,
+      "micro_aggregate": 0.7998777879621143,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 4500,
+      "transitions": 2304000,
+      "micro_min": 0.8081632653061225,
+      "micro_aggregate": 0.8114061557030778,
+      "self_collision_substeps_max": 6.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 5000,
+      "transitions": 2560000,
+      "micro_min": 0.8124717577948486,
+      "micro_aggregate": 0.8189719766222089,
+      "self_collision_substeps_max": 6.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 5500,
+      "transitions": 2816000,
+      "micro_min": 0.8133453561767358,
+      "micro_aggregate": 0.8174382831845126,
+      "self_collision_substeps_max": 1.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 6000,
+      "transitions": 3072000,
+      "micro_min": 0.840669014084507,
+      "micro_aggregate": 0.8465245327102804,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 6500,
+      "transitions": 3328000,
+      "micro_min": 0.8366215916648193,
+      "micro_aggregate": 0.8402680609765079,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 7000,
+      "transitions": 3584000,
+      "micro_min": 0.8418756815703381,
+      "micro_aggregate": 0.851937871969807,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 7500,
+      "transitions": 3840000,
+      "micro_min": 0.8499452354874042,
+      "micro_aggregate": 0.8529839883551674,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 8000,
+      "transitions": 4096000,
+      "micro_min": 0.8675010789814415,
+      "micro_aggregate": 0.8686781609195402,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 8500,
+      "transitions": 4352000,
+      "micro_min": 0.8657297297297297,
+      "micro_aggregate": 0.8676883229009281,
+      "self_collision_substeps_max": 8.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 9000,
+      "transitions": 4608000,
+      "micro_min": 0.8681769147788565,
+      "micro_aggregate": 0.8708497669415561,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 9500,
+      "transitions": 4864000,
+      "micro_min": 0.8715300193673338,
+      "micro_aggregate": 0.8774110587226747,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 10000,
+      "transitions": 5120000,
+      "micro_min": 0.8828175026680897,
+      "micro_aggregate": 0.8861961451247166,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 10500,
+      "transitions": 5376000,
+      "micro_min": 0.8876166242578456,
+      "micro_aggregate": 0.8894536213468869,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 11000,
+      "transitions": 5632000,
+      "micro_min": 0.8786646693772737,
+      "micro_aggregate": 0.881729606713605,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 11500,
+      "transitions": 5888000,
+      "micro_min": 0.6671267540832758,
+      "micro_aggregate": 0.6761311873671424,
+      "self_collision_substeps_max": 67.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 12000,
+      "transitions": 6144000,
+      "micro_min": 0.8591792656587472,
+      "micro_aggregate": 0.8654895205282802,
+      "self_collision_substeps_max": 1.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 12500,
+      "transitions": 6400000,
+      "micro_min": 0.8744904526925552,
+      "micro_aggregate": 0.8779376157242558,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 13000,
+      "transitions": 6656000,
+      "micro_min": 0.8841165213693387,
+      "micro_aggregate": 0.8846725663716815,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 13500,
+      "transitions": 6912000,
+      "micro_min": 0.8715083798882681,
+      "micro_aggregate": 0.8787641489285969,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 14000,
+      "transitions": 7168000,
+      "micro_min": 0.8769296740994854,
+      "micro_aggregate": 0.8793779870176189,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 14500,
+      "transitions": 7424000,
+      "micro_min": 0.8783181142493098,
+      "micro_aggregate": 0.8825653004884264,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 15000,
+      "transitions": 7680000,
+      "micro_min": 0.8731182795698925,
+      "micro_aggregate": 0.8754555198285102,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 15500,
+      "transitions": 7936000,
+      "micro_min": 0.8790648246546228,
+      "micro_aggregate": 0.8824070796460177,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 16000,
+      "transitions": 8192000,
+      "micro_min": 0.8880407124681934,
+      "micro_aggregate": 0.8885750600197713,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 16500,
+      "transitions": 8448000,
+      "micro_min": 0.8826411075612354,
+      "micro_aggregate": 0.8834538494257763,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 17000,
+      "transitions": 8704000,
+      "micro_min": 0.8481790258885477,
+      "micro_aggregate": 0.8495872598436701,
+      "self_collision_substeps_max": 41.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 17500,
+      "transitions": 8960000,
+      "micro_min": 0.8775074690567648,
+      "micro_aggregate": 0.8778891970699096,
+      "self_collision_substeps_max": 16.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 18000,
+      "transitions": 9216000,
+      "micro_min": 0.876683051934174,
+      "micro_aggregate": 0.8791645947289906,
+      "self_collision_substeps_max": 10.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 18500,
+      "transitions": 9472000,
+      "micro_min": 0.8812765957446809,
+      "micro_aggregate": 0.8841510765972468,
+      "self_collision_substeps_max": 2.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 19000,
+      "transitions": 9728000,
+      "micro_min": 0.8923141891891891,
+      "micro_aggregate": 0.8933445898410018,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 19500,
+      "transitions": 9984000,
+      "micro_min": 0.8921775898520085,
+      "micro_aggregate": 0.8955538385895905,
+      "self_collision_substeps_max": 0.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    },
+    {
+      "step": 19532,
+      "transitions": 10000384,
+      "micro_min": 0.8917949799620333,
+      "micro_aggregate": 0.8934645115952213,
+      "self_collision_substeps_max": 7.0,
+      "inter_hand_collision_substeps_max": 0.0,
+      "key_underside_substeps_max": 0.0,
+      "complete": true
+    }
+  ],
+  "summary": {
+    "status": "completed",
+    "vector_steps": 19532,
+    "transitions": 10000384,
+    "stop_reason": "requested_budget_exhausted",
+    "target_reached": false,
+    "best_checkpoint": "/home/houj/projects/tsensei_motion_experiment_20261006/training_mjlab/outputs/hpc/continue_632_best_20261006-20261006-172319-231976/best.pt",
+    "updates_this_run": 2476672,
+    "updates_total": 4949248,
+    "random_action_transitions": 9999,
+    "completed_episodes": 54272,
+    "truncated_episodes": 0,
+    "replay_size": 2000000,
+    "replay_insertions": 10000384,
+    "replay_bytes": 22780000000,
+    "elapsed_s": 3931.085594675038,
+    "learner_graph_setup_s": 51.39316844008863,
+    "evaluation_seconds_total": 304.69682412431575,
+    "checkpoint_seconds_total": 2.6667760147247463,
+    "torch_peak_allocated_bytes": 235636224,
+    "note": "Torch memory excludes some Warp allocations; short runs do not demonstrate learning quality",
+    "output_dir": "/home/houj/projects/tsensei_motion_experiment_20261006/training_mjlab/outputs/hpc/continue_632_best_20261006-20261006-172319-231976"
+  },
+  "all_training_metrics_finite": true,
+  "fatal_error_markers": []
+}

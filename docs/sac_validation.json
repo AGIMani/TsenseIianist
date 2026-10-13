@@ -1,0 +1,136 @@
+{
+  "date": "2026-09-16",
+  "backend": "CPU MuJoCo / CPU JAX",
+  "tests": {
+    "command": "MUJOCO_GL=egl JAX_PLATFORMS=cpu training/.venv/bin/python -m pytest tests -q --disable-warnings",
+    "passed": 34,
+    "new_sac_cases": 8,
+    "warnings": 184,
+    "seconds": 44.2
+  },
+  "pip_check": "No broken requirements found.",
+  "reference_parity": {
+    "source": "original Shadow SAC",
+    "updates": 3,
+    "agent_leaves": 75,
+    "rtol": 2e-05,
+    "atol": 2e-06,
+    "result": "passed"
+  },
+  "smoke_runs": {
+    "small_network": {
+      "steps": 32,
+      "updates": 25,
+      "episodes": 1,
+      "replay_size": 32,
+      "output_dir": "/tmp/pianist-sac-smoke-v2",
+      "metrics": {
+        "actor_loss": -34.85993194580078,
+        "critic_loss": 656.4118041992188,
+        "entropy": 33.99011993408203,
+        "q": 1.0121192932128906,
+        "temperature": 0.9928242564201355,
+        "temperature_loss": 59.063232421875
+      },
+      "hidden_dims": [
+        16,
+        16
+      ],
+      "evaluation_records": [
+        {
+          "return": 26.611152357421815,
+          "length": 21.0,
+          "ended_episodes": 1,
+          "capped_episodes": 0,
+          "key_frame_micro_f1": 0.0851063829787234
+        },
+        {
+          "return": 28.470301263034344,
+          "length": 21.0,
+          "ended_episodes": 1,
+          "capped_episodes": 0,
+          "key_frame_micro_f1": 0.0
+        }
+      ]
+    },
+    "default_256x3_network": {
+      "steps": 12,
+      "updates": 5,
+      "episodes": 0,
+      "replay_size": 12,
+      "output_dir": "/tmp/pianist-sac-default-network",
+      "metrics": {
+        "actor_loss": -38.846092224121094,
+        "critic_loss": 555.2459716796875,
+        "entropy": 33.4387321472168,
+        "q": 4.826286792755127,
+        "temperature": 0.9988007545471191,
+        "temperature_loss": 58.86804962158203
+      },
+      "hidden_dims": [
+        256,
+        256,
+        256
+      ],
+      "evaluation_records": [
+        {
+          "precision": 0.04535147392290249,
+          "recall": 0.19047619047619047,
+          "f1": 0.06878306878306878,
+          "sustain_precision": 0.38095238095238093,
+          "sustain_recall": 1.0,
+          "sustain_f1": 0.38095238095238093,
+          "return": 24.16367945075035,
+          "length": 21.0,
+          "ended_episodes": 1,
+          "capped_episodes": 0,
+          "key_frame_micro_f1": 0.06315789473684211
+        }
+      ]
+    },
+    "warm_restart": {
+      "steps": 8,
+      "updates": 26,
+      "episodes": 0,
+      "replay_size": 8,
+      "output_dir": "/tmp/pianist-sac-warm-restart",
+      "metrics": {
+        "actor_loss": -34.66910171508789,
+        "critic_loss": 648.5516357421875,
+        "entropy": 33.644287109375,
+        "q": 1.1927399635314941,
+        "temperature": 0.9925269484519958,
+        "temperature_loss": 58.70229721069336
+      },
+      "hidden_dims": [
+        16,
+        16
+      ],
+      "evaluation_records": []
+    }
+  },
+  "default_observation_size": 1180,
+  "action_size": 51,
+  "not_validated": [
+    "training convergence",
+    "A100 or CUDA JAX",
+    "MJX or multi-GPU training",
+    "exact replay/physics resume",
+    "new wheel installation"
+  ],
+  "issues_fixed": [
+    "NumPy 2 rejects upstream SinglePrecisionWrapper dtype casting with copy=False",
+    "Removed JAX KeyArray annotation",
+    "Float32 physical action boundary precision",
+    "Training/evaluation timestep isolation"
+  ],
+  "versions": {
+    "jax": "0.11.1",
+    "jaxlib": "0.11.1",
+    "flax": "0.12.9",
+    "optax": "0.2.8",
+    "distrax": "0.1.9",
+    "mujoco": "3.13.0",
+    "dm-env-wrappers": "0.0.13"
+  }
+}

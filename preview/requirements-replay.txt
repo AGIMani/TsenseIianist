@@ -1,0 +1,6 @@
+# Optional chart/video dependencies in the user-owned Composer environment.
+# Install after the project's existing training/setup.sh environment.
+matplotlib==3.11.2
+imageio==2.38.0
+imageio-ffmpeg==0.6.0
+osqp==1.1.3

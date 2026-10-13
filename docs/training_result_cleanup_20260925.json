@@ -1,0 +1,113 @@
+{
+  "date": "2026-09-25T18:59:06.667919+08:00",
+  "reason": "Remove redundant intermediate checkpoints from completed smoke tests; remove final weights of two explicitly superseded or rejected smoke runs. Preserve config, metrics, summary, current training, full runs, source archives and videos.",
+  "files": [
+    {
+      "path": "training_mjlab/outputs/shadow40_sac_smoke/step-3.pt",
+      "bytes": 29180185,
+      "reason": "redundant_smoke_intermediate"
+    },
+    {
+      "path": "training_mjlab/outputs/shadow40_sac_smoke/step-6.pt",
+      "bytes": 29180185,
+      "reason": "redundant_smoke_intermediate"
+    },
+    {
+      "path": "training_mjlab/outputs/h12_tz49_fixed_smoke_20260924/step-8.pt",
+      "bytes": 19128217,
+      "reason": "redundant_smoke_intermediate"
+    },
+    {
+      "path": "training_mjlab/outputs/tz_removed_structural_smoke_20260924/step-4.pt",
+      "bytes": 19128281,
+      "reason": "redundant_smoke_intermediate"
+    },
+    {
+      "path": "training_mjlab/outputs/progress-smoke-20260918/step-3.pt",
+      "bytes": 19152665,
+      "reason": "redundant_smoke_intermediate"
+    },
+    {
+      "path": "training_mjlab/outputs/shadow-sync-smoke-20260925-165801-315774/step-20.pt",
+      "bytes": 19919561,
+      "reason": "redundant_smoke_intermediate"
+    },
+    {
+      "path": "training_mjlab/outputs/shadow-sync-smoke-20260925-165801-315774/step-40.pt",
+      "bytes": 19919561,
+      "reason": "redundant_smoke_intermediate"
+    },
+    {
+      "path": "training_mjlab/outputs/mixed_v1_smoke_20260920/step-3.pt",
+      "bytes": 29180313,
+      "reason": "redundant_smoke_intermediate"
+    },
+    {
+      "path": "training_mjlab/outputs/mixed_v1_smoke_20260920/step-6.pt",
+      "bytes": 29180313,
+      "reason": "redundant_smoke_intermediate"
+    },
+    {
+      "path": "training_mjlab/outputs/shadow-sync-final-smoke-20260925-170357-534665/step-20.pt",
+      "bytes": 19919561,
+      "reason": "redundant_smoke_intermediate"
+    },
+    {
+      "path": "training_mjlab/outputs/shadow-sync-final-smoke-20260925-170357-534665/step-40.pt",
+      "bytes": 19919561,
+      "reason": "redundant_smoke_intermediate"
+    },
+    {
+      "path": "training_mjlab/outputs/gravcomp47_smoke_20260924/step-2.pt",
+      "bytes": 19099353,
+      "reason": "redundant_smoke_intermediate"
+    },
+    {
+      "path": "training_mjlab/outputs/gravcomp47_smoke_20260924/step-4.pt",
+      "bytes": 19099353,
+      "reason": "redundant_smoke_intermediate"
+    },
+    {
+      "path": "training_mjlab/outputs/self_detection_smoke_20260924/step-4.pt",
+      "bytes": 19128345,
+      "reason": "redundant_smoke_intermediate"
+    },
+    {
+      "path": "training_mjlab/outputs/h12_tz49_smoke_20260924/step-8.pt",
+      "bytes": 19128217,
+      "reason": "redundant_smoke_intermediate"
+    },
+    {
+      "path": "training_mjlab/outputs/no_yaw47_smoke_20260924/step-4.pt",
+      "bytes": 19099289,
+      "reason": "redundant_smoke_intermediate"
+    },
+    {
+      "path": "training_mjlab/outputs/all_hand_detection_smoke_20260924/step-4.pt",
+      "bytes": 19128345,
+      "reason": "redundant_smoke_intermediate"
+    },
+    {
+      "path": "training_mjlab/outputs/torch_sac_smoke16/step-24.pt",
+      "bytes": 19151705,
+      "reason": "redundant_smoke_intermediate"
+    },
+    {
+      "path": "training_mjlab/outputs/torch_sac_smoke16/step-48.pt",
+      "bytes": 19151705,
+      "reason": "redundant_smoke_intermediate"
+    },
+    {
+      "path": "training_mjlab/outputs/shadow-sync-smoke-20260925-165801-315774/final.pt",
+      "bytes": 19919561,
+      "reason": "superseded_or_rejected_final"
+    },
+    {
+      "path": "training_mjlab/outputs/source_config_smoke_20260924/final.pt",
+      "bytes": 19913737,
+      "reason": "superseded_or_rejected_final"
+    }
+  ],
+  "total_bytes": 446628013,
+  "status": "complete"
+}

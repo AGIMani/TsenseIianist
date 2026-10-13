@@ -1,0 +1,61 @@
+{
+  "archived_candidates": {
+    "date": "2026-09-28",
+    "reason": "Unselected control candidates removed from active config folders; content preserved for experiment audit. Saved source archives retain historical paths.",
+    "files": [
+      {
+        "original_path": "configs/control_limits/envelope_20260927.json",
+        "archive_path": "configs/archive/20260927_control_trials/envelope_20260927.json",
+        "sha256": "77f4f9929227993562cc203da991fb6838f5affe689f76b0f99deb42c41c1a3a",
+        "bytes": 197
+      },
+      {
+        "original_path": "configs/control_limits/thumb16_20260927.json",
+        "archive_path": "configs/archive/20260927_control_trials/thumb16_20260927.json",
+        "sha256": "8f16bd861ee686fbe5ad4985c59ddc1095d45d411bcf9950a1dcf794a78c7d58",
+        "bytes": 418
+      },
+      {
+        "original_path": "configs/control_limits/wrist_thumbpip12_20260927.json",
+        "archive_path": "configs/archive/20260927_control_trials/wrist_thumbpip12_20260927.json",
+        "sha256": "518f1a37fdcc227b95e813d24a0ffc4d924f48de52bb5131bba00c41c6f7d08c",
+        "bytes": 510
+      },
+      {
+        "original_path": "configs/control_limits/wrist_tighter_20260927.json",
+        "archive_path": "configs/archive/20260927_control_trials/wrist_tighter_20260927.json",
+        "sha256": "88682a9d213b7597fcecff244ab89b406dbfa2e2df426188752c85b3aa084e45",
+        "bytes": 465
+      },
+      {
+        "original_path": "configs/control_limits/wrist_ty06_20260927.json",
+        "archive_path": "configs/archive/20260927_control_trials/wrist_ty06_20260927.json",
+        "sha256": "138ed4ba36710d2c0087bd7cf59ae85762d3a547bda49413b258488db385fe3f",
+        "bytes": 503
+      },
+      {
+        "original_path": "configs/control_limits/wrist_ty08_20260927.json",
+        "archive_path": "configs/archive/20260927_control_trials/wrist_ty08_20260927.json",
+        "sha256": "feda102c74a3263ca00bf1a4073566a867f37055bf7b3a0a795504d9493f015f",
+        "bytes": 503
+      },
+      {
+        "original_path": "configs/finger_clearance/active_contact_interlock_20260927.json",
+        "archive_path": "configs/archive/20260927_control_trials/active_contact_interlock_20260927.json",
+        "sha256": "37933da63df461c721a6f389b6dfe10d95eca32488228d1fcea2d87d37393355",
+        "bytes": 367
+      },
+      {
+        "original_path": "configs/finger_clearance/idle_only_probe_20260927.json",
+        "archive_path": "configs/archive/20260927_control_trials/idle_only_probe_20260927.json",
+        "sha256": "3278b2819dabc534045a816bb0d23a52edfdbec4d6e61285e7f016812d707f3a",
+        "bytes": 218
+      }
+    ]
+  },
+  "removed_rebuildable_cache": ".pytest_cache",
+  "cache_bytes": 27173,
+  "kept": "all checkpoints, run configs, source archives, videos, models, pose files, reward templates, referenced old control configurations",
+  "removed_partial_probe": "preview/outputs/diagnostics/guard_switch_ablation_20260928",
+  "retained_failure_log": "preview/outputs/diagnostics/guard_switch_ablation_retry_20260928/first_attempt_missing_env.log"
+}

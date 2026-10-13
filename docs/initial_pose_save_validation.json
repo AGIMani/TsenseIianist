@@ -1,0 +1,88 @@
+{
+  "date": "2026-09-16",
+  "tests": {
+    "command": "MUJOCO_GL=egl .venv/bin/python -m pytest tests/test_environment.py tests/test_preview_backend.py tests/test_preview_controls.py tests/test_preview_pose_config.py -q",
+    "passed": 33,
+    "warnings": 116,
+    "seconds": 36.69
+  },
+  "roundtrip": [
+    "ctrl and qpos with asymmetric left/right fingers, wrist translation, pitch/yaw and mounting offsets",
+    "fresh subprocess reset reconstructs root position, rotation and fingertip locations within 1e-9",
+    "qpos and neutral controls both use saved per-side values"
+  ],
+  "failure_checks": [
+    "nonfinite/out-of-range selected values rejected before writing",
+    "external edits preserved; restart required",
+    "simulated atomic replace failure preserves original file and backup",
+    "save-key rejection does not terminate preview"
+  ],
+  "source_checks": [
+    "only three assignments replaced; unrelated source and Unicode comments preserved",
+    "repeated saves use distinct backups",
+    "saving does not mutate current physics",
+    "tests do not write repository constants"
+  ],
+  "cli": {
+    "isolated_project": "/tmp/v32-pose-save-5vrnr7x9",
+    "headless_save_args": [
+      "--headless",
+      "--height-offset",
+      "0.01",
+      "--depth-offset",
+      "0.02",
+      "--save-initial-pose"
+    ],
+    "headless_reopen_without_offsets_identical": true,
+    "desktop_args": [
+      "--paused",
+      "--duration",
+      "2",
+      "--save-initial-pose"
+    ],
+    "desktop_exit_code": 0,
+    "desktop_profile": {
+      "gpu_selection": "auto",
+      "graphics": {
+        "vendor": "NVIDIA Corporation",
+        "renderer": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition/PCIe/SSE2",
+        "version": "4.6.0 NVIDIA 580.173.02",
+        "software_renderer": false
+      },
+      "model_load_and_reset_s": 2.1336696669459343,
+      "startup_s": 2.8818628371227533,
+      "model_bytes": 535936575,
+      "mesh_triangles": 2900550,
+      "interactive": {
+        "viewer_load_s": 1.0003875531256199,
+        "state_only_sync": true,
+        "frames": 125,
+        "elapsed_s": 2.010272403014824,
+        "update_hz": 62.18062776593678,
+        "timings": {
+          "sync_ms": {
+            "median": 0.1356559805572033,
+            "p95": 0.19152788445353505
+          },
+          "physics_ms": {
+            "median": 0.15225796960294247,
+            "p95": 0.2217179164290428
+          },
+          "wire_ms": {
+            "median": 0.00014808028936386108,
+            "p95": 0.0002935528755187988
+          },
+          "axes_ms": {
+            "median": 0.00011408701539039612,
+            "p95": 0.00022361055016517634
+          },
+          "work_ms": {
+            "median": 0.2918299287557602,
+            "p95": 0.3922014497220516
+          }
+        }
+      }
+    }
+  },
+  "scope": "Saving writes tested in /tmp code copy with read-only use of original assets. Actual GPU desktop save-on-close verified; S key event transport mocked with real physics. No training convergence or real hardware validation."
+}

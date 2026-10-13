@@ -1,0 +1,363 @@
+{
+  "schema": "shadow_reference_contract_v1",
+  "date": "2026-09-25",
+  "reference_root": "/home/houjue/pianist_v2",
+  "scope": "Read-only audit of this repository robopianist-rl/run.sh effective baseline, NOT ~/oldproj or paper defaults. Model XML assets are absent in this checkout; morphology-dependent compiled quantities below are not claimed measured.",
+  "source_precedence": [
+    "robopianist-rl/run.sh explicit flags",
+    "robopianist-rl/train.py Args defaults",
+    "robopianist-rl/sac.py SACConfig defaults",
+    "suite and task constructor defaults"
+  ],
+  "references": [
+    {
+      "path": "robopianist-rl/run.sh",
+      "sha256": "3b20ddeeb153c878bca78a315b34c27345179afbc5505d9360afc3200e35e29a"
+    },
+    {
+      "path": "robopianist-rl/train.py",
+      "sha256": "d7bcf22344ebe647ef2151cba2df6ec711e2872fc2651920aa1ed7c47a78cdd9"
+    },
+    {
+      "path": "robopianist-rl/sac.py",
+      "sha256": "5ed6b11dea9833d11816b0c2785c6ba8786dc9325e89ff3a88536594020acfed"
+    },
+    {
+      "path": "robopianist-rl/replay.py",
+      "sha256": "f5dc84bc74fdce6fa1b74e5a77957481fd7d5946ccae2d59c6f4a23042eb8afc"
+    },
+    {
+      "path": "robopianist-rl/networks.py",
+      "sha256": "3a342e0592054e533445fcf974daa81944dfd71b2cab48ffe2534b6f70e15739"
+    },
+    {
+      "path": "robopianist-rl/distributions.py",
+      "sha256": "737c4681d0b5acd8d7b56e32b400a5bb4cafc59967b9244e1b94d2b59f203e0a"
+    },
+    {
+      "path": "robopianist/robopianist/suite/__init__.py",
+      "sha256": "985b810acdc6966b5445f3589d626af317d0fb3bbcae12aff79558d74f0d5f61"
+    },
+    {
+      "path": "robopianist/robopianist/suite/tasks/base.py",
+      "sha256": "3d22b9aef70a7b6804a94d64461eb3153353232171eb982efd36efa08d6fd6f3"
+    },
+    {
+      "path": "robopianist/robopianist/suite/tasks/piano_with_shadow_hands.py",
+      "sha256": "563d088907f8477b6e860df086c0327f6526020d18629c1b0baedc0b1adf6229"
+    },
+    {
+      "path": "robopianist/robopianist/models/hands/shadow_hand.py",
+      "sha256": "3d5edd8b12733ef9bd437067c03d3758b7a2c3e332b901b132786a26c4b80af4"
+    },
+    {
+      "path": "robopianist/robopianist/models/hands/shadow_hand_constants.py",
+      "sha256": "d8df15e4e0cd35144a473cdd0025a1acbec930a8727719b18e12229deee07a4d"
+    },
+    {
+      "path": "robopianist/robopianist/models/piano/piano_constants.py",
+      "sha256": "bf20ec2be1c54778c92f89cc51afbc40b1d35350edf3136027325b1196df0b4e"
+    },
+    {
+      "path": "robopianist/robopianist/models/piano/piano_mjcf.py",
+      "sha256": "23f5f6eca9eba8217412f8c8788d92a3311f0b84a64a2d352dff73231e0651ce"
+    },
+    {
+      "path": "robopianist/robopianist/music/library.py",
+      "sha256": "a75ed9c349413fc4c8fb99c8db4fbfa6433b8102c972333ef2098c784891086c"
+    }
+  ],
+  "environment": {
+    "backend": "single CPU MuJoCo composer environment; JAX learner",
+    "seed": 42,
+    "environment_name": "RoboPianist-debug-TwinkleTwinkleRousseau-v0",
+    "control_timestep_s": 0.05,
+    "physics_timestep_s": 0.005,
+    "physics_substeps": 10,
+    "lookahead_future_steps": 10,
+    "lookahead_including_current_steps": 11,
+    "lookahead_duration_s": 0.5,
+    "initial_buffer_time_s": 0.0,
+    "trim_silence": true,
+    "stretch_factor": 1.0,
+    "shift_factor": 0,
+    "gravity_compensation": true,
+    "randomize_hand_positions": false,
+    "augmentations": null,
+    "wrong_press_termination": false,
+    "time_limit": null,
+    "fingering_enabled": true,
+    "forearm_reward_enabled": true,
+    "disable_hand_collisions": false,
+    "primitive_fingertip_collisions": true,
+    "reduced_action_space": true,
+    "default_added_forearm_dofs": [
+      "forearm_tx",
+      "forearm_ty"
+    ],
+    "attachment_yaw_degrees": 0,
+    "recompile_physics": false,
+    "legacy_step": true
+  },
+  "observation": {
+    "fields": [
+      "goal [11,89] flattened",
+      "fingering [2,5] flattened",
+      "right_hand joint positions",
+      "left_hand joint positions",
+      "piano state [88]",
+      "sustain state [1]",
+      "previous physical action",
+      "previous reward"
+    ],
+    "wrapper_order": [
+      "EpisodeStatisticsWrapper",
+      "ObservationActionRewardWrapper",
+      "ConcatObservationWrapper",
+      "FrameStackingWrapper only if >1",
+      "CanonicalSpecWrapper clip=True",
+      "SinglePrecisionWrapper",
+      "DmControlWrapper"
+    ],
+    "frame_stack": 1,
+    "concatenation_order": "dict keys sorted by dm-tree",
+    "dtype": "float32",
+    "velocities": false,
+    "normalize_observation": false,
+    "shape_inferred_from_NQ_NU_and_reduction": 1164,
+    "shape_status": "inferred: 979+10+46+88+1+39+1; not compiled due to absent XML",
+    "previous_action_units": "physical actuator control targets; canonical scaling wraps outside history wrapper",
+    "reset_previous_action": "BoundedArray.generate_value(): lower bounds in current installed dm_env_wrappers; known inconsistency, do not regress fixed V3.2 neutral reset"
+  },
+  "action": {
+    "policy_range": [
+      -1,
+      1
+    ],
+    "clip": true,
+    "mapping": "physical=low+0.5*(clip(a,-1,1)+1)*(high-low)",
+    "type": "absolute position targets plus sustain",
+    "interpolation": false,
+    "slew_limit": false,
+    "smoothing": false,
+    "shape_inferred": 39,
+    "per_hand_actuators_inferred": 19,
+    "reduced_removed_actuators": [
+      "A_THJ5",
+      "A_THJ1",
+      "A_LFJ5"
+    ],
+    "reduced_thumb_THJ2_range_rad": [
+      0,
+      0.698132
+    ],
+    "fingers_tendon_coupling": "Source Shadow asset-specific PIP/DIP coupling; absent XML prevents current-checkout compiled verification; cannot copy to TsenseI without explicit morphology adaptation"
+  },
+  "reward": {
+    "aggregation": "unscaled sum, no multiplication by dt",
+    "key_press_reward": {
+      "formula": "0.5*mean(tolerance(1-q/qmax) for desired keys)+0.5*not(any activated undesired keys); first term 0 on rest",
+      "tolerance_bounds": [
+        0,
+        0.05
+      ],
+      "margin": 0.5,
+      "sigmoid": "gaussian"
+    },
+    "sustain_reward": {
+      "formula": "tolerance(target_sustain-binary_sustain)",
+      "bounds": [
+        0,
+        0.05
+      ],
+      "margin": 0.5,
+      "sigmoid": "gaussian"
+    },
+    "energy_reward": {
+      "formula": "-0.005*sum(abs(actuator_force*actuator_velocity))",
+      "coefficient": 0.005,
+      "evaluation": "end of control step"
+    },
+    "fingering_reward": {
+      "formula": "mean(tolerance(norm(key_target_world-fingertip_world)))",
+      "bounds_m": [
+        0,
+        0.01
+      ],
+      "margin_m": 0.1,
+      "sigmoid": "gaussian",
+      "rest_reward": 0,
+      "key_target_world": "geom world center + (0.35*geom.size[0],0,0.5*geom.size[2]) for every finger",
+      "thumb_override": false
+    },
+    "forearm_reward": {
+      "no_contact": 0.5,
+      "contact": 0,
+      "geom_scope": "root_body.geom of right vs left forearm only",
+      "evaluation": "end of control step"
+    },
+    "self_collision_reward": null,
+    "false_press_penalty": null,
+    "paper_regularizers": null,
+    "missing_fingering": "OT Hungarian matching branch; irrelevant to complete annotated Twinkle baseline"
+  },
+  "physics": {
+    "piano_solref": [
+      0.01,
+      1.0
+    ],
+    "piano_solref_rule": "time constant=2*physics_dt",
+    "piano_geom_contype": 0,
+    "piano_geom_conaffinity": 1,
+    "hand_collision_mode": "physical same-hand, cross-hand and hand-key contacts; hand-key enabled; original asset exclusions apply",
+    "visual_mesh_collisions": "visual geoms disabled via asset classes",
+    "primitive_fingertips": "ShadowHand._build switches plastic_collision mesh ending distal_pst to capsule; other existing primitive/mesh shapes are asset-defined",
+    "added_forearm_tx_ty_kp": 300,
+    "added_forearm_damping_rule": "2*sqrt(model.dof_M0[joint_qposadr]*stiffness), via compiled MJCF",
+    "hand_mass_inertia": "retain morphology; not a universal scalar transferable from Shadow",
+    "xml_assets_available_in_checkout": false,
+    "missing_expected_xml": [
+      "robopianist/robopianist/models/hands/third_party/shadow_hand/right_hand.xml",
+      "robopianist/robopianist/models/hands/third_party/shadow_hand/left_hand.xml"
+    ],
+    "piano_white_mass_kg": 0.04,
+    "piano_black_mass_kg": 0.02,
+    "piano_joint_damping": 0.05,
+    "piano_joint_armature": 0.001,
+    "piano_joint_stiffness": 2,
+    "piano_springref_rad": -0.017453292519943295
+  },
+  "termination_reset": {
+    "episode_end": "after last score frame, no wrong-key termination",
+    "episode_end_discount": 1.0,
+    "critic_bootstrap": "gamma*environment_discount even at score completion",
+    "replay_order": "insert ending transition with terminal observation; then reset and insert(action=None) changes replay previous state only",
+    "reset_state": "Composer physics reset_context then initialize_episode; original model qpos0 and zero dynamic state, score t=0, no position randomization",
+    "reset_settle_steps": 0,
+    "v3_2_preserve_fixes": [
+      "explicit per-world partial reset after storing terminal observation",
+      "neutral physical previous_action matching reset ctrl",
+      "separate training and evaluation observation variables"
+    ]
+  },
+  "sac": {
+    "num_qs": 2,
+    "num_min_qs": null,
+    "actor_hidden": [
+      256,
+      256,
+      256
+    ],
+    "critic_hidden": [
+      256,
+      256,
+      256
+    ],
+    "activation": "gelu (Flax default approximate=True)",
+    "dense_init": "xavier_uniform, zero biases",
+    "actor_dropout": 0.0,
+    "actor_layer_norm": false,
+    "critic_dropout": 0.01,
+    "critic_layer_norm": true,
+    "critic_order": "Dense -> Dropout -> LayerNorm(eps=1e-6) -> GELU",
+    "actor_lr": 0.0003,
+    "critic_lr": 0.0003,
+    "temp_lr": 0.0003,
+    "optimizer": "Adam b1=.9 b2=.999 eps=1e-8 eps_root=0",
+    "gamma": 0.8,
+    "tau": 0.005,
+    "init_temperature": 1.0,
+    "target_entropy_formula": "-0.5*action_dim",
+    "target_entropy_shadow_inferred": -19.5,
+    "target_entropy_v3_2_47_action": -23.5,
+    "backup_entropy": true,
+    "actor_q_reduction": "mean of 2 Qs",
+    "target_q_reduction": "minimum of 2 target Qs",
+    "critic_loss": "mean squared TD error over both Qs and batch",
+    "actor_loss": "mean(alpha*log_prob-Q_mean)",
+    "temperature_loss": "alpha*(entropy-target_entropy), optimize log(alpha)",
+    "update_order": [
+      "critic",
+      "Polyak target critic",
+      "actor using updated critic",
+      "temperature using actor entropy"
+    ],
+    "log_std_range": [
+      -20,
+      2
+    ],
+    "policy_distribution": "state-dependent diagonal Gaussian followed by tanh",
+    "eval_action": "tanh(mean)",
+    "gradient_clip": null,
+    "AMP": false
+  },
+  "replay_and_schedule": {
+    "num_envs": 1,
+    "max_transitions": 5000000,
+    "batch_size": 256,
+    "capacity_transitions": 1000000,
+    "sample": "uniform with replacement",
+    "warmstart_steps_flag": 5000,
+    "random_action_transitions": 4999,
+    "first_policy_transition_1_based": 5000,
+    "learning_start_transition_1_based": 5000,
+    "updates_per_eligible_transition": 1,
+    "steady_sample_reuse_ratio": 256,
+    "total_updates_if_complete": 4995001,
+    "log_interval_transitions": 1000,
+    "eval_interval_transitions": 10000,
+    "eval_episodes": 1,
+    "checkpoint_save": "baseline train.py contains no checkpoint serialization",
+    "eval_video_resolution_hw": [
+      480,
+      640
+    ],
+    "camera_id": "piano/back"
+  },
+  "parallel_adaptation": {
+    "retain_mjlab_gpu": true,
+    "proposed_num_envs": 512,
+    "exact_replay_capacity": 1000000,
+    "batch_size": 256,
+    "random_action_rows": 4999,
+    "first_learning_batch_vector_step": 10,
+    "partial_boundary_random_rows": 391,
+    "partial_boundary_policy_rows": 121,
+    "partial_boundary_updates": 121,
+    "subsequent_updates_per_vector_step": 512,
+    "total_9766_vector_samples": 5000192,
+    "total_updates_for_5000192_samples": 4995193,
+    "caveat": "Collecting a vector of 512 transitions then updating differs from interleaved single-environment collect/update, even when totals and steady ratios match. First mixed vector policy actions use the same pre-update learner."
+  },
+  "safe_direct_sync": [
+    "20/200Hz and 10 future frames",
+    "five original rewards and coefficients; no extra collision reward unless selected",
+    "uniform [-1,1] policy mapping to TsenseI physical ranges",
+    "SAC network/loss/hyperparameters",
+    "batch256/capacity1M/1 update per eligible transition",
+    "no preparation buffer",
+    "gravity compensation",
+    "physical hand collision bitmask policy plus visual/collision separation"
+  ],
+  "morphology_adaptation_required": [
+    "Shadow capsule dimensions and placement must be fit to TsenseI geometry, not copied blindly",
+    "PIP/DIP tendon coupling and removed thumb joints differ from TsenseI actuation",
+    "hand mass/inertia and mounting pose cannot be made numerically identical while preserving TsenseI model",
+    "wrist axis/range conventions remain TsenseI; mass-derived damping may reuse rule",
+    "forearm-only collision reward requires selecting homologous palm/root geometry if no physical forearm exists",
+    "action/observation counts and target entropy scale with retained TsenseI DOFs"
+  ],
+  "do_not_copy_known_issues": [
+    "Original train.py reuses timestep variable during evaluation and can choose next training action from final eval observation; keep separated GPU implementation",
+    "Original history wrapper reset starts at physical lower bound rather than actual neutral control; preserve fixed neutral reset",
+    "No checkpoint saving in original train.py does not justify removing current reproducible checkpoint/config pipeline"
+  ],
+  "validation": {
+    "method": "static read of run.sh, dataclasses, task/model source and installed wrapper source; no Shadow training was executed",
+    "paper_notes_read": "tsensei_v3_2_pianist/docs/references/biomimetics_2026_610_notes.md",
+    "limits": [
+      "Expected source Shadow XML directory missing in this checkout",
+      "Other agents handle collision asset audit/implementation and root consolidates change logs"
+    ]
+  }
+}

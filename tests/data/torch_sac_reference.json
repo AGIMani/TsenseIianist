@@ -1,0 +1,32 @@
+{
+  "obs_size": 7,
+  "action_size": 3,
+  "actor_hidden": [
+    16,
+    12
+  ],
+  "critic_hidden": [
+    16,
+    12,
+    10
+  ],
+  "steps": 5,
+  "rates": [
+    0.0,
+    0.01
+  ],
+  "source": "Local JAX SAC update_critic/update_actor/update_temperature with controlled stochastic inputs; no loss replacements",
+  "sources": {
+    "scripts/export_torch_sac_reference.py": "baae9ef1c2c0633980d000c1eb06c84266a43594b6d4710fd0a41533a7084088",
+    "tsensei_v3_2_pianist/rl/__init__.py": "56a0b13353b76fab38b431568e37ffe737d6e7e1eaa17a92815a89ccd3626902",
+    "tsensei_v3_2_pianist/rl/specs.py": "1ca0f74912f28522fceb57ee2fb0a4a9a5f95f516b857625dbfb98902ca62a3e",
+    "tsensei_v3_2_pianist/rl/environment.py": "b7c55e3c4ba62f35e8d9e4c609f3b963dc0b81126dd9f09a5893cd3f8744bb42",
+    "tsensei_v3_2_pianist/rl/checkpoint.py": "04071f52caa4c1fd324eca9da93dbc93ffa42536acc747b4f4e7cd7e04dab5cf",
+    "tsensei_v3_2_pianist/rl/replay.py": "eb48276bffa81ef4dab04694aea73fb62d780cfbdb479ade8b5bdaffec8454b1",
+    "tsensei_v3_2_pianist/rl/networks.py": "93078b97007c0d12571b8f62ae9953228b08364a246959accb75b7b370b48f03",
+    "tsensei_v3_2_pianist/rl/sac.py": "3a2cfcfd8689bd4d872cec7dd2b56efc2e999c7aaae08a78ea79a9363bfc264e",
+    "tsensei_v3_2_pianist/rl/distributions.py": "b40a82061c5c1597d9884eedf165b745adb63bccbd8208a3731cd3aabb851048",
+    "tsensei_v3_2_pianist/rl/train.py": "9cc1d6a6b7b62bd4759f7ac9d2ef65496841bb4b3961c54526d9ca3ab7b10da1"
+  },
+  "sha256": "a0be4689bd047ca9ec6a23a6af1ac25560d440f09f9b3974bdfbed06889b2094"
+}

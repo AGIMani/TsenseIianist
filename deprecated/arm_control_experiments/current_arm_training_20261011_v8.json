@@ -1,0 +1,746 @@
+{
+  "kind": "current_arm_preview_config",
+  "source_runtime": {
+    "schema": 1,
+    "method": "source_config_v1",
+    "pose": {
+      "height": 0.1,
+      "ty": 0.04,
+      "yaw": 0.15
+    },
+    "model": {
+      "collision_profile": "shadow_primitive_v1",
+      "drive_profile": "shadow_v1",
+      "wrist_pitch_range_scale": 0.8
+    },
+    "preparation": {
+      "duration": 1.0,
+      "lift": 0.025,
+      "trajectory": "quintic_v1",
+      "mode": "policy_v1"
+    },
+    "environment": {
+      "midi": "TwinkleTwinkleRousseau",
+      "control_hz": 20.0,
+      "physics_hz": 200.0,
+      "lookahead": 10,
+      "frame_stack": 1,
+      "initial_buffer_time": 0.0,
+      "release_tail_time": 0.25,
+      "score_validation": "strict_v1",
+      "gravity_compensation": true,
+      "action_reward_observation": true,
+      "disable_forearm_reward": false,
+      "task_profile": "tsensei_collision_v1",
+      "thumb_target": {
+        "mode": "profile",
+        "white_distance": null,
+        "black_distance": null
+      },
+      "exact_note_timing": true
+    },
+    "external_score": null,
+    "source_sha256": {
+      "configs/actions/direct_joint_v1.json": "92edb481c5b7490840916ca80af990293ac377b5de5de97db49c7d6eb7982617",
+      "tsensei_v3_2_pianist/__init__.py": "cf69365703c17dff068378caf22d58f6858f69b4170a2f53fc95aca62ee14ab9",
+      "tsensei_v3_2_pianist/assets/collision_hulls/left/Left_hand_palm_link_convex_hull.stl": "4617579ed5c2d4dd34011560a6808e2de8d1c581dbd5a4fcf5988673d25e86eb",
+      "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_index_DIP_link_convex_hull.stl": "2efa2a5c2e3a3457de80c3961a1d5bbd7ae67cc0776facbb9547264f327388eb",
+      "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_index_MCP_link_convex_hull.stl": "7a0e9d3fb8f4b20844f8b2f71ed534d13713d0cda5b9dc7074b919b8f54e71f2",
+      "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_index_PIP_link_convex_hull.stl": "31798d982c13e4da34dc0c941af237f9ec183a68411a6f11653dd8cfa5737197",
+      "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_index_swing_link_convex_hull.stl": "59cc78cd20ce414dc712db61fb5f5001e0c8ccfca0c064c8bb9b5918600637e8",
+      "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_mid_DIP_link_convex_hull.stl": "9b35f20ade6a394f3cd024dee2996f788916d3aee90dc070961eb6f6dd2ef671",
+      "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_mid_MCP_link_convex_hull.stl": "e7f213c694115b79539d6d21a750f7e0e40757d6cd141a946bff8a3560868b42",
+      "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_mid_PIP_link_convex_hull.stl": "15494f8246c1c6f1a83d1b227f7fbd9bc71598f6853a3765c8c2957d5c24bc49",
+      "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_mid_swing_link_convex_hull.stl": "77d771ce02d756a185a82ee3f4d786719ac437679ef34ea59a11c7aec7564ae6",
+      "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_pinky_DIP_link_convex_hull.stl": "1981059c8c756bd36dee1877b180ed312229cc58905eb28cbf83314604fac55a",
+      "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_pinky_MCP_link_convex_hull.stl": "2f48a96c81060b73b5b6a6894fe8be415fbace748b3bd091d8e0506ba7f8df44",
+      "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_pinky_PIP_link_convex_hull.stl": "f9403de1c382eb443756c466f63bbed27bd0682aae62d8d5d19e08af6838ecb9",
+      "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_pinky_swing_link_convex_hull.stl": "075af4f2f6affb5a9ddb5f0be597a3f60b3b730d2892c816696ebb33eb34e02a",
+      "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_ring_DIP_link_convex_hull.stl": "8c16f6577412be706d42c3ad33a05ec2ec005e0a18e42d966a668c7368afeb6a",
+      "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_ring_MCP_link_convex_hull.stl": "8ddd08f4b8c63c390449ab2c0f794e090ab3d9810e5d22ba579184ced8a3bc4c",
+      "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_ring_PIP_link_convex_hull.stl": "9a62a59de08dd7ab738feb484c675ff50e90ffbe59affbe81f994a8a6d0c4e95",
+      "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_ring_swing_link_convex_hull.stl": "a6f947ba0413f181c419de1e718d5673936d246fab3079464c45df05e5a07616",
+      "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_thumb_MCP_link_convex_hull.stl": "6ff9c59e09a15483327aa356909a4e8b7ff29a1ba1ac8594fc50746f795286a8",
+      "tsensei_v3_2_pianist/assets/collision_hulls/left/left_hand_thumb_PIP_link_convex_hull.stl": "f445867fee7e19f8114c9ec686351721e6d97d055170b5dbc1f4397209493409",
+      "tsensei_v3_2_pianist/assets/collision_hulls/right/Right_hand_palm_link_convex_hull.stl": "919fb9058c1b975b3ec6038575f3d9f88c8eb352992b3238b2e20e84308cc095",
+      "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_index_DIP_link_convex_hull.stl": "aeb63c7a07ed250a4eb0eb2deb4b9eb11332a4d1a5b01ee3adf979ec0a29a88b",
+      "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_index_MCP_link_convex_hull.stl": "d84f2fbe804b3541c605c2cbcce4c8f9df282eab10b99bc3a1aefc35be7a72d3",
+      "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_index_PIP_link_convex_hull.stl": "90ff11dac25284720e2005dcaa05d3c69e1701a16cefbad4cb2b56da9e865854",
+      "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_index_swing_link_convex_hull.stl": "fafef8b060ec8bb074696d1cd002ccdb789cde2619c01525cde50f4e7d8abc1f",
+      "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_mid_DIP_link_convex_hull.stl": "b6b97c4d243b553f37e0654cb8626825c59e6a9651da138d26c54d00d60b3e8c",
+      "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_mid_MCP_link_convex_hull.stl": "1d370d306cc6bda166a5bc68935defecd2ff2215e7f40dcddd3097631400b2fc",
+      "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_mid_PIP_link_convex_hull.stl": "527b9d9586ddb3c6166e9f899ce61e693dff49ec143ad7b93565882f2311d6e4",
+      "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_mid_swing_link_convex_hull.stl": "5043bf90f5ce6b2c0c07e56f50e99ec16b745cb49969731f6200d4772fc6c731",
+      "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_pinky_DIP_link_convex_hull.stl": "8a0c79d031d25ef04bdd65f7a3c3a58809302486137ba9417d15e5cd1774b344",
+      "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_pinky_MCP_link_convex_hull.stl": "ae505fbfc11662f958d9c83a4a07c01eb0f1d8226046f7508c3149dcfb80a9ed",
+      "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_pinky_PIP_link_convex_hull.stl": "ae85da56266ef59b92d45ef4104404e925e64e6b1f29ddc07fde6d1cfad18008",
+      "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_pinky_swing_link_convex_hull.stl": "992a4a94f03ac4ba62c2ad85b453d4b27527ed1e57d30b1596a0874d537e4450",
+      "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_ring_DIP_link_convex_hull.stl": "8ddeb637f12bb0545b04ede54fe4b5e61313e6519d21d5e22e9a6e2641691024",
+      "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_ring_MCP_link_convex_hull.stl": "400410e877018e58bab0fc61367d076c6743af521edbc5df0c8a20c8635a26d8",
+      "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_ring_PIP_link_convex_hull.stl": "a6363060afb6e361005da8e4505476e4ef98e00dac9ce601a43868efbad53f5f",
+      "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_ring_swing_link_convex_hull.stl": "efa9dd5a2d80eebcce00168907c950d308ede9db645d7af188824c1cdfd49b8e",
+      "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_thumb_MCP_link_convex_hull.stl": "c0fe115d41fd1672b1da2ad9cd1d64e9a763326bf8a146487e736f21b94e22a8",
+      "tsensei_v3_2_pianist/assets/collision_hulls/right/right_hand_thumb_PIP_link_convex_hull.stl": "e747701ad7470ce4d8ea6465dbe0bdf634efd0aae769e57ac524f46121515df7",
+      "tsensei_v3_2_pianist/assets/collision_proxies.json": "c7c1a141f5fcdf2505f277775cc7bff1c6135fe1073b547075a97a28b09ac8ea",
+      "tsensei_v3_2_pianist/assets/collision_proxies_convex_hull.json": "40fb7427297fc126272e6de1e427e8475cb3d54b1cbc5d8e8797ec79af3c9957",
+      "tsensei_v3_2_pianist/assets/connector_mount_revision.json": "dda227cb813a962eacd1b421665b23685897ad4ca6a955cc399cf0702cc16603",
+      "tsensei_v3_2_pianist/assets/contact_settings.json": "57c9830fd72468e2083cb2f92d53ea87e2c96965dd71676d9a6dd1e9090d7ab4",
+      "tsensei_v3_2_pianist/assets/drive_settings.json": "1c3dbfd27e11673d7ce9cccbf0fe31184fb2a8f9c8b4c960c1109c7bac2e0638",
+      "tsensei_v3_2_pianist/assets/inertia_update_report.json": "2ecb477d695031a79b084a3b19359e4b59f3d943a3343eb201ff6ae0cea3039c",
+      "tsensei_v3_2_pianist/assets/mass_update_report.json": "5fa3edbe5ae40f88cd704d06eb171d26e49d68681d452fbdcc275906e7d83aeb",
+      "tsensei_v3_2_pianist/assets/meshes_left/Left_hand_palm_link.STL": "657573215a205b5764de1c4c9e14d7d769e183eefacdb4103002c073141f0aea",
+      "tsensei_v3_2_pianist/assets/meshes_left/base_link.STL": "c753d840a6f190a5256552646a2f9811eec7f43ef66392fe84369313a3d487a3",
+      "tsensei_v3_2_pianist/assets/meshes_left/base_without_old_mount.STL": "a3e1f49cdfd4d5fd8ee734608460541514c8baa593da0fbdd2bfaea933c9b357",
+      "tsensei_v3_2_pianist/assets/meshes_left/left_hand_index_DIP_link.STL": "7344a1c9bb92915bccef21113d98b197c5467ba910905433396b143d24ea1b17",
+      "tsensei_v3_2_pianist/assets/meshes_left/left_hand_index_MCP_link.STL": "3f5e06a0a51656f6e42bed303e3eef815df936ebe3eb4bb928b6413d0f1d76c2",
+      "tsensei_v3_2_pianist/assets/meshes_left/left_hand_index_PIP_link.STL": "0d1adea25afb06c3cfddcb6da3c530e758e3dda962c9c4a441740309e30937d4",
+      "tsensei_v3_2_pianist/assets/meshes_left/left_hand_index_swing_link.STL": "3eb1aa4a607f7d79092adbf4c69e91a000809952dead60f498b328543dd18187",
+      "tsensei_v3_2_pianist/assets/meshes_left/left_hand_mid_DIP_link.STL": "67d18d9852a788ca7e78edd827e457fcd506c54f1567b1277ae40c263fe5850b",
+      "tsensei_v3_2_pianist/assets/meshes_left/left_hand_mid_MCP_link.STL": "812b3937ef2d2f05871b1409824f6fb31a257af768c137bc029778862fb03436",
+      "tsensei_v3_2_pianist/assets/meshes_left/left_hand_mid_PIP_link.STL": "fca317af48b9575777e82e79b78c9e3024b678ce0839e638847ce438cae695fe",
+      "tsensei_v3_2_pianist/assets/meshes_left/left_hand_mid_swing_link.STL": "29712db1e418e6fe7f1ede985b9adb79068607b7a820cfb6863e3dbccffea429",
+      "tsensei_v3_2_pianist/assets/meshes_left/left_hand_pinky_DIP_link.STL": "e97b22fdad5d7d0fb19b6d72166ee213793e4c4f2d042ebf5d018bdd0a3327b3",
+      "tsensei_v3_2_pianist/assets/meshes_left/left_hand_pinky_MCP_link.STL": "22ecb0d59b31dbfa69aad56e7bbde12605dc4a494ed4e8b7c01dc533a7b18649",
+      "tsensei_v3_2_pianist/assets/meshes_left/left_hand_pinky_PIP_link.STL": "de94c2ce66b32aedbba6134c7d69cc053534ed0d6bd9b66d1a3fce6d57bd8d6b",
+      "tsensei_v3_2_pianist/assets/meshes_left/left_hand_pinky_SWING_link.STL": "5d73f6f752abfa28c31bafe27828c6bc28531f4cf6a54c49859dab5f62fc0352",
+      "tsensei_v3_2_pianist/assets/meshes_left/left_hand_ring_DIP_link.STL": "1a793dcdd6cfbf71fbd39d2c0d6bae4874ab3691b0aa50b5c7e1f6232bd55214",
+      "tsensei_v3_2_pianist/assets/meshes_left/left_hand_ring_MCP_link.STL": "aa7a1c6584484a4fbefeacfb3e98dea4ea806ba09fcac9b285243828c176c5c0",
+      "tsensei_v3_2_pianist/assets/meshes_left/left_hand_ring_PIP_link.STL": "1e9b3da367431ae965cfeb89297dab9d3df190c7d8e6d34368f766e823994028",
+      "tsensei_v3_2_pianist/assets/meshes_left/left_hand_ring_swing_link.STL": "557e83fb3b29f3f824b6ce2a318349e83b8321acd0a9ac344d3aea8be5dae2ad",
+      "tsensei_v3_2_pianist/assets/meshes_left/left_hand_thumb_MCP_link.STL": "b23187dceef1e935650351f21356c57deb31e60ccc39ba82c30b3a04fef6140d",
+      "tsensei_v3_2_pianist/assets/meshes_left/left_hand_thumb_PIP_link.STL": "03fb9fa6a3fe43d15668f83a295f9ad6ce513c112875a175f047e23ec518339e",
+      "tsensei_v3_2_pianist/assets/meshes_left/left_hand_thumb_rota_block_link.STL": "3e503a3fc9256a6ba154fe0d7f186e12f3139c2d6f0adca55679db21186b70e5",
+      "tsensei_v3_2_pianist/assets/meshes_left/left_hand_thumb_rotaback_link2.STL": "4e9685398c2e79048b51b886dc444dfbc6967b53c4145ec6c3524d5903d12b7b",
+      "tsensei_v3_2_pianist/assets/meshes_left/wrist_mount_from_step.STL": "ce37cc66b624422017af877d977509da7a8cb2839a3fdd060dc840b025323d2d",
+      "tsensei_v3_2_pianist/assets/meshes_left/wrist_mount_tianji_20260930.STL": "70d921a467e52db2084ba7ab561f996f67e5c20351ed2ad8a73998f8f19cee8a",
+      "tsensei_v3_2_pianist/assets/meshes_right/Right_hand_palm_link.STL": "b0d11caccbfeb5b80881f59d4361527d15f1775fdb470b33c4707d09add31805",
+      "tsensei_v3_2_pianist/assets/meshes_right/base_link.STL": "f5068c3d98ac5580f1c90250f229ea88e35b977919c929ced3ea7186b8d0d79c",
+      "tsensei_v3_2_pianist/assets/meshes_right/base_without_old_mount.STL": "68adf3e377e132baa9ce9a71535824779781e29b4c5cef5a14fac9feb25c4ae1",
+      "tsensei_v3_2_pianist/assets/meshes_right/right_hand_index_DIP_link.STL": "a67f9d5c243dc5e9d9dacfd164cb10f2a1284ba8b06de9b398253417470036b0",
+      "tsensei_v3_2_pianist/assets/meshes_right/right_hand_index_MCP_link.STL": "dfa8aea8374cf8212b2d6179964f413aefeb9394dc2026fba94c21eacc690273",
+      "tsensei_v3_2_pianist/assets/meshes_right/right_hand_index_PIP_link.STL": "5740c195666a93d35d128f60e4c6ee347ac925f0f415c8d7a55d9023c5a6c0b4",
+      "tsensei_v3_2_pianist/assets/meshes_right/right_hand_index_swing_link.STL": "d63a4122aec4e3f1c476843378e87275e19ee2a236a82e18a21ef32e0fa469a6",
+      "tsensei_v3_2_pianist/assets/meshes_right/right_hand_mid_DIP_link.STL": "8331b40b725f72e629f26f239379ff3a38cb440ed484e3d066140bc66b4dc8a9",
+      "tsensei_v3_2_pianist/assets/meshes_right/right_hand_mid_MCP_link.STL": "cce658b07646cf05ba85f987f6d17cfd01c713614c5375533066118aa95c108b",
+      "tsensei_v3_2_pianist/assets/meshes_right/right_hand_mid_PIP_link.STL": "c1f50571b0ef55f3cf580d1bd844902c2796fa249dd03a8f2a54196872029ae4",
+      "tsensei_v3_2_pianist/assets/meshes_right/right_hand_mid_swing_link.STL": "c717fb76bd3a26b726e415729af9ddf0d260d71668ae628c919d46cb544986fa",
+      "tsensei_v3_2_pianist/assets/meshes_right/right_hand_pinky_DIP_link.STL": "f4a1e38d4d82ffd1c110b63c0a5b6270645fa1b04a12fe96f789997ad87c95bf",
+      "tsensei_v3_2_pianist/assets/meshes_right/right_hand_pinky_MCP_link.STL": "b062662f397526fb9dbff41628d608ab114bddc2f1f3948542b2db9a147e98a3",
+      "tsensei_v3_2_pianist/assets/meshes_right/right_hand_pinky_PIP_link.STL": "191dcef38b55a76088c7424f55683773e487d8c70c0df70ec1c46a346dd1099f",
+      "tsensei_v3_2_pianist/assets/meshes_right/right_hand_pinky_SWING_link.STL": "e9bf1f3e834f71f5484b099fec868535d380bf125b38f319a5cbe5f86f00aa38",
+      "tsensei_v3_2_pianist/assets/meshes_right/right_hand_ring_DIP_link.STL": "dedfcc2e674b81a39c38557649fc934fbce3e00fa30393d1bf196f943d474e4d",
+      "tsensei_v3_2_pianist/assets/meshes_right/right_hand_ring_MCP_link.STL": "de3d8df18086569a045632a7a85b3e8a2890c9e6bd6d525b6560abe3591453bc",
+      "tsensei_v3_2_pianist/assets/meshes_right/right_hand_ring_PIP_link.STL": "d8fc9a5e2bd7b1f95c576d1e55b19e46c797d6a8b2e0538f7a9e5aca183ef2a7",
+      "tsensei_v3_2_pianist/assets/meshes_right/right_hand_ring_swing_link.STL": "647de53ae285fe0c45d4bec9b3e4477e9be996bfe99dd302c4173d2cec52eefa",
+      "tsensei_v3_2_pianist/assets/meshes_right/right_hand_thumb_MCP_link.STL": "57e145a93222fdc65774403c47fff6c0eafabf17828dc659c22765b00f90396c",
+      "tsensei_v3_2_pianist/assets/meshes_right/right_hand_thumb_PIP_link.STL": "e00e81da98e65f4418b7b2030877de754ce686eceae1cfb423931f480eb8b60f",
+      "tsensei_v3_2_pianist/assets/meshes_right/right_hand_thumb_rota_block_link.STL": "1da15e34b7d84e0e58c50e86649458192ee3e955bbfdaa13482e9142be59684a",
+      "tsensei_v3_2_pianist/assets/meshes_right/right_hand_thumb_rotaback_link2.STL": "9f854fdadbd7c12a9ff99970a3376e4ad523c41fcd84a5cd374106b61e24e543",
+      "tsensei_v3_2_pianist/assets/meshes_right/wrist_mount_from_step.STL": "61f85a1854958577cc62b117a619d3db05c4e760ed72ccf5f1b6d37bbe67ff0c",
+      "tsensei_v3_2_pianist/assets/meshes_right/wrist_mount_tianji_20260930.STL": "21bb1103042d791cd97b41bf368f6aa02bd79ea84673cbd9a03301e9abba6331",
+      "tsensei_v3_2_pianist/assets/model_derivation.json": "0408f1cfc59de82f609df4852a4d4b39104d5380cecde54abc07d3442f8951b2",
+      "tsensei_v3_2_pianist/assets/source/TsenseI_left_mass952_before_mount.urdf": "4d8f6c76e231a66fa78c6a38ca28e5729f1195265c1f3ee3b2ed83a9522f6424",
+      "tsensei_v3_2_pianist/assets/source/TsenseI_right_mass952_before_mount.urdf": "694b15afdfd8dd8384f0d46a31b14d79633db2c7189ffb90ad600ff02b81c0ba",
+      "tsensei_v3_2_pianist/assets/source/left_original.urdf": "64129ebbbad4f90b9ed8bd2a9322e1b4524399b695be66ddf934857e685078bc",
+      "tsensei_v3_2_pianist/assets/source/vendor_manifest.json": "d502ae7cf57c8d104f09ca229edcc6acbf992b0f7df4855e51ec867ceddebf46",
+      "tsensei_v3_2_pianist/assets/urdf/TsenseI_left.urdf": "707bec9d310aade5c378316acf5cc553efd5d8fc5c34c1990dacbc454df4f2e2",
+      "tsensei_v3_2_pianist/assets/urdf/TsenseI_right.urdf": "c9732ecb27ba84e8fdf5cb95f512a54bd15e6e9830a7d9679a55237937cd39ba",
+      "tsensei_v3_2_pianist/detection_only_collision.py": "4ae05f626e5a2d67c661e4af955cfa19dd6023f780de2d3c9aa54156e798ddd2",
+      "tsensei_v3_2_pianist/drive_settings.py": "f1664f9e1297a07fc9d11a83bc551f5405df9b8e73b577590352dbc55a90b61d",
+      "tsensei_v3_2_pianist/fingering_targets.py": "9a68edb4d816a75ead8f9dffd49aadbc620283db1a7bf5fb7a3ee01bbd0a21d4",
+      "tsensei_v3_2_pianist/forearm_collision.py": "ae54a5b62d217cc22a297743958506924f9b27426fa8d8dec0ddc0cd388338f9",
+      "tsensei_v3_2_pianist/mjlab_env/__init__.py": "cd3b29f2f3ced34f353e779c8fb70121e807abd51924cc7c345e353728b0d413",
+      "tsensei_v3_2_pianist/mjlab_env/acceptance_cases.py": "664e852db5adda3c6216168bd0b8f7fc1f6505c17387f6c606e055dcdc26ed11",
+      "tsensei_v3_2_pianist/mjlab_env/action_mapping.py": "12af758d6ad65c27b9cb56000ec90af18a10819503f847295226998f9bdbf573",
+      "tsensei_v3_2_pianist/mjlab_env/anticipation.py": "dd1c0a65d58ea8c4facca7ffddb881a169a183c0a156893ef5ca621c4384d201",
+      "tsensei_v3_2_pianist/mjlab_env/arm_follow.py": "49f93ce0c3219963143f3da0a67109dec47279a7778a44a7021f25bc2432c242",
+      "tsensei_v3_2_pianist/mjlab_env/arm_ik.py": "fd73f8a61a50e04115c8a137fd5eac1fdec371d130b9ef053a3163d61655a0b6",
+      "tsensei_v3_2_pianist/mjlab_env/arm_options.py": "da61badaaa6b83275e47d9fe4fae25f5622ec31956f7130c9f2708f248f575a5",
+      "tsensei_v3_2_pianist/mjlab_env/arm_reachability.py": "7a6e030fcef3930bcf19fdbdf06e37b2d6cb73b8f3a9222b3854146a60229cab",
+      "tsensei_v3_2_pianist/mjlab_env/arm_scene.py": "af0bb44910a5568807c9a9a2b467ccc4cd08e17a49ca49a32a655353648ee0ff",
+      "tsensei_v3_2_pianist/mjlab_env/bundle.py": "1547568421eea8a6656deba00ee3cd156eab3854d7c1adad6f2a5373ca5105ee",
+      "tsensei_v3_2_pianist/mjlab_env/control_limits.py": "87ff72e98a4110e2ff591b207249ceefc94bdf5a521c19e3924ed9847a6d302c",
+      "tsensei_v3_2_pianist/mjlab_env/diagnostics.py": "fd327ad9b7452469711ec31df34b68c5894157399c697257dde71d6ce1b54094",
+      "tsensei_v3_2_pianist/mjlab_env/exact_score.py": "5c09b45177da3bd5c390cf1b1e3d1d2bd87dc50c995f84cb61c9025b47f0de95",
+      "tsensei_v3_2_pianist/mjlab_env/finger_clearance.py": "99239c7a3bfebffcf446dae839a7ab45affd7303f5366bef5f2036075f898770",
+      "tsensei_v3_2_pianist/mjlab_env/finger_coupling.py": "7893283af8456703c68baad91ebaaaead77fd8dd46ecb327f9ebd80b0fb5f18f",
+      "tsensei_v3_2_pianist/mjlab_env/fingering_experiments.py": "3bfbeb91fc21d96a68e228feebfd738d0fda0f13a36cbf961c458b1d13c84043",
+      "tsensei_v3_2_pianist/mjlab_env/joint_limits.py": "838e86d302e75ca00d3688c7539d189ce71c3f0ac8db175fd467b02c70c4b3a9",
+      "tsensei_v3_2_pianist/mjlab_env/joint_limits_warp.py": "46ab88d8a7f3b8bd3456fd7812218998e3aaa376c67156d67efb2bd660baa54f",
+      "tsensei_v3_2_pianist/mjlab_env/key_contact_diagnostics.py": "4d5c67ba35a8d1e6cf0de43ba04029f3ad4391c998efca6d4918fd4b66b744b5",
+      "tsensei_v3_2_pianist/mjlab_env/paths.py": "2d0b15cab20a88dc0e1582920104182fffae8c80ad333550aab26fb56325ced9",
+      "tsensei_v3_2_pianist/mjlab_env/performance_options.py": "49bdd3b73af6e4af58894343db53a2663bff3b1ec52be51a6210a4a72c6e34ea",
+      "tsensei_v3_2_pianist/mjlab_env/preparation.py": "bd7433b6af39eaf35c445929a8426b9d960ebfed233e499f45f799067c26a63d",
+      "tsensei_v3_2_pianist/mjlab_env/preview_contract.py": "a507e9c05c85f5b405d6490f003729bebadd0d51fdf2a289b1daaaced4e60fb5",
+      "tsensei_v3_2_pianist/mjlab_env/reward_config.py": "f1b19f044a694b73948dc3c210dc4cb17e30258bea68301352fbacec10f3f483",
+      "tsensei_v3_2_pianist/mjlab_env/rewards.py": "21c8e4b09366173a5f23e6eaba69e631333d5261e516301734d5c65b223e5728",
+      "tsensei_v3_2_pianist/mjlab_env/scene.py": "0462fa6e2e62a7d523dd4761135ad451f7b2bbd8934a7bbcab2f9cbe58113853",
+      "tsensei_v3_2_pianist/mjlab_env/self_collision.py": "ecac9a1b6d6d3741c23bacfb5d6b6ebe7466f962548b99cf4fe9f63898833227",
+      "tsensei_v3_2_pianist/mjlab_env/source_runtime.py": "3f2cabdf08456b04e0ba8a5bc1e2328cb4ca98b0f2b020965877f29b6e4e0d96",
+      "tsensei_v3_2_pianist/mjlab_env/substep_rewards.py": "a9ff5735351ea92e75951a86f50f359f4957b63035ab6dcf22c9d09fbc2547e6",
+      "tsensei_v3_2_pianist/mjlab_env/target_motion_limits.py": "27345155c3c8163c8607f597c59b612bfc3399538d8444a8417c2962eced7f62",
+      "tsensei_v3_2_pianist/mjlab_env/task.py": "6c5bbad20193f54df95d0fd5cd05f668f1ef66206c178b17c4d64b5d4fc8f0be",
+      "tsensei_v3_2_pianist/mjlab_env/task_bundle.py": "020ea1170ed1850186b51e93929c36f193cb252e39417957685dd34ed923f41f",
+      "tsensei_v3_2_pianist/mjlab_env/task_logic.py": "d7be91cbd02468f1d85b640c543ea89c13728ea1e4bd1453069411c6e36262d3",
+      "tsensei_v3_2_pianist/mjlab_env/without_arms.py": "cfd18dd309ca9454e402df44db08c2c9eba99fbd3ffb36a0cdad46fe4aa2473c",
+      "tsensei_v3_2_pianist/models/__init__.py": "043fb6477b3ef9e219f95c974d81fd96532473afdf831287baf7d474d89d99b8",
+      "tsensei_v3_2_pianist/models/arenas/__init__.py": "877751681c6c2a3a4e6d83a49e1b7cd43de7f7e40fbd649a0bb0d5b43aed084b",
+      "tsensei_v3_2_pianist/models/arenas/stage.py": "e501a9735457716d8f9a5fd400247cb317ef962aa0421162fe7d6331c23f175d",
+      "tsensei_v3_2_pianist/models/hands/__init__.py": "914615eeede071cfe08437cece2b65fbb861ec01555eda02486b74ce483b68bc",
+      "tsensei_v3_2_pianist/models/hands/base.py": "dcea030d0d6e6d863d8d974a3cf72cd992571192705fc0c5fd361a8d73e5d489",
+      "tsensei_v3_2_pianist/models/hands/collision_proxies.py": "f82c662cd088b10784b05b7bb9019c7c8ee87f6b8897df7ec836667b783dbded",
+      "tsensei_v3_2_pianist/models/hands/fingertip_geometry.py": "b5cd0eba7dbee336e6ff718a2ba2486112545aa5061ff4ef578eedb232037474",
+      "tsensei_v3_2_pianist/models/hands/tsensei_hand.py": "ca765d442532924dd5624449ad4bae0e387765eb97a0a204bb9a4d4d37db58ac",
+      "tsensei_v3_2_pianist/models/hands/tsensei_hand_constants.py": "dc9313b63f26d7468c17b6a9a48295ea479ea664501b4055590ad59cc06be890",
+      "tsensei_v3_2_pianist/models/hands/urdf_model.py": "543927bc050c02eacf637816ea489e4783c8bfeea98e8b03f832c3abf4b57430",
+      "tsensei_v3_2_pianist/models/piano/__init__.py": "c01875a16d5e22b755d35062eb056dffb50e5aa631a5e298803356c9ca5ef88b",
+      "tsensei_v3_2_pianist/models/piano/midi_module.py": "29883975b4ac288e83672df5f64835e8f3d14b5089aa7d7c0a1a5a637b8db2f3",
+      "tsensei_v3_2_pianist/models/piano/piano.py": "b0c37042bdcd73351cd1ea37a55d811e1dee7157e6600ea08831eb505799864a",
+      "tsensei_v3_2_pianist/models/piano/piano_constants.py": "bf20ec2be1c54778c92f89cc51afbc40b1d35350edf3136027325b1196df0b4e",
+      "tsensei_v3_2_pianist/models/piano/piano_mjcf.py": "22dc21022be5a19d7a616bfc2609eff5cbf8bc6768bc69cbd89b9c7637add6d7",
+      "tsensei_v3_2_pianist/music/__init__.py": "0d8b8aafec5f885c7c49b29ddba7ac7c02924534a5a371302f0acb69a3693968",
+      "tsensei_v3_2_pianist/music/audio.py": "8fdb125b626034e241e548b552191d188748de76076b31fa88ccdf81a307bd28",
+      "tsensei_v3_2_pianist/music/constants.py": "d9e6d964bcefea57b9b20b72f4171c7fd11e4c93d704e85be425b56720c5511a",
+      "tsensei_v3_2_pianist/music/data/rousseau/nocturne-trimmed.mid": "f6886fc10b4fff9a020a7190a7e16238105685e8654a1082065de9503e3fcaf0",
+      "tsensei_v3_2_pianist/music/data/rousseau/twinkle-twinkle-trimmed.mid": "af583c13275d4fd1477f7c6d19b20714f470a40ccf84084b525fef027c14ed98",
+      "tsensei_v3_2_pianist/music/data/stan/README.md": "db8d8433dd9a0879c6d8644ddd61bd91fc87c210718875ceeb41e031fada8eb8",
+      "tsensei_v3_2_pianist/music/data/stan/Stan_1.mid": "8c9b4ff7b51f02fc4fd4ed10ce594389e8fea8e6614928f58b4017de7e50e335",
+      "tsensei_v3_2_pianist/music/data/stan/stan_1.json": "a85561677f4f5854252ae61fb17070a0d167c2e5fd714201ef22df8d74590faf",
+      "tsensei_v3_2_pianist/music/data/stan/stan_1_fingering.json": "ab16f53245098f18f4a3e6eae422929805d3b08c9840620e283172cb495143ab",
+      "tsensei_v3_2_pianist/music/data/stan/stan_1_key_frames.npz": "b0b8b091acb015f1de7c29668bd0800fda77518ff56f2bd9c4bac55613a17463",
+      "tsensei_v3_2_pianist/music/library.py": "4cc2e189993a749af66c35e9ed08a6c42c9f4462b5b2dc4e5c24c880878b9fe9",
+      "tsensei_v3_2_pianist/music/midi_file.py": "d6774ea64d71ab9b485c2fc0a9ec3ca930fa38fdf5982dbb790903e5b5d621c0",
+      "tsensei_v3_2_pianist/music/midi_message.py": "c36f214249d85615c71fade8b95c59d12aee691d4655da0ce9f9b7f5d71f6d45",
+      "tsensei_v3_2_pianist/music/piano_roll.py": "233b26a6811bd652b268f9b8e8244db26855198b0d5067963c0edab32b8f13cd",
+      "tsensei_v3_2_pianist/physics_settings.py": "cc95f812a74895778b05462fc09cf372c9a97cf7af77c0a7a351d37ccd1ba7d4",
+      "tsensei_v3_2_pianist/preview_arm_collision.py": "27ec810c0f85d896f368f5496c6b273eab0a9bfc885add9a9492da6b47d48579",
+      "tsensei_v3_2_pianist/preview_arm_ik.py": "238880f37a5ef151ff19285efafc138382bb22e22282d938ec0d69ff316fe2af",
+      "tsensei_v3_2_pianist/preview_audio.py": "0c14874bbb1ffb952925a88fa20250196bba2e930e221246f08651d2f8d6f07e",
+      "tsensei_v3_2_pianist/preview_backend.py": "0763f567f40a2d93541e0f88ab6bb131df502e41781bcdc309b3078831a38df0",
+      "tsensei_v3_2_pianist/preview_camera.py": "e3606bf58e890a21aeff94f05907650732a62b80a6ba5dd0fc879084c84c092c",
+      "tsensei_v3_2_pianist/preview_connector.py": "047948e6e340e18706ca4a2a6d58c318c113d7603fa39df30cf254cf597172c0",
+      "tsensei_v3_2_pianist/preview_contacts.py": "d6f61c448194b83e541faff1a950384ae8fd1e38bca5a824948047e77f5ca3d1",
+      "tsensei_v3_2_pianist/preview_fingering.py": "c2840b2b629aa1ac09017e8ff2f718c1dc515e849b6e52c843b5853b97781fad",
+      "tsensei_v3_2_pianist/preview_frames.py": "b7c5eaaa47f166d8b7e37c215751970f36f2c571da61f4670aa046da70ba2035",
+      "tsensei_v3_2_pianist/preview_geometry.py": "62dbe84cc96c84e6f668a25e1d47c01139186387b4e1bcf029289b723aae8449",
+      "tsensei_v3_2_pianist/preview_keys.py": "001b8543311b0f48c3398a8729f570952cc6cf9088ec2a5ec4c50e023aead0b6",
+      "tsensei_v3_2_pianist/preview_pose_config.py": "8ce5cb8841ef7cd9ddd3fcd7e5160e91427b2ad46a40bd30335b7913c72340d1",
+      "tsensei_v3_2_pianist/preview_runtime.py": "def8ccb937d702df0d32e702ddaf25ad9676da1b784b976c14c861970917aa19",
+      "tsensei_v3_2_pianist/preview_trajectory.py": "0d7743bb9196181505942f1fc2f3d3d2ab4db56d22bf6010cb2a3a72600cde5c",
+      "tsensei_v3_2_pianist/rl/__init__.py": "56a0b13353b76fab38b431568e37ffe737d6e7e1eaa17a92815a89ccd3626902",
+      "tsensei_v3_2_pianist/rl/checkpoint.py": "04071f52caa4c1fd324eca9da93dbc93ffa42536acc747b4f4e7cd7e04dab5cf",
+      "tsensei_v3_2_pianist/rl/distributions.py": "b40a82061c5c1597d9884eedf165b745adb63bccbd8208a3731cd3aabb851048",
+      "tsensei_v3_2_pianist/rl/environment.py": "9a29ebb602ffea25ebcfcc271ea168b891ca56a294c9699438326ed5309f77a4",
+      "tsensei_v3_2_pianist/rl/networks.py": "93078b97007c0d12571b8f62ae9953228b08364a246959accb75b7b370b48f03",
+      "tsensei_v3_2_pianist/rl/replay.py": "eb48276bffa81ef4dab04694aea73fb62d780cfbdb479ade8b5bdaffec8454b1",
+      "tsensei_v3_2_pianist/rl/sac.py": "3a2cfcfd8689bd4d872cec7dd2b56efc2e999c7aaae08a78ea79a9363bfc264e",
+      "tsensei_v3_2_pianist/rl/specs.py": "1ca0f74912f28522fceb57ee2fb0a4a9a5f95f516b857625dbfb98902ca62a3e",
+      "tsensei_v3_2_pianist/rl/train.py": "9cc1d6a6b7b62bd4759f7ac9d2ef65496841bb4b3961c54526d9ca3ab7b10da1",
+      "tsensei_v3_2_pianist/rl_torch/__init__.py": "9599dff35de311e70f298e424b4c89ae343f59110e4fbc75da5177adc87cab8c",
+      "tsensei_v3_2_pianist/rl_torch/adam_execution.py": "264913410ae0a355a205d9c4cbe5d39f30da9970b4bcec0f018fb30ff266302f",
+      "tsensei_v3_2_pianist/rl_torch/checkpoint.py": "bd2048cc24e3c2c407493af907feebd0bd2d4a23939dcfc7e8a44f1f880c91e8",
+      "tsensei_v3_2_pianist/rl_torch/collector_pipeline.py": "b0dab2891c554d3adbdd91e0400e763f48e126c1df06ffd1f45570128a56e6de",
+      "tsensei_v3_2_pianist/rl_torch/coupling_evaluation.py": "18f8202e1c58cfdf186d0aea1c2e6d9b68038f0cef15362aae745c2df35918ed",
+      "tsensei_v3_2_pianist/rl_torch/evaluate.py": "964ab9cd8a2e4f4c8f41d26116128d2a044f3358e77f647209761b716aaace35",
+      "tsensei_v3_2_pianist/rl_torch/evaluation_graph.py": "ba365f2f52c964affd1457a39dfbfda59dae19182dd698f27d24a7107e538c8d",
+      "tsensei_v3_2_pianist/rl_torch/learner_graph.py": "7732413c116b13c0d6758c5895a99a2139ed6920f3341fbb5965081d9e88ee4e",
+      "tsensei_v3_2_pianist/rl_torch/note_timing_metrics.py": "939df37de7170016c3a3b22198f4ad4651ad8a9b9fc6903b6f34e1ce7046bffb",
+      "tsensei_v3_2_pianist/rl_torch/replay.py": "107ee1699619eb38ed56424fbf716eff759a5c4b9bd1ea0c8355058698fd96be",
+      "tsensei_v3_2_pianist/rl_torch/sac.py": "92d697776b9837c9200cbd226340658ff9f2f9347156fabe3653bd34cc174f6e",
+      "tsensei_v3_2_pianist/rl_torch/train.py": "8e6280a342d4224bb545dc3aa445c9e3b52f1b42f191dec2a0dc980d0931692a",
+      "tsensei_v3_2_pianist/score_validation.py": "ca8527c6e9eb1f34fedcc9f03dffb6707c59556787ba966d902cca2714ba9e5b",
+      "tsensei_v3_2_pianist/suite/__init__.py": "a7c76201ae3b5b336f87b46f54eade61944e4bb7011b962d782dc0e63465f08a",
+      "tsensei_v3_2_pianist/suite/composite_reward.py": "230a0f5fe5ea6d282d810cc452e18a2f9d017f6aabee16ca493203fe66c4fb1b",
+      "tsensei_v3_2_pianist/suite/tasks/__init__.py": "7191740971b9346f7cca4f50ba663f7c0bb2f4a017111c71ce7e5a19312c711f",
+      "tsensei_v3_2_pianist/suite/tasks/base.py": "23c3af579979a03ef444f5edbd5813d98678e3cdff95d00ef42cd621f3c2ed08",
+      "tsensei_v3_2_pianist/suite/tasks/piano_with_tsensei_hands.py": "cb9b9d4e825808c2e61a7b2dbb0b85f8577918a176a88049a97830704f6a3f60",
+      "tsensei_v3_2_pianist/suite/variations.py": "fdf97f453eb6c1065d1bdc544826ef24be6e96343eb24575a072fa51317c603c"
+    },
+    "versions": {
+      "composer": {
+        "mujoco": "3.13.0",
+        "dm-control": "1.0.46",
+        "dm-env": "1.6",
+        "dm-env-wrappers": "0.0.13",
+        "numpy": "2.5.3",
+        "mujoco-utils": "0.0.6",
+        "note-seq": "0.0.5",
+        "protobuf": "7.36.1"
+      },
+      "learner": {
+        "torch": "2.10.0+cu128",
+        "mujoco": "3.11.0",
+        "mujoco-warp": "3.11.0",
+        "mjlab": "1.6.0",
+        "warp-lang": "1.17.0",
+        "numpy": "2.5.3"
+      }
+    }
+  },
+  "arm_follow": {
+    "initial_q_rad": {
+      "right": [
+        -1.4707985599665074,
+        -1.1919581264167356,
+        1.0715754375238284,
+        -1.5543558488398856,
+        -1.1315725966377053,
+        0.4874538794541223,
+        -0.1275545958552024
+      ],
+      "left": [
+        1.4707985599665074,
+        -1.1919581264167356,
+        -1.0715754375238284,
+        -1.5543558488398856,
+        2.762355820010477,
+        0.11263412514575326,
+        -0.4908735030575548
+      ]
+    },
+    "link7_to_hand": {
+      "right": {
+        "xyz_m": [
+          -0.013500000000000002,
+          -0.12099999988079072,
+          0.004000000000000006
+        ],
+        "rpy_rad": [
+          1.5707963267948966,
+          0.0,
+          0.0
+        ]
+      },
+      "left": {
+        "xyz_m": [
+          0.04359772982242407,
+          -0.11367724158593016,
+          0.0039965824020408635
+        ],
+        "rpy_rad": [
+          -1.570822837136989,
+          -1.5544050456339775e-05,
+          -2.8864827476935018
+        ]
+      }
+    },
+    "joint_limits": {
+      "right": [
+        {
+          "min": -3.1067,
+          "max": 3.1067,
+          "velocity": 3.141592653589793,
+          "acceleration": 7.853981633974483
+        },
+        {
+          "min": -2.0944,
+          "max": 2.0944,
+          "velocity": 3.141592653589793,
+          "acceleration": 7.853981633974483
+        },
+        {
+          "min": -3.1067,
+          "max": 3.1067,
+          "velocity": 3.141592653589793,
+          "acceleration": 15.707963267948966
+        },
+        {
+          "min": -2.5307,
+          "max": 1.0472,
+          "velocity": 3.141592653589793,
+          "acceleration": 15.707963267948966
+        },
+        {
+          "min": -3.1067,
+          "max": 3.1067,
+          "velocity": 3.141592653589793,
+          "acceleration": 15.707963267948966
+        },
+        {
+          "min": -1.0472,
+          "max": 1.0472,
+          "velocity": 3.141592653589793,
+          "acceleration": 15.707963267948966
+        },
+        {
+          "min": -1.5708,
+          "max": 1.5708,
+          "velocity": 3.141592653589793,
+          "acceleration": 15.707963267948966
+        }
+      ],
+      "left": [
+        {
+          "min": -3.1067,
+          "max": 3.1067,
+          "velocity": 3.141592653589793,
+          "acceleration": 7.853981633974483
+        },
+        {
+          "min": -2.0944,
+          "max": 2.0944,
+          "velocity": 3.141592653589793,
+          "acceleration": 7.853981633974483
+        },
+        {
+          "min": -3.1067,
+          "max": 3.1067,
+          "velocity": 3.141592653589793,
+          "acceleration": 15.707963267948966
+        },
+        {
+          "min": -2.5307,
+          "max": 1.0472,
+          "velocity": 3.141592653589793,
+          "acceleration": 15.707963267948966
+        },
+        {
+          "min": -3.1067,
+          "max": 3.1067,
+          "velocity": 3.141592653589793,
+          "acceleration": 15.707963267948966
+        },
+        {
+          "min": -1.0472,
+          "max": 1.0472,
+          "velocity": 3.141592653589793,
+          "acceleration": 15.707963267948966
+        },
+        {
+          "min": -1.5708,
+          "max": 1.5708,
+          "velocity": 3.141592653589793,
+          "acceleration": 15.707963267948966
+        }
+      ]
+    },
+    "source_sha256": {
+      "preview/assets/tj_m6/right/arm.urdf": "d75d0bfad5cb8bf2cf5240c5bd5ffcc4b013c5e2e94e2ccbb0c18a7ee994a8bb",
+      "preview/assets/tj_m6/left/arm.urdf": "506269fd5a69e4101ab8085e4d27a37ab7175e8c464b142034b063af4b485507",
+      "configs/preview/m6_sdk_joint_limits.json": "a0c35c5962e0655e8392a472d1a3821e1cd69e1ea42ac77ea292bc56d0e24f24",
+      "configs/preview/hand_connector_20260930.json": "51e1e65bea07943ff93573160c8872e4fbb4edd4e871ccca88a69d2d9012ed13",
+      "preview/assets/hand_connector/tianji_20260930/right_01.stl": "7cd3763ba4e5af725ffebf49893fa3611137d528d633c7022617d24eb02b361c",
+      "preview/assets/hand_connector/tianji_20260930/right_02.stl": "7771bacfcda545c45f3adacde9d78c94e047a4d7ffc6c948f6a5d7bc40a6b7e0",
+      "preview/assets/hand_connector/tianji_20260930/right_03.stl": "b98b294583a5fe182af027ae2d0a22a60c1a8a648f230699afb6649802f7a929",
+      "preview/assets/hand_connector/tianji_20260930/right_04.stl": "4b4bc6c7a684e2352e1eaf81d98b3164f884efc3c2c5e0849a40735a65ad4622",
+      "preview/assets/hand_connector/tianji_20260930/right_05.stl": "b825fbe1939a1f353f8e8b865138d7f547387eabee8617e7fced56d8dd84168d",
+      "preview/assets/hand_connector/tianji_20260930/right_06.stl": "4fc82e068c568e8e1efbff20345c556e6351fd2c49a0fea3f5a4dec44bf3085a",
+      "preview/assets/hand_connector/tianji_20260930/left_01.stl": "a0f91e78ae1ebf347e13896e8dff3cefe400cd1b66386baf90efcbf3cdb62616",
+      "preview/assets/hand_connector/tianji_20260930/left_02.stl": "e18de2707f0b16c9e3ad99f48c4035c89cb5a9dde143cff7e3a1a710fb929923",
+      "preview/assets/hand_connector/tianji_20260930/left_03.stl": "c8fcca651c06b28cb458b33e6fd51a7ead9a26c7467f86f95ac3b3f4436c7554",
+      "preview/assets/hand_connector/tianji_20260930/left_04.stl": "16d47d4d06767d15a6f89b77bbd10cdd71f5eeaef4be873fc50d66f67c526122",
+      "preview/assets/hand_connector/tianji_20260930/left_05.stl": "831905770cf17e1ddc2a6715104733144e3c81184c8fbe1f2f0b1ff980184b71",
+      "preview/assets/hand_connector/tianji_20260930/left_06.stl": "a4a29c0e81d0b83894061e3bcac9a00f463c833650a33918ee654702e7a511ba"
+    },
+    "substep_ik": true,
+    "failure_policy": "bounded_reference",
+    "observation": "q_v_reference_pose_error_each_side",
+    "soft_limit_ratio": 0.95,
+    "full_penalty_excess": 0.1,
+    "maximum_penalty_per_step": 5.0,
+    "penalty_aggregation": "physics_substep_max_per_control_step",
+    "iterations": 12,
+    "orientation_weight_m": 0.15,
+    "damping": 0.008,
+    "mount_sha256": "51e1e65bea07943ff93573160c8872e4fbb4edd4e871ccca88a69d2d9012ed13",
+    "coupling": {
+      "j6_index": 5,
+      "j7_index": 6,
+      "coefficient": 1.025,
+      "sum_limit_rad": 1.928588823453734,
+      "j6_abs_limit_rad": 1.0471975511965976,
+      "j7_abs_limit_rad": 1.5707963267948966,
+      "constraint": "ccs696_j6_j7_absolute"
+    },
+    "controller": "rigid_wrist_command"
+  },
+  "reward_config": {
+    "weight_stage": "current",
+    "scale_by_dt": false,
+    "action_units": null,
+    "regularization_shaping": "identity",
+    "terms": {
+      "key_press_reward": {
+        "enabled": true,
+        "weight": 1.0,
+        "params": {
+          "mode": "paper",
+          "chord_bonus": false,
+          "chord_scope": null
+        }
+      },
+      "sustain_reward": {
+        "enabled": true,
+        "weight": 1.0,
+        "params": {}
+      },
+      "energy_reward": {
+        "enabled": true,
+        "weight": 1.0,
+        "params": {}
+      },
+      "fingering_reward": {
+        "enabled": true,
+        "weight": 1.0,
+        "params": {
+          "mode": "legacy"
+        }
+      },
+      "forearm_reward": {
+        "enabled": true,
+        "weight": 1.0,
+        "params": {}
+      },
+      "self_collision_reward": {
+        "enabled": true,
+        "weight": 0.2,
+        "params": {
+          "aggregation": "substep_sum_v1",
+          "maximum_penalty_per_step": 5.0
+        }
+      },
+      "forearm_power_reward": {
+        "enabled": false,
+        "weight": 0.2,
+        "params": {
+          "coefficient": -0.001
+        }
+      },
+      "wrist_power_reward": {
+        "enabled": false,
+        "weight": 0.176,
+        "params": {
+          "coefficient": -0.01
+        }
+      },
+      "finger_power_reward": {
+        "enabled": false,
+        "weight": 0.2,
+        "params": {
+          "coefficient": -0.005
+        }
+      },
+      "forearm_velocity_reward": {
+        "enabled": false,
+        "weight": 0.2,
+        "params": {
+          "coefficient": -0.02
+        }
+      },
+      "wrist_velocity_reward": {
+        "enabled": false,
+        "weight": 0.176,
+        "params": {
+          "coefficient": -0.005
+        }
+      },
+      "finger_velocity_reward": {
+        "enabled": false,
+        "weight": 0.2,
+        "params": {
+          "coefficient": -0.0002
+        }
+      },
+      "forearm_acceleration_reward": {
+        "enabled": false,
+        "weight": 0.2,
+        "params": {
+          "coefficient": -0.002
+        }
+      },
+      "wrist_acceleration_reward": {
+        "enabled": false,
+        "weight": 0.176,
+        "params": {
+          "coefficient": -0.0003
+        }
+      },
+      "finger_acceleration_reward": {
+        "enabled": false,
+        "weight": 0.2,
+        "params": {
+          "coefficient": -1e-05
+        }
+      },
+      "finger_speed_reward": {
+        "enabled": false,
+        "weight": 0.0,
+        "params": {
+          "coefficient": -0.05,
+          "limit": 6.5
+        }
+      },
+      "wrist_pitch_reward": {
+        "enabled": false,
+        "weight": 1.0,
+        "params": {
+          "bonus": 0.05,
+          "directions": null
+        }
+      },
+      "forward_press_reward": {
+        "enabled": false,
+        "weight": 1.0,
+        "params": {
+          "coefficient": -0.1,
+          "threshold": 1.5707963267948966,
+          "angle_map": null
+        }
+      },
+      "false_press_penalty": {
+        "enabled": false,
+        "weight": -0.05,
+        "params": {}
+      },
+      "humanoid_finger_gesture_reward": {
+        "enabled": true,
+        "weight": 1.0,
+        "params": {
+          "coefficient": -0.1,
+          "reference": "scene_reset",
+          "lookahead_steps": 20
+        }
+      },
+      "joint_motion_limit_penalty": {
+        "enabled": true,
+        "weight": 1.0,
+        "params": {
+          "finger_velocity_limit": 20.0,
+          "finger_acceleration_limit": 400.0,
+          "wrist_velocity_limit": 3.0,
+          "wrist_acceleration_limit": 15.0,
+          "full_penalty_excess": 0.1,
+          "maximum_penalty_per_step": 5.0,
+          "tcp_velocity_limit": 0.9,
+          "tcp_acceleration_limit": 1.9
+        }
+      },
+      "arm_motion_limit_penalty": {
+        "enabled": true,
+        "weight": 1.0,
+        "params": {
+          "soft_limit_ratio": 0.95,
+          "full_penalty_excess": 0.1,
+          "maximum_penalty_per_step": 5.0
+        }
+      }
+    },
+    "performance": {
+      "anticipatory_fingering_time": 0.15,
+      "anticipatory_fingering_reward": false,
+      "staged_fingering_reward": false,
+      "anticipatory_current_priority": false,
+      "exact_note_timing": true,
+      "upcoming_press_permission_time": 0.0
+    },
+    "contract": "shadow_control_frame_current"
+  },
+  "control_limits": {
+    "schema": 1,
+    "mode": "target_clip_slew_v1",
+    "channels": {
+      "L_Wrist_Pitch": {
+        "max_acceleration": 15.708,
+        "max_velocity": 3.1416
+      },
+      "L_Wrist_TX": {
+        "max_acceleration": 1.99,
+        "max_velocity": 0.99
+      },
+      "L_Wrist_TY": {
+        "max_acceleration": 1.99,
+        "max_velocity": 0.99
+      },
+      "R_Wrist_Pitch": {
+        "max_acceleration": 15.708,
+        "max_velocity": 3.1416
+      },
+      "R_Wrist_TX": {
+        "max_acceleration": 1.99,
+        "max_velocity": 0.99
+      },
+      "R_Wrist_TY": {
+        "max_acceleration": 1.99,
+        "max_velocity": 0.99
+      }
+    },
+    "joint_state_limits": "hard_v1"
+  },
+  "finger_coupling": {
+    "schema": 1,
+    "mode": "distal_angle_range_v1",
+    "angle_ranges_deg": {
+      "right_index": [
+        60.0,
+        80.0
+      ],
+      "right_mid": [
+        60.0,
+        80.0
+      ],
+      "right_ring": [
+        60.0,
+        80.0
+      ],
+      "right_pinky": [
+        60.0,
+        80.0
+      ],
+      "left_index": [
+        60.0,
+        80.0
+      ],
+      "left_mid": [
+        60.0,
+        80.0
+      ],
+      "left_ring": [
+        60.0,
+        80.0
+      ],
+      "left_pinky": [
+        60.0,
+        80.0
+      ]
+    },
+    "reduce_observation": false
+  },
+  "finger_clearance": {
+    "schema": 1,
+    "mode": "full_finger_clearance_v1",
+    "clearance_m": 0.002,
+    "contact_slack_m": 0.001,
+    "projection_iterations": 6,
+    "max_joint_correction_rad": 0.25,
+    "active_command_mode": "active_contact_v1",
+    "active_contact_slack_m": 0.005,
+    "active_support_xy_margin_m": 0.002,
+    "active_recovery_delta_rad": 0.2,
+    "wrist_clearance_interlock": false,
+    "idle_finger_protection": false,
+    "active_press_permission": false
+  },
+  "preparation": {
+    "duration": 1.0,
+    "lift": 0.025,
+    "trajectory": "quintic_v1",
+    "mode": "policy_v1"
+  },
+  "action_profile": "direct_joint_v1",
+  "disable_wrist_tz": true,
+  "disable_wrist_yaw": true,
+  "no_arms": true,
+  "collision_diagnostics": true,
+  "self_collision_weight": 0.0,
+  "acceleration": {
+    "physics_graph": true
+  },
+  "preview_provenance": {
+    "fixed_training_archive": null,
+    "derived_from": "current workspace source snapshot; preview contract v8",
+    "reward_source": "configs/rewards/default_20261006.json",
+    "source_snapshot_status": "workspace_v8_verified; new package_a32 archive pending missing root run.sh and run_tsensei_a32.sh",
+    "verified_command": "preview_mjlab.py --training-config configs/preview/current_arm_training_20261011.json --reachability-audit"
+  },
+  "format": "current_arm_preview_config"
+}

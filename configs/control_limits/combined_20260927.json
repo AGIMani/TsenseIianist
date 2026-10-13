@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "mode": "target_clip_slew_v1",
+  "channels": {
+    "L_Thumb_Rot": {
+      "max_velocity": 16.0
+    },
+    "L_Thumb_Rot2": {
+      "max_velocity": 16.0
+    },
+    "L_Thumb_MCP": {
+      "max_velocity": 16.0
+    },
+    "L_Thumb_PIP": {
+      "max_velocity": 16.0
+    },
+    "R_Wrist_TX": {
+      "max_velocity": 1.2,
+      "min": -0.2,
+      "max": 0.2
+    },
+    "R_Wrist_TY": {
+      "max_velocity": 1.2
+    },
+    "R_Wrist_Pitch": {
+      "max_velocity": 4.0
+    },
+    "L_Wrist_TX": {
+      "max_velocity": 1.2,
+      "min": -0.1,
+      "max": 0.2
+    },
+    "L_Wrist_TY": {
+      "max_velocity": 1.2
+    },
+    "L_Wrist_Pitch": {
+      "max_velocity": 4.0
+    }
+  }
+}

@@ -1,0 +1,237 @@
+{
+  "note": "Literal basename references; dynamic quality launcher is documented separately; missing literal is not proof of unused.",
+  "rows": [
+    {
+      "path": "configs/actions/direct_joint_v1.json",
+      "bytes": 6203,
+      "references": [
+        "tests/test_shadow_task_profile.py",
+        "docs/change_log.md",
+        "docs/action_mapping_direct_joint_v1_20260924.md",
+        "docs/best_range_finetuning_20260927.md"
+      ],
+      "saved_run_references": []
+    },
+    {
+      "path": "configs/control_limits/combined_20260927.json",
+      "bytes": 690,
+      "references": [
+        "docs/control_limits_20260927.md",
+        "docs/motion_contact_audit_20260927.md"
+      ],
+      "saved_run_references": []
+    },
+    {
+      "path": "configs/control_limits/envelope_20260927.json",
+      "bytes": 197,
+      "references": [],
+      "saved_run_references": []
+    },
+    {
+      "path": "configs/control_limits/generic_wrist_rate_20260927.json",
+      "bytes": 395,
+      "references": [
+        "docs/generic_clearance_fresh_training_20260927.md",
+        "docs/references/biomimetics_2026_610_notes.md",
+        "run.sh"
+      ],
+      "saved_run_references": [
+        "training_mjlab/outputs/clearance_trial_lowlr_20260927-20260927-092532-822854",
+        "training_mjlab/outputs/twinkle_generic_clearance_finetune_20260927-20260927-093425-663203",
+        "training_mjlab/outputs/twinkle_generic_clearance_fresh_20260927-20260927-132520-465250",
+        "training_mjlab/outputs/clearance_trial_shadowlr_20260927-20260927-092815-848858"
+      ]
+    },
+    {
+      "path": "configs/control_limits/thumb16_20260927.json",
+      "bytes": 418,
+      "references": [],
+      "saved_run_references": []
+    },
+    {
+      "path": "configs/control_limits/wrist_gentle_20260927.json",
+      "bytes": 469,
+      "references": [
+        "docs/motion_contact_audit_20260927.md",
+        "docs/best_range_finetuning_20260927.md"
+      ],
+      "saved_run_references": [
+        "training_mjlab/outputs/range_trial_wrist_highlr_20260927-20260927-011510-827921",
+        "training_mjlab/outputs/clearance_trial_lowlr_20260927-20260927-092532-822854",
+        "training_mjlab/outputs/twinkle_generic_clearance_finetune_20260927-20260927-093425-663203",
+        "training_mjlab/outputs/range_trial_wrist_lowlr_20260927-20260927-011820-702559",
+        "training_mjlab/outputs/range_trial_wrist_highlr_retry_20260927-20260927-012126-614681",
+        "training_mjlab/outputs/clearance_trial_shadowlr_20260927-20260927-092815-848858",
+        "training_mjlab/outputs/twinkle_range_finetune-20260927-012613-20260927-012614-462007"
+      ]
+    },
+    {
+      "path": "configs/control_limits/wrist_thumbpip12_20260927.json",
+      "bytes": 510,
+      "references": [],
+      "saved_run_references": []
+    },
+    {
+      "path": "configs/control_limits/wrist_tighter_20260927.json",
+      "bytes": 465,
+      "references": [],
+      "saved_run_references": []
+    },
+    {
+      "path": "configs/control_limits/wrist_ty06_20260927.json",
+      "bytes": 503,
+      "references": [],
+      "saved_run_references": []
+    },
+    {
+      "path": "configs/control_limits/wrist_ty08_20260927.json",
+      "bytes": 503,
+      "references": [],
+      "saved_run_references": []
+    },
+    {
+      "path": "configs/finger_clearance/active_contact_interlock_20260927.json",
+      "bytes": 367,
+      "references": [],
+      "saved_run_references": []
+    },
+    {
+      "path": "configs/finger_clearance/control_disabled_20260927.json",
+      "bytes": 439,
+      "references": [
+        "run.sh"
+      ],
+      "saved_run_references": []
+    },
+    {
+      "path": "configs/finger_clearance/generic_20260927.json",
+      "bytes": 368,
+      "references": [
+        "tests/test_finger_clearance_integration.py",
+        "tests/test_run_entry_controls.py",
+        "docs/generic_clearance_fresh_training_20260927.md",
+        "docs/references/biomimetics_2026_610_notes.md",
+        "run.sh"
+      ],
+      "saved_run_references": [
+        "training_mjlab/outputs/clearance_trial_lowlr_20260927-20260927-092532-822854",
+        "training_mjlab/outputs/twinkle_generic_clearance_finetune_20260927-20260927-093425-663203",
+        "training_mjlab/outputs/twinkle_generic_clearance_fresh_20260927-20260927-132520-465250",
+        "training_mjlab/outputs/clearance_trial_shadowlr_20260927-20260927-092815-848858"
+      ]
+    },
+    {
+      "path": "configs/finger_clearance/idle_only_probe_20260927.json",
+      "bytes": 218,
+      "references": [],
+      "saved_run_references": []
+    },
+    {
+      "path": "configs/poses/initial_20260926.json",
+      "bytes": 15816,
+      "references": [
+        "docs/startup_preparation_20260926.md"
+      ],
+      "saved_run_references": []
+    },
+    {
+      "path": "configs/poses/origin_20260926.json",
+      "bytes": 15632,
+      "references": [
+        "docs/startup_preparation_20260926.md"
+      ],
+      "saved_run_references": []
+    },
+    {
+      "path": "configs/rewards/current.json",
+      "bytes": 3272,
+      "references": [
+        "docs/false_press_penalty_20260924.md",
+        "docs/common_commands.md",
+        "docs/reward_design_review.md",
+        "README.md"
+      ],
+      "saved_run_references": []
+    },
+    {
+      "path": "configs/rewards/generic_finger_clearance_20260927.json",
+      "bytes": 3409,
+      "references": [
+        "tests/test_finger_clearance_integration.py",
+        "tests/test_run_entry_controls.py",
+        "docs/generic_clearance_fresh_training_20260927.md",
+        "docs/humanoid_clearance_reward_20260927.md",
+        "docs/references/biomimetics_2026_610_notes.md",
+        "run.sh"
+      ],
+      "saved_run_references": [
+        "training_mjlab/outputs/clearance_trial_lowlr_20260927-20260927-092532-822854",
+        "training_mjlab/outputs/twinkle_generic_clearance_finetune_20260927-20260927-093425-663203",
+        "training_mjlab/outputs/twinkle_generic_clearance_fresh_20260927-20260927-132520-465250",
+        "training_mjlab/outputs/clearance_trial_shadowlr_20260927-20260927-092815-848858"
+      ]
+    },
+    {
+      "path": "configs/rewards/paper_stage1.json",
+      "bytes": 3271,
+      "references": [
+        "docs/common_commands.md",
+        "docs/reward_design_review.md"
+      ],
+      "saved_run_references": []
+    },
+    {
+      "path": "configs/rewards/paper_stage2_canon.json",
+      "bytes": 3265,
+      "references": [
+        "docs/common_commands.md",
+        "docs/reward_design_review.md"
+      ],
+      "saved_run_references": []
+    },
+    {
+      "path": "configs/rewards/paper_stage2_other.json",
+      "bytes": 3265,
+      "references": [
+        "docs/common_commands.md",
+        "docs/reward_design_review.md"
+      ],
+      "saved_run_references": []
+    },
+    {
+      "path": "configs/rewards/quality_baseline_20260926.json",
+      "bytes": 3272,
+      "references": [],
+      "saved_run_references": [
+        "training_mjlab/outputs/quality_trials_20260926/A_baseline_original-20260926-192853-459037",
+        "training_mjlab/outputs/quality_trials_20260926/B_baseline_accelerated-20260926-193305-609472",
+        "training_mjlab/outputs/quality_trials_20260926/E_baseline_restore_adam-20260926-194031-198196"
+      ]
+    },
+    {
+      "path": "configs/rewards/quality_humanoid_20260926.json",
+      "bytes": 3339,
+      "references": [],
+      "saved_run_references": [
+        "training_mjlab/outputs/range_trial_wrist_highlr_20260927-20260927-011510-827921",
+        "training_mjlab/outputs/range_trial_baseline_20260927-20260927-010422-311301",
+        "training_mjlab/outputs/clearance_trial_lowlr_20260927-20260927-092532-822854",
+        "training_mjlab/outputs/twinkle_generic_clearance_finetune_20260927-20260927-093425-663203",
+        "training_mjlab/outputs/range_trial_wrist_lowlr_20260927-20260927-011820-702559",
+        "training_mjlab/outputs/twinkle_quality_continue-20260926-194555-20260926-194556-402944",
+        "training_mjlab/outputs/range_trial_wrist_highlr_retry_20260927-20260927-012126-614681",
+        "training_mjlab/outputs/clearance_trial_shadowlr_20260927-20260927-092815-848858",
+        "training_mjlab/outputs/twinkle_range_finetune-20260927-012613-20260927-012614-462007",
+        "training_mjlab/outputs/quality_trials_20260926/C_humanoid_accelerated-20260926-193537-159014"
+      ]
+    },
+    {
+      "path": "configs/rewards/quality_safe_20260926.json",
+      "bytes": 3270,
+      "references": [],
+      "saved_run_references": [
+        "training_mjlab/outputs/quality_trials_20260926/D_safe_accelerated-20260926-193757-449122"
+      ]
+    }
+  ]
+}

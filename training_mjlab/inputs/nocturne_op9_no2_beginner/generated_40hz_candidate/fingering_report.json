@@ -1,0 +1,34 @@
+{
+  "method": "dynamic programming over hand assignments with a soft finger-order preference; sustained-note constraints and posture/shift costs",
+  "source_sha256": "5c3a7046cda06fa0c28581716e10b72723b0180cd39cf30240980c1441d989d8",
+  "proto_sha256": "dae6d80198fd13a4d9aa3f9a2ca965c881b23108819ebe15f89620106caaa167",
+  "instrument_to_hand": {
+    "0": "right",
+    "1": "left"
+  },
+  "note_count": 171,
+  "all_note_attributes_preserved": true,
+  "dt": 0.025,
+  "trim_origin_seconds": 0.0,
+  "trimmed_note_count": 171,
+  "trajectory_frames": 1937,
+  "simultaneous_finger_conflicts": 0,
+  "counts_by_finger": {
+    "0": 18,
+    "1": 11,
+    "2": 14,
+    "3": 16,
+    "4": 19,
+    "5": 28,
+    "6": 21,
+    "7": 9,
+    "8": 12,
+    "9": 23
+  },
+  "costs": {
+    "right": 223.42000000000004,
+    "left": 108.42361111111107
+  },
+  "limitations": "Candidate only. Hand split inferred from supplied tracks. Offsets/costs are engineering heuristics, not calibrated TsenseI IK or expert fingering. No claim of collision-free reachability.",
+  "output_proto": "nocturne-op-9-no-2-beginner_fingered.proto"
+}

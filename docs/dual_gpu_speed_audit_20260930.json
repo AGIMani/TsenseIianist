@@ -1,0 +1,240 @@
+{
+  "date": "2026-09-30",
+  "scope": "CPU-only offline analysis of existing Slurm934/935 evidence; no new GPU run",
+  "inputs_sha256": {
+    "logs/hpc/934/benchmark/results.json": "6acb6cb29bcdbcf91ec35a000918ff51d14bfd1524ad73d2f5e4259eea7fa946",
+    "training_mjlab/outputs/hpc/job-935-20260928-191156-583628/summary.json": "29649603444117050890eebe334c10c2aef60c6bcb4694d5b7189d77419b1c80",
+    "training_mjlab/outputs/hpc/job-935-20260928-191156-583628/metrics.jsonl": "37cbb6e5d94dc7f1c62ab5fb72c95946c4bb3741f5f0a36cf98f620101217767",
+    "training_mjlab/outputs/hpc/job-935-20260928-191156-583628/config.json": "3aa414f6b57be78534da35fa716b8e9c056f5ae3ca715b3a2bed3a425462827d",
+    "logs/hpc/935/gpu_probe.json": "d0da6c4d5a008f3e470e64ccd4160d094f1ff2a2a04835b51432dd6cfa79acf9",
+    "logs/hpc/935/gpu_utilization.csv": "66f2af61677b063d78bdfbe76ee87beba79e7801be3162edaf48f802d65402de",
+    "logs/hpc/935/source/tsensei_v3_2_pianist/rl_torch/train.py": "ceca7d7f364c4f7248d7853fc3e1f6154cf73236993ff36e52f6cbae74bd5884",
+    "logs/hpc/935/source/tsensei_v3_2_pianist/rl_torch/collector_pipeline.py": "b0dab2891c554d3adbdd91e0400e763f48e126c1df06ffd1f45570128a56e6de",
+    "logs/hpc/935/source/tsensei_v3_2_pianist/rl_torch/learner_graph.py": "7732413c116b13c0d6758c5895a99a2139ed6920f3341fbb5965081d9e88ee4e"
+  },
+  "benchmark": {
+    "rows": [
+      {
+        "mode": "single",
+        "repeat": 0,
+        "wall_seconds": 438.81182261399954,
+        "steady": {
+          "start_vector_step": 190,
+          "end_vector_step": 510,
+          "seconds": 120.19064614599843,
+          "transitions": 163840,
+          "updates": 40960,
+          "transitions_per_second": 1363.1676445185233,
+          "updates_per_second": 340.7919111296308
+        },
+        "learner_graph_setup_s": 57.27847135900083,
+        "updates": 42112
+      },
+      {
+        "mode": "pipeline",
+        "repeat": 0,
+        "wall_seconds": 177.45278764700197,
+        "steady": {
+          "start_vector_step": 190,
+          "end_vector_step": 510,
+          "seconds": 93.92977675300062,
+          "transitions": 163840,
+          "updates": 40960,
+          "transitions_per_second": 1744.281799272626,
+          "updates_per_second": 436.0704498181565
+        },
+        "learner_graph_setup_s": 13.450673106002796,
+        "updates": 42112,
+        "phase_ms_per_vector": {
+          "collection_seconds": 89.22133155934944,
+          "update_seconds": 291.03251136256176,
+          "actor_snapshot_seconds": 0.48948157802897185,
+          "replay_commit_reset_seconds": 1.7510594313193906,
+          "host_overlap_seconds": 89.22133155934944
+        }
+      },
+      {
+        "mode": "pipeline",
+        "repeat": 1,
+        "wall_seconds": 165.43149635499867,
+        "steady": {
+          "start_vector_step": 190,
+          "end_vector_step": 510,
+          "seconds": 93.82096197999999,
+          "transitions": 163840,
+          "updates": 40960,
+          "transitions_per_second": 1746.3048400092732,
+          "updates_per_second": 436.5762100023183
+        },
+        "learner_graph_setup_s": 2.6632692980019783,
+        "updates": 42112,
+        "phase_ms_per_vector": {
+          "collection_seconds": 88.8637887561913,
+          "update_seconds": 290.6859536998809,
+          "actor_snapshot_seconds": 0.48891857492208146,
+          "replay_commit_reset_seconds": 1.7438471123796262,
+          "host_overlap_seconds": 88.8637887561913
+        }
+      },
+      {
+        "mode": "single",
+        "repeat": 1,
+        "wall_seconds": 192.26249563999954,
+        "steady": {
+          "start_vector_step": 190,
+          "end_vector_step": 510,
+          "seconds": 120.40717206300178,
+          "transitions": 163840,
+          "updates": 40960,
+          "transitions_per_second": 1360.7162861882716,
+          "updates_per_second": 340.1790715470679
+        },
+        "learner_graph_setup_s": 2.5990419250010746,
+        "updates": 42112
+      }
+    ],
+    "steady_speedup": 1.2814740745491897,
+    "steady_transitions_per_second": {
+      "single": 1361.9419653533973,
+      "pipeline": 1745.2933196409494
+    },
+    "cold_cache_biased_end_to_end_speedup": 1.8404877321537343
+  },
+  "formal": {
+    "elapsed_s": 4491.638810709002,
+    "transitions": 5000192,
+    "updates": 1226624,
+    "effective_rate_limits": {
+      "schema": 1,
+      "mode": "target_clip_slew_v1",
+      "channels": {
+        "L_Wrist_Pitch": {
+          "max_velocity": 4.0
+        },
+        "L_Wrist_TX": {
+          "max_velocity": 1.2
+        },
+        "L_Wrist_TY": {
+          "max_velocity": 1.2
+        },
+        "R_Wrist_Pitch": {
+          "max_velocity": 4.0
+        },
+        "R_Wrist_TX": {
+          "max_velocity": 1.2
+        },
+        "R_Wrist_TY": {
+          "max_velocity": 1.2
+        }
+      }
+    },
+    "evaluations": 99,
+    "evaluation_episodes_each": 3,
+    "learner_graph_setup_s": 55.23918423700161,
+    "pipeline": {
+      "collected_vector_steps": 9766,
+      "learner_updated_through_vector_step": 9766,
+      "pending_vector_step": null,
+      "collector_actor_update_version": 1226368,
+      "overlapped_vector_batches": 9667,
+      "collection_seconds": 773.365439187899,
+      "update_seconds": 2853.3373859949897,
+      "actor_snapshot_seconds": 4.775415293926926,
+      "replay_commit_reset_seconds": 17.346200862262776,
+      "pipeline_step_wall_seconds": 2817.746690465927,
+      "host_overlap_seconds": 747.6244055459065,
+      "actor_lag_at_collection_end_updates": 128,
+      "max_actor_lag_at_collection_end_updates": 128,
+      "timing_note": "Host callback overlap, not measured CUDA kernel overlap; step wall time excludes external boundary flushes"
+    },
+    "union_phase_accounted_s": 2901.200035793172,
+    "outside_phase_s": 1590.4387749158304,
+    "outside_phase_fraction": 0.3540887506635425,
+    "collection_overlap_fraction": 0.9667155624784283,
+    "boundary_intervals": {
+      "ordinary": {
+        "count": 860,
+        "elapsed_mean_s": 2.973895089247683,
+        "residual_mean_s": 0.0026785402765016164,
+        "residual_median_s": 0.0027743495048753175,
+        "residual_total_s": 2.30354463779139
+      },
+      "periodic_save": {
+        "count": 19,
+        "elapsed_mean_s": 18.81906314284179,
+        "residual_mean_s": 16.069233118734164,
+        "residual_median_s": 16.07879290799974,
+        "residual_total_s": 305.3154292559491
+      },
+      "best_save": {
+        "count": 35,
+        "elapsed_mean_s": 18.662883418228773,
+        "residual_mean_s": 15.9092683654019,
+        "residual_median_s": 15.974687769004959,
+        "residual_total_s": 556.8243927890665
+      },
+      "eval_without_save": {
+        "count": 42,
+        "elapsed_mean_s": 18.83684708309507,
+        "residual_mean_s": 16.085608386190465,
+        "residual_median_s": 15.990535144502928,
+        "residual_total_s": 675.5955522199995
+      }
+    },
+    "telemetry": [
+      {
+        "logical_device": 0,
+        "samples": 2246,
+        "mean_util_pct": 43.097506678539624,
+        "median_util_pct": 37.0,
+        "fraction_below_5pct": 0.10596616206589493,
+        "fraction_at_least_95pct": 0.0017809439002671415,
+        "peak_memory_mib": 5117.0
+      },
+      {
+        "logical_device": 1,
+        "samples": 2246,
+        "mean_util_pct": 62.260908281389135,
+        "median_util_pct": 99.0,
+        "fraction_below_5pct": 0.3695458593054319,
+        "fraction_at_least_95pct": 0.6237756010685663,
+        "peak_memory_mib": 10283.0
+      }
+    ],
+    "conditional_serial_projection": {
+      "seconds": 5239.263216254909,
+      "speedup": 1.1664480242185578,
+      "assumption": "All phase costs unchanged when serialized; not a measured single-GPU 5M run"
+    }
+  },
+  "peer_copies": [
+    {
+      "can_access_peer": true,
+      "data_verified": true,
+      "elapsed_seconds": 0.0016767929992056452,
+      "gigabytes_per_second": 200.1107591449624,
+      "repeats": 20,
+      "source": 0,
+      "target": 1,
+      "timing": "host wall clock including final synchronization; not peak link bandwidth",
+      "transfer_bytes": 16777216
+    },
+    {
+      "can_access_peer": true,
+      "data_verified": true,
+      "elapsed_seconds": 0.0017148070000985172,
+      "gigabytes_per_second": 195.67468524488336,
+      "repeats": 20,
+      "source": 1,
+      "target": 0,
+      "timing": "host wall clock including final synchronization; not peak link bandwidth",
+      "transfer_bytes": 16777216
+    }
+  ],
+  "method": "elapsed=transitions/loop_transitions_per_second; boundary residual subtracts delta(update+collection+snapshot+commit-overlap); train log precedes evaluation; use consecutive logs at step>=200. Host callback timers, not CUDA-event kernel timings.",
+  "limitations": [
+    "No isolated evaluation or save timer; residual includes evaluation, save, bookkeeping and startup outside callbacks.",
+    "GPU utilization is sampled over full job, including startup and evaluation.",
+    "No new benchmark of current 1m/s setting, no matched single-GPU 5M run, no per-kernel profiler."
+  ]
+}

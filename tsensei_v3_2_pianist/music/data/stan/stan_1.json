@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "title": "Stan 1（导入约定待核对）",
+  "frames_file": "stan_1_key_frames.npz",
+  "frame_count": 537,
+  "frame_dt_s": 0.05,
+  "key_to_midi_offset": 21,
+  "wrist_column": 0,
+  "finger_columns_thumb_to_pinky": {
+    "right": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "left": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "velocity": 80,
+  "conventions_verified": false,
+  "confirmed_by_user": [
+    "Only row index 7 is the finger-to-key assignment.",
+    "-1 means no key; the always -1 column denotes the wrist."
+  ],
+  "assumptions_to_verify": [
+    "Columns 1..5 are thumb, index, middle, ring, pinky.",
+    "NPY samples are uniform 0.05 seconds starting at t=0.",
+    "Key 0 is A0 (MIDI 21)."
+  ],
+  "limitations": [
+    "No original Stan MIDI or timing metadata was supplied.",
+    "Consecutive equal key assignments are merged; repeated attacks without a release cannot be recovered.",
+    "Velocity 80 and no sustain events are placeholders, not measured performance data.",
+    "This NPY timeline is not aligned to the nonuniform 793-frame joint trajectory."
+  ],
+  "sources": {
+    "right": {
+      "filename": "Stan_1_right_hand_action_list.npy",
+      "sha256": "09347a6beaa573eabb95256e9aa25ec761d38999aeb9588caeb1c118850f53ab",
+      "shape": [
+        537,
+        8,
+        6
+      ],
+      "selected_row": 7
+    },
+    "left": {
+      "filename": "Stan_1_left_hand_action_list.npy",
+      "sha256": "f3bb403b3310bb6c0c472774d206ffe6aea33d7194483b90cbdceb8af8d596f8",
+      "shape": [
+        537,
+        8,
+        6
+      ],
+      "selected_row": 7
+    }
+  }
+}

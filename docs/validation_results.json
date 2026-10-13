@@ -1,0 +1,41 @@
+{
+  "date": "2026-09-16",
+  "pytest": {
+    "passed": 12,
+    "third_party_deprecation_warnings": 62
+  },
+  "smoke": {
+    "steps": 100,
+    "completed_episodes": 4,
+    "action_size": 51,
+    "observation_size": 327,
+    "nq": 138,
+    "nv": 138,
+    "nu": 50,
+    "status": "passed"
+  },
+  "installed_wheel_isolation": {
+    "installed_wheel_isolation": "passed",
+    "runs": [
+      {
+        "midi": "Toy",
+        "steps": 40,
+        "action_size": 51
+      },
+      {
+        "midi": "twinkle-twinkle-trimmed.mid",
+        "steps": 40,
+        "action_size": 51
+      }
+    ]
+  },
+  "exported_scene": {
+    "nq": 138,
+    "nv": 138,
+    "nu": 50
+  },
+  "reset_contacts": 0,
+  "right_hand_is_provisional_mirror": true,
+  "finger_effort_is_provisional": true,
+  "notes": "Environment integration checks only; no policy training, convergence, real hardware, or desktop GUI validation."
+}

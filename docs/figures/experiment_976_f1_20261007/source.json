@@ -1,0 +1,25 @@
+{
+  "training_job": 976,
+  "metric": "exact_original_music_micro_f1_min",
+  "physics_hz": 200,
+  "evaluation_episodes": 3,
+  "points": 41,
+  "best": {
+    "vector_step": 19000,
+    "transitions": 9728000,
+    "updates": 2408576,
+    "f1_min": 0.821388452033251,
+    "f1_mean": 0.8274360359595154
+  },
+  "final": {
+    "vector_step": 19532,
+    "transitions": 10000384,
+    "updates": 2476672,
+    "f1_min": 0.8185691859161247,
+    "f1_mean": 0.8201680926644704
+  },
+  "baseline_632_best": 0.7778293135435993,
+  "metrics_source": "/home/houj/projects/tsensei_v3_2_pianist/logs/hpc/export_976_20261007/training_results/metrics.jsonl",
+  "metrics_sha256": "d1cf099d3d7064cc8c225a8a121d7410c6159d90817aac55f422d892fab769d8",
+  "smoothing": false
+}

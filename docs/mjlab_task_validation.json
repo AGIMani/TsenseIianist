@@ -1,0 +1,2022 @@
+{
+  "date": "2026-09-17",
+  "status": "passed",
+  "scope": "V32-GPU-03: CPU-compatible fingered task; wrong-key termination disabled",
+  "decisions": {
+    "paper_changes": "deferred for separate user decisions",
+    "fingering": "user provides annotations; no OT implementation or validation",
+    "wrong_key_termination": false
+  },
+  "runtime": {
+    "gpu": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition",
+    "mjlab": "1.6.0 @ 8ee51fbcf806a7419189f706d9e394cbeb7790fa",
+    "mujoco_warp": "3.11.0",
+    "warp": "1.17.0",
+    "torch": "2.10.0+cu128",
+    "cpu_reference_mujoco": "3.13.0",
+    "lockfile": "training_mjlab/requirements-tested.txt"
+  },
+  "source_sha256": {
+    "tsensei_v3_2_pianist/mjlab_env/task.py": "ef698b03fa70821b5bf507fa1a480f20a539852e0d5260f53b4a40404a4337ba",
+    "tsensei_v3_2_pianist/mjlab_env/task_bundle.py": "519be6663f083e0c6b60a6ecd43338687e4e615928ca7c6b056df59c85811c5f",
+    "tsensei_v3_2_pianist/mjlab_env/task_logic.py": "2fa2240306b786298a1e63617c77ce4f2a0df6d0a9c88d01f560957e95d64524",
+    "tsensei_v3_2_pianist/mjlab_env/scene.py": "a4838bb159ea72b29cd5d250a5c58a85428dbb47e27a6c8e98c610d64dd19ccf",
+    "tsensei_v3_2_pianist/mjlab_env/__init__.py": "cd3b29f2f3ced34f353e779c8fb70121e807abd51924cc7c345e353728b0d413",
+    "scripts/export_mjlab_task.py": "f21c8640086ad08cf793e78686a53490c7e818e2a49abf547f681e8d6b5ab740",
+    "scripts/validate_mjlab_task.py": "4cb7a6434f6e1f6a38bf12e46189aa0e0f5f5775aef6a1a3cb64c1d3b4ef961f",
+    "preview/scripts/preview_mjlab.py": "adee8a5f467ce37c714ec4a4fe68f5719f223cc25197edac8121e9f946f2e72a",
+    "tests/test_mjlab_task.py": "65d540b1df590daaf196524830659f75119e29a6c893c785a06ebb5ffaa4933d"
+  },
+  "runs": [
+    {
+      "name": "task_toy_16",
+      "report": "training_mjlab/outputs/task_acceptance_task_toy_16/report.json",
+      "report_sha256": "1c1e737909c4ed5c404fede89ab06483e888c4dee803e2269b76a2080da04da9",
+      "status": "passed",
+      "checks": {
+        "neutral_fixed_end_1": {
+          "passed": true
+        },
+        "neutral_fixed_end_2": {
+          "passed": true
+        },
+        "neutral_fixed_end_3": {
+          "passed": true
+        },
+        "neutral_fixed_end_4": {
+          "passed": true
+        },
+        "neutral_fixed_end_5": {
+          "passed": true
+        },
+        "neutral_fixed_end_6": {
+          "passed": true
+        },
+        "neutral_fixed_end_7": {
+          "passed": true
+        },
+        "neutral_fixed_end_8": {
+          "passed": true
+        },
+        "neutral_fixed_end_9": {
+          "passed": true
+        },
+        "neutral_fixed_end_10": {
+          "passed": true
+        },
+        "neutral_fixed_end_11": {
+          "passed": true
+        },
+        "neutral_fixed_end_12": {
+          "passed": true
+        },
+        "neutral_fixed_end_13": {
+          "passed": true
+        },
+        "neutral_fixed_end_14": {
+          "passed": true
+        },
+        "neutral_fixed_end_15": {
+          "passed": true
+        },
+        "neutral_fixed_end_16": {
+          "passed": true
+        },
+        "neutral_fixed_end_17": {
+          "passed": true
+        },
+        "neutral_fixed_end_18": {
+          "passed": true
+        },
+        "neutral_fixed_end_19": {
+          "passed": true
+        },
+        "neutral_fixed_end_20": {
+          "passed": true
+        },
+        "neutral_fixed_end_21": {
+          "passed": true
+        },
+        "press_fixed_end_1": {
+          "passed": true
+        },
+        "press_fixed_end_2": {
+          "passed": true
+        },
+        "press_fixed_end_3": {
+          "passed": true
+        },
+        "press_fixed_end_4": {
+          "passed": true
+        },
+        "press_fixed_end_5": {
+          "passed": true
+        },
+        "press_fixed_end_6": {
+          "passed": true
+        },
+        "press_fixed_end_7": {
+          "passed": true
+        },
+        "press_fixed_end_8": {
+          "passed": true
+        },
+        "press_fixed_end_9": {
+          "passed": true
+        },
+        "press_fixed_end_10": {
+          "passed": true
+        },
+        "press_fixed_end_11": {
+          "passed": true
+        },
+        "press_fixed_end_12": {
+          "passed": true
+        },
+        "press_fixed_end_13": {
+          "passed": true
+        },
+        "press_fixed_end_14": {
+          "passed": true
+        },
+        "press_fixed_end_15": {
+          "passed": true
+        },
+        "press_fixed_end_16": {
+          "passed": true
+        },
+        "press_fixed_end_17": {
+          "passed": true
+        },
+        "press_fixed_end_18": {
+          "passed": true
+        },
+        "press_fixed_end_19": {
+          "passed": true
+        },
+        "press_fixed_end_20": {
+          "passed": true
+        },
+        "press_fixed_end_21": {
+          "passed": true
+        },
+        "fixed_state_observation": {
+          "passed": true,
+          "max_abs_error": 2.384185791015625e-07,
+          "tolerance": 2e-05
+        },
+        "fixed_state_rewards": {
+          "passed": true,
+          "max_abs_error": 2.384185791015625e-07,
+          "terms": {
+            "key_press_reward": 9.482191698495512e-09,
+            "sustain_reward": 9.802170183935248e-12,
+            "energy_reward": 3.7709296796251124e-10,
+            "fingering_reward": 1.0087981683337688e-07,
+            "forearm_reward": 0.0
+          },
+          "tolerance": 2e-05
+        },
+        "neutral_rollout_end_1": {
+          "passed": true
+        },
+        "neutral_rollout_end_2": {
+          "passed": true
+        },
+        "neutral_rollout_end_3": {
+          "passed": true
+        },
+        "neutral_rollout_end_4": {
+          "passed": true
+        },
+        "neutral_rollout_end_5": {
+          "passed": true
+        },
+        "neutral_rollout_end_6": {
+          "passed": true
+        },
+        "neutral_rollout_end_7": {
+          "passed": true
+        },
+        "neutral_rollout_end_8": {
+          "passed": true
+        },
+        "neutral_rollout_end_9": {
+          "passed": true
+        },
+        "neutral_rollout_end_10": {
+          "passed": true
+        },
+        "neutral_rollout_end_11": {
+          "passed": true
+        },
+        "neutral_rollout_end_12": {
+          "passed": true
+        },
+        "neutral_rollout_end_13": {
+          "passed": true
+        },
+        "neutral_rollout_end_14": {
+          "passed": true
+        },
+        "neutral_rollout_end_15": {
+          "passed": true
+        },
+        "neutral_rollout_end_16": {
+          "passed": true
+        },
+        "neutral_rollout_end_17": {
+          "passed": true
+        },
+        "neutral_rollout_end_18": {
+          "passed": true
+        },
+        "neutral_rollout_end_19": {
+          "passed": true
+        },
+        "neutral_rollout_end_20": {
+          "passed": true
+        },
+        "neutral_rollout_end_21": {
+          "passed": true
+        },
+        "neutral_physical_rollout": {
+          "passed": true,
+          "observation_tolerance": 0.1,
+          "reward_tolerance": 0.05,
+          "slide_tolerance_m": 0.002,
+          "hinge_tolerance_rad": 0.05
+        },
+        "neutral_metrics_match_cpu": {
+          "passed": true
+        },
+        "press_rollout_end_1": {
+          "passed": true
+        },
+        "press_rollout_end_2": {
+          "passed": true
+        },
+        "press_rollout_end_3": {
+          "passed": true
+        },
+        "press_rollout_end_4": {
+          "passed": true
+        },
+        "press_rollout_end_5": {
+          "passed": true
+        },
+        "press_rollout_end_6": {
+          "passed": true
+        },
+        "press_rollout_end_7": {
+          "passed": true
+        },
+        "press_rollout_end_8": {
+          "passed": true
+        },
+        "press_rollout_end_9": {
+          "passed": true
+        },
+        "press_rollout_end_10": {
+          "passed": true
+        },
+        "press_rollout_end_11": {
+          "passed": true
+        },
+        "press_rollout_end_12": {
+          "passed": true
+        },
+        "press_rollout_end_13": {
+          "passed": true
+        },
+        "press_rollout_end_14": {
+          "passed": true
+        },
+        "press_rollout_end_15": {
+          "passed": true
+        },
+        "press_rollout_end_16": {
+          "passed": true
+        },
+        "press_rollout_end_17": {
+          "passed": true
+        },
+        "press_rollout_end_18": {
+          "passed": true
+        },
+        "press_rollout_end_19": {
+          "passed": true
+        },
+        "press_rollout_end_20": {
+          "passed": true
+        },
+        "press_rollout_end_21": {
+          "passed": true
+        },
+        "press_physical_rollout": {
+          "passed": true,
+          "observation_tolerance": 0.1,
+          "reward_tolerance": 0.05,
+          "slide_tolerance_m": 0.002,
+          "hinge_tolerance_rad": 0.05
+        },
+        "press_metrics_match_cpu": {
+          "passed": true
+        },
+        "partial_reset_others_unchanged": {
+          "passed": true
+        },
+        "partial_reset_music_initial": {
+          "passed": true
+        },
+        "returned_transition_survives_reset": {
+          "passed": true
+        },
+        "independent_music_indices": {
+          "passed": true
+        },
+        "complete_score": {
+          "passed": true
+        },
+        "requires_explicit_reset": {
+          "passed": true
+        },
+        "terminal_observation_owned": {
+          "passed": true
+        },
+        "time_limit_truncation": {
+          "passed": true
+        }
+      },
+      "num_envs": 16,
+      "task_sha256": "b27326e34c1235cab74a60de02e76ab7432b72729587f0b05ca4b4e91093115e",
+      "scene_sha256": "2a7b6f761fbe5c4658c6f71c15f10c50ae1d4ea44426160a7741bad45a27f395",
+      "observation_size": 1180,
+      "gpu": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition",
+      "rollout_errors": {
+        "neutral": {
+          "max_observation_error": 1.9073486328125e-06,
+          "max_reward_error": 2.384185791015625e-07,
+          "term_errors": {
+            "key_press_reward": 0.0,
+            "sustain_reward": 0.0,
+            "energy_reward": 1.387143822029202e-08,
+            "fingering_reward": 8.940696716308594e-08,
+            "forearm_reward": 0.0
+          },
+          "max_qpos_error_mixed_units": 1.9073486328125e-06,
+          "max_slide_error_m": 5.9603458169021906e-08,
+          "max_hinge_error_rad": 1.9073486328125e-06,
+          "key_activation_mismatches": 0
+        },
+        "press": {
+          "max_observation_error": 0.017385244369506836,
+          "max_reward_error": 0.00019699335098266602,
+          "term_errors": {
+            "key_press_reward": 0.0,
+            "sustain_reward": 7.275957614183426e-12,
+            "energy_reward": 0.00015226344112306833,
+            "fingering_reward": 0.0001919269561767578,
+            "forearm_reward": 0.0
+          },
+          "max_qpos_error_mixed_units": 0.0011573033407330513,
+          "max_slide_error_m": 3.82253565476276e-05,
+          "max_hinge_error_rad": 0.0011573033407330513,
+          "key_activation_mismatches": 0
+        }
+      },
+      "elapsed_s": 9.072362148901448
+    },
+    {
+      "name": "task_toy_64",
+      "report": "training_mjlab/outputs/task_acceptance_task_toy_64/report.json",
+      "report_sha256": "9b1a831c1d1754d6c28a007eb93ab54af8af41a451e9085726d1638855c2709f",
+      "status": "passed",
+      "checks": {
+        "neutral_fixed_end_1": {
+          "passed": true
+        },
+        "neutral_fixed_end_2": {
+          "passed": true
+        },
+        "neutral_fixed_end_3": {
+          "passed": true
+        },
+        "neutral_fixed_end_4": {
+          "passed": true
+        },
+        "neutral_fixed_end_5": {
+          "passed": true
+        },
+        "neutral_fixed_end_6": {
+          "passed": true
+        },
+        "neutral_fixed_end_7": {
+          "passed": true
+        },
+        "neutral_fixed_end_8": {
+          "passed": true
+        },
+        "neutral_fixed_end_9": {
+          "passed": true
+        },
+        "neutral_fixed_end_10": {
+          "passed": true
+        },
+        "neutral_fixed_end_11": {
+          "passed": true
+        },
+        "neutral_fixed_end_12": {
+          "passed": true
+        },
+        "neutral_fixed_end_13": {
+          "passed": true
+        },
+        "neutral_fixed_end_14": {
+          "passed": true
+        },
+        "neutral_fixed_end_15": {
+          "passed": true
+        },
+        "neutral_fixed_end_16": {
+          "passed": true
+        },
+        "neutral_fixed_end_17": {
+          "passed": true
+        },
+        "neutral_fixed_end_18": {
+          "passed": true
+        },
+        "neutral_fixed_end_19": {
+          "passed": true
+        },
+        "neutral_fixed_end_20": {
+          "passed": true
+        },
+        "neutral_fixed_end_21": {
+          "passed": true
+        },
+        "press_fixed_end_1": {
+          "passed": true
+        },
+        "press_fixed_end_2": {
+          "passed": true
+        },
+        "press_fixed_end_3": {
+          "passed": true
+        },
+        "press_fixed_end_4": {
+          "passed": true
+        },
+        "press_fixed_end_5": {
+          "passed": true
+        },
+        "press_fixed_end_6": {
+          "passed": true
+        },
+        "press_fixed_end_7": {
+          "passed": true
+        },
+        "press_fixed_end_8": {
+          "passed": true
+        },
+        "press_fixed_end_9": {
+          "passed": true
+        },
+        "press_fixed_end_10": {
+          "passed": true
+        },
+        "press_fixed_end_11": {
+          "passed": true
+        },
+        "press_fixed_end_12": {
+          "passed": true
+        },
+        "press_fixed_end_13": {
+          "passed": true
+        },
+        "press_fixed_end_14": {
+          "passed": true
+        },
+        "press_fixed_end_15": {
+          "passed": true
+        },
+        "press_fixed_end_16": {
+          "passed": true
+        },
+        "press_fixed_end_17": {
+          "passed": true
+        },
+        "press_fixed_end_18": {
+          "passed": true
+        },
+        "press_fixed_end_19": {
+          "passed": true
+        },
+        "press_fixed_end_20": {
+          "passed": true
+        },
+        "press_fixed_end_21": {
+          "passed": true
+        },
+        "fixed_state_observation": {
+          "passed": true,
+          "max_abs_error": 2.384185791015625e-07,
+          "tolerance": 2e-05
+        },
+        "fixed_state_rewards": {
+          "passed": true,
+          "max_abs_error": 2.384185791015625e-07,
+          "terms": {
+            "key_press_reward": 9.482191698495512e-09,
+            "sustain_reward": 9.802170183935248e-12,
+            "energy_reward": 3.7709296796251124e-10,
+            "fingering_reward": 1.0087981683337688e-07,
+            "forearm_reward": 0.0
+          },
+          "tolerance": 2e-05
+        },
+        "neutral_rollout_end_1": {
+          "passed": true
+        },
+        "neutral_rollout_end_2": {
+          "passed": true
+        },
+        "neutral_rollout_end_3": {
+          "passed": true
+        },
+        "neutral_rollout_end_4": {
+          "passed": true
+        },
+        "neutral_rollout_end_5": {
+          "passed": true
+        },
+        "neutral_rollout_end_6": {
+          "passed": true
+        },
+        "neutral_rollout_end_7": {
+          "passed": true
+        },
+        "neutral_rollout_end_8": {
+          "passed": true
+        },
+        "neutral_rollout_end_9": {
+          "passed": true
+        },
+        "neutral_rollout_end_10": {
+          "passed": true
+        },
+        "neutral_rollout_end_11": {
+          "passed": true
+        },
+        "neutral_rollout_end_12": {
+          "passed": true
+        },
+        "neutral_rollout_end_13": {
+          "passed": true
+        },
+        "neutral_rollout_end_14": {
+          "passed": true
+        },
+        "neutral_rollout_end_15": {
+          "passed": true
+        },
+        "neutral_rollout_end_16": {
+          "passed": true
+        },
+        "neutral_rollout_end_17": {
+          "passed": true
+        },
+        "neutral_rollout_end_18": {
+          "passed": true
+        },
+        "neutral_rollout_end_19": {
+          "passed": true
+        },
+        "neutral_rollout_end_20": {
+          "passed": true
+        },
+        "neutral_rollout_end_21": {
+          "passed": true
+        },
+        "neutral_physical_rollout": {
+          "passed": true,
+          "observation_tolerance": 0.1,
+          "reward_tolerance": 0.05,
+          "slide_tolerance_m": 0.002,
+          "hinge_tolerance_rad": 0.05
+        },
+        "neutral_metrics_match_cpu": {
+          "passed": true
+        },
+        "press_rollout_end_1": {
+          "passed": true
+        },
+        "press_rollout_end_2": {
+          "passed": true
+        },
+        "press_rollout_end_3": {
+          "passed": true
+        },
+        "press_rollout_end_4": {
+          "passed": true
+        },
+        "press_rollout_end_5": {
+          "passed": true
+        },
+        "press_rollout_end_6": {
+          "passed": true
+        },
+        "press_rollout_end_7": {
+          "passed": true
+        },
+        "press_rollout_end_8": {
+          "passed": true
+        },
+        "press_rollout_end_9": {
+          "passed": true
+        },
+        "press_rollout_end_10": {
+          "passed": true
+        },
+        "press_rollout_end_11": {
+          "passed": true
+        },
+        "press_rollout_end_12": {
+          "passed": true
+        },
+        "press_rollout_end_13": {
+          "passed": true
+        },
+        "press_rollout_end_14": {
+          "passed": true
+        },
+        "press_rollout_end_15": {
+          "passed": true
+        },
+        "press_rollout_end_16": {
+          "passed": true
+        },
+        "press_rollout_end_17": {
+          "passed": true
+        },
+        "press_rollout_end_18": {
+          "passed": true
+        },
+        "press_rollout_end_19": {
+          "passed": true
+        },
+        "press_rollout_end_20": {
+          "passed": true
+        },
+        "press_rollout_end_21": {
+          "passed": true
+        },
+        "press_physical_rollout": {
+          "passed": true,
+          "observation_tolerance": 0.1,
+          "reward_tolerance": 0.05,
+          "slide_tolerance_m": 0.002,
+          "hinge_tolerance_rad": 0.05
+        },
+        "press_metrics_match_cpu": {
+          "passed": true
+        },
+        "partial_reset_others_unchanged": {
+          "passed": true
+        },
+        "partial_reset_music_initial": {
+          "passed": true
+        },
+        "returned_transition_survives_reset": {
+          "passed": true
+        },
+        "independent_music_indices": {
+          "passed": true
+        },
+        "complete_score": {
+          "passed": true
+        },
+        "requires_explicit_reset": {
+          "passed": true
+        },
+        "terminal_observation_owned": {
+          "passed": true
+        },
+        "time_limit_truncation": {
+          "passed": true
+        }
+      },
+      "num_envs": 64,
+      "task_sha256": "b27326e34c1235cab74a60de02e76ab7432b72729587f0b05ca4b4e91093115e",
+      "scene_sha256": "2a7b6f761fbe5c4658c6f71c15f10c50ae1d4ea44426160a7741bad45a27f395",
+      "observation_size": 1180,
+      "gpu": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition",
+      "rollout_errors": {
+        "neutral": {
+          "max_observation_error": 1.9073486328125e-06,
+          "max_reward_error": 2.384185791015625e-07,
+          "term_errors": {
+            "key_press_reward": 0.0,
+            "sustain_reward": 0.0,
+            "energy_reward": 1.3876310767102495e-08,
+            "fingering_reward": 8.940696716308594e-08,
+            "forearm_reward": 0.0
+          },
+          "max_qpos_error_mixed_units": 1.9073486328125e-06,
+          "max_slide_error_m": 5.9603458169021906e-08,
+          "max_hinge_error_rad": 1.9073486328125e-06,
+          "key_activation_mismatches": 0
+        },
+        "press": {
+          "max_observation_error": 0.04262232780456543,
+          "max_reward_error": 0.0018227100372314453,
+          "term_errors": {
+            "key_press_reward": 0.0,
+            "sustain_reward": 7.275957614183426e-12,
+            "energy_reward": 0.001824352191761136,
+            "fingering_reward": 0.0002435445785522461,
+            "forearm_reward": 0.0
+          },
+          "max_qpos_error_mixed_units": 0.003778720274567604,
+          "max_slide_error_m": 5.4641772294417024e-05,
+          "max_hinge_error_rad": 0.003778720274567604,
+          "key_activation_mismatches": 0
+        }
+      },
+      "elapsed_s": 9.740176470018923
+    },
+    {
+      "name": "task_toy_stack3_16",
+      "report": "training_mjlab/outputs/task_acceptance_task_toy_stack3_16/report.json",
+      "report_sha256": "b5513c0ad8d03e165feb6ff5b56acc6df19d642f6a25b87414d34e5594e100b2",
+      "status": "passed",
+      "checks": {
+        "neutral_fixed_end_1": {
+          "passed": true
+        },
+        "neutral_fixed_end_2": {
+          "passed": true
+        },
+        "neutral_fixed_end_3": {
+          "passed": true
+        },
+        "neutral_fixed_end_4": {
+          "passed": true
+        },
+        "neutral_fixed_end_5": {
+          "passed": true
+        },
+        "neutral_fixed_end_6": {
+          "passed": true
+        },
+        "neutral_fixed_end_7": {
+          "passed": true
+        },
+        "neutral_fixed_end_8": {
+          "passed": true
+        },
+        "neutral_fixed_end_9": {
+          "passed": true
+        },
+        "neutral_fixed_end_10": {
+          "passed": true
+        },
+        "neutral_fixed_end_11": {
+          "passed": true
+        },
+        "neutral_fixed_end_12": {
+          "passed": true
+        },
+        "neutral_fixed_end_13": {
+          "passed": true
+        },
+        "neutral_fixed_end_14": {
+          "passed": true
+        },
+        "neutral_fixed_end_15": {
+          "passed": true
+        },
+        "neutral_fixed_end_16": {
+          "passed": true
+        },
+        "neutral_fixed_end_17": {
+          "passed": true
+        },
+        "neutral_fixed_end_18": {
+          "passed": true
+        },
+        "neutral_fixed_end_19": {
+          "passed": true
+        },
+        "neutral_fixed_end_20": {
+          "passed": true
+        },
+        "neutral_fixed_end_21": {
+          "passed": true
+        },
+        "press_fixed_end_1": {
+          "passed": true
+        },
+        "press_fixed_end_2": {
+          "passed": true
+        },
+        "press_fixed_end_3": {
+          "passed": true
+        },
+        "press_fixed_end_4": {
+          "passed": true
+        },
+        "press_fixed_end_5": {
+          "passed": true
+        },
+        "press_fixed_end_6": {
+          "passed": true
+        },
+        "press_fixed_end_7": {
+          "passed": true
+        },
+        "press_fixed_end_8": {
+          "passed": true
+        },
+        "press_fixed_end_9": {
+          "passed": true
+        },
+        "press_fixed_end_10": {
+          "passed": true
+        },
+        "press_fixed_end_11": {
+          "passed": true
+        },
+        "press_fixed_end_12": {
+          "passed": true
+        },
+        "press_fixed_end_13": {
+          "passed": true
+        },
+        "press_fixed_end_14": {
+          "passed": true
+        },
+        "press_fixed_end_15": {
+          "passed": true
+        },
+        "press_fixed_end_16": {
+          "passed": true
+        },
+        "press_fixed_end_17": {
+          "passed": true
+        },
+        "press_fixed_end_18": {
+          "passed": true
+        },
+        "press_fixed_end_19": {
+          "passed": true
+        },
+        "press_fixed_end_20": {
+          "passed": true
+        },
+        "press_fixed_end_21": {
+          "passed": true
+        },
+        "fixed_state_observation": {
+          "passed": true,
+          "max_abs_error": 2.384185791015625e-07,
+          "tolerance": 2e-05
+        },
+        "fixed_state_rewards": {
+          "passed": true,
+          "max_abs_error": 2.384185791015625e-07,
+          "terms": {
+            "key_press_reward": 9.482191698495512e-09,
+            "sustain_reward": 9.802170183935248e-12,
+            "energy_reward": 3.7709296796251124e-10,
+            "fingering_reward": 1.0087981683337688e-07,
+            "forearm_reward": 0.0
+          },
+          "tolerance": 2e-05
+        },
+        "neutral_rollout_end_1": {
+          "passed": true
+        },
+        "neutral_rollout_end_2": {
+          "passed": true
+        },
+        "neutral_rollout_end_3": {
+          "passed": true
+        },
+        "neutral_rollout_end_4": {
+          "passed": true
+        },
+        "neutral_rollout_end_5": {
+          "passed": true
+        },
+        "neutral_rollout_end_6": {
+          "passed": true
+        },
+        "neutral_rollout_end_7": {
+          "passed": true
+        },
+        "neutral_rollout_end_8": {
+          "passed": true
+        },
+        "neutral_rollout_end_9": {
+          "passed": true
+        },
+        "neutral_rollout_end_10": {
+          "passed": true
+        },
+        "neutral_rollout_end_11": {
+          "passed": true
+        },
+        "neutral_rollout_end_12": {
+          "passed": true
+        },
+        "neutral_rollout_end_13": {
+          "passed": true
+        },
+        "neutral_rollout_end_14": {
+          "passed": true
+        },
+        "neutral_rollout_end_15": {
+          "passed": true
+        },
+        "neutral_rollout_end_16": {
+          "passed": true
+        },
+        "neutral_rollout_end_17": {
+          "passed": true
+        },
+        "neutral_rollout_end_18": {
+          "passed": true
+        },
+        "neutral_rollout_end_19": {
+          "passed": true
+        },
+        "neutral_rollout_end_20": {
+          "passed": true
+        },
+        "neutral_rollout_end_21": {
+          "passed": true
+        },
+        "neutral_physical_rollout": {
+          "passed": true,
+          "observation_tolerance": 0.1,
+          "reward_tolerance": 0.05,
+          "slide_tolerance_m": 0.002,
+          "hinge_tolerance_rad": 0.05
+        },
+        "neutral_metrics_match_cpu": {
+          "passed": true
+        },
+        "press_rollout_end_1": {
+          "passed": true
+        },
+        "press_rollout_end_2": {
+          "passed": true
+        },
+        "press_rollout_end_3": {
+          "passed": true
+        },
+        "press_rollout_end_4": {
+          "passed": true
+        },
+        "press_rollout_end_5": {
+          "passed": true
+        },
+        "press_rollout_end_6": {
+          "passed": true
+        },
+        "press_rollout_end_7": {
+          "passed": true
+        },
+        "press_rollout_end_8": {
+          "passed": true
+        },
+        "press_rollout_end_9": {
+          "passed": true
+        },
+        "press_rollout_end_10": {
+          "passed": true
+        },
+        "press_rollout_end_11": {
+          "passed": true
+        },
+        "press_rollout_end_12": {
+          "passed": true
+        },
+        "press_rollout_end_13": {
+          "passed": true
+        },
+        "press_rollout_end_14": {
+          "passed": true
+        },
+        "press_rollout_end_15": {
+          "passed": true
+        },
+        "press_rollout_end_16": {
+          "passed": true
+        },
+        "press_rollout_end_17": {
+          "passed": true
+        },
+        "press_rollout_end_18": {
+          "passed": true
+        },
+        "press_rollout_end_19": {
+          "passed": true
+        },
+        "press_rollout_end_20": {
+          "passed": true
+        },
+        "press_rollout_end_21": {
+          "passed": true
+        },
+        "press_physical_rollout": {
+          "passed": true,
+          "observation_tolerance": 0.1,
+          "reward_tolerance": 0.05,
+          "slide_tolerance_m": 0.002,
+          "hinge_tolerance_rad": 0.05
+        },
+        "press_metrics_match_cpu": {
+          "passed": true
+        },
+        "partial_reset_others_unchanged": {
+          "passed": true
+        },
+        "partial_reset_music_initial": {
+          "passed": true
+        },
+        "returned_transition_survives_reset": {
+          "passed": true
+        },
+        "independent_music_indices": {
+          "passed": true
+        },
+        "complete_score": {
+          "passed": true
+        },
+        "requires_explicit_reset": {
+          "passed": true
+        },
+        "terminal_observation_owned": {
+          "passed": true
+        },
+        "time_limit_truncation": {
+          "passed": true
+        }
+      },
+      "num_envs": 16,
+      "task_sha256": "55080681542f7b20e14b11f4a36e2cec91384625e4e831d0b551ea80717ef09d",
+      "scene_sha256": "2a7b6f761fbe5c4658c6f71c15f10c50ae1d4ea44426160a7741bad45a27f395",
+      "observation_size": 3540,
+      "gpu": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition",
+      "rollout_errors": {
+        "neutral": {
+          "max_observation_error": 1.9073486328125e-06,
+          "max_reward_error": 2.384185791015625e-07,
+          "term_errors": {
+            "key_press_reward": 0.0,
+            "sustain_reward": 0.0,
+            "energy_reward": 1.387360271110083e-08,
+            "fingering_reward": 8.940696716308594e-08,
+            "forearm_reward": 0.0
+          },
+          "max_qpos_error_mixed_units": 1.9073486328125e-06,
+          "max_slide_error_m": 5.9603458169021906e-08,
+          "max_hinge_error_rad": 1.9073486328125e-06,
+          "key_activation_mismatches": 0
+        },
+        "press": {
+          "max_observation_error": 0.017526738345623016,
+          "max_reward_error": 0.00011539459228515625,
+          "term_errors": {
+            "key_press_reward": 0.0,
+            "sustain_reward": 7.275957614183426e-12,
+            "energy_reward": 0.00011171528603881598,
+            "fingering_reward": 6.398558616638184e-05,
+            "forearm_reward": 0.0
+          },
+          "max_qpos_error_mixed_units": 0.001166722271591425,
+          "max_slide_error_m": 1.7778482288122177e-05,
+          "max_hinge_error_rad": 0.001166722271591425,
+          "key_activation_mismatches": 0
+        }
+      },
+      "elapsed_s": 9.12178707215935
+    },
+    {
+      "name": "task_twinkle_16",
+      "report": "training_mjlab/outputs/task_acceptance_task_twinkle_16/report.json",
+      "report_sha256": "4cb2e416b5a7f52e549fa0056708ceed04c1298fcacc71f37b2c423d28b71739",
+      "status": "passed",
+      "checks": {
+        "neutral_fixed_end_1": {
+          "passed": true
+        },
+        "neutral_fixed_end_2": {
+          "passed": true
+        },
+        "neutral_fixed_end_3": {
+          "passed": true
+        },
+        "neutral_fixed_end_4": {
+          "passed": true
+        },
+        "neutral_fixed_end_5": {
+          "passed": true
+        },
+        "neutral_fixed_end_6": {
+          "passed": true
+        },
+        "neutral_fixed_end_7": {
+          "passed": true
+        },
+        "neutral_fixed_end_8": {
+          "passed": true
+        },
+        "neutral_fixed_end_9": {
+          "passed": true
+        },
+        "neutral_fixed_end_10": {
+          "passed": true
+        },
+        "neutral_fixed_end_11": {
+          "passed": true
+        },
+        "neutral_fixed_end_12": {
+          "passed": true
+        },
+        "neutral_fixed_end_13": {
+          "passed": true
+        },
+        "neutral_fixed_end_14": {
+          "passed": true
+        },
+        "neutral_fixed_end_15": {
+          "passed": true
+        },
+        "neutral_fixed_end_16": {
+          "passed": true
+        },
+        "neutral_fixed_end_17": {
+          "passed": true
+        },
+        "neutral_fixed_end_18": {
+          "passed": true
+        },
+        "neutral_fixed_end_19": {
+          "passed": true
+        },
+        "neutral_fixed_end_20": {
+          "passed": true
+        },
+        "neutral_fixed_end_21": {
+          "passed": true
+        },
+        "neutral_fixed_end_22": {
+          "passed": true
+        },
+        "neutral_fixed_end_23": {
+          "passed": true
+        },
+        "neutral_fixed_end_24": {
+          "passed": true
+        },
+        "neutral_fixed_end_25": {
+          "passed": true
+        },
+        "neutral_fixed_end_26": {
+          "passed": true
+        },
+        "neutral_fixed_end_27": {
+          "passed": true
+        },
+        "neutral_fixed_end_28": {
+          "passed": true
+        },
+        "neutral_fixed_end_29": {
+          "passed": true
+        },
+        "neutral_fixed_end_30": {
+          "passed": true
+        },
+        "neutral_fixed_end_31": {
+          "passed": true
+        },
+        "neutral_fixed_end_32": {
+          "passed": true
+        },
+        "neutral_fixed_end_33": {
+          "passed": true
+        },
+        "neutral_fixed_end_34": {
+          "passed": true
+        },
+        "neutral_fixed_end_35": {
+          "passed": true
+        },
+        "neutral_fixed_end_36": {
+          "passed": true
+        },
+        "neutral_fixed_end_37": {
+          "passed": true
+        },
+        "neutral_fixed_end_38": {
+          "passed": true
+        },
+        "neutral_fixed_end_39": {
+          "passed": true
+        },
+        "neutral_fixed_end_40": {
+          "passed": true
+        },
+        "neutral_fixed_end_41": {
+          "passed": true
+        },
+        "neutral_fixed_end_42": {
+          "passed": true
+        },
+        "neutral_fixed_end_43": {
+          "passed": true
+        },
+        "neutral_fixed_end_44": {
+          "passed": true
+        },
+        "neutral_fixed_end_45": {
+          "passed": true
+        },
+        "neutral_fixed_end_46": {
+          "passed": true
+        },
+        "neutral_fixed_end_47": {
+          "passed": true
+        },
+        "neutral_fixed_end_48": {
+          "passed": true
+        },
+        "neutral_fixed_end_49": {
+          "passed": true
+        },
+        "neutral_fixed_end_50": {
+          "passed": true
+        },
+        "neutral_fixed_end_51": {
+          "passed": true
+        },
+        "neutral_fixed_end_52": {
+          "passed": true
+        },
+        "neutral_fixed_end_53": {
+          "passed": true
+        },
+        "neutral_fixed_end_54": {
+          "passed": true
+        },
+        "neutral_fixed_end_55": {
+          "passed": true
+        },
+        "neutral_fixed_end_56": {
+          "passed": true
+        },
+        "neutral_fixed_end_57": {
+          "passed": true
+        },
+        "neutral_fixed_end_58": {
+          "passed": true
+        },
+        "neutral_fixed_end_59": {
+          "passed": true
+        },
+        "neutral_fixed_end_60": {
+          "passed": true
+        },
+        "neutral_fixed_end_61": {
+          "passed": true
+        },
+        "neutral_fixed_end_62": {
+          "passed": true
+        },
+        "neutral_fixed_end_63": {
+          "passed": true
+        },
+        "neutral_fixed_end_64": {
+          "passed": true
+        },
+        "press_fixed_end_1": {
+          "passed": true
+        },
+        "press_fixed_end_2": {
+          "passed": true
+        },
+        "press_fixed_end_3": {
+          "passed": true
+        },
+        "press_fixed_end_4": {
+          "passed": true
+        },
+        "press_fixed_end_5": {
+          "passed": true
+        },
+        "press_fixed_end_6": {
+          "passed": true
+        },
+        "press_fixed_end_7": {
+          "passed": true
+        },
+        "press_fixed_end_8": {
+          "passed": true
+        },
+        "press_fixed_end_9": {
+          "passed": true
+        },
+        "press_fixed_end_10": {
+          "passed": true
+        },
+        "press_fixed_end_11": {
+          "passed": true
+        },
+        "press_fixed_end_12": {
+          "passed": true
+        },
+        "press_fixed_end_13": {
+          "passed": true
+        },
+        "press_fixed_end_14": {
+          "passed": true
+        },
+        "press_fixed_end_15": {
+          "passed": true
+        },
+        "press_fixed_end_16": {
+          "passed": true
+        },
+        "press_fixed_end_17": {
+          "passed": true
+        },
+        "press_fixed_end_18": {
+          "passed": true
+        },
+        "press_fixed_end_19": {
+          "passed": true
+        },
+        "press_fixed_end_20": {
+          "passed": true
+        },
+        "press_fixed_end_21": {
+          "passed": true
+        },
+        "press_fixed_end_22": {
+          "passed": true
+        },
+        "press_fixed_end_23": {
+          "passed": true
+        },
+        "press_fixed_end_24": {
+          "passed": true
+        },
+        "press_fixed_end_25": {
+          "passed": true
+        },
+        "press_fixed_end_26": {
+          "passed": true
+        },
+        "press_fixed_end_27": {
+          "passed": true
+        },
+        "press_fixed_end_28": {
+          "passed": true
+        },
+        "press_fixed_end_29": {
+          "passed": true
+        },
+        "press_fixed_end_30": {
+          "passed": true
+        },
+        "press_fixed_end_31": {
+          "passed": true
+        },
+        "press_fixed_end_32": {
+          "passed": true
+        },
+        "press_fixed_end_33": {
+          "passed": true
+        },
+        "press_fixed_end_34": {
+          "passed": true
+        },
+        "press_fixed_end_35": {
+          "passed": true
+        },
+        "press_fixed_end_36": {
+          "passed": true
+        },
+        "press_fixed_end_37": {
+          "passed": true
+        },
+        "press_fixed_end_38": {
+          "passed": true
+        },
+        "press_fixed_end_39": {
+          "passed": true
+        },
+        "press_fixed_end_40": {
+          "passed": true
+        },
+        "press_fixed_end_41": {
+          "passed": true
+        },
+        "press_fixed_end_42": {
+          "passed": true
+        },
+        "press_fixed_end_43": {
+          "passed": true
+        },
+        "press_fixed_end_44": {
+          "passed": true
+        },
+        "press_fixed_end_45": {
+          "passed": true
+        },
+        "press_fixed_end_46": {
+          "passed": true
+        },
+        "press_fixed_end_47": {
+          "passed": true
+        },
+        "press_fixed_end_48": {
+          "passed": true
+        },
+        "press_fixed_end_49": {
+          "passed": true
+        },
+        "press_fixed_end_50": {
+          "passed": true
+        },
+        "press_fixed_end_51": {
+          "passed": true
+        },
+        "press_fixed_end_52": {
+          "passed": true
+        },
+        "press_fixed_end_53": {
+          "passed": true
+        },
+        "press_fixed_end_54": {
+          "passed": true
+        },
+        "press_fixed_end_55": {
+          "passed": true
+        },
+        "press_fixed_end_56": {
+          "passed": true
+        },
+        "press_fixed_end_57": {
+          "passed": true
+        },
+        "press_fixed_end_58": {
+          "passed": true
+        },
+        "press_fixed_end_59": {
+          "passed": true
+        },
+        "press_fixed_end_60": {
+          "passed": true
+        },
+        "press_fixed_end_61": {
+          "passed": true
+        },
+        "press_fixed_end_62": {
+          "passed": true
+        },
+        "press_fixed_end_63": {
+          "passed": true
+        },
+        "press_fixed_end_64": {
+          "passed": true
+        },
+        "fixed_state_observation": {
+          "passed": true,
+          "max_abs_error": 2.384185791015625e-07,
+          "tolerance": 2e-05
+        },
+        "fixed_state_rewards": {
+          "passed": true,
+          "max_abs_error": 2.384185791015625e-07,
+          "terms": {
+            "key_press_reward": 9.482191698495512e-09,
+            "sustain_reward": 1.1314013582345434e-11,
+            "energy_reward": 4.846622044668569e-10,
+            "fingering_reward": 1.521310454832836e-07,
+            "forearm_reward": 0.0
+          },
+          "tolerance": 2e-05
+        },
+        "neutral_rollout_end_1": {
+          "passed": true
+        },
+        "neutral_rollout_end_2": {
+          "passed": true
+        },
+        "neutral_rollout_end_3": {
+          "passed": true
+        },
+        "neutral_rollout_end_4": {
+          "passed": true
+        },
+        "neutral_rollout_end_5": {
+          "passed": true
+        },
+        "neutral_rollout_end_6": {
+          "passed": true
+        },
+        "neutral_rollout_end_7": {
+          "passed": true
+        },
+        "neutral_rollout_end_8": {
+          "passed": true
+        },
+        "neutral_rollout_end_9": {
+          "passed": true
+        },
+        "neutral_rollout_end_10": {
+          "passed": true
+        },
+        "neutral_rollout_end_11": {
+          "passed": true
+        },
+        "neutral_rollout_end_12": {
+          "passed": true
+        },
+        "neutral_rollout_end_13": {
+          "passed": true
+        },
+        "neutral_rollout_end_14": {
+          "passed": true
+        },
+        "neutral_rollout_end_15": {
+          "passed": true
+        },
+        "neutral_rollout_end_16": {
+          "passed": true
+        },
+        "neutral_rollout_end_17": {
+          "passed": true
+        },
+        "neutral_rollout_end_18": {
+          "passed": true
+        },
+        "neutral_rollout_end_19": {
+          "passed": true
+        },
+        "neutral_rollout_end_20": {
+          "passed": true
+        },
+        "neutral_rollout_end_21": {
+          "passed": true
+        },
+        "neutral_rollout_end_22": {
+          "passed": true
+        },
+        "neutral_rollout_end_23": {
+          "passed": true
+        },
+        "neutral_rollout_end_24": {
+          "passed": true
+        },
+        "neutral_rollout_end_25": {
+          "passed": true
+        },
+        "neutral_rollout_end_26": {
+          "passed": true
+        },
+        "neutral_rollout_end_27": {
+          "passed": true
+        },
+        "neutral_rollout_end_28": {
+          "passed": true
+        },
+        "neutral_rollout_end_29": {
+          "passed": true
+        },
+        "neutral_rollout_end_30": {
+          "passed": true
+        },
+        "neutral_rollout_end_31": {
+          "passed": true
+        },
+        "neutral_rollout_end_32": {
+          "passed": true
+        },
+        "neutral_rollout_end_33": {
+          "passed": true
+        },
+        "neutral_rollout_end_34": {
+          "passed": true
+        },
+        "neutral_rollout_end_35": {
+          "passed": true
+        },
+        "neutral_rollout_end_36": {
+          "passed": true
+        },
+        "neutral_rollout_end_37": {
+          "passed": true
+        },
+        "neutral_rollout_end_38": {
+          "passed": true
+        },
+        "neutral_rollout_end_39": {
+          "passed": true
+        },
+        "neutral_rollout_end_40": {
+          "passed": true
+        },
+        "neutral_rollout_end_41": {
+          "passed": true
+        },
+        "neutral_rollout_end_42": {
+          "passed": true
+        },
+        "neutral_rollout_end_43": {
+          "passed": true
+        },
+        "neutral_rollout_end_44": {
+          "passed": true
+        },
+        "neutral_rollout_end_45": {
+          "passed": true
+        },
+        "neutral_rollout_end_46": {
+          "passed": true
+        },
+        "neutral_rollout_end_47": {
+          "passed": true
+        },
+        "neutral_rollout_end_48": {
+          "passed": true
+        },
+        "neutral_rollout_end_49": {
+          "passed": true
+        },
+        "neutral_rollout_end_50": {
+          "passed": true
+        },
+        "neutral_rollout_end_51": {
+          "passed": true
+        },
+        "neutral_rollout_end_52": {
+          "passed": true
+        },
+        "neutral_rollout_end_53": {
+          "passed": true
+        },
+        "neutral_rollout_end_54": {
+          "passed": true
+        },
+        "neutral_rollout_end_55": {
+          "passed": true
+        },
+        "neutral_rollout_end_56": {
+          "passed": true
+        },
+        "neutral_rollout_end_57": {
+          "passed": true
+        },
+        "neutral_rollout_end_58": {
+          "passed": true
+        },
+        "neutral_rollout_end_59": {
+          "passed": true
+        },
+        "neutral_rollout_end_60": {
+          "passed": true
+        },
+        "neutral_rollout_end_61": {
+          "passed": true
+        },
+        "neutral_rollout_end_62": {
+          "passed": true
+        },
+        "neutral_rollout_end_63": {
+          "passed": true
+        },
+        "neutral_rollout_end_64": {
+          "passed": true
+        },
+        "neutral_physical_rollout": {
+          "passed": true,
+          "observation_tolerance": 0.1,
+          "reward_tolerance": 0.05,
+          "slide_tolerance_m": 0.002,
+          "hinge_tolerance_rad": 0.05
+        },
+        "neutral_metrics_match_cpu": {
+          "passed": true
+        },
+        "press_rollout_end_1": {
+          "passed": true
+        },
+        "press_rollout_end_2": {
+          "passed": true
+        },
+        "press_rollout_end_3": {
+          "passed": true
+        },
+        "press_rollout_end_4": {
+          "passed": true
+        },
+        "press_rollout_end_5": {
+          "passed": true
+        },
+        "press_rollout_end_6": {
+          "passed": true
+        },
+        "press_rollout_end_7": {
+          "passed": true
+        },
+        "press_rollout_end_8": {
+          "passed": true
+        },
+        "press_rollout_end_9": {
+          "passed": true
+        },
+        "press_rollout_end_10": {
+          "passed": true
+        },
+        "press_rollout_end_11": {
+          "passed": true
+        },
+        "press_rollout_end_12": {
+          "passed": true
+        },
+        "press_rollout_end_13": {
+          "passed": true
+        },
+        "press_rollout_end_14": {
+          "passed": true
+        },
+        "press_rollout_end_15": {
+          "passed": true
+        },
+        "press_rollout_end_16": {
+          "passed": true
+        },
+        "press_rollout_end_17": {
+          "passed": true
+        },
+        "press_rollout_end_18": {
+          "passed": true
+        },
+        "press_rollout_end_19": {
+          "passed": true
+        },
+        "press_rollout_end_20": {
+          "passed": true
+        },
+        "press_rollout_end_21": {
+          "passed": true
+        },
+        "press_rollout_end_22": {
+          "passed": true
+        },
+        "press_rollout_end_23": {
+          "passed": true
+        },
+        "press_rollout_end_24": {
+          "passed": true
+        },
+        "press_rollout_end_25": {
+          "passed": true
+        },
+        "press_rollout_end_26": {
+          "passed": true
+        },
+        "press_rollout_end_27": {
+          "passed": true
+        },
+        "press_rollout_end_28": {
+          "passed": true
+        },
+        "press_rollout_end_29": {
+          "passed": true
+        },
+        "press_rollout_end_30": {
+          "passed": true
+        },
+        "press_rollout_end_31": {
+          "passed": true
+        },
+        "press_rollout_end_32": {
+          "passed": true
+        },
+        "press_rollout_end_33": {
+          "passed": true
+        },
+        "press_rollout_end_34": {
+          "passed": true
+        },
+        "press_rollout_end_35": {
+          "passed": true
+        },
+        "press_rollout_end_36": {
+          "passed": true
+        },
+        "press_rollout_end_37": {
+          "passed": true
+        },
+        "press_rollout_end_38": {
+          "passed": true
+        },
+        "press_rollout_end_39": {
+          "passed": true
+        },
+        "press_rollout_end_40": {
+          "passed": true
+        },
+        "press_rollout_end_41": {
+          "passed": true
+        },
+        "press_rollout_end_42": {
+          "passed": true
+        },
+        "press_rollout_end_43": {
+          "passed": true
+        },
+        "press_rollout_end_44": {
+          "passed": true
+        },
+        "press_rollout_end_45": {
+          "passed": true
+        },
+        "press_rollout_end_46": {
+          "passed": true
+        },
+        "press_rollout_end_47": {
+          "passed": true
+        },
+        "press_rollout_end_48": {
+          "passed": true
+        },
+        "press_rollout_end_49": {
+          "passed": true
+        },
+        "press_rollout_end_50": {
+          "passed": true
+        },
+        "press_rollout_end_51": {
+          "passed": true
+        },
+        "press_rollout_end_52": {
+          "passed": true
+        },
+        "press_rollout_end_53": {
+          "passed": true
+        },
+        "press_rollout_end_54": {
+          "passed": true
+        },
+        "press_rollout_end_55": {
+          "passed": true
+        },
+        "press_rollout_end_56": {
+          "passed": true
+        },
+        "press_rollout_end_57": {
+          "passed": true
+        },
+        "press_rollout_end_58": {
+          "passed": true
+        },
+        "press_rollout_end_59": {
+          "passed": true
+        },
+        "press_rollout_end_60": {
+          "passed": true
+        },
+        "press_rollout_end_61": {
+          "passed": true
+        },
+        "press_rollout_end_62": {
+          "passed": true
+        },
+        "press_rollout_end_63": {
+          "passed": true
+        },
+        "press_rollout_end_64": {
+          "passed": true
+        },
+        "press_physical_rollout": {
+          "passed": true,
+          "observation_tolerance": 0.1,
+          "reward_tolerance": 0.05,
+          "slide_tolerance_m": 0.002,
+          "hinge_tolerance_rad": 0.05
+        },
+        "press_metrics_match_cpu": {
+          "passed": true
+        },
+        "partial_reset_others_unchanged": {
+          "passed": true
+        },
+        "partial_reset_music_initial": {
+          "passed": true
+        },
+        "returned_transition_survives_reset": {
+          "passed": true
+        },
+        "independent_music_indices": {
+          "passed": true
+        },
+        "complete_score": {
+          "passed": true
+        },
+        "requires_explicit_reset": {
+          "passed": true
+        },
+        "terminal_observation_owned": {
+          "passed": true
+        },
+        "time_limit_truncation": {
+          "passed": true
+        }
+      },
+      "num_envs": 16,
+      "task_sha256": "d2095585a88389c9d1e205eec389fb0e22a3b6c48bab5dfc502f0a951458ae77",
+      "scene_sha256": "2a7b6f761fbe5c4658c6f71c15f10c50ae1d4ea44426160a7741bad45a27f395",
+      "observation_size": 1180,
+      "gpu": "NVIDIA RTX PRO 6000 Blackwell Workstation Edition",
+      "rollout_errors": {
+        "neutral": {
+          "max_observation_error": 1.9073486328125e-06,
+          "max_reward_error": 1.430511474609375e-06,
+          "term_errors": {
+            "key_press_reward": 0.0,
+            "sustain_reward": 0.0,
+            "energy_reward": 1.3872966775352324e-08,
+            "fingering_reward": 1.4007091522216797e-06,
+            "forearm_reward": 0.0
+          },
+          "max_qpos_error_mixed_units": 1.9073486328125e-06,
+          "max_slide_error_m": 5.960469451338213e-08,
+          "max_hinge_error_rad": 1.9073486328125e-06,
+          "key_activation_mismatches": 0
+        },
+        "press": {
+          "max_observation_error": 0.04249587655067444,
+          "max_reward_error": 0.00023555755615234375,
+          "term_errors": {
+            "key_press_reward": 0.0,
+            "sustain_reward": 7.275957614183426e-12,
+            "energy_reward": 0.00017509120516479015,
+            "fingering_reward": 0.0002276301383972168,
+            "forearm_reward": 0.0
+          },
+          "max_qpos_error_mixed_units": 0.003767509013414383,
+          "max_slide_error_m": 4.484408418647945e-05,
+          "max_hinge_error_rad": 0.003767509013414383,
+          "key_activation_mismatches": 0
+        }
+      },
+      "elapsed_s": 26.335027594817802
+    }
+  ],
+  "additional_verification": {
+    "analytic_rules": {
+      "command": "training_mjlab/.venv/bin/python -m unittest discover -s tests -p test_mjlab_task.py -v",
+      "tests_passed": 4,
+      "elapsed_s": 0.007,
+      "log": "training_mjlab/outputs/task_unit_tests.log"
+    },
+    "cpu_regression": {
+      "command": "MUJOCO_GL=egl .venv/bin/python -m pytest tests/test_environment.py tests/test_preview_controls.py tests/test_mjlab_bundle.py -q",
+      "tests_passed": 30,
+      "warnings": 118,
+      "elapsed_s": 35.77,
+      "log": "training_mjlab/outputs/task_cpu_regression.log"
+    },
+    "physics_batch64": {
+      "command": "MUJOCO_GL=egl training_mjlab/.venv/bin/python scripts/validate_mjlab_batch.py --num-envs 64 --output training_mjlab/outputs/batch_64_after_task",
+      "status": "passed",
+      "report": "training_mjlab/outputs/batch_64_after_task/report.json",
+      "report_sha256": "cc6eed689cc63c3460c1290b3807a553f1d7433c3f93528716efa45b5c7b38e1"
+    },
+    "desktop_preview": {
+      "command": "training_mjlab/.venv/bin/python preview/scripts/preview_mjlab.py --task training_mjlab/outputs/task_toy --bottom-out --duration 3",
+      "exit_code": 0,
+      "display": ":10.0",
+      "log": "training_mjlab/outputs/task_preview.log",
+      "observed": "21-frame completion, reward and F1 printed; real active keys [33,54]; viewer closed cleanly",
+      "limitation": "Fixed control demo; no learned policy or manual mouse interaction"
+    }
+  },
+  "limitations": [
+    "No no-fingering/OT branch validated by user decision",
+    "Formal user annotated score not yet supplied",
+    "No Torch SAC/replay/runner/training convergence",
+    "No remote A100 or multi-GPU benchmark",
+    "Current frozen scene gravity_compensation=false; original training candidate true is a separate configuration",
+    "GPU floating-point contact trajectories vary slightly between runs; tolerances and final recorded reports are provided",
+    "Known hardware model and contact calibration TODOs remain"
+  ]
+}
