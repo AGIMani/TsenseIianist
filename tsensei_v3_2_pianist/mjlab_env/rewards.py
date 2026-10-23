@@ -7,9 +7,8 @@ costs use per-control-step units; other terms retain the configured dt scaling.
 import torch
 
 from .reward_config import validate, GROUPS, FINGER_NAMES, finite_number
-from .task_logic import key_press_substep_reward, gaussian_tolerance, fingering_distances
+from .task_logic import key_press_substep_reward, gaussian_tolerance, fingering_substep_reward
 from . import performance_options
-from .fingering_experiments import fingering_reward as experimental_fingering_reward
 
 
 def false_press_penalty(key_state, target):
@@ -36,6 +35,119 @@ def gesture_protection_mask(fingers, lookahead_steps):
     return protected
 
 
+class ArmTrackingErrorAccumulator:
+    """Peak raw-request error across both palms and every physical substep.
+
+    Inputs are world positions in metres. The requested position must precede
+    TCP and IK limiting; the separate IK target is diagnostic only. Actual
+    position comes from the rigid hand body after the scene's forward update.
+    No endpoint-only resampling, target projection, averaging or dt scaling.
+    """
+    def __init__(self, *, num_envs, device):
+        self.requested_peak = torch.zeros((num_envs, 2), device=device, dtype=torch.float64)
+        self.ik_target_peak = torch.zeros_like(self.requested_peak)
+        self.over_1mm_side_substeps = torch.zeros((num_envs, 2), device=device, dtype=torch.int64)
+        self.over_1mm_substeps = torch.zeros(num_envs, device=device, dtype=torch.int64)
+        self.over_1mm_events = torch.zeros_like(self.over_1mm_substeps)
+        self.sampled_substeps = torch.zeros_like(self.over_1mm_substeps)
+        self.previous_over_1mm = torch.zeros((num_envs, 2), device=device, dtype=torch.bool)
+        self.sample_count = 0
+
+    def begin_control(self):
+        self.requested_peak.zero_()
+        self.ik_target_peak.zero_()
+        self.over_1mm_side_substeps.zero_()
+        self.over_1mm_substeps.zero_()
+        self.over_1mm_events.zero_()
+        self.sampled_substeps.zero_()
+        # Keep the previous substep's state across control-frame boundaries.
+        # A continuous excursion is one entry event, not one per frame.
+        self.sample_count = 0
+
+    def reset(self, ids):
+        self.requested_peak[ids] = 0
+        self.ik_target_peak[ids] = 0
+        self.over_1mm_side_substeps[ids] = 0
+        self.over_1mm_substeps[ids] = 0
+        self.over_1mm_events[ids] = 0
+        self.sampled_substeps[ids] = 0
+        self.previous_over_1mm[ids] = False
+
+    def sample(self, requested, actual, ik_target):
+        expected = (*self.requested_peak.shape, 3)
+        if any(tuple(value.shape) != expected for value in (requested, actual, ik_target)):
+            raise ValueError('Arm tracking requires requested/actual/IK world positions [env, 2, 3]')
+        actual = actual.double()
+        # torch.maximum intentionally propagates nonfinite input. The task's
+        # final finite-state guard rejects that transition instead of hiding it.
+        error = torch.linalg.vector_norm(requested.double() - actual, dim=-1)
+        self.requested_peak.copy_(torch.maximum(self.requested_peak, error))
+        self.ik_target_peak.copy_(torch.maximum(self.ik_target_peak,
+            torch.linalg.vector_norm(ik_target.double() - actual, dim=-1)))
+        over = error > .001
+        any_over = over.any(-1)
+        self.over_1mm_side_substeps.add_(over.long())
+        self.over_1mm_substeps.add_(any_over.long())
+        self.over_1mm_events.add_((any_over & ~self.previous_over_1mm.any(-1)).long())
+        self.sampled_substeps.add_(1)
+        self.previous_over_1mm.copy_(over)
+        self.sample_count += 1
+
+    def snapshot(self):
+        requested = self.requested_peak.amax(-1)
+        return dict(arm_tracking_requested_error_m=requested,
+                    arm_tracking_requested_error_by_side_m=self.requested_peak,
+                    arm_tracking_ik_target_error_m=self.ik_target_peak.amax(-1),
+                    arm_tracking_within_1mm=requested <= .001,
+                    arm_tracking_over_1mm_substeps=self.over_1mm_substeps,
+                    arm_tracking_over_1mm_side_substeps=self.over_1mm_side_substeps,
+                    arm_tracking_over_1mm_events=self.over_1mm_events,
+                    arm_tracking_sampled_substeps=self.sampled_substeps)
+
+
+class ArmTrackingMetrics:
+    """Persistent counts and peaks over all supplied control transitions.
+
+    Substeps mean world-times, with either hand over 1 mm counted once. Side
+    counts remain separate. The fraction uses substeps, not control frames.
+    """
+    def __init__(self):
+        self.counts = None
+        self.peaks = None
+        self.side_counts = None
+
+    def sample(self, info, active_worlds=None):
+        if 'arm_tracking_requested_error_m' not in info:
+            return
+        def values(name):
+            return info['arm_tracking_' + name][:active_worlds]
+        requested = values('requested_error_m')
+        counts = torch.stack((values('sampled_substeps').sum(), values('over_1mm_substeps').sum(),
+            values('over_1mm_events').sum(), (~values('within_1mm')).sum(),
+            torch.full((), requested.numel(), device=requested.device, dtype=torch.int64)))
+        peaks = torch.stack((requested.amax(), values('ik_target_error_m').amax()))
+        sides = values('over_1mm_side_substeps').sum(0)
+        if self.counts is None:
+            self.counts, self.peaks, self.side_counts = counts, peaks, sides
+        else:
+            self.counts.add_(counts)
+            self.peaks.copy_(torch.maximum(self.peaks, peaks))
+            self.side_counts.add_(sides)
+
+    def result(self):
+        if self.counts is None:
+            return None
+        sampled, over, events, control_over, controls = self.counts.cpu().tolist()
+        requested, ik_target = self.peaks.cpu().tolist()
+        return dict(requested_peak_m=requested, ik_target_peak_m=ik_target,
+            over_1mm_substeps=over, sampled_substeps=sampled,
+            within_1mm_substep_fraction=1 - over / sampled if sampled else None,
+            over_1mm_entry_events=events, over_1mm_control_steps=control_over,
+            sampled_control_steps=controls, over_1mm_side_substeps=dict(
+                zip(('right', 'left'), self.side_counts.cpu().tolist())),
+            scope='all_collected_world_control_steps; substep counts are world-times with either hand over 1mm')
+
+
 class RewardManager:
     def __init__(self, config, scene_manifest, task_manifest, *, num_envs, device):
         self.config = c = validate(config)
@@ -56,16 +168,17 @@ class RewardManager:
         if not torch.isfinite(self.neutral).all() or not (self.high>self.low).all():
             raise ValueError('Invalid neutral action or action range')
         index={n:i for i,n in enumerate(self.actions)}
-        translation=[f'{s}_Wrist_T{axis}' for s in ('R','L') for axis in ('X','Y','Z')]
-        wrist=[f'{s}_Wrist_{axis}' for s in ('R','L') for axis in ('Pitch','Yaw')]
+        # Action names use the canonical mixed-case Palm_Base_Tx/Ty/Tz labels.
+        translation=[f'{s}_Palm_Base_T{axis}' for s in ('R','L') for axis in ('x','y','z')]
+        wrist=[f'{s}_Palm_Base_{axis}' for s in ('R','L') for axis in ('Pitch','Yaw')]
         if not set(translation+wrist)<=set(index):
             raise ValueError('Missing named TsenseI wrist actions')
         finger=[n for n in self.actions if n not in translation+wrist]
         self.groups={g:torch.tensor([index[n] for n in names],device=device)
                      for g,names in zip(GROUPS,(translation,wrist,finger))}
         self.non_forearm=torch.cat((self.groups['wrist'],self.groups['finger']))
-        self.tcp_indices=torch.tensor([index[f'{side}_Wrist_{axis}']
-            for side in ('R','L') for axis in ('TX','TY')], device=device)
+        self.tcp_indices=torch.tensor([index[f'{side}_Palm_Base_T{axis}']
+            for side in ('R','L') for axis in ('x','y')], device=device)
         self.previous=self.neutral.expand(num_envs,-1).clone()
         self.previous2=self.previous.clone()
         self.gesture_active = self.enabled('humanoid_finger_gesture_reward')
@@ -81,11 +194,13 @@ class RewardManager:
             if any(len(ids) != 4 for ids in groups):
                 raise ValueError('Humanoid gesture requires four command joints per finger')
             self.gesture_target_indices = torch.tensor(groups, device=device)
+            self.gesture_joint_scales = self.tensor([[params['swing_scale']
+                if self.actions[i].endswith('_SW') else 1. for i in ids] for ids in groups])
             self.gesture_pose = {self.actions[i]: float(self.neutral[i]) for ids in groups for i in ids}
-        self.pitch_indices=torch.tensor([index[n] for n in ('R_Wrist_Pitch','L_Wrist_Pitch')],device=device)
+        self.pitch_indices=torch.tensor([index[n] for n in ('R_Palm_Base_Pitch','L_Palm_Base_Pitch')],device=device)
         if self.enabled('wrist_pitch_reward'):
             signs=self.terms['wrist_pitch_reward']['params']['directions']
-            self.pitch_sign=self.tensor([signs[n] for n in ('R_Wrist_Pitch','L_Wrist_Pitch')])
+            self.pitch_sign=self.tensor([signs[n] for n in ('R_Palm_Base_Pitch','L_Palm_Base_Pitch')])
         if self.enabled('forward_press_reward'):
             mapping=self.terms['forward_press_reward']['params']['angle_map']
             matrix=torch.zeros((10,50),device=device)
@@ -126,8 +241,6 @@ class RewardManager:
         previous2=self.coordinates(self.previous2)
         velocity=(u-previous)/self.dt
         acceleration=(u-2*previous+previous2)/(self.dt*self.dt)
-        anticipatory_reward = (self.performance['anticipatory_fingering_time'] > 0
-                               and self.performance['anticipatory_fingering_reward'])
         raw={}
         for name in self.names:
             params=self.terms[name]['params']
@@ -135,18 +248,8 @@ class RewardManager:
                 value = key_press_substep_reward(snapshot, target,
                     self.task_manifest['key_tolerance'],
                     chord_bonus=params['chord_bonus'], chord_scope=params['chord_scope'])
-            elif name=='fingering_reward' and (anticipatory_reward
-                                              or self.performance['staged_fingering_reward']):
-                value = experimental_fingering_reward(snapshot, fingers,
-                    staged=self.performance['staged_fingering_reward'],
-                    anticipatory=anticipatory_reward,
-                    current_priority=self.performance['anticipatory_current_priority'],
-                    tolerance=self.task_manifest['finger_tolerance'])
-            elif name=='fingering_reward' and params['mode']=='paper':
-                distances=fingering_distances(snapshot)
-                per_finger=(gaussian_tolerance(distances,.01,.1)*fingers).sum(-1)/fingers.sum(-1).clamp_min(1)
-                active=fingers.sum(-1)>0
-                value=(per_finger*active).sum(-1)/active.sum(-1).clamp_min(1)
+            elif name=='fingering_reward':
+                value = fingering_substep_reward(snapshot, self.task_manifest['finger_tolerance'])
             elif name in ('key_press_reward','sustain_reward','energy_reward','fingering_reward','forearm_reward'):
                 if name not in base:
                     raise ValueError(f'{name} was disabled in the frozen task; re-export or disable it here')
@@ -170,7 +273,8 @@ class RewardManager:
                         or protected.shape != fingers.shape[:2]):
                     raise ValueError('Humanoid gesture requires boolean gesture_protected_fingers [env, 10]')
                 inactive=~(protected | fingers.bool().any(-1))
-                deviation=(physical-self.neutral)[:,self.gesture_target_indices].abs().sum(-1)
+                deviation=((physical-self.neutral)[:,self.gesture_target_indices].abs()
+                           *self.gesture_joint_scales).sum(-1)
                 value=params['coefficient']*(deviation*inactive).sum(-1)
             elif name=='wrist_pitch_reward':
                 value=params['bonus']*(physical[:,self.pitch_indices]*self.pitch_sign>0).float().sum(-1)
@@ -182,6 +286,17 @@ class RewardManager:
                 if not isinstance(excess, torch.Tensor) or excess.shape != (self.num_envs,):
                     raise ValueError('Arm penalty requires per-control maximum physical-substep excess')
                 value = -params['maximum_penalty_per_step'] * (excess / params['full_penalty_excess']).clamp(0, 1)
+            elif name=='arm_tracking_error_penalty':
+                error = snapshot.get('arm_tracking_requested_error_m')
+                if not isinstance(error, torch.Tensor) or error.shape != (self.num_envs,):
+                    raise ValueError('Arm tracking penalty requires maximum raw-request error over physical substeps')
+                ratio = error / params['error_scale_m']
+                # Preserve the quadratic near zero; the logarithmic tail keeps
+                # larger raw-request errors distinguishable without a plateau.
+                # clamp_min only makes the unused log branch finite at zero.
+                value = -torch.where(ratio <= 1., ratio.square(),
+                                     1. + 2. * ratio.clamp_min(1.).log())
+                value = torch.where(torch.isfinite(error), value, torch.full_like(value, float('nan'))).float()
             elif name=='joint_motion_limit_penalty':
                 # Final expanded actuator targets (including coupled followers),
                 # never normalized policy outputs or measured qvel/qacc. The
@@ -233,6 +348,7 @@ class RewardManager:
         scale=(self.dt/self.config.get('reference_dt', 1.)
                if self.config['scale_by_dt'] else 1.)
         contributions={name:value*(1. if name in ('joint_motion_limit_penalty', 'arm_motion_limit_penalty',
+                                                'arm_tracking_error_penalty',
                                                 'self_collision_reward','humanoid_finger_gesture_reward') else scale)
             for name,value in weighted.items()}
         self.previous2.copy_(self.previous)

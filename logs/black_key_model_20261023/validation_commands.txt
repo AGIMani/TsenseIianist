@@ -1,0 +1,17 @@
+Host: volc-a32 / TenseiNode1; project /home/houj/projects/pianist_black_key_20261023
+Parent archive: /home/houj/projects/pianist_exper034_20261022/logs/replay_labels_removed_20261023/source_replay_key_colors_v1.tar.gz
+Verified SHA256: cc965e669d495bc59f5166411927c381c5330542e41890f342e8cf64170d0849
+Dependencies only: training/.venv -> /home/houj/projects/tsensei_v3_2_pianist/training/.venv (Composer MuJoCo 3.13.0); training_mjlab/.venv -> /home/houj/projects/tsensei_v3_2_pianist/training_mjlab/.venv (runtime MuJoCo 3.11.0).
+Source: extracted verified parent plus overlay_files.txt; source_provenance.json and archive manifest enumerate exact changes and hashes. Remote old project code not imported.
+Remote root/runtime, CPU only: CUDA_VISIBLE_DEVICES= MUJOCO_GL=disable OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=.
+TSENSEI_REMOTE_CPU_TEST=1 PIANIST_SHAPE_PARENT=../parent timeout 180 training/.venv/bin/python -m pytest -q tests/test_black_key_shape.py tests/test_piano_layout_1224.py tests/test_fingering_targets.py tests/test_composer_exact_fingering.py --junitxml=../validation/cpu_tests.xml
+ timeout 180 training_mjlab/.venv/bin/python -m pytest -q tests/test_key_reference_sampling.py tests/test_substep_rewards.py tests/test_replay_key_highlight.py --junitxml=../validation/reference_tests.xml
+ timeout 180 training/.venv/bin/python -m pytest -q tests/test_piano_contact_and_color.py::test_key_color_overlay_restores_and_preserves_physics --junitxml=../validation/color_selected.xml
+ timeout 180 training_mjlab/.venv/bin/python -m pytest -q tests/test_source_runtime.py::SourceRuntimeChecks::test_current_all_finger_target_contract --junitxml=../validation/runtime_target.xml
+ timeout 240 training_mjlab/.venv/bin/python ../export_preview.py
+Remote root: python3 build_archive.py (parent + exact overlays; full archive audit).
+Per-stage exits/logs: validation/*exit, validation/*.log, build_archive.exit/log.
+Failed extra historical hard-stop selection: validation/color_test.log (external fixture missing); current selected mesh highlighter passes in color_selected.log.
+No training, Slurm/GPU computation, policy inference or hardware execution. CUDA-specific tests skipped.
+Local: ./launch_piano_preview.sh --check-seconds 1.5 --view 3 --screenshot logs/black_key_model_20261023/model_close_with_origin.png (NVIDIA MJB-only camera display; scope 2300M/3G/0 swap).
+Local illustration: OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 training_mjlab/.venv/bin/python logs/black_key_model_20261023/draw_shape.py (compiled vertex JSON only).

@@ -24,16 +24,22 @@ NUM_WHITE_KEYS = 52
 WHITE_KEY_WIDTH = 0.0225
 WHITE_KEY_LENGTH = 0.15
 WHITE_KEY_HEIGHT = WHITE_KEY_WIDTH
-SPACING_BETWEEN_WHITE_KEYS = 0.001
+# User-approved ideal lateral layout, 2026-10-22 (not a measured Casio/DIN model).
+PIANO_LENGTH = 1.224
 N_SPACES_BETWEEN_WHITE_KEYS = NUM_WHITE_KEYS - 1
-BLACK_KEY_WIDTH = 0.01
-BLACK_KEY_LENGTH = 0.09
+SPACING_BETWEEN_WHITE_KEYS = (
+    PIANO_LENGTH - NUM_WHITE_KEYS * WHITE_KEY_WIDTH
+) / N_SPACES_BETWEEN_WHITE_KEYS
+WHITE_KEY_PITCH = WHITE_KEY_WIDTH + SPACING_BETWEEN_WHITE_KEYS
+BLACK_KEY_WIDTH = 0.012
+BLACK_KEY_LENGTH = 0.09  # Upper playing surface, also the unchanged hinge lever.
+BLACK_KEY_TOP_WIDTH = 0.010
+BLACK_KEY_BOTTOM_LENGTH = 0.095
+# Both rectangles share their rear (-X) edge. The bottom extends 5 mm in +X.
+# BLACK_KEY_WIDTH remains the 12 mm bottom footprint for layout calculations.
 # Unlike the other dimensions, the height of the black key was roughly set such that
 # when a white key is fully depressed, the bottom of the black key is barely visible.
 BLACK_KEY_HEIGHT = 0.018
-PIANO_LENGTH = (NUM_WHITE_KEYS * WHITE_KEY_WIDTH) + (
-    N_SPACES_BETWEEN_WHITE_KEYS * SPACING_BETWEEN_WHITE_KEYS
-)
 
 WHITE_KEY_X_OFFSET = 0
 WHITE_KEY_Z_OFFSET = WHITE_KEY_HEIGHT / 2
@@ -61,6 +67,21 @@ BLACK_KEY_JOINT_MAX_ANGLE = atan(BLACK_KEY_TRAVEL_DISTANCE / BLACK_KEY_LENGTH)
 # Mass in kg.
 WHITE_KEY_MASS = 0.04
 BLACK_KEY_MASS = 0.02
+# Preserve pre-layout dynamics: inertia of the former 90 x 10 x 18 mm black key.
+# Preserve this explicit inertia through the tapered shape revision too.
+BLACK_KEY_DIAGINERTIA = (
+    BLACK_KEY_MASS * (0.010**2 + BLACK_KEY_HEIGHT**2) / 12,
+    BLACK_KEY_MASS * (BLACK_KEY_LENGTH**2 + BLACK_KEY_HEIGHT**2) / 12,
+    BLACK_KEY_MASS * (BLACK_KEY_LENGTH**2 + 0.010**2) / 12,
+)
+# Fixed base previously used MuJoCo's default density (1000 kg/m^3).
+# Preserve its compiled mass/inertia while widening its geometry from 1221 to 1224 mm.
+BASE_MASS = 1000 * BASE_LENGTH * 1.221 * BASE_HEIGHT
+BASE_DIAGINERTIA = (
+    BASE_MASS * (1.221**2 + BASE_HEIGHT**2) / 12,
+    BASE_MASS * (BASE_LENGTH**2 + BASE_HEIGHT**2) / 12,
+    BASE_MASS * (BASE_LENGTH**2 + 1.221**2) / 12,
+)
 # Joint spring reference, in degrees.
 # At equilibrium, the joint should be at 0 degrees.
 WHITE_KEY_SPRINGREF = -1

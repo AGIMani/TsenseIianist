@@ -17,7 +17,7 @@ class MappingChecks(unittest.TestCase):
         low,high=physical_bounds('direct_joint_v1',[row['name'] for row in rows],
                                  [row['physical_min'] for row in rows],mechanical)
         for i,(actual,limit) in enumerate(zip(high,mechanical)):
-            self.assertAlmostEqual(actual,1.2 if i in capped else limit)
+            self.assertAlmostEqual(actual,1.3 if i in capped else limit)
         policy_low,policy_high=policy_bounds('direct_joint_v1',47)
         self.assertEqual(len(policy_low),47)
         self.assertEqual((policy_low[4],policy_high[4]),(0.,2.))
@@ -81,8 +81,8 @@ class MappingChecks(unittest.TestCase):
         self.assertEqual(s[22].item(),-1.)
         for x,want in [(s-1,scene.low),(s+1,scene.high),(s,(scene.low+scene.high)/2)]:
             torch.testing.assert_close(scene.physical_action(x),want)
-        self.assertAlmostEqual(scene.high[23].item(),.2,places=6)
-        self.assertAlmostEqual(scene.low[48].item(),-.2,places=6)
+        self.assertAlmostEqual(scene.high[23].item(),.3,places=6)
+        self.assertAlmostEqual(scene.low[48].item(),0.,places=6)
         reset=scene.tensor(scene.bundle.normalize(scene.bundle.neutral_action))+s
         scene.step(reset[None])
         torch.testing.assert_close(scene.data.ctrl[0,scene.action_ids],scene.tensor(scene.bundle.neutral_action[:-1]),atol=1e-6,rtol=1e-6)
@@ -107,10 +107,10 @@ class MappingChecks(unittest.TestCase):
         p0,p1,pm=(scene.physical_action(value) for value in (low,high,midpoint))
         for full_index in (4,8,12,16,29,33,37,41):
             self.assertAlmostEqual(p0[0,full_index].item(),0.,places=6)
-            self.assertAlmostEqual(pm[0,full_index].item(),.6,places=6)
-            self.assertAlmostEqual(p1[0,full_index].item(),1.2,places=6)
+            self.assertAlmostEqual(pm[0,full_index].item(),.65,places=6)
+            self.assertAlmostEqual(p1[0,full_index].item(),1.3,places=6)
         self.assertAlmostEqual(p1[0,2].item(),1.2,places=6)
-        self.assertAlmostEqual(p1[0,23].item(),.2,places=6)
+        self.assertAlmostEqual(p1[0,23].item(),.3,places=6)
         torch.testing.assert_close(scene.policy_action(p0),low)
         torch.testing.assert_close(scene.policy_action(p1),high)
 

@@ -28,29 +28,31 @@ def fixture(device='cpu', decimation=10):
 
 
 class SubstepRewardTests(unittest.TestCase):
-    def test_activation_uses_physical_threshold_without_normalization_roundtrip(self):
+    def test_full_activation_boundary_and_unchanged_reward_for_both_key_lengths(self):
+        from tsensei_v3_2_pianist.key_activation import KEY_ACTIVATION_FRACTION
+        from tsensei_v3_2_pianist.mjlab_env.task_logic import gaussian_tolerance
         for device in ('cpu', 'cuda:0') if torch.cuda.is_available() else ('cpu',):
-            with self.subTest(device=device):
-                _, sim = fixture(device)
-                upper = np.float32(.0436332)
-                threshold = np.float32(.00349)
-                boundary = np.float32(upper-threshold)
-                tracker = SubstepRewardCollector(
-                    num_envs=2, decimation=10, device=device, key_qadr=[0],
-                    key_limits=[[0, upper]], action_ids=[0],
-                    geom_pair_mask=np.zeros((4, 4)), key_threshold=float(threshold))
-                qpos = wp.to_torch(sim.wp_data.qpos)
-                qpos[0, 0] = float(boundary)
-                qpos[1, 0] = float(np.nextafter(boundary, np.float32(np.inf)))
+            tracker, sim = fixture(device)
+            qpos = wp.to_torch(sim.wp_data.qpos)
+            upper = torch.tensor([.1, .2], device=device)
+            for fraction, expected in ((0., False), (.949, False), (.95, False), (.951, False), (.999, False), (1., True), (1.1, True)):
+                qpos[:, [0, 2]] = upper * fraction
                 tracker.sample(sim, 0)
                 wp.synchronize_device(device)
-                expected = (qpos[:, 0].clamp(0, float(upper))-float(upper)).abs() <= float(threshold)
-                torch.testing.assert_close(tracker.key_activation_history[:, 0, 0], expected, atol=0, rtol=0)
-                self.assertEqual(expected.tolist(), [False, True])
-                # A normalized round trip misclassifies the lower sample.
-                reconstructed = ((1-tracker.key_state_history[:, 0, 0]).abs()*float(upper)
-                                 <= float(threshold))
-                self.assertEqual(reconstructed.tolist(), [True, True])
+                actual = tracker.key_activation_history[:, 0]
+                travel = tracker.key_state_history[:, 0]
+                self.assertEqual(actual.tolist(), [[expected]*2]*2)
+                torch.testing.assert_close(actual, qpos[:, [0, 2]].clamp_min(0) >= upper * KEY_ACTIVATION_FRACTION)
+                if fraction >= .95:
+                    torch.testing.assert_close(gaussian_tolerance(1-travel, .05, .5), torch.ones_like(travel))
+            # Check adjacent representable physical angles without a division round trip.
+            for direction in (-float('inf'), float('inf')):
+                boundary = upper * KEY_ACTIVATION_FRACTION
+                qpos[:, [0, 2]] = torch.nextafter(boundary, torch.full_like(boundary, direction))
+                tracker.sample(sim, 1)
+                wp.synchronize_device(device)
+                torch.testing.assert_close(tracker.key_activation_history[:, 1],
+                                           qpos[:, [0, 2]].clamp_min(0) >= upper * KEY_ACTIVATION_FRACTION)
 
     def test_transient_key_is_seen_and_penalty_is_averaged(self):
         tracker, sim = fixture()
@@ -95,11 +97,13 @@ class SubstepRewardTests(unittest.TestCase):
         tracker.sample(sim, 9)
         wp.synchronize_device('cpu')
         self.assertEqual(tracker.palm_collision_any.tolist(), [True, False])
+        self.assertEqual(tracker.palm_collision_substeps.tolist(), [1, 0])
         tracker.key_state_history[1] = .5
         tracker.power_mean[1] = 4
         tracker.signed_power_mean[1] = -2
         tracker.clear(torch.tensor([0]))
         self.assertFalse(tracker.palm_collision_any.any())
+        self.assertFalse(tracker.palm_collision_substeps.any())
         self.assertEqual(tracker.key_state_history[0].count_nonzero().item(), 0)
         self.assertTrue((tracker.key_state_history[1] == .5).all())
         self.assertEqual(tracker.power_mean.tolist(), [0., 4.])
@@ -118,6 +122,7 @@ class SubstepRewardTests(unittest.TestCase):
         tracker.collision_margin = .002
         tracker.sample(sim, 1, contact_data=query.wp_data)
         self.assertEqual(tracker.palm_collision_any.tolist(), [True, False])
+        self.assertEqual(tracker.palm_collision_substeps.tolist(), [1, 0])
 
     def test_final_forward_contact_union_does_not_resample_power_or_keys(self):
         tracker, sim = fixture()
@@ -129,6 +134,7 @@ class SubstepRewardTests(unittest.TestCase):
         wp.to_torch(sim.wp_data.qpos)[:, 0] = .1
         tracker.sample_contacts(sim)
         self.assertEqual(tracker.palm_collision_any.tolist(), [True, False])
+        self.assertEqual(tracker.palm_collision_substeps.tolist(), [0, 0])
         torch.testing.assert_close(tracker.key_state_history, keys, atol=0, rtol=0)
         torch.testing.assert_close(tracker.power_mean, power, atol=0, rtol=0)
 

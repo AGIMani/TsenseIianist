@@ -26,7 +26,7 @@ from dm_control.utils.rewards import tolerance
 from dm_env import specs
 from mujoco_utils import collision_utils, spec_utils
 from tsensei_v3_2_pianist.forearm_collision import collision_scope, is_forearm_collision_geom, forearm_contact_reward
-from tsensei_v3_2_pianist.fingering_targets import target_position, validate_thumb_target
+from tsensei_v3_2_pianist.fingering_targets import target_position, target_for_key
 
 import tsensei_v3_2_pianist.models.hands.tsensei_hand_constants as hand_consts
 from tsensei_v3_2_pianist.models.arenas import stage
@@ -36,7 +36,7 @@ from tsensei_v3_2_pianist.suite.tasks import base
 
 # Distance thresholds for the shaping reward.
 _FINGER_CLOSE_ENOUGH_TO_KEY = 0.01
-_KEY_CLOSE_ENOUGH_TO_PRESSED = 0.05
+from tsensei_v3_2_pianist.key_activation import KEY_PRESS_TOLERANCE as _KEY_CLOSE_ENOUGH_TO_PRESSED
 
 # Energy penalty coefficient.
 _ENERGY_PENALTY_COEF = 5e-3
@@ -67,7 +67,6 @@ class PianoWithTsenseiHands(base.PianoTask):
         energy_penalty_coef: float = _ENERGY_PENALTY_COEF,
         randomize_hand_positions: bool = False,
         task_profile: str = 'tsensei_v1',
-        thumb_target: Optional[dict] = None,
         **kwargs,
     ) -> None:
         """Task constructor.
@@ -103,7 +102,6 @@ class PianoWithTsenseiHands(base.PianoTask):
         """
         collision_scope(task_profile)
         self._task_profile = task_profile
-        self._thumb_target = validate_thumb_target(thumb_target)
         super().__init__(arena=stage.Stage(), **kwargs)
 
         if trim_silence:
@@ -156,6 +154,7 @@ class PianoWithTsenseiHands(base.PianoTask):
             self._reward_fn.add("forearm_reward", self._compute_forearm_reward)
 
     def _reset_quantities_at_episode_init(self) -> None:
+        self._finger_substep_scores = []
         self._t_idx: int = 0
         self._should_terminate: bool = False
         self._discount: float = 1.0
@@ -199,6 +198,7 @@ class PianoWithTsenseiHands(base.PianoTask):
         random_state: np.random.RandomState,
     ) -> None:
         """Applies the control to the hands and the sustain pedal to the piano."""
+        self._finger_substep_scores = []
         action_right, action_left = np.split(action[:-1], 2)
         self.right_hand.apply_action(physics, action_right, random_state)
         self.left_hand.apply_action(physics, action_left, random_state)
@@ -315,42 +315,31 @@ class PianoWithTsenseiHands(base.PianoTask):
         rew += 0.5 * (1 - float(self.piano.activation[off].any()))
         return rew
 
+    def after_substep(self, physics, random_state):
+        """Match GPU exact-event finger scoring at post-integration timestamps."""
+        if self._disable_fingering_reward:
+            return
+        import mujoco
+        mujoco.mj_kinematics(physics.model.ptr, physics.data.ptr)
+        time = physics.time()
+        offset = round(self._initial_buffer_time / self.control_timestep) * self.control_timestep
+        distances = []
+        for note in self._midi.seq.notes:
+            if note.start_time + offset - 1e-10 <= time < note.end_time + offset - 1e-10:
+                hand = self.right_hand if note.part < 5 else self.left_hand
+                site = hand.fingertip_sites[note.part % 5]
+                geom = self.piano.keys[note.pitch - 21].geom[0]
+                target = target_for_key(physics.model.ptr, physics.data.ptr,
+                    physics.model.name2id(geom.full_identifier, "geom"), task_profile=self._task_profile)
+                distances.append(np.linalg.norm(physics.bind(site).xpos-target))
+        value = (float(np.mean(tolerance(np.asarray(distances), bounds=(0, _FINGER_CLOSE_ENOUGH_TO_KEY),
+                 margin=_FINGER_CLOSE_ENOUGH_TO_KEY*10, sigmoid="gaussian"))) if distances else 0.)
+        self._finger_substep_scores.append(value)
+
     def _compute_fingering_reward(self, physics: mjcf.Physics) -> float:
-        """Reward for minimizing the distance between the fingers and the keys."""
-
-        def _distance_finger_to_key(
-            hand_keys: List[Tuple[int, int]], hand
-        ) -> List[float]:
-            distances = []
-            for key, mjcf_fingering in hand_keys:
-                fingertip_site = hand.fingertip_sites[mjcf_fingering]
-                fingertip_pos = physics.bind(fingertip_site).xpos.copy()
-                key_geom = self.piano.keys[key].geom[0]
-                bound_key = physics.bind(key_geom)
-                key_geom_pos = target_position(
-                    bound_key.xpos, bound_key.size, key_geom.full_identifier,
-                    thumb=mjcf_fingering == 0,
-                    task_profile=self._task_profile,
-                    thumb_target=self._thumb_target,
-                )
-                diff = key_geom_pos - fingertip_pos
-                distances.append(float(np.linalg.norm(diff)))
-            return distances
-
-        distances = _distance_finger_to_key(self._rh_keys_current, self.right_hand)
-        distances += _distance_finger_to_key(self._lh_keys_current, self.left_hand)
-
-        # Case where there are no keys to press at this timestep.
-        if not distances:
-            return 0.0
-
-        rews = tolerance(
-            np.hstack(distances),
-            bounds=(0, _FINGER_CLOSE_ENOUGH_TO_KEY),
-            margin=(_FINGER_CLOSE_ENOUGH_TO_KEY * 10),
-            sigmoid="gaussian",
-        )
-        return float(np.mean(rews))
+        samples = getattr(self, '_finger_substep_scores', [])
+        # Reset-time reward is zero; scoring a control step requires its samples.
+        return float(np.mean(samples)) if samples else 0.
 
     def _compute_ot_fingering_reward(self, physics: mjcf.Physics) -> float:
         """ OT reward calculation from RP1M https://arxiv.org/abs/2408.11048 """
@@ -368,9 +357,8 @@ class PianoWithTsenseiHands(base.PianoTask):
         key_pos = []
         for key in keys_to_press:
             key_geom = self.piano.keys[key].geom[0]
-            key_geom_pos = physics.bind(key_geom).xpos.copy()
-            key_geom_pos[-1] += 0.5 * physics.bind(key_geom).size[2]
-            key_geom_pos[0] += 0.35 * physics.bind(key_geom).size[0]
+            key_geom_pos = target_for_key(physics.model.ptr, physics.data.ptr,
+                physics.model.name2id(key_geom.full_identifier, "geom"), task_profile=self._task_profile)
             key_pos.append(key_geom_pos.copy())
 
         # calcualte the distance between keys and fingers

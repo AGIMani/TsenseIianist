@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""View the frozen MJLab scene, or audit the exact training arm workspace.
+"""Preview the current hand-only source, a saved training config or frozen scene.
 
 ``--training-config`` is the synchronized path.  It rebuilds the source
 recipe and passes the saved reward, control, preparation and current rigid_wrist_command arm
@@ -18,6 +18,23 @@ import time
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+
+def load_default_hand_only_config():
+    """Use the current workspace recipe for a new hand-only preview.
+
+    This dedicated preview preset is not a checkpoint configuration. Explicit
+    training-config and checkpoint invocations retain their recorded contracts.
+    """
+    path = ROOT / 'configs/preview/current_arm_training_20261011.json'
+    config = json.loads(path.read_text())
+    if config.get('kind') != 'current_arm_preview_config':
+        raise ValueError('Default preview requires the current workspace preview preset')
+    config['arm_follow'] = None
+    config['no_arms'] = True
+    config['reward_config']['terms']['arm_motion_limit_penalty']['enabled'] = False
+    config['_preview_config_path'] = str(path)
+    return config
 
 
 def main():
@@ -51,6 +68,8 @@ def main():
     args = parser.parse_args()
     if args.training_config is not None and (args.scene is not None or args.task is not None or args.checkpoint is not None):
         parser.error('--training-config cannot be combined with --scene, --task or --checkpoint')
+    if args.task is not None and args.scene is None and args.checkpoint is None:
+        parser.error('--task requires an explicit --scene; omit both to preview current source')
     if args.reachability_audit is not None and args.training_config is None:
         parser.error('--reachability-audit requires --training-config')
     if args.reachability_audit is not None and any((args.contact_controls, args.demo, args.bottom_out, args.checkpoint)):
@@ -58,6 +77,9 @@ def main():
     if args.training_config is not None:
         from tsensei_v3_2_pianist.mjlab_env.preview_contract import load_training_config
         config = load_training_config(args.training_config)
+    elif args.scene is None and args.task is None and args.checkpoint is None:
+        config = load_default_hand_only_config()
+        print('Preview: current workspace source, hand-only (no M6 arms).', flush=True)
     else:
         config = None
     if args.reachability_audit is None and sys.platform.startswith('linux') and not os.environ.get('DISPLAY'):
@@ -85,14 +107,15 @@ def main():
         return
     from tsensei_v3_2_pianist.preview_backend import configure_backend
     configure_backend(headless=False, gpu='auto')
-    from tsensei_v3_2_pianist.mjlab_env.paths import CURRENT_GRAVCOMP_SCENE, for_checkpoint
+    from tsensei_v3_2_pianist.mjlab_env.paths import for_checkpoint
     if args.checkpoint is not None:
         args.scene,args.task=for_checkpoint(args.checkpoint,args.scene,args.task)
     elif config is not None:
         from tsensei_v3_2_pianist.mjlab_env.preview_contract import build_source_from_config
         args.scene,args.task,_=build_source_from_config(config)
-    elif args.scene is None:
-        args.scene=CURRENT_GRAVCOMP_SCENE
+    if not (args.scene / 'manifest.json').is_file():
+        parser.error(f'Scene manifest does not exist: {args.scene / "manifest.json"}; '
+                     'omit --scene/--task for the current hand-only source preview')
     gravity_compensation = json.loads((args.scene / 'manifest.json').read_text())['gravity_compensation']
     print(f'Gravity compensation: {"on" if gravity_compensation else "off"}; scene={args.scene}', flush=True)
     if args.checkpoint and (args.task is None or args.demo or args.bottom_out):

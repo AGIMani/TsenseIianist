@@ -7,7 +7,6 @@ import unittest
 import torch
 
 from tsensei_v3_2_pianist.mjlab_env import performance_options
-from tsensei_v3_2_pianist.mjlab_env.fingering_experiments import fingering_reward
 from tsensei_v3_2_pianist.rl_torch.train import (
     effective_config, evaluate, parser, resolve_replay_prefill, updates_this_step,
     warmup_action_count,
@@ -63,62 +62,6 @@ class ReplayPrefillTests(unittest.TestCase):
                 resolve_replay_prefill(args, config, 183)
         with self.assertRaisesRegex(ValueError, 'cannot be negative'):
             effective_config(self.args('--replay-prefill-episodes', '-1'))
-
-
-class FingeringPriorityTests(unittest.TestCase):
-    def fixture(self):
-        snapshot = dict(fingertips=torch.zeros(3, 10, 3), key_targets=torch.zeros(3, 88, 3),
-                        anticipatory_targets=torch.zeros(3, 10, 3),
-                        anticipatory_mask=torch.zeros(3, 10, dtype=torch.bool))
-        fingers = torch.zeros(3, 10, 88)
-        fingers[:, 0, 40] = 1
-        snapshot['anticipatory_mask'][1, 1] = True
-        snapshot['anticipatory_mask'][2, 1:] = True
-        return snapshot, fingers
-
-    def test_current_perfect_credit_does_not_drop_when_future_fingers_appear(self):
-        snapshot, fingers = self.fixture()
-        torch.testing.assert_close(fingering_reward(snapshot, fingers, anticipatory=True,
-                                   current_priority=True), torch.ones(3))
-        legacy = fingering_reward(snapshot, fingers, anticipatory=True)
-        self.assertAlmostEqual(legacy[1].item(), .75)
-        self.assertAlmostEqual(legacy[2].item(), .55)
-
-    def test_current_credit_and_gradient_do_not_depend_on_future_finger_count(self):
-        snapshot, fingers = self.fixture()
-        snapshot['fingertips'][:, 0, 0] = .04
-        snapshot['fingertips'].requires_grad_()
-        current = fingering_reward(snapshot, fingers)
-        priority = fingering_reward(snapshot, fingers, anticipatory=True, current_priority=True)
-        self.assertTrue((priority >= current).all())
-        self.assertTrue((priority <= 1.).all())
-        torch.testing.assert_close(priority[1:], (current+.1*(1-current))[1:])
-        gradient = torch.autograd.grad(priority.sum(), snapshot['fingertips'], retain_graph=True)[0][:, 0, 0]
-        current_gradient = torch.autograd.grad(current.sum(), snapshot['fingertips'])[0][:, 0, 0]
-        torch.testing.assert_close(gradient[1:], .9*current_gradient[1:])
-
-    def test_rest_no_future_and_active_finger_exclusion(self):
-        snapshot, fingers = self.fixture()
-        fingers.zero_()
-        torch.testing.assert_close(fingering_reward(snapshot, fingers, anticipatory=True,
-            current_priority=True), torch.tensor([0., .5, .5]))
-        fingers[:, 0, 40] = 1
-        snapshot['anticipatory_mask'].zero_()
-        snapshot['anticipatory_mask'][:, 0] = True
-        snapshot['anticipatory_targets'].fill_(100.)
-        torch.testing.assert_close(fingering_reward(snapshot, fingers, anticipatory=True,
-            current_priority=True), torch.ones(3))
-
-    def test_current_priority_opt_in_and_removed_sampling_rejection(self):
-        old = dict(anticipatory_fingering_time=.15, staged_fingering_reward=False, substep_rewards=True)
-        with self.assertRaisesRegex(ValueError, 'matching archived source'):
-            performance_options.canonical(old)
-        for flags, expected in ((['--anticipatory-current-priority'], True),
-                               (['--anticipatory-current-priority', '--no-anticipatory-current-priority'], False)):
-            config = effective_config(parser().parse_args(['--anticipatory-fingering-time', '.15', *flags]))
-            self.assertEqual(config['reward_config']['performance']['anticipatory_current_priority'], expected)
-        with self.assertRaisesRegex(ValueError, 'true/false'):
-            performance_options.canonical({'anticipatory_current_priority': 1})
 
 
 class ReleaseTailEvaluationTests(unittest.TestCase):
@@ -184,9 +127,9 @@ class ReleaseTailEvaluationTests(unittest.TestCase):
     def test_music_denominators_exclude_tail_but_full_episode_keeps_it(self):
         result = evaluate(self.Agent(), self.Env(), 2)
         self.assertAlmostEqual(result['f1'], .6)
-        self.assertEqual(result['music_only_f1'], .5)
+        self.assertNotIn('music_only_f1',result) # current metrics publication contract
         self.assertEqual(result['music_frames'], 2)
-        self.assertAlmostEqual(result['music_only_substep_key_micro_f1'], 2/3)
+        self.assertNotIn('music_only_substep_key_micro_f1',result)
         self.assertEqual(result['release_tail_frames'], 2)
         self.assertEqual(result['release_tail_wrong_key_frames_max'], 1)
         self.assertEqual(result['release_tail_wrong_key_substeps_max'], 10)

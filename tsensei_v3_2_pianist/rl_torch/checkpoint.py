@@ -9,81 +9,6 @@ import torch
 from ..mjlab_env.reward_config import canonical
 
 
-EXACT_MUSIC_F1_MIN = 'exact_original_music_micro_f1_min'
-
-
-def exact_music_f1_min(evaluation):
-    """Validate physical-sample coverage and derive the worst original-clock F1.
-
-    A pooled F1 cannot substitute for the worst episode. Keep this observer-only
-    check reusable by checkpoint export; old 40 Hz records need no new fields.
-    """
-    finite = lambda value: type(value) in (int, float) and math.isfinite(value)
-    reasons = []
-    expected = evaluation.get('evaluation_episodes')
-    rows = evaluation.get('episode_statistics')
-    if (type(expected) is not int or expected <= 0
-            or evaluation.get('completed_episodes') != expected
-            or evaluation.get('truncated_episodes') != 0):
-        reasons.append('evaluation_incomplete')
-    if not isinstance(rows, list) or len(rows) != expected:
-        return None, reasons + ['exact_episode_statistics']
-    if evaluation.get('note_timing_available') is not True:
-        reasons.append('note_timing_available')
-    if evaluation.get('note_timing_episodes') != expected:
-        reasons.append('note_timing_episodes')
-    hz = evaluation.get('substep_key_sample_hz')
-    if not finite(hz) or hz <= 0:
-        reasons.append('substep_key_sample_hz')
-    scores = []
-    totals = [0, 0, 0]
-    count_keys = ['exact_original_music_' + name + '_count' for name in
-                  ('true_positive', 'false_positive', 'false_negative')]
-    for label, row in [('evaluation', evaluation)] + [(f'episode_{i}', r) for i, r in enumerate(rows)]:
-        if not isinstance(row, dict):
-            reasons.append(label + '_statistics')
-            continue
-        for key in ('substep_key_diagnostics_coverage', 'substep_key_coverage'):
-            if type(row.get(key)) not in (int, float) or row[key] != 1.:
-                reasons.append(label + '_' + key)
-        if row.get('substep_key_diagnostics_valid') is not True:
-            reasons.append(label + '_substep_key_diagnostics_valid')
-        if label == 'evaluation':
-            continue
-        if (row.get('completed') != 1 or row.get('truncated') != 0
-                or row.get('note_timing_available') is not True
-                or row.get('note_timing_interval') != 'start_inclusive_end_exclusive'
-                or row.get('note_timing_sample_time') != 'post_step'):
-            reasons.append(label + '_exact_timing')
-        start, end = row.get('note_timing_music_start_s'), row.get('note_timing_music_end_s')
-        if not finite(start) or not finite(end) or end <= start:
-            reasons.append(label + '_music_interval')
-        counts = [row.get(key) for key in count_keys]
-        if any(type(value) is not int or value < 0 for value in counts):
-            reasons.append(label + '_exact_counts')
-            continue
-        tp, fp, fn = counts
-        score = row.get('exact_original_music_micro_f1')
-        computed = 2 * tp / (2 * tp + fp + fn) if 2 * tp + fp + fn else 1.
-        if not finite(score) or not 0 <= score <= 1 or not math.isclose(score, computed, rel_tol=0., abs_tol=1e-12):
-            reasons.append(label + '_exact_f1')
-            continue
-        scores.append(score)
-        totals = [total + value for total, value in zip(totals, counts)]
-    if len(scores) == expected:
-        if any(type(evaluation.get(key)) is not int or evaluation[key] != value
-               for key, value in zip(count_keys, totals)):
-            reasons.append('exact_aggregate_counts')
-        tp, fp, fn = totals
-        pooled = 2 * tp / (2 * tp + fp + fn) if 2 * tp + fp + fn else 1.
-        reported = evaluation.get('exact_original_music_micro_f1')
-        if not finite(reported) or not math.isclose(reported, pooled, rel_tol=0., abs_tol=1e-12):
-            reasons.append('exact_aggregate_f1')
-    if reasons or len(scores) != expected:
-        return None, reasons or ['exact_episode_scores']
-    return min(scores), []
-
-
 def check_tz_physics(metadata):
     if metadata.get('disable_wrist_tz', False) and metadata.get('wrist_tz_physics') != 'joint_removed_v1':
         raise ValueError('Legacy TZ projection checkpoint is incompatible with physical joint removal; start a fresh run')
@@ -185,13 +110,13 @@ def load(path, agent, expected, *, weights_only=False, exploration_rng=None, all
         if payload['metadata'].get(key) != expected.get(key):
             raise ValueError('Checkpoint preparation contract mismatch: '+key)
     if payload['metadata'].get('disable_wrist_tz', False) != expected.get('disable_wrist_tz', False):
-        raise ValueError('Checkpoint Wrist_TZ control contract mismatch')
+        raise ValueError('Checkpoint Palm_Base_Tz control contract mismatch')
     if payload['metadata'].get('hand_collision_detection_only', False) != expected.get('hand_collision_detection_only', False):
         raise ValueError('Checkpoint cross-hand physics mismatch')
     if payload['metadata'].get('self_collision_detection_only', False) != expected.get('self_collision_detection_only', False):
         raise ValueError('Checkpoint self-collision physics mismatch')
     if payload['metadata'].get('disable_wrist_yaw', False) != expected.get('disable_wrist_yaw', False):
-        raise ValueError('Checkpoint Wrist_Yaw control contract mismatch')
+        raise ValueError('Checkpoint Palm_Base_Yaw control contract mismatch')
     if reward_contract(payload['metadata']) != reward_contract(expected) and not allow_reward_change:
         raise ValueError('Checkpoint reward contract mismatch; use a fresh run or explicit networks-only reward transfer')
     if transfer_mode not in ('stage2', 'finetune') or (transfer_mode == 'finetune' and not weights_only):
@@ -226,8 +151,8 @@ class EvaluationTracker:
     """
     def __init__(self, config):
         self.config = deepcopy(config)
-        self.metric = config.get('best_metric', 'music_only_f1_min')
-        if self.metric not in ('music_only_f1_min', EXACT_MUSIC_F1_MIN):
+        self.metric = config.get('best_metric', 'f1')
+        if self.metric not in ('f1',):
             raise ValueError('Unsupported best F1 metric: ' + str(self.metric))
         self.best = None
         self.consecutive = 0
@@ -260,13 +185,10 @@ class EvaluationTracker:
         complete = (isinstance(expected, int) and expected > 0
                     and evaluation.get('completed_episodes') == expected
                     and evaluation.get('truncated_episodes') == 0)
-        exact_score, exact_reasons = ((None, []) if self.metric != EXACT_MUSIC_F1_MIN
-            and self.config.get('target_exact_micro_f1') is None else exact_music_f1_min(evaluation))
-        score = exact_score if self.metric == EXACT_MUSIC_F1_MIN else evaluation.get(self.metric)
+        score = evaluation.get(self.metric)
         best_reasons=[]
         if not complete:best_reasons.append('evaluation_incomplete')
         if not self._finite(score):best_reasons.append(self.metric)
-        if self.metric == EXACT_MUSIC_F1_MIN:best_reasons.extend(exact_reasons)
         key_contact_reasons=self._key_contact_failures(evaluation)
         best_reasons.extend(key_contact_reasons)
         best_eligible=not best_reasons
@@ -277,49 +199,11 @@ class EvaluationTracker:
                              updates=updates, evaluation=deepcopy(evaluation),best_eligible=True,
                              best_ineligible_reasons=[],
                              max_key_underside_substeps=self.config.get('max_key_underside_substeps'))
+        # Extra metric stopping gates were removed with the auxiliary F1
+        # evaluations.  Keep the decision shape for checkpoint consumers.
         reasons = []
-        enabled = self.config['target_music_f1'] is not None
-        if enabled:
-            if not complete:
-                reasons.append('evaluation_incomplete')
-            for key, threshold in (
-                    ('music_only_f1_min', self.config['target_music_f1']),
-                    ('music_only_micro_f1_min', self.config['target_micro_f1'])):
-                value = evaluation.get(key)
-                if not self._finite(value) or value < threshold:
-                    reasons.append(key)
-            if self.config.get('target_exact_micro_f1') is not None:
-                reasons.extend(exact_reasons)
-                if not self._finite(exact_score) or exact_score < self.config['target_exact_micro_f1']:
-                    reasons.append(EXACT_MUSIC_F1_MIN)
-            for key, threshold in (
-                    ('preparation_wrong_key_frames_max', self.config['max_preparation_wrong_frames']),
-                    ('hand_collision_frames_max', self.config['max_hand_collision_frames'])):
-                value = evaluation.get(key)
-                if not self._finite(value) or value > threshold:
-                    reasons.append(key)
-            if evaluation.get('collision_diagnostics_coverage') != 1.0:
-                reasons.append('collision_diagnostics_coverage')
-            if (not self._finite(evaluation.get('collision_physics_sample_hz'))
-                    or evaluation['collision_physics_sample_hz'] <= 0):
-                reasons.append('collision_physics_sample_hz')
-            if evaluation.get('collision_diagnostics_valid') is not True:
-                reasons.append('collision_diagnostics_valid')
-            if evaluation.get('collision_substep_coverage') != 1.0:
-                reasons.append('collision_substep_coverage')
-            if 'release_tail_steps' in evaluation:
-                tail_steps = evaluation['release_tail_steps']
-                if (not self._finite(tail_steps) or tail_steps < 0
-                        or tail_steps != math.floor(tail_steps)):
-                    reasons.append('release_tail_steps')
-                elif tail_steps > 0:
-                    if evaluation.get('release_tail_complete') is not True:
-                        reasons.append('release_tail_complete')
-                    active = evaluation.get('release_tail_end_active_keys_max')
-                    if not self._finite(active) or active != 0:
-                        reasons.append('release_tail_end_active_keys_max')
-            reasons.extend(key_contact_reasons)
-            self.consecutive = self.consecutive + 1 if not reasons and count_for_target else 0
+        enabled = False
+        self.consecutive = 0
         stop = enabled and self.consecutive >= self.config['consecutive_evaluations']
         self.last = dict(vector_step=vector_step, updates=updates, improved=improved,
                          best_eligible=best_eligible,best_ineligible_reasons=best_reasons,
@@ -416,13 +300,13 @@ def load_agent(path, *, scene_sha256, task_sha256, obs_size, action_size, device
     if preparation is not None and preparation_contract is None:
         raise ValueError('Prepared checkpoints require the reconstructed preparation_contract')
     if payload['metadata'].get('disable_wrist_tz', False) != disable_wrist_tz:
-        raise ValueError('Checkpoint Wrist_TZ control contract mismatch')
+        raise ValueError('Checkpoint Palm_Base_Tz control contract mismatch')
     if payload['metadata'].get('hand_collision_detection_only', False) != hand_collision_detection_only:
         raise ValueError('Checkpoint cross-hand physics mismatch')
     if payload['metadata'].get('self_collision_detection_only', False) != self_collision_detection_only:
         raise ValueError('Checkpoint self-collision physics mismatch')
     if payload['metadata'].get('disable_wrist_yaw', False) != disable_wrist_yaw:
-        raise ValueError('Checkpoint Wrist_Yaw control contract mismatch')
+        raise ValueError('Checkpoint Palm_Base_Yaw control contract mismatch')
     config = SACConfig(**payload['agent']['config'])
     if reward_contract(payload['metadata']) != canonical(reward_config,self_collision_weight):
         raise ValueError('Checkpoint reward contract mismatch')

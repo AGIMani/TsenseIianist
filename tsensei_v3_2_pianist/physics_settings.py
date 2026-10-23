@@ -152,9 +152,20 @@ def model_indices(model):
 
 
 def from_model(model, control_dt):
+    # Never label an unsupported compiled integrator as implicitfast.  The
+    # returned settings are persisted in model/replay diagnostics, so a false
+    # label would conceal a mismatch between the saved contract and physics.
+    import mujoco
+    integrators = {
+        int(mujoco.mjtIntegrator.mjINT_EULER): 'Euler',
+        int(mujoco.mjtIntegrator.mjINT_IMPLICITFAST): 'implicitfast',
+    }
+    integrator = integrators.get(int(model.opt.integrator))
+    if integrator is None:
+        raise ValueError(f'Unsupported compiled integrator: {int(model.opt.integrator)}')
     s = load()
     s.update(physics_dt=float(model.opt.timestep), control_dt=float(control_dt),
-             integrator='Euler' if int(model.opt.integrator) == 0 else 'implicitfast',
+             integrator=integrator,
              impratio=float(model.opt.impratio))
     for group, ids in model_indices(model).items():
         i = ids[0]

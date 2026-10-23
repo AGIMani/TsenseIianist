@@ -2,26 +2,26 @@
   "schema": 1,
   "mode": "target_clip_slew_v1",
   "channels": {
-    "R_Wrist_TX": {
+    "R_Palm_Base_Tx": {
       "max_velocity": 1.2,
       "min": -0.2,
       "max": 0.2
     },
-    "R_Wrist_TY": {
+    "R_Palm_Base_Ty": {
       "max_velocity": 1.2
     },
-    "R_Wrist_Pitch": {
+    "R_Palm_Base_Pitch": {
       "max_velocity": 4.0
     },
-    "L_Wrist_TX": {
+    "L_Palm_Base_Tx": {
       "max_velocity": 1.2,
       "min": -0.1,
       "max": 0.2
     },
-    "L_Wrist_TY": {
+    "L_Palm_Base_Ty": {
       "max_velocity": 1.2
     },
-    "L_Wrist_Pitch": {
+    "L_Palm_Base_Pitch": {
       "max_velocity": 4.0
     }
   }

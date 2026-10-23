@@ -18,7 +18,7 @@ def gaussian_tolerance(x, upper, margin):
 
 
 def key_press_substep_reward(snapshot, target, tolerance, *, chord_bonus=False, chord_scope=None):
-    """Job1724 paper key reward, averaged after scoring each physical sample.
+    """Continuous key-travel reward on exact physical sample timestamps.
 
     Original event goals may change within a control step. The target fallback
     supports explicit quantized-score tasks/analytic fixtures, never endpoint
@@ -34,7 +34,9 @@ def key_press_substep_reward(snapshot, target, tolerance, *, chord_bonus=False, 
     on = goals[..., :88].bool()
     count = on.sum(-1)
     depth = gaussian_tolerance(1-travel, tolerance, tolerance*10)
-    positive = ((.5*depth + .5*activation.float())*on).sum(-1)/count.clamp_min(1)
+    # Restore the continuous correct-key signal without an activation jump.
+    # Actual activation still determines every wrong-key penalty and F1.
+    positive = (depth*on).sum(-1)/count.clamp_min(1)
     wrong_count = (activation & ~on).sum(-1)
     multiplier = torch.where(count >= 3, 1.15, torch.where(count == 2, 1.08, 1.))
     if chord_bonus and chord_scope == 'on':
@@ -55,15 +57,24 @@ def binary_metrics(goal, actual):
     return torch.stack((ratio(tp,tp+fp),ratio(tp,tp+fn),ratio(2*tp,2*tp+fp+fn)),dim=-1), torch.stack((tp,fp,fn),dim=-1)
 
 
-def fingering_distances(snapshot):
-    """Support legacy per-key targets and new per-finger/per-key targets."""
-    targets = snapshot['key_targets']
-    fingertips = snapshot['fingertips'][:, :, None, :]
-    if targets.ndim == 3:
-        targets = targets[:, None, :, :]
-    elif targets.ndim != 4:
-        raise ValueError('key_targets must have shape (N,88,3) or (N,10,88,3)')
-    return torch.linalg.vector_norm(fingertips-targets,dim=-1)
+def fingering_substep_reward(snapshot, tolerance):
+    """Exact-event Gaussian distance mean per substep, then mean over time.
+
+    Idle substeps contribute zero. Future notes never enter this calculation.
+    Targets use actual post-integration key geometry, not endpoint geometry.
+    """
+    tips = snapshot['fingertip_history']
+    targets = snapshot['key_target_history']
+    keys = snapshot['exact_finger_key_history']
+    if (tips.ndim != 4 or tips.shape[2:] != (10, 3)
+            or targets.shape != (*tips.shape[:2], 88, 3)
+            or keys.shape != tips.shape[:3] or tips.shape[1] < 1):
+        raise ValueError('Fingering reward requires aligned physical-substep geometry and exact keys')
+    selected = targets.gather(2, keys.clamp_min(0)[..., None].expand(-1, -1, -1, 3))
+    active = keys >= 0
+    distances = torch.linalg.vector_norm(tips-selected, dim=-1)
+    per_sample = (gaussian_tolerance(distances, tolerance, tolerance*10)*active).sum(-1)
+    return (per_sample/active.sum(-1).clamp_min(1)).mean(-1)
 
 
 @dataclass
@@ -90,9 +101,21 @@ class MusicTaskLogic:
                 or not isinstance(max_episode_steps,int) or max_episode_steps<1):
             raise ValueError('max_episode_steps must be a positive integer or None')
         self.num_envs, self.device = num_envs, torch.device(device)
+        control_dt = float(m.get('control_dt', 0.))
+        physics_dt = float(m.get('physics_dt', 0.))
+        if control_dt > 0. and physics_dt > 0.:
+            decimation = round(control_dt / physics_dt)
+            if decimation < 1 or abs(decimation * physics_dt - control_dt) > 1e-8:
+                raise ValueError('Task control/physics timesteps must have an integer decimation')
+            self.collision_decimation = decimation
+        else:
+            # Frozen legacy task bundles did not expose the physical timestep;
+            # those snapshots use the endpoint form below.
+            self.collision_decimation = None
         self.max_episode_steps = max_episode_steps
         self.goal = torch.as_tensor(bundle.goal,device=device,dtype=torch.float32)
         self.fingers = torch.as_tensor(bundle.fingers,device=device,dtype=torch.float32)
+        self.observation_goal, self.observation_fingers = self.goal, self.fingers
         self.length = self.goal.shape[0]
         self.lookahead = torch.arange(c['n_steps_lookahead']+1,device=device)
         self.index = torch.zeros(num_envs,device=device,dtype=torch.int64)
@@ -117,27 +140,29 @@ class MusicTaskLogic:
         key = key_press_substep_reward(snapshot, target, self.manifest['key_tolerance'])
         sustain = gaussian_tolerance(target[:,-1]-(snapshot['sustain'][:,0]>=.5).float(),
                                      self.manifest['key_tolerance'],self.manifest['key_tolerance']*10)
-        distances = fingering_distances(snapshot)
-        weights = self.fingers[index]
-        finger = (gaussian_tolerance(distances,self.manifest['finger_tolerance'],
-                                    self.manifest['finger_tolerance']*10)*weights).sum((1,2))
-        finger /= weights.sum((1,2)).clamp_min(1)
+        finger = fingering_substep_reward(snapshot, self.manifest['finger_tolerance'])
         terms = {'key_press_reward':key,'sustain_reward':sustain,
                  'energy_reward':-self.manifest['energy_coefficient']*snapshot['power'],
                  'fingering_reward':finger}
         if not self.config['disable_forearm_reward']:
-            terms['forearm_reward'] = forearm_contact_reward(snapshot['palm_collision'].float(),
-                self.manifest.get('task_profile', 'tsensei_v1'))
+            collision = snapshot.get('palm_collision_substeps')
+            if collision is not None and self.collision_decimation is not None:
+                terms['forearm_reward'] = forearm_contact_reward(
+                    collision, self.manifest.get('task_profile', 'tsensei_v1'),
+                    decimation=self.collision_decimation)
+            else:
+                terms['forearm_reward'] = forearm_contact_reward(snapshot['palm_collision'].float(),
+                    self.manifest.get('task_profile', 'tsensei_v1'))
         return terms, wrong
 
     def frame(self, snapshot):
         # At completion keep the final pre-step score frame/window, as Composer does.
         start = self.index.clamp_max(self.length-1)
         idx = start[:,None]+self.lookahead[None,:]
-        goal = self.goal[idx.clamp_max(self.length-1)]*(idx<self.length)[:,:,None]
+        goal = self.observation_goal[idx.clamp_max(self.length-1)]*(idx<self.length)[:,:,None]
         fields = {'action':self.last_action, 'reward':self.last_reward[:,None],
                   'goal':goal.flatten(1),
-                  'fingering':(self.fingers[start].sum(-1)>0).float(),
+                  'fingering':(self.observation_fingers[start].sum(-1)>0).float(),
                   'left_/joints_pos':snapshot['left_qpos'],
                   'right_/joints_pos':snapshot['right_qpos'],
                   'piano/state':snapshot['key_state'],'piano/sustain_state':snapshot['sustain']}

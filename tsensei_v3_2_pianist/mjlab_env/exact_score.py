@@ -8,7 +8,7 @@ import math
 
 import numpy as np
 
-SCHEMA = 'exact_note_events_v1'
+SCHEMA = 'exact_note_fingering_substeps_v1'
 OBSERVATION_SIZE = 176
 
 
@@ -62,9 +62,23 @@ def physical_coverage(events, *, length, control_dt, physics_dt):
     return counts
 
 
+def control_buffer_offset(initial_buffer_time, control_dt):
+    """Return the actual preparation offset used by the control-grid score.
+
+    Only the preparation duration is converted to control frames. Original
+    note on/off times remain unchanged. The source entry rejects off-grid
+    preparation values; direct task exports and diagnostics share this rule
+    even when their input contains a floating-point representation residue.
+    """
+    if (not math.isfinite(initial_buffer_time) or initial_buffer_time < 0
+            or not math.isfinite(control_dt) or control_dt <= 0):
+        raise ValueError('Invalid preparation offset or control timestep')
+    return round(initial_buffer_time / control_dt) * control_dt
+
+
 def sequence_events(sequence, initial_buffer_time, control_dt, music_end_time):
     """Use the already trimmed/annotated source sequence, before grid expansion."""
-    offset = round(initial_buffer_time / control_dt) * control_dt
+    offset = control_buffer_offset(initial_buffer_time, control_dt)
     events = np.asarray([(n.start_time + offset, n.end_time + offset,
                           n.pitch - 21, n.part) for n in sequence.notes], dtype=np.float64)
     sustain = [(c.time + offset, float(c.control_value >= 64))
@@ -110,15 +124,14 @@ def event_countdowns(events, times, horizon):
 
 
 def future_assignments(events, times, current, horizon):
-    """Nearest exact future onset for currently idle fingers, without grid rounding."""
+    """Nearest future onset, separate from current notes even for a busy finger."""
     result = np.zeros_like(current)
     seconds = np.zeros(current.shape[:2], dtype=np.float32)
-    idle = ~current.astype(bool).any(-1)
     for row, time in enumerate(times):
         for finger in range(10):
             candidates = events[(events[:, 3] == finger) & (events[:, 0] > time + 1e-10)
                                 & (events[:, 0] <= time + horizon + 1e-10)]
-            if not idle[row, finger] or not len(candidates):
+            if not len(candidates):
                 continue
             start = candidates[:, 0].min()
             nearest = candidates[np.abs(candidates[:, 0] - start) <= 1e-10]
@@ -147,11 +160,19 @@ class ExactScore:
         goal, fingers = sample_targets(events, sustain_events, start_times)
         end_goal, end_fingers = sample_targets(events, sustain_events, end_times)
         history, _ = sample_targets(events, sustain_events, sample_times, fingers=False)
+        # Compact unique key per finger, -1 for idle; never materialize a
+        # [time, substep, 10, 88] table on every learner/collector device.
+        finger_keys = np.full((len(sample_times), 10), -1, dtype=np.int64)
+        for start, end, key, finger in events:
+            active = (sample_times >= start - 1e-10) & (sample_times < end - 1e-10)
+            finger_keys[active, int(finger)] = int(key)
         def tensor(value):
             return torch.as_tensor(value, device=device, dtype=torch.float32)
         self.goal, self.fingers = tensor(goal), tensor(fingers)
         self.end_goal, self.end_fingers = tensor(end_goal), tensor(end_fingers)
         self.goal_history = tensor(history.reshape(length, decimation, 89))
+        self.finger_key_history = torch.as_tensor(
+            finger_keys.reshape(length, decimation, 10), device=device)
         self.observation = tensor(event_countdowns(events, start_times,
                                                    max(lookahead_steps * control_dt, control_dt)))
         self.future, self.future_seconds = map(tensor, future_assignments(
@@ -160,5 +181,7 @@ class ExactScore:
             events, end_times, end_fingers, anticipation_horizon))
         self.contract = dict(schema=SCHEMA, interval='start_inclusive_end_exclusive',
             physical_sample_time='post_step', observation='next_on_off_seconds_v1',
+            current_targets='exact_control_start', future_targets='separate_next_onset_per_finger',
+            fingering_reward='original_events_post_physics_substep_mean',
             observation_size=OBSERVATION_SIZE, absent_event=-1.,
             observation_horizon=max(lookahead_steps * control_dt, control_dt))

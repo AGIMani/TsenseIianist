@@ -36,12 +36,11 @@ class ExactTimingEntryTests(unittest.TestCase):
         base=self.config(*common,'--exact-note-timing')
         self.assertTrue(base['reward_config']['performance']['exact_note_timing'])
         self.assertTrue(all(v == [60,80] for v in base['finger_coupling']['angle_ranges_deg'].values()))
-        for extra,key,value in ((('--staged-fingering-reward',),'staged_fingering_reward',True),
-                                (('--upcoming-press-permission-time','.05'),'upcoming_press_permission_time',.05)):
+        for extra,key,value in ((( '--upcoming-press-permission-time','.05'),'upcoming_press_permission_time',.05),):
             expected=deepcopy(base)
             expected['reward_config']['performance'][key]=value
             self.assertEqual(self.config(*common,'--exact-note-timing',*extra),expected)
-        with self.assertRaisesRegex(ValueError, 'Current key reward requires'):
+        with self.assertRaisesRegex(ValueError, 'Current rewards require'):
             self.config(*common,'--no-exact-note-timing')
 
     def test_old_sampling_dictionary_requires_archived_source(self):
@@ -60,12 +59,12 @@ class ExactTimingEntryTests(unittest.TestCase):
                 performance_options.canonical(dict(exact_note_timing=True,
                     anticipatory_fingering_time=.15,upcoming_press_permission_time=value))
 
-    def test_recipe_preserves_missing_legacy_flag_and_records_exact_opt_in(self):
+    def test_recipe_defaults_to_exact_and_matches_explicit_request(self):
         with patch.object(source_runtime,'source_files',return_value={}),patch.object(source_runtime,'dependency_versions',return_value={}):
             old=source_runtime.make_recipe()
             exact=source_runtime.make_recipe(exact_note_timing=True)
-        self.assertNotIn('exact_note_timing',old['environment'])
-        self.assertTrue(exact['environment'].pop('exact_note_timing'))
+        self.assertTrue(old['environment']['exact_note_timing'])
+        self.assertTrue(exact['environment']['exact_note_timing'])
         self.assertEqual(old,exact)
 
     def test_source_entry_honors_json_and_explicit_cli_override(self):
@@ -76,4 +75,4 @@ class ExactTimingEntryTests(unittest.TestCase):
             path.write_text(json.dumps({'performance':{'exact_note_timing':True}}))
             self.assertTrue(module.resolve_exact_note_timing(None,['--reward-config',str(path)]))
             self.assertFalse(module.resolve_exact_note_timing(False,['--reward-config='+str(path)]))
-            self.assertFalse(module.resolve_exact_note_timing(None,[]))
+            self.assertTrue(module.resolve_exact_note_timing(None,[]))

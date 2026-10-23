@@ -32,9 +32,11 @@ def read_trace(folder):
     return data
 
 
-def read_targets(folder, trace):
-    # XML is portable across the separate Composer and GPU runtime versions.
-    model = mujoco.MjModel.from_xml_path(str(folder / 'kinematic_scene/scene.xml'))
+def read_targets(folder, trace, *, model=None):
+    # Legacy overlay callers use portable XML across Composer/GPU versions.
+    # Native export supplies its captured binary model in the learner runtime.
+    if model is None:
+        model = mujoco.MjModel.from_xml_path(str(folder / 'kinematic_scene/scene.xml'))
     data = mujoco.MjData(model)
     positions = np.empty((len(trace['time']), 2, 3))
     rotations = np.empty((len(trace['time']), 2, 3, 3))

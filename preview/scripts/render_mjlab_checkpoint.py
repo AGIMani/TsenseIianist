@@ -12,6 +12,17 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 
+def _with_substep_observer(step, observer):
+    """Retain the task's callback while observing each same physical substep."""
+    def observed_step(*args, substep_callback=None, **kwargs):
+        def observe(scene):
+            if substep_callback is not None:
+                substep_callback(scene)
+            observer(scene)
+        return step(*args, substep_callback=observe, **kwargs)
+    return observed_step
+
+
 def _accumulate_note_on_phase_metrics(events, metrics, phases, targets, control_dt,
                                       prefix_seconds, timing, *, exact_events=None):
     """Assign physical key edges to their real phase; retain old grid semantics."""
@@ -62,7 +73,6 @@ def main():
     p.add_argument('--camera-elevation', type=float)
     p.add_argument('--audio', action=argparse.BooleanOptionalAction, default=True)
     p.add_argument('--soundfont', type=Path)
-    p.add_argument('--finger-labels', action='store_true', help='Add floating text; off to avoid covering fingers')
     p.add_argument('--output', required=True, type=Path, help='New output directory')
     args = p.parse_args()
     # Select EGL before source reconstruction imports MuJoCo.
@@ -113,10 +123,10 @@ def main():
             audio_keys[recorded_substeps].copy_(scene.data.qpos[0,scene.key_qadr])
             audio_pedal[recorded_substeps].copy_(scene.sustain[0])
             recorded_substeps += 1
-        # Reuse the existing read-only substep hook on this playback instance.
-        # No changes to task code, physics integrator, or the running trainer.
-        from functools import partial
-        env.scene.step = partial(env.scene.step, substep_callback=record_audio)
+        # The task supplies its tracking-reward callback explicitly. Compose
+        # it with audio recording so neither can overwrite the other. The
+        # archived physics recorder, when present, retains the same substep.
+        env.scene.step = _with_substep_observer(env.scene.step, record_audio)
     model = env.scene.model
     model.vis.global_.offwidth = max(model.vis.global_.offwidth, 1280)
     model.vis.global_.offheight = max(model.vis.global_.offheight, 720)
@@ -220,11 +230,7 @@ def main():
                     trajectory[key].append(value)
                 renderer.update_scene(data, camera=camera)
                 keys.color_render_scene(renderer.scene, data)
-                before_annotations = renderer.scene.ngeom
                 fingering.append(renderer.scene, data, assigned)
-                if not args.finger_labels:
-                    for geom in renderer.scene.geoms[before_annotations:renderer.scene.ngeom]:
-                        geom.label = ''
                 img = Image.fromarray(renderer.render())
                 draw = ImageDraw.Draw(img)
                 draw.rectangle((0, 0, 1280, 100), fill=(18, 23, 32))
@@ -262,6 +268,10 @@ def main():
     audio_report = False
     if audio_synth is not None:
         try:
+            expected_substeps = len(trajectory['actions']) * env.scene.decimation
+            if recorded_substeps != expected_substeps:
+                raise RuntimeError(f'Audio substep coverage mismatch: recorded {recorded_substeps}, '
+                                   f'expected {expected_substeps}')
             q = audio_keys[:recorded_substeps].cpu().numpy()
             pedal = audio_pedal[:recorded_substeps].cpu().numpy()
             prep_q, prep_pedal = audio_prefix(env.scene.bundle, env.scene.key_qadr.cpu().numpy())
@@ -270,7 +280,7 @@ def main():
             pedal = np.concatenate((prep_pedal, pedal))
             physics_dt = env.scene.bundle.manifest['physics_dt']
             events = events_from_states(q,env.scene.key_limits.cpu().numpy(),pedal,physics_dt,
-                                       env.scene.bundle.manifest['key_threshold'])
+                                       env.scene.bundle.manifest['key_activation_fraction'])
             (args.output/'audio_events.json').write_text(json.dumps(events,indent=2)+'\n')
             write_midi(args.output/'played.mid',events)
             audio_report = audio_synth.render(events,frames/fps,args.output/'played.wav')
@@ -285,7 +295,7 @@ def main():
             np.savez_compressed(args.output/'audio_substeps.npz', key_qpos=q, sustain=pedal,
                                 physics_dt=physics_dt,
                                 key_limits=env.scene.key_limits.cpu().numpy(),
-                                key_threshold=env.scene.bundle.manifest['key_threshold'],
+                                key_activation_fraction=env.scene.bundle.manifest['key_activation_fraction'],
                                 preparation_prefix_substeps=preparation_substeps)
         finally:
             audio_synth.close()

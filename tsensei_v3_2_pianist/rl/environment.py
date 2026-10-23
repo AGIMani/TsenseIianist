@@ -55,13 +55,10 @@ class EnvironmentConfig:
     frame_stack: int = 1
     action_reward_observation: bool = True
     task_profile: str = 'tsensei_v1'
-    thumb_target: dict | None = None
 
     def __post_init__(self):
         from tsensei_v3_2_pianist.forearm_collision import collision_scope
         collision_scope(self.task_profile)
-        from tsensei_v3_2_pianist.fingering_targets import validate_thumb_target
-        validate_thumb_target(self.thumb_target)
         if self.n_steps_lookahead < 0 or self.frame_stack < 1:
             raise ValueError("Invalid lookahead or frame_stack")
         if not np.isfinite(self.control_timestep) or self.control_timestep <= 0:

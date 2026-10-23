@@ -77,7 +77,17 @@
     "max_original_urdf_hole_axis_error_mm": 4.7486858659737853e-07,
     "limitations": [
       "TODO(V32-MOUNT-01): hardware screw/thread fit and flange clocking remain uncalibrated"
-    ]
+    ],
+    "supplied_model_revision": {
+      "source_zip_sha256": "0e260c21eaa83e0acf6ab3f8112c8ca7820382c56e45e1064ea5915ff697132f",
+      "method": "Use four 3.7mm hole loops on each supplied palm mating plane z=-4mm; preserve connector clocking. Both supplied hands have hole centres x=[-6.5,33.5]mm,y=[-5.5,13.5]mm. Right connector from prior mirrored frame shifts +8mm along hand-local Y.",
+      "right_connector_translation_in_hand_m": [
+        0.0,
+        0.008,
+        0.0
+      ],
+      "hardware_status": "TODO(V32-MOUNT-01)"
+    }
   },
   "source_step_sha256": "91090eee6c2012f8c617f1d37d428d639963d9c4a607f2ef4dc2af7e933df8d3",
   "right_hand_connector": "provisional mirror of left attachment; not a manufacturer right-hand design",
@@ -183,7 +193,7 @@
     "right": {
       "xyz_mm": [
         0.0,
-        0.0,
+        8.0,
         0.0
       ],
       "rpy_deg": [
@@ -198,5 +208,5 @@
     "Connector visuals only: no assumed mass, inertia or collision forces"
   ],
   "source_filename": "A3.2_tianji.stp",
-  "alignment_label": "左右四孔及法兰单孔按当前网格对齐"
+  "alignment_label": "2026-10-20包内双手四孔对齐（右侧手根坐标修正8mm）"
 }

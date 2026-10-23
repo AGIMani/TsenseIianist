@@ -16,10 +16,11 @@ from tqdm import tqdm
 
 from .sac import SAC, SACConfig
 from .replay import Replay, Transition
-from .collector_pipeline import CollectorPolicy, OneBatchPipeline, execution_layout
+from .collector_pipeline import CollectorPolicy, OneBatchPipeline, MultiBatchPipeline, execution_layout
 from .coupling_evaluation import CouplingMetrics
 from . import checkpoint
 from ..mjlab_env import reward_config as rewards
+from ..mjlab_env.rewards import ArmTrackingMetrics
 from ..mjlab_env.action_mapping import PROFILES
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -35,7 +36,7 @@ def parser():
     p.add_argument('--self-collision-detection-only', action='store_true',
                    help='Keep same-hand collision penalties but remove their physical reaction forces')
     p.add_argument('--disable-wrist-yaw', action='store_true',
-                   help='With --disable-wrist-tz: 47 actions, physically fix yaw at frozen reset angles')
+                   help='Physically fix yaw at the installed reset angle; required by Cartesian arms')
     p.add_argument('--disable-wrist-tz', action='store_true',
                    help='49-action policy: omit both TZ joints and actuators before physics compilation (physical lock at zero)')
     p.add_argument('--no-arms', action='store_true',
@@ -43,6 +44,8 @@ def parser():
     from ..mjlab_env.arm_options import add_arguments as add_arm_arguments
     add_arm_arguments(p)
     p.add_argument('--device', default='cuda:0', help='Collector/physics CUDA device')
+    p.add_argument('--collector-devices',
+                   help='Comma-separated CUDA devices for independent collectors; requires --collector-pipeline and a separate learner device')
     p.add_argument('--learner-device', help='SAC/replay CUDA device; omitted uses --device')
     p.add_argument('--collector-pipeline', action=argparse.BooleanOptionalAction, default=False,
                    help='Overlap collection with the preceding vector update on another GPU; actor lags at most one update block')
@@ -63,6 +66,8 @@ def parser():
                    help='Compile SAC tensor objectives and backward; first update incurs compilation')
     p.add_argument('--fused-optimizer', action=argparse.BooleanOptionalAction, default=True,
                    help='Use CUDA fused Adam without changing optimizer hyperparameters')
+    p.add_argument('--learner-matmul-precision', choices=('ieee', 'tf32'), default='ieee',
+                   help='Learner graph GEMM precision only; collectors and evaluation remain IEEE FP32')
     p.add_argument('--learner-graph', action=argparse.BooleanOptionalAction, default=False,
                    help='Capture full sequential SAC updates on CUDA; requires fused optimizer, preserves update budget')
     p.add_argument('--optimizer-layout', action=argparse.BooleanOptionalAction, default=False,
@@ -90,12 +95,6 @@ def parser():
                    help='Maximum motion penalty magnitude per control step; overrides reward JSON without enabling the penalty')
     p.add_argument('--anticipatory-fingering-time', type=float,
                    help='Future-fingering positioning horizon in seconds; 0 disables, omitted preserves reward JSON')
-    p.add_argument('--anticipatory-fingering-reward', action=argparse.BooleanOptionalAction, default=None,
-                   help='Include future-finger positioning in reward; disabling retains the configured future observation')
-    p.add_argument('--anticipatory-current-priority', action=argparse.BooleanOptionalAction, default=None,
-                   help='Preserve current fingering mean; future fingers fill only bounded residual credit, omitted preserves JSON')
-    p.add_argument('--staged-fingering-reward', action=argparse.BooleanOptionalAction, default=None,
-                   help='Use approach/alignment and actual key-travel fingering phases; overrides reward JSON')
     p.add_argument('--exact-note-timing', action=argparse.BooleanOptionalAction, default=None,
                    help='Required for physical-substep key reward; also retains original MIDI observations/diagnostics')
     p.add_argument('--upcoming-press-permission-time', type=float, default=None,
@@ -165,15 +164,8 @@ def parser():
                    help='Save forward.pt once at the first periodic evaluation (not the initial/final evaluation)')
     p.add_argument('--save-best', action=argparse.BooleanOptionalAction, default=True,
                    help='Retain best.pt by worst-episode music F1; explicit key-underside limit also gates eligibility')
-    p.add_argument('--best-f1-metric', choices=('music_only_f1_min', checkpoint.EXACT_MUSIC_F1_MIN),
-                   default='music_only_f1_min',
-                   help='Best-checkpoint criterion; exact original-clock mode requires complete physical key diagnostics')
-    p.add_argument('--target-music-f1', type=float,
-                   help='Opt-in stopping target for worst episode music-only frame F1; default disables stopping')
-    p.add_argument('--target-micro-f1', type=float,
-                   help='Worst episode music-only micro F1 target; defaults to target-music-f1 when stopping is enabled')
-    p.add_argument('--target-exact-micro-f1', type=float,
-                   help='Additional worst-episode original-clock physical-sample F1 stopping gate; requires target-music-f1')
+    p.add_argument('--best-f1-metric', choices=('f1',), default='f1',
+                   help='Best-checkpoint criterion (original per-control-frame F1)')
     p.add_argument('--target-consecutive-evals', type=int, default=3,
                    help='Require at least this many consecutive complete qualifying evaluations (minimum 2)')
     p.add_argument('--target-max-preparation-wrong-frames', type=float, default=0.,
@@ -195,7 +187,8 @@ def parser():
 
 def effective_config(args):
     import math
-    layout = execution_layout(args.device, args.learner_device, args.collector_pipeline)
+    layout = execution_layout(args.device, args.learner_device, args.collector_pipeline,
+                              args.collector_devices)
     from ..mjlab_env.finger_coupling import canonical as canonical_coupling, MODE, RANGE_MODE
     coupling_options = None
     if args.finger_coupling:
@@ -209,18 +202,28 @@ def effective_config(args):
         raise ValueError('--save-forward requires a positive --eval-interval')
     if args.learner_graph and not args.fused_optimizer:
         raise ValueError('--learner-graph requires --fused-optimizer; disable both to use unfused Adam')
+    if args.learner_matmul_precision == 'tf32' and not (args.learner_graph and args.compile_learner):
+        raise ValueError('TF32 learner requires --learner-graph and --compile-learner')
     if args.optimizer_layout and not args.learner_graph:
         raise ValueError('--optimizer-layout requires --learner-graph')
     if any(not math.isfinite(v) or v < 0 for v in (args.preparation_time, args.preparation_lift)):
         raise ValueError('Preparation time and lift must be finite and nonnegative')
     from ..mjlab_env.arm_options import from_args as arm_from_args
     arm_follow = arm_from_args(args)
-    if arm_follow is not None and not (args.disable_wrist_tz and args.disable_wrist_yaw):
-        raise ValueError('--arms requires --disable-wrist-tz --disable-wrist-yaw for the current command layout')
-    if args.preparation_time and not (args.disable_wrist_tz and args.disable_wrist_yaw and (args.no_arms or arm_follow is not None)):
-        raise ValueError('Preparation currently requires --no-arms --disable-wrist-tz --disable-wrist-yaw')
-    if args.disable_wrist_yaw and not args.disable_wrist_tz:
-        raise ValueError("--disable-wrist-yaw requires --disable-wrist-tz")
+    if arm_follow is not None and args.no_arms:
+        raise ValueError('--arms and --no-arms are mutually exclusive')
+    if arm_follow is not None:
+        if args.action_profile != 'wuji_cartesian_v1':
+            raise ValueError('--arms requires --action-profile wuji_cartesian_v1')
+        if args.disable_wrist_tz or not args.disable_wrist_yaw:
+            raise ValueError('Cartesian arms require live TZ and --disable-wrist-yaw')
+    elif args.action_profile == 'wuji_cartesian_v1':
+        raise ValueError('wuji_cartesian_v1 is only valid with --arms')
+    if args.preparation_time and not ((args.no_arms and args.disable_wrist_tz and args.disable_wrist_yaw)
+                                      or (arm_follow is not None and args.disable_wrist_yaw and not args.disable_wrist_tz)):
+        raise ValueError('Preparation requires a hand-only legacy scene or Cartesian arms')
+    if args.disable_wrist_yaw and not args.disable_wrist_tz and arm_follow is None:
+        raise ValueError('--disable-wrist-yaw without --disable-wrist-tz is reserved for Cartesian arms')
     if not math.isfinite(args.self_collision_weight) or args.self_collision_weight < 0:
         raise ValueError('self_collision_weight must be finite and nonnegative')
     reward = rewards.validate(
@@ -231,6 +234,7 @@ def effective_config(args):
         reward['terms']['self_collision_reward'].update(enabled=True,weight=args.self_collision_weight)
     if arm_follow is not None:
         reward['terms']['arm_motion_limit_penalty']['enabled'] = True
+        reward['terms']['arm_tracking_error_penalty']['enabled'] = True
     motion = reward['terms']['joint_motion_limit_penalty']
     if args.joint_motion_limit_penalty is not None:
         motion['enabled'] = args.joint_motion_limit_penalty
@@ -258,9 +262,7 @@ def effective_config(args):
     for name in args.disable_reward:
         reward['terms'][name]['enabled'] = False
     performance_overrides = {name: getattr(args, name) for name in
-        ('anticipatory_fingering_time', 'staged_fingering_reward', 'anticipatory_current_priority',
-         'exact_note_timing', 'upcoming_press_permission_time',
-         'anticipatory_fingering_reward')
+        ('anticipatory_fingering_time', 'exact_note_timing', 'upcoming_press_permission_time')
         if getattr(args, name) is not None}
     if performance_overrides:
         from ..mjlab_env import performance_options
@@ -270,8 +272,9 @@ def effective_config(args):
     reward = rewards.validate(reward)
     if args.exact_note_timing is False and reward['terms']['key_press_reward']['enabled']:
         raise ValueError('Current key reward requires --exact-note-timing; endpoint scoring was removed')
-    if reward['terms']['arm_motion_limit_penalty']['enabled'] and arm_follow is None:
-        raise ValueError('arm_motion_limit_penalty requires --arms')
+    for name in ('arm_motion_limit_penalty', 'arm_tracking_error_penalty'):
+        if reward['terms'][name]['enabled'] and arm_follow is None:
+            raise ValueError(f'{name} requires --arms')
     if args.allow_reward_change and not (args.stage2_from or args.finetune_from):
         raise ValueError('--allow-reward-change requires --stage2-from or --finetune-from (networks only)')
     if args.allow_control_change and not args.finetune_from:
@@ -301,32 +304,16 @@ def effective_config(args):
             raise ValueError('Upcoming press permission requires active_contact_v1 geometry with both physical projections disabled')
         if not gesture['enabled']:
             raise ValueError('Upcoming press permission requires the active humanoid gesture reward')
-    if args.target_micro_f1 is not None and args.target_music_f1 is None:
-        raise ValueError('--target-micro-f1 requires --target-music-f1')
-    if args.target_exact_micro_f1 is not None and args.target_music_f1 is None:
-        raise ValueError('--target-exact-micro-f1 requires --target-music-f1')
-    if args.best_f1_metric == checkpoint.EXACT_MUSIC_F1_MIN or args.target_exact_micro_f1 is not None:
-        performance = reward.get('performance', {})
-        if not performance.get('exact_note_timing', False):
-            raise ValueError('Exact F1 selection requires physical key sampling: enable exact-note-timing')
     if args.target_max_key_underside_substeps is not None:
         if args.target_max_key_underside_substeps < 0:
             raise ValueError('--target-max-key-underside-substeps must be nonnegative')
-        if args.target_music_f1 is None:
-            raise ValueError('--target-max-key-underside-substeps requires --target-music-f1')
         if finger_clearance is None or not args.collision_diagnostics:
             raise ValueError('Key underside target requires --finger-clearance-config and --collision-diagnostics')
-    for key in ('target_music_f1', 'target_micro_f1', 'target_exact_micro_f1'):
-        value = getattr(args, key)
-        if value is not None and (not math.isfinite(value) or not 0 <= value <= 1):
-            raise ValueError(key+' must be finite and within [0, 1]')
     for key in ('target_max_preparation_wrong_frames', 'target_max_hand_collision_frames'):
         if not math.isfinite(getattr(args, key)) or getattr(args, key) < 0:
             raise ValueError(key+' must be finite and nonnegative')
     if args.target_consecutive_evals < 2:
         raise ValueError('target_consecutive_evals must be at least 2')
-    if args.target_music_f1 is not None and (not args.eval_interval or not args.collision_diagnostics):
-        raise ValueError('Target stopping requires periodic evaluation and --collision-diagnostics')
     if args.warmup_vector_steps is None:
         args.warmup_vector_steps = 300 if args.stage == 1 else 0
     for key in ('num_envs', 'vector_steps', 'replay_vector_slots', 'batch_size', 'gradient_steps', 'eval_episodes', 'eval_num_envs', 'log_interval'):
@@ -371,7 +358,8 @@ def effective_config(args):
                 wrist_tz_physics="joint_removed_v1" if args.disable_wrist_tz else "enabled",
                 acceleration=dict(physics_graph=args.physics_graph, compile_learner=args.compile_learner,
                                   fused_optimizer=args.fused_optimizer, learner_graph=args.learner_graph,
-                                  optimizer_layout=args.optimizer_layout, eval_metrics_graph=args.eval_metrics_graph),
+                                  optimizer_layout=args.optimizer_layout, eval_metrics_graph=args.eval_metrics_graph,
+                                  learner_matmul_precision=args.learner_matmul_precision),
                 self_collision_weight=args.self_collision_weight,
                 collision_diagnostics=args.collision_diagnostics,
                 control_limits=control_limits,
@@ -384,16 +372,12 @@ def effective_config(args):
                 evaluation_selection=dict(
                     save_best=args.save_best, best_metric=args.best_f1_metric,
                     eval_at_start=args.eval_at_start,
-                    target_music_f1=args.target_music_f1,
-                    target_micro_f1=(args.target_micro_f1 if args.target_micro_f1 is not None else args.target_music_f1),
-                    **({'target_exact_micro_f1': args.target_exact_micro_f1}
-                       if args.target_exact_micro_f1 is not None else {}),
                     consecutive_evaluations=args.target_consecutive_evals,
                     max_preparation_wrong_frames=args.target_max_preparation_wrong_frames,
                     max_hand_collision_frames=args.target_max_hand_collision_frames,
                     max_key_underside_substeps=args.target_max_key_underside_substeps,
                     require_complete_episodes=True, require_full_collision_coverage=True,
-                    scope='Worst episode, excluding all preparation/buffer frames from music F1; empirical target, no convergence guarantee'),
+                    scope='Original per-control-frame evaluation; complete episodes required for best checkpoint'),
                 checkpoint_retention=dict(periodic_interval=args.save_interval, save_best=args.save_best,
                     forward_vector_step=args.eval_interval if args.save_forward else None, final=True),
                 reward_config=reward,
@@ -478,14 +462,18 @@ def warmup_action_count(args, step):
 
 
 @torch.no_grad()
-def training_action(agent, scene, obs, args, step, generator):
-    count = warmup_action_count(args, step)
+def training_action(agent, scene, obs, args, step, generator, *, row_offset=0):
+    """Generate one collector slice while retaining the global warmup budget."""
+    total_warmup = (args.warmup_transitions if args.warmup_transitions is not None
+                    else args.warmup_vector_steps * args.num_envs)
+    global_start = (step - 1) * args.num_envs + row_offset
+    count = min(scene.num_envs, max(0, total_warmup - global_start))
     if not count:
         return agent.act(obs)
     random_action = scene.action_low + torch.rand(
         (count, scene.action_low.numel()), device=obs.device, generator=generator
     ) * (scene.action_high - scene.action_low)
-    if count == args.num_envs:
+    if count == scene.num_envs:
         return random_action
     return torch.cat((random_action, agent.act(obs[count:])), dim=0)
 
@@ -499,10 +487,10 @@ class MotionMetrics:
         names = scene.bundle.manifest['action_names']
         active = list(zip(scene.bundle.active_action_indices, scene.bundle.action_ids))
         selectors = (
-            ('wrist_tx', lambda name: name.endswith('_Wrist_TX'), 'm_s', 'm'),
-            ('wrist_ty', lambda name: name.endswith('_Wrist_TY'), 'm_s', 'm'),
-            ('finger', lambda name: '_Wrist_' not in name, 'rad_s', 'rad'),
-            ('wrist_pitch', lambda name: name.endswith('_Wrist_Pitch'), 'rad_s', 'rad'),
+            ('wrist_tx', lambda name: name.endswith('_Palm_Base_Tx'), 'm_s', 'm'),
+            ('wrist_ty', lambda name: name.endswith('_Palm_Base_Ty'), 'm_s', 'm'),
+            ('finger', lambda name: '_Palm_Base_' not in name, 'rad_s', 'rad'),
+            ('wrist_pitch', lambda name: name.endswith('_Palm_Base_Pitch'), 'rad_s', 'rad'),
         )
         for label, select, speed_unit, target_unit in selectors:
             actuator_ids = [int(act) for full, act in active if select(names[full])]
@@ -625,6 +613,7 @@ def evaluate(agent, env, episodes=1, *, metrics_graph=False):
     from .note_timing_metrics import NoteTimingMetrics
     rows = []
     total_counts = torch.zeros(3, device=agent.device, dtype=torch.int64)
+    arm_tracking_metrics = ArmTrackingMetrics()
     motion = MotionMetrics(env.scene) if hasattr(env, 'scene') else None
     preparation_steps = getattr(env, 'preparation_steps', 0)
     manifest = getattr(getattr(env, 'bundle', None), 'manifest', {})
@@ -755,6 +744,9 @@ def evaluate(agent, env, episodes=1, *, metrics_graph=False):
             transition = env.step(agent.act(obs, deterministic=True))
             obs = transition.observation
             info = transition.info
+            # Count only requested episodes in a partially filled final batch;
+            # these diagnostics remain outside optional metric graph capture.
+            arm_tracking_metrics.sample(info, active_worlds=batch_episodes)
             if metrics_graph:
                 if statistic_graph is None:
                     from .evaluation_graph import EvaluationMetricGraph
@@ -877,6 +869,7 @@ def evaluate(agent, env, episodes=1, *, metrics_graph=False):
                   collision_substep_coverage=(min(row['collision_substep_coverage'] for row in rows)
                       if all(row['collision_substep_coverage'] is not None for row in rows) else None))
     result.update(control_limits_enabled=bool(controls), control_limited_channel_count=controlled_channel_count)
+    result['arm_tracking'] = arm_tracking_metrics.result()
     result.update(substep_key_diagnostics_coverage=min(row['substep_key_diagnostics_coverage'] for row in rows),
                   substep_key_diagnostics_valid=all(row['substep_key_diagnostics_valid'] for row in rows),
                   substep_key_coverage=(min(row['substep_key_coverage'] for row in rows)
@@ -953,6 +946,47 @@ def evaluate(agent, env, episodes=1, *, metrics_graph=False):
                       finger_coupling_diagnostics_scope=(
                           'control_cycle_endpoints; active means assigned by current score, '
                           'not measured physical contact; not physics-substep angle coverage'))
+
+    # The active training contract reports the original per-control-frame
+    # precision/recall/F1 only.  Music-only, physical-substep and exact-clock
+    # scores were auxiliary analyses and are intentionally omitted from new
+    # evaluation records.  Keep the same replay's raw key/MIDI diagnostics for
+    # the video export path; this filter only affects training metrics.
+    def _is_removed_evaluation_key(key):
+        return (key.startswith(('music_only_', 'exact_original_music_', 'note_timing_'))
+                or 'substep_key_micro_f1' in key
+                or key.startswith(('music_true_positive_count', 'music_false_positive_count',
+                                   'music_false_negative_count')))
+    for row in result.get('episode_statistics', ()):
+        for key in tuple(row):
+            if _is_removed_evaluation_key(key):
+                row.pop(key, None)
+    for key in tuple(result):
+        if _is_removed_evaluation_key(key):
+            result.pop(key, None)
+    return result
+
+
+def score_timing_contract(env):
+    """Describe the actual key formula and clock saved with every checkpoint."""
+    result = dict(
+        reward_contract=env.reward_config['contract'],
+        reward_target=('original_midi_physical_substeps' if env.note_timing_contract is not None
+                       else 'control_grid_per_physical_substep'),
+        reward_state='post_physics_substep_mean',
+        key_correct_signal='continuous_gaussian_key_travel',
+        key_wrong_signal='physical_key_activation_count',
+        fingering_reward='exact_substep_gaussian_distance_mean',
+        fingering_state='post_integration_sites_and_key_geometry',
+        current_targets='exact_control_start', future_targets='separate_next_onset_per_finger',
+        other_rewards='unchanged_per_term_sampling_contract',
+        score_validation=env.bundle.manifest.get('score_validation', 'legacy'),
+        control_dt=env.bundle.manifest['control_dt'],
+        physics_dt=env.bundle.manifest['physics_dt'],
+        music_end_step=env.bundle.music_end_step,
+        release_tail_steps=env.bundle.release_tail_steps)
+    if env.note_timing_contract is not None:
+        result['exact_events'] = dict(env.note_timing_contract)
     return result
 
 
@@ -973,9 +1007,10 @@ def run(args):
     print('当前关节状态限位：' + str((config.get('control_limits') or {}).get(
         'joint_state_limits', '历史软限位')), flush=True)
     layout = config['execution_layout']
-    collector_device = torch.device(layout['collector_device'])
+    collector_devices = [torch.device(value) for value in layout.get('collector_devices', [layout['collector_device']])]
+    collector_device = collector_devices[0]
     learner_device = torch.device(layout['learner_device'])
-    for device in (collector_device, learner_device):
+    for device in (*collector_devices, learner_device):
         if device.index >= torch.cuda.device_count():
             raise RuntimeError(f'Requested {device}, but only {torch.cuda.device_count()} CUDA devices are visible')
     # CUDA graph construction and native kernels may consult the current device.
@@ -1004,15 +1039,18 @@ def run(args):
         optimizer_implementation=('torch_header_adam_math_layout_v1' if args.optimizer_layout else
                                   'torch_adam'),
         ninja=importlib.metadata.version('ninja') if args.optimizer_layout else None,
-        fp32_matmul='ieee', tf32=False, mixed_precision=False)
+        fp32_matmul='ieee', tf32=False, mixed_precision=False,
+        learner_fp32_matmul=args.learner_matmul_precision, collector_fp32_matmul='ieee',
+        evaluation_fp32_matmul='ieee', precision_scope='learner_graph_capture_only')
     metadata['execution_environment']['devices'] = {
         str(device): dict(name=torch.cuda.get_device_name(device),
                           capability=list(torch.cuda.get_device_capability(device)))
-        for device in (collector_device, learner_device)}
+        for device in (*collector_devices, learner_device)}
     metadata['execution_environment']['peer_access'] = (
-        dict(collector_to_learner=torch.cuda.can_device_access_peer(collector_device, learner_device),
-             learner_to_collector=torch.cuda.can_device_access_peer(learner_device, collector_device))
-        if collector_device != learner_device else None)
+        {str(device): dict(collector_to_learner=torch.cuda.can_device_access_peer(device, learner_device),
+                           learner_to_collector=torch.cuda.can_device_access_peer(learner_device, device))
+         for device in collector_devices if device != learner_device}
+        if any(device != learner_device for device in collector_devices) else None)
     if args.source_config:
         metadata['source_runtime'] = json.loads(args.source_config.read_text())
         if metadata['source_runtime'].get('preparation') != config['preparation']:
@@ -1026,15 +1064,38 @@ def run(args):
         print(f'Initializing GPU training: {output}\n'
               'The first physics step and learner update may take longer to compile.',
               file=sys.stderr, flush=True)
-    env = PianoTaskEnv(args.scene, args.task, num_envs=args.num_envs, device=args.device,
-                       arm_follow=config['arm_follow'],
-                       preparation=config['preparation'],
-                       finger_coupling=config['finger_coupling'],
-                       collision_diagnostics=args.collision_diagnostics,
-                       control_limits=config['control_limits'],
-                       finger_clearance=config['finger_clearance'],
-                       max_episode_steps=args.max_episode_steps, physics_graph=args.physics_graph,
-                       reward_config=config['reward_config'], action_profile=args.action_profile, disable_wrist_tz=args.disable_wrist_tz, disable_wrist_yaw=args.disable_wrist_yaw, self_collision_detection_only=args.self_collision_detection_only, hand_collision_detection_only=args.hand_collision_detection_only)
+    collector_count = len(collector_devices)
+    # Keep the global transition budget unchanged while giving each collector
+    # a disjoint, deterministic world slice.  The first slices receive one
+    # extra world when the total is not divisible by the collector count.
+    base, remainder = divmod(args.num_envs, collector_count)
+    collector_num_envs = [base + int(index < remainder) for index in range(collector_count)]
+    if any(count < 1 for count in collector_num_envs):
+        raise ValueError('num_envs must be at least the number of collector devices')
+    collector_offsets = []
+    offset = 0
+    for count in collector_num_envs:
+        collector_offsets.append(offset)
+        offset += count
+    env_kwargs = dict(arm_follow=config['arm_follow'],
+                      preparation=config['preparation'],
+                      finger_coupling=config['finger_coupling'],
+                      collision_diagnostics=args.collision_diagnostics,
+                      control_limits=config['control_limits'],
+                      finger_clearance=config['finger_clearance'],
+                      max_episode_steps=args.max_episode_steps, physics_graph=args.physics_graph,
+                      reward_config=config['reward_config'], action_profile=args.action_profile,
+                      disable_wrist_tz=args.disable_wrist_tz, disable_wrist_yaw=args.disable_wrist_yaw,
+                      self_collision_detection_only=args.self_collision_detection_only,
+                      hand_collision_detection_only=args.hand_collision_detection_only)
+    collector_envs = []
+    for device, count in zip(collector_devices, collector_num_envs):
+        torch.cuda.set_device(device)
+        collector_envs.append(PianoTaskEnv(args.scene, args.task, num_envs=count,
+                                           device=str(device), **env_kwargs))
+    # ``env`` remains the canonical shape/contract representative for learner,
+    # evaluation and metadata; all collector slices have the same dimensions.
+    env = collector_envs[0]
     resolve_replay_prefill(args, config, env.logic.length)
     metadata.update(config)
     if args.replay_prefill_episodes:
@@ -1048,14 +1109,7 @@ def run(args):
     metadata['coupling_observation_contract'] = env.coupling_observation_contract
     metadata['arm_follow_contract'] = (env.scene.arm_follower.contract if env.scene.arm_follower is not None else None)
     metadata['action_contract'] = env.scene.action_contract
-    metadata['score_timing_contract'] = dict(
-        reward_target='original_midi_physical_substeps', reward_state='post_physics_substep_mean',
-        key_activation_weight=0.5, other_rewards='shadow_control_frame_before_action_endpoint',
-        score_validation=env.bundle.manifest.get('score_validation', 'legacy'),
-        music_end_step=env.bundle.music_end_step,
-        release_tail_steps=env.bundle.release_tail_steps)
-    if env.note_timing_contract is not None:
-        metadata['score_timing_contract']['exact_events'] = env.note_timing_contract
+    metadata['score_timing_contract'] = score_timing_contract(env)
     score_coverage = args.task/'score_coverage.json'
     if score_coverage.is_file():
         shutil.copyfile(score_coverage, output/'score_coverage.json')
@@ -1067,6 +1121,9 @@ def run(args):
     agent = SAC(env.observation_size, env.action_size, SACConfig(**config['sac']), device=str(learner_device), seed=args.seed,
                 compile_learner=args.compile_learner, fused_optimizer=args.fused_optimizer, action_profile=args.action_profile)
     exploration = torch.Generator(device=env.device).manual_seed(args.seed + 3)
+    exploration_generators = [exploration]
+    for index, device in enumerate(collector_devices[1:], 1):
+        exploration_generators.append(torch.Generator(device=device).manual_seed(args.seed + 3 + index))
     parent_checkpoint = args.warm_start or args.stage2_from or args.finetune_from
     if parent_checkpoint:
         networks_only = bool(args.stage2_from or args.finetune_from)
@@ -1094,11 +1151,12 @@ def run(args):
                                   original_metadata=previous)
     replay = Replay(env.observation_size, env.action_size, config['replay_capacity'], args.batch_size,
                     device=str(learner_device), seed=args.seed + 4, action_profile=args.action_profile)
-    collector = (CollectorPolicy(agent, collector_device)
-                 if collector_device != learner_device else agent)
+    collectors = [(CollectorPolicy(agent, device) if device != learner_device else agent)
+                  for device in collector_devices]
+    collector = collectors[0]
     # Independent simulation: deterministic evaluation cannot reset the training worlds.
     torch.cuda.set_device(collector_device)
-    eval_env = PianoTaskEnv(args.scene, args.task, device=args.device,
+    eval_env = PianoTaskEnv(args.scene, args.task, device=str(collector_device),
                            arm_follow=config['arm_follow'],
                            num_envs=config['evaluation_execution']['num_envs'],
                            preparation=config['preparation'],
@@ -1109,6 +1167,8 @@ def run(args):
                            max_episode_steps=args.max_episode_steps, physics_graph=args.physics_graph,
                            reward_config=config['reward_config'], action_profile=args.action_profile, disable_wrist_tz=args.disable_wrist_tz, disable_wrist_yaw=args.disable_wrist_yaw, self_collision_detection_only=args.self_collision_detection_only, hand_collision_detection_only=args.hand_collision_detection_only) if args.eval_interval or args.eval_at_start else None
     metadata.update(observation_size=env.observation_size, action_size=env.action_size,
+                    collector_num_envs=collector_num_envs,
+                    collector_offsets=collector_offsets,
                     policy_action_names=[env.scene.bundle.manifest["action_names"][i] for i in env.scene.policy_ids.cpu().tolist()],
                     reset_contract=dict(
                         mode='explicit_partial_after_terminal_transition_v1',
@@ -1123,8 +1183,11 @@ def run(args):
                     target_entropy=agent.target_entropy, replay_bytes=replay.bytes_allocated,
                     device=torch.cuda.get_device_name(env.device))
     (output/'config.json').write_text(json.dumps(metadata, indent=2)+'\n')
-    obs = env.reset()
-    torch.cuda.synchronize(collector_device)
+    obs = []
+    for local_env, device in zip(collector_envs, collector_devices):
+        with torch.cuda.device(device):
+            obs.append(local_env.reset())
+            torch.cuda.synchronize(device)
     torch.cuda.set_device(learner_device)
     completed = truncated = 0
     initial_updates = agent.updates
@@ -1138,7 +1201,30 @@ def run(args):
     evaluation_seconds_total = 0.
     evaluation_count = 0
     checkpoint_seconds_total = 0.
-    torch.cuda.synchronize(env.device)
+    arm_tracking_metrics = [ArmTrackingMetrics() for _ in collector_envs]
+    def arm_tracking_result():
+        rows = [metric.result() for metric in arm_tracking_metrics]
+        rows = [row for row in rows if row is not None]
+        if not rows:
+            return None
+        if len(rows) == 1:
+            return rows[0]
+        sampled = sum(row['sampled_substeps'] for row in rows)
+        over = sum(row['over_1mm_substeps'] for row in rows)
+        events = sum(row['over_1mm_entry_events'] for row in rows)
+        controls = sum(row['over_1mm_control_steps'] for row in rows)
+        return dict(
+            requested_peak_m=max(row['requested_peak_m'] for row in rows),
+            ik_target_peak_m=max(row['ik_target_peak_m'] for row in rows),
+            over_1mm_substeps=over, sampled_substeps=sampled,
+            within_1mm_substep_fraction=1 - over / sampled if sampled else None,
+            over_1mm_entry_events=events, over_1mm_control_steps=controls,
+            sampled_control_steps=sum(row['sampled_control_steps'] for row in rows),
+            over_1mm_side_substeps={side: sum(row['over_1mm_side_substeps'][side] for row in rows)
+                                    for side in ('right', 'left')},
+            scope='all_collected_world_control_steps; substep counts are world-times with either hand over 1mm')
+    for device in collector_devices:
+        torch.cuda.synchronize(device)
     loop_start = time.perf_counter()
     pipeline = None
     collector_version = agent.updates
@@ -1164,42 +1250,67 @@ def run(args):
             nonlocal checkpoint_seconds_total
             drain()
             save_started = time.perf_counter()
-            if collector is not agent:
-                collector.copy_action_rng_to(agent)
+            if collectors[0] is not agent:
+                collectors[0].copy_action_rng_to(agent)
             checkpoint.save(path, agent, snapshot_metadata(), exploration)
             checkpoint_seconds_total += time.perf_counter() - save_started
         def sync_collector():
             nonlocal collector_version
-            collector_version = (collector.sync_from(agent) if collector is not agent else agent.updates)
+            versions = [(actor.sync_from(agent) if actor is not agent else agent.updates)
+                        for actor in collectors]
+            collector_version = versions[0] if len(versions) == 1 else tuple(versions)
             return collector_version
-        def collect_vector(vector_step, version):
+        def collect_vector(vector_step, version, collector_index=0):
             # PyTorch CUDA current devices/streams are thread-local. The worker
             # never touches the learner, replay or output streams.
-            with torch.cuda.device(collector_device):
-                action = training_action(collector, env.scene, obs, args, vector_step, exploration)
-                result = env.step(action)
-                if collector is not agent:
-                    torch.cuda.synchronize(collector_device)
-                return obs, action, result, version
+            local_env = collector_envs[collector_index]
+            local_actor = collectors[collector_index]
+            device = collector_devices[collector_index]
+            with torch.cuda.device(device):
+                local_obs = obs[collector_index]
+                action = training_action(local_actor, local_env.scene, local_obs, args, vector_step,
+                                         exploration_generators[collector_index],
+                                         row_offset=collector_offsets[collector_index])
+                result = local_env.step(action)
+                if local_actor is not agent:
+                    torch.cuda.synchronize(device)
+                return local_obs, action, result, version
         def commit_vector(batch):
             nonlocal obs, completed, truncated
-            previous_obs, action, result, _ = batch
-            # A pipeline invokes this only after the previous update block is
-            # complete. Copy terminal observations before resetting any world.
-            replay.insert(Transition(previous_obs, action, result.reward, result.discount, result.observation,
-                                     result.terminated, result.truncated))
-            obs = result.observation
-            with torch.cuda.device(collector_device):
-                ids = result.done.nonzero(as_tuple=False).flatten()
-                if ids.numel():
-                    completed += int(result.terminated.sum().item())
-                    truncated += int(result.truncated.sum().item())
-                    emit(dict(episodes=dict(count=ids.numel(), mean_return=result.info['episode_return'][ids].mean().item(),
-                                            mean_f1=result.info['episode_metrics'][ids, 2].mean().item())))
-                    obs = env.reset(ids)
-                if collector is not agent:
-                    # Reset writes must be visible before next worker launch.
-                    torch.cuda.synchronize(collector_device)
+            batches = batch if len(collector_envs) > 1 else [batch]
+            transitions = []
+            episode_rows = []
+            for index, local_batch in enumerate(batches):
+                previous_obs, action, result, _ = local_batch
+                arm_tracking_metrics[index].sample(result.info)
+                # A pipeline invokes this only after the previous update block
+                # is complete. Copy terminal observations before each reset.
+                transitions.append(Transition(previous_obs, action, result.reward, result.discount,
+                                              result.observation, result.terminated, result.truncated))
+                obs[index] = result.observation
+                with torch.cuda.device(collector_devices[index]):
+                    ids = result.done.nonzero(as_tuple=False).flatten()
+                    if ids.numel():
+                        completed += int(result.terminated.sum().item())
+                        truncated += int(result.truncated.sum().item())
+                        episode_rows.append((int(ids.numel()),
+                                             result.info['episode_return'][ids].sum().item(),
+                                             result.info['episode_metrics'][ids, 2].sum().item()))
+                        obs[index] = collector_envs[index].reset(ids)
+                    if collectors[index] is not agent:
+                        # Reset writes must be visible before next worker launch.
+                        torch.cuda.synchronize(collector_devices[index])
+            if episode_rows:
+                count = sum(row[0] for row in episode_rows)
+                emit(dict(episodes=dict(count=count,
+                                        mean_return=sum(row[1] for row in episode_rows)/count,
+                                        mean_f1=sum(row[2] for row in episode_rows)/count)))
+            # Copy each collector's transition to the learner device before
+            # concatenating. Fixed order keeps replay insertion deterministic.
+            fields = [torch.cat([transition[field].to(learner_device)
+                                 for transition in transitions], dim=0)
+                      for field in range(len(transitions[0]))]
+            replay.insert(Transition(*fields))
         def learn_vector(vector_step):
             nonlocal learner_graph, learner_graph_setup_s, metrics
             update_count = updates_this_step(args, vector_step)
@@ -1210,16 +1321,26 @@ def run(args):
                     if learner_graph is None:
                         from .learner_graph import CUDALearner
                         graph_start = time.perf_counter()
-                        learner_graph = CUDALearner(agent, replay, optimizer_layout=args.optimizer_layout)
+                        learner_graph = CUDALearner(
+                            agent, replay, optimizer_layout=args.optimizer_layout,
+                            matmul_precision=args.learner_matmul_precision)
+                        assert not torch.backends.cuda.matmul.allow_tf32
                         learner_graph_setup_s = time.perf_counter() - graph_start
                     metrics = learner_graph.update(update_count)
                 else:
                     for _ in range(update_count):
                         metrics = agent.update(replay.sample())
         if args.collector_pipeline:
-            pipeline = runtime.enter_context(OneBatchPipeline(
-                snapshot=sync_collector, collect=collect_vector, update=learn_vector, commit=commit_vector,
-                learner_version=lambda: agent.updates))
+            if len(collector_envs) > 1:
+                pipeline = runtime.enter_context(MultiBatchPipeline(
+                    collector_count=len(collector_envs),
+                    collector_devices=[str(device) for device in collector_devices],
+                    snapshot=sync_collector, collect=collect_vector, update=learn_vector,
+                    commit=commit_vector, learner_version=lambda: agent.updates))
+            else:
+                pipeline = runtime.enter_context(OneBatchPipeline(
+                    snapshot=sync_collector, collect=collect_vector, update=learn_vector, commit=commit_vector,
+                    learner_version=lambda: agent.updates))
         def run_evaluation(*, baseline=False):
             nonlocal latest_f1, last_evaluation, last_evaluation_step
             nonlocal evaluation_seconds_total, evaluation_count
@@ -1232,7 +1353,7 @@ def run(args):
             evaluation_seconds = time.perf_counter() - evaluation_started
             evaluation_seconds_total += evaluation_seconds
             evaluation_count += 1
-            latest_f1 = evaluation['music_only_f1_min']
+            latest_f1 = evaluation['f1']
             last_evaluation, last_evaluation_step = evaluation, step
             decision = selection.observe(evaluation, vector_step=step, updates=agent.updates,
                                          count_for_target=not baseline)
@@ -1262,17 +1383,29 @@ def run(args):
                 batch = collect_vector(step, sync_collector())
                 commit_vector(batch)
                 learn_vector(step)
-            result = batch[2]
+            result_batches = batch if len(collector_envs) > 1 else [batch]
+            results = [local_batch[2] for local_batch in result_batches]
+            result = results[0]
             if (step == args.vector_steps
                     or (args.eval_interval and step % args.eval_interval == 0)
                     or (args.save_interval and step % args.save_interval == 0)):
                 drain()
             if step % args.log_interval == 0:
-                torch.cuda.synchronize(env.device)
+                for device in collector_devices:
+                    torch.cuda.synchronize(device)
+                def term_info(field):
+                    names = sorted({name for result in results for name in result.info.get(field, {})})
+                    output_terms = {}
+                    for name in names:
+                        values = [result.info[field][name].to(learner_device).reshape(-1)
+                                  for result in results if name in result.info.get(field, {})]
+                        output_terms[name] = torch.cat(values).mean().item()
+                    return output_terms
                 emit(dict(train={k: v.item() for k, v in metrics.items()}, replay_size=len(replay),
-                          reward_terms={k: v.mean().item() for k, v in result.info['reward_terms'].items()},
-                          reward_raw_terms={k: v.mean().item() for k, v in result.info.get('reward_raw_terms',{}).items()},
-                          reward_weighted_terms={k: v.mean().item() for k, v in result.info.get('reward_weighted_terms',{}).items()},
+                          reward_terms=term_info('reward_terms'),
+                          reward_raw_terms=term_info('reward_raw_terms'),
+                          reward_weighted_terms=term_info('reward_weighted_terms'),
+                          arm_tracking=arm_tracking_result(),
                           loop_transitions_per_second=step * args.num_envs / (time.perf_counter() - loop_start)))
             if eval_env is not None and args.eval_interval and step % args.eval_interval == 0:
                 progress.set_description_str('Evaluating')
@@ -1295,7 +1428,8 @@ def run(args):
             progress.set_postfix(vstep=f'{step}/{args.vector_steps}', updates=agent.updates,
                                  replay=len(replay), music_F1_min=latest_f1)
         save_checkpoint(output/'final.pt')
-    torch.cuda.synchronize(env.device)
+    for device in collector_devices:
+        torch.cuda.synchronize(device)
     torch.cuda.synchronize(learner_device)
     summary = dict(status='completed', vector_steps=step, transitions=step * args.num_envs,
                    stop_reason='quality_target_reached' if target_reached else 'requested_budget_exhausted',
@@ -1306,6 +1440,7 @@ def run(args):
                    random_action_transitions=min(config['warmup_transitions'], step * args.num_envs),
                    replay_prefill=config['replay_prefill'],
                    completed_episodes=completed, truncated_episodes=truncated, replay_size=len(replay),
+                   arm_tracking=arm_tracking_result(),
                    replay_insertions=replay.total_inserted, replay_bytes=replay.bytes_allocated,
                    elapsed_s=time.perf_counter() - started,
                    learner_graph_setup_s=learner_graph_setup_s,
@@ -1319,7 +1454,7 @@ def run(args):
                    collector_pipeline_state=pipeline.state() if pipeline else None,
                    torch_peak_allocated_bytes_by_device={
                        str(device): torch.cuda.max_memory_allocated(device)
-                       for device in (collector_device, learner_device)},
+                       for device in (*collector_devices, learner_device)},
                    torch_peak_allocated_bytes=torch.cuda.max_memory_allocated(env.device),
                    note='Torch memory excludes some Warp allocations; short runs do not demonstrate learning quality',
                    output_dir=str(output.resolve()))

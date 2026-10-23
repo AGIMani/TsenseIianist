@@ -8,3 +8,10 @@
 *.stp filter=lfs diff=lfs merge=lfs -text
 *.STP filter=lfs diff=lfs merge=lfs -text
 logs/mount_alignment_20261013/source_mount_aligned.tar.gz filter=lfs diff=lfs merge=lfs -text
+logs/training_consistency_20261015/source_training_consistent.tar.gz filter=lfs diff=lfs merge=lfs -text
+logs/model_replace_20261020/source_supplied_hand_v6.tar.gz filter=lfs diff=lfs merge=lfs -text
+logs/exact_fingering_20261022/source_exact_fingering_v1.tar.gz filter=lfs diff=lfs merge=lfs -text
+deprecated/reward_modes/fingering_endpoint_20261022/source_cad_part_collision_v1.tar.gz filter=lfs diff=lfs merge=lfs -text
+logs/control_ranges_20261022/source_exact_fingering_ranges_v1.tar.gz filter=lfs diff=lfs merge=lfs -text
+logs/black_key_model_20261023/source_black_key_shape_v1.tar.gz filter=lfs diff=lfs merge=lfs -text
+deprecated/reward_modes/key_activation_0p5deg_20261022/source_pitch_range_v1.tar.gz filter=lfs diff=lfs merge=lfs -text

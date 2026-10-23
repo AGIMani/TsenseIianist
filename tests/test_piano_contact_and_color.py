@@ -11,23 +11,28 @@ def test_key_color_overlay_restores_and_preserves_physics():
         env.reset()
         m, d = env.physics.model.ptr, env.physics.data.ptr
         h = ActiveKeyHighlight(m)
-        scene = mujoco.MjvScene(m, maxgeom=100)
-        for k in (33, 54):
+        scene = mujoco.MjvScene(m, maxgeom=1000)
+        for k in (32, 33):
             d.qpos[h.qadr[k]] = h.maximum[k]
         mujoco.mj_forward(m, d)
         before, ctrl = d.qpos.copy(), d.ctrl.copy()
-        scene.ngeom = 0
+        mujoco.mjv_updateScene(m,d,mujoco.MjvOption(),None,mujoco.MjvCamera(),mujoco.mjtCatBit.mjCAT_ALL,scene)
+        original_count=scene.ngeom
         h.append(scene, d)
-        assert scene.ngeom == 2
-        for g in scene.geoms[:2]:
+        # The white box gains one shell; the black mesh is colored directly.
+        assert scene.ngeom == original_count+1
+        black_geom=h.geom_ids[33]
+        black_render=next(g for g in scene.geoms[:original_count] if g.objtype==mujoco.mjtObj.mjOBJ_GEOM and g.objid==black_geom)
+        assert black_render.type==mujoco.mjtGeom.mjGEOM_MESH
+        for g in (black_render,scene.geoms[original_count]):
             np.testing.assert_array_equal(g.rgba, GREEN)
         np.testing.assert_array_equal(d.qpos, before)
         np.testing.assert_array_equal(d.ctrl, ctrl)
         d.qpos[h.qadr] = 0
         mujoco.mj_forward(m, d)
-        scene.ngeom = 0
+        mujoco.mjv_updateScene(m,d,mujoco.MjvOption(),None,mujoco.MjvCamera(),mujoco.mjtCatBit.mjCAT_ALL,scene)
         h.append(scene, d)
-        assert scene.ngeom == 0
+        assert scene.ngeom == original_count
     finally:
         env.close()
 
@@ -42,7 +47,7 @@ def test_legacy_hard_stop_under_continued_downward_target():
     levers = np.array([2*m.geom_size[np.flatnonzero(m.geom_bodyid == m.jnt_bodyid[j])[0], 0]
                        for j in keyids])
     for side in ('R', 'L'):
-        wrist = m.actuator(side+'_Wrist_TZ').id
+        wrist = m.actuator(side+'_Palm_Base_Tz').id
         np.testing.assert_array_equal(m.actuator_ctrlrange[wrist], [-.025, 0])
         d.ctrl[wrist] = -.025
         d.ctrl[m.actuator(side+'_Mid_MCP').id] += .1

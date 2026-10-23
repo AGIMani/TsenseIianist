@@ -49,3 +49,15 @@ def test_checksum_failure_never_marks_complete(tmp_path, monkeypatch):
     with pytest.raises(RuntimeError, match='Checksum mismatch'):
         watch.transfer(submission, tmp_path, remote)
     assert not (tmp_path/'TRANSFER_COMPLETE').exists()
+
+
+def test_video_only_cannot_satisfy_interactive_requirement(tmp_path, monkeypatch):
+    submission, remote = setup_run(tmp_path, monkeypatch)
+    submission['export_requirements']={'interactive_replay':True}
+    folder=tmp_path/'video_best'
+    for name in ('midi_comparison/piano_roll_comparison.png','midi_comparison/key_comparison.npz','replay_data/audio_substeps.npz'):
+        p=folder/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(b'fixture')
+    (folder/'delivery_validation.json').write_text(json.dumps(dict(state='validated',checkpoint_sha256=watch.digest(tmp_path/'best.pt'))))
+    with pytest.raises(RuntimeError,match='Interactive replay'):
+        watch.transfer(submission,tmp_path,remote)
+    assert not (tmp_path/'TRANSFER_COMPLETE').exists()

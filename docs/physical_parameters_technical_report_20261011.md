@@ -1,22 +1,26 @@
-# TsenseI V3.2 钢琴演奏环境物理参数技术报告
+# TsenseI V3.2 钢琴演奏环境物理参数技术报告（历史记录）
 
-**报告日期：** 2026-10-11  
-**适用范围：** 当前工作区源码、`current_arm_training_20261011.json` 和项目内 M6/连接件资产  
+> 历史参数记录：本文保留2026-10-11报告及其后续补记的测量、参数和工作区状态，正文“当时”均指对应记录时点，不再作为现行默认值表。特别是腕部3kg armature、旧编译惯量/阻尼以及“入口不存在”的描述均为历史状态。当前源码/配置链接会随工作区更新，不能据此把本文旧数值视为新训练合同；现行修改与验证见 [2026-10-15训练一致性修复](training_consistency_20261015.md)，奖励见 [唯一奖励总表](reward_defaults_20261006.md)，固定归档以 [统一训练入口](../all_use_this_train.sh) 为准。
+
+**报告日期：** 2026-10-11
+
+**适用范围：** 当时工作区源码、`current_arm_training_20261011.json` 和项目内 M6/连接件资产
+
 **参数单位：** SI 制；角度为 rad，除非明确标注 degree
 
 ## 0. 参数口径和复现边界
 
 本报告把参数分为三类：
 
-1. **当前合同实际使用**：由当前预览/机械臂合同和源码路径共同确定。
-2. **源码默认或历史兼容值**：代码仍保留，但当前合同可能覆盖或移除。
+1. **当时合同实际使用**：由当时预览/机械臂合同和源码路径共同确定。
+2. **源码默认或历史兼容值**：代码仍保留，但当时合同可能覆盖或移除。
 3. **名义/未标定值**：存在于 URDF、CAD 或仿真适配配置中，但不能解释成硬件实测值。
 
-当前工作区没有根目录 `all_use_this_train.sh`，也没有 AGENTS 指定的固定训练归档目录。因此，正式训练回放仍必须以作业保存的 `config.json`、`scene/manifest.json`、源码归档和 SHA 为最终准据。本报告不把工作区参数称为某个已冻结训练作业的完整运行快照。
+本报告编写时记录的工作区没有根目录 `all_use_this_train.sh`，也没有 AGENTS 指定的固定训练归档目录；这不描述2026-10-15后的工作区。因此，正式训练回放仍必须以作业保存的 `config.json`、`scene/manifest.json`、源码归档和 SHA 为最终准据。本报告不把工作区参数称为某个已冻结训练作业的完整运行快照。
 
-主要当前合同文件：
+报告当时参考的合同文件：
 
-- [当前机械臂/预览合同](../configs/preview/current_arm_training_20261011.json)
+- [当时机械臂/预览合同](../configs/preview/current_arm_training_20261011.json)
 - [动作映射](../configs/actions/direct_joint_v1.json)
 - [手部左 URDF](../tsensei_v3_2_pianist/assets/urdf/TsenseI_left.urdf)
 - [手部右 URDF](../tsensei_v3_2_pianist/assets/urdf/TsenseI_right.urdf)
@@ -50,9 +54,9 @@ scene.xml
 
 实现路径：[source_runtime.py](../tsensei_v3_2_pianist/mjlab_env/source_runtime.py)、[bundle.py](../tsensei_v3_2_pianist/mjlab_env/bundle.py)、[scene.py](../tsensei_v3_2_pianist/mjlab_env/scene.py)、[arm_scene.py](../tsensei_v3_2_pianist/mjlab_env/arm_scene.py)。
 
-### 1.2 当前时间参数
+### 1.2 报告记录的时间参数
 
-| 参数 | 当前值 | 来源 |
+| 参数 | 当时值 | 来源 |
 |---|---:|---|
 | 策略控制频率 | 20 Hz | `current_arm_training_20261011.json` / `source_runtime.py` |
 | 控制周期 | 0.05 s | 同上 |
@@ -61,7 +65,7 @@ scene.xml
 | 每控制周期物理子步 | 10 | `control_dt / physics_dt` |
 | 积分器 | Euler | `contact_settings.json`, `physics_settings.py` |
 | `impratio` | 10.0 | 同上 |
-| 重力补偿 | 手部开启 | `base.py`, 当前合同 `gravity_compensation=true` |
+| 重力补偿 | 手部开启 | `base.py`, 当时合同 `gravity_compensation=true` |
 | MuJoCo 世界重力 | 源码未显式覆盖，使用 MuJoCo 默认值 | `base.py` / `physics_settings.py` |
 
 `contact_settings.json` 的基础元数据仍记录 40/400 Hz；20/200 Hz 导出时，钢琴 `solref[0]` 会根据实际物理步长重新设置。正式冻结场景应以其 `manifest.json` 为准。
@@ -90,7 +94,7 @@ scene.xml
 
 ### 2.2 手指关节和动作范围
 
-| 关节类别 | URDF 机械范围 | 当前策略物理目标范围 |
+| 关节类别 | URDF 机械范围 | 当时策略物理目标范围 |
 |---|---:|---:|
 | Thumb Rot | 0～2.09 rad | 0.05～1.57 rad |
 | Thumb Rot2 | 0～1.74 rad | 0.05～1.57 rad |
@@ -102,9 +106,9 @@ scene.xml
 
 动作策略范围和名称见 [direct_joint_v1.json](../configs/actions/direct_joint_v1.json)。URDF 原始 `effort=0`、`velocity=0` 是供应文件占位值，不是有效硬件限制。
 
-### 2.3 当前有效手指 PD
+### 2.3 当时有效手指 PD
 
-当前合同显式选择 `drive_profile=shadow_v1`，40 个手指关节统一使用：
+当时合同显式选择 `drive_profile=shadow_v1`，40 个手指关节统一使用：
 
 | 参数 | 数值 | 单位 | 来源 |
 |---|---:|---|---|
@@ -118,15 +122,15 @@ scene.xml
 
 ### 2.4 手腕虚拟自由度参数
 
-源码默认值位于 [tsensei_hand_constants.py](../tsensei_v3_2_pianist/models/hands/tsensei_hand_constants.py)。当前 `wrist_pitch_range_scale=0.8` 将 Pitch 的原始 ±0.2 rad 缩为 ±0.16 rad。
+源码默认值位于 [tsensei_hand_constants.py](../tsensei_v3_2_pianist/models/hands/tsensei_hand_constants.py)。当时 `wrist_pitch_range_scale=0.8` 将 Pitch 的原始 ±0.2 rad 缩为 ±0.16 rad。
 
-| 自由度 | 当前范围 | 当前 Kp | 当前阻尼 | armature | 力限 |
+| 自由度 | 当时范围 | 当时 Kp | 当时阻尼 | armature | 力限 |
 |---|---:|---:|---:|---:|---:|
 | TX | 右 −0.7605～0.4605 m；左 −0.4605～0.7605 m | 300 N/m | 61.68983524 N·s/m | 3 kg | ±50 N |
 | TY | −0.05～0.15 m | 300 N/m | 61.68983524 N·s/m | 3 kg | ±50 N |
 | Pitch | −0.16～0.16 rad | 8 N·m/rad | 0.5 N·m·s/rad | 0 | ±5 N·m |
-| TZ | −0.025～0 m | 1000 | 50 | 0 | ±50 N；当前结构移除 |
-| Yaw | −0.25～0.25 rad | 300 | 10 | 0 | ±5 N·m；当前结构移除 |
+| TZ | −0.025～0 m | 1000 | 50 | 0 | ±50 N；当时结构移除 |
+| Yaw | −0.25～0.25 rad | 300 | 10 | 0 | ±5 N·m；当时结构移除 |
 
 TX/TY 阻尼由编译后的 `dof_M0=3.17136314 kg` 计算：
 
@@ -134,11 +138,11 @@ TX/TY 阻尼由编译后的 `dof_M0=3.17136314 kg` 计算：
 damping = 2 × sqrt(Kp × dof_M0) = 61.68983524 N·s/m
 ```
 
-旧 `legacy_v1` 保留 TX/TY 阻尼 30、Pitch Kp/阻尼 50/3、Yaw Kp/阻尼 300/10、TX/TY armature=0、手指 frictionloss=0；当前合同不使用这些旧值。
+旧 `legacy_v1` 保留 TX/TY 阻尼 30、Pitch Kp/阻尼 50/3、Yaw Kp/阻尼 300/10、TX/TY armature=0、手指 frictionloss=0；当时合同不使用这些旧值。
 
 ### 2.5 手部安装和碰撞几何
 
-| 参数 | 当前值 |
+| 参数 | 当时值 |
 |---|---|
 | 右手根初始位置 | `[0.18, 0.15, 0.10] m` |
 | 左手根初始位置 | `[0.18, −0.15, 0.10] m` |
@@ -152,7 +156,7 @@ damping = 2 × sqrt(Kp × dof_M0) = 61.68983524 N·s/m
 
 逐 link 的 capsule `pos/quat/size/fromto` 见 [collision_proxies.json](../tsensei_v3_2_pianist/assets/collision_proxies.json)。这是工程碰撞近似，不是完整外壳包络或实测接触垫。
 
-2026-10-12 起，活动左右手 URDF 的 `left_hand_mid_PIP_link` / `right_hand_mid_PIP_link` 的 visual 与 URDF collision mesh 均引用对应侧的 `*_index_PIP_link.STL`；`mid_PIP` link 名、惯性、`mid_PIP_joint` 的父子关系、原点、轴和限位均保持不变。当前 `shadow_primitive_v1` 使用的独立 capsule 碰撞代理未随此视觉 mesh 替换自动改变，仍以 [collision_proxies.json](../tsensei_v3_2_pianist/assets/collision_proxies.json) 为准。
+2026-10-12 起，活动左右手 URDF 的 `left_hand_mid_PIP_link` / `right_hand_mid_PIP_link` 的 visual 与 URDF collision mesh 均引用对应侧的 `*_index_PIP_link.STL`；`mid_PIP` link 名、惯性、`mid_PIP_joint` 的父子关系、原点、轴和限位均保持不变。当时 `shadow_primitive_v1` 使用的独立 capsule 碰撞代理未随此视觉 mesh 替换自动改变，仍以 [collision_proxies.json](../tsensei_v3_2_pianist/assets/collision_proxies.json) 为准。
 
 ## 3. 钢琴物理参数
 
@@ -208,7 +212,7 @@ Link7 = 0.68606 kg
 
 每个连杆的 `com xyz` 和完整惯量张量均在 M6 URDF 中。
 
-**重要：这些不是当前动力学中的有效臂质量。** 有臂场景把 M6 link 作为 `mocap=true` 视觉链，机械臂 geometry 设置 `density=0`、`contype=0`、`conaffinity=0`，没有机械臂 torque actuator、动力学关节或反作用力。当前机械臂是运动学执行器。
+**重要：这些不是当时动力学中的有效臂质量。** 有臂场景把 M6 link 作为 `mocap=true` 视觉链，机械臂 geometry 设置 `density=0`、`contype=0`、`conaffinity=0`，没有机械臂 torque actuator、动力学关节或反作用力。当时机械臂是运动学执行器。
 
 ### 4.2 关节位置、速度、加速度和名义 effort
 
@@ -222,11 +226,11 @@ Link7 = 0.68606 kg
 | J6 | −1.0472～1.0472 rad | 18 N·m | π rad/s | 15.70796 rad/s² |
 | J7 | −1.5708～1.5708 rad | 18 N·m | π rad/s | 15.70796 rad/s² |
 
-SDK 原始单位是 degree/s、degree/s²；当前合同转换成 rad 制。名义 effort 只来自 URDF/SDK，当前 kinematic arm 不使用。
+SDK 原始单位是 degree/s、degree/s²；当时合同转换成 rad 制。名义 effort 只来自 URDF/SDK，当时 kinematic arm 不使用。
 
-### 4.3 当前初始角度和装配
+### 4.3 当时初始角度和装配
 
-当前初始角度：
+当时初始角度：
 
 ```text
 right = [-84.27055, -68.29417,  61.39675, -89.05803,
@@ -260,13 +264,13 @@ Link7 → 固定法兰 → 四孔连接件 → 手根
 
 无臂模式下 TX/TY/Pitch 使用 MuJoCo position actuator；参数见第 2.4 节。目标变化率限制属于外部 `TargetMotionLimiter`，不是 PD 参数。
 
-### 5.3 当前有臂控制链
+### 5.3 当时有臂控制链
 
-有臂使用当前 `controller=rigid_wrist_command`，实现位于 [arm_follow.py](../tsensei_v3_2_pianist/mjlab_env/arm_follow.py)：
+有臂使用当时 `controller=wuji_cartesian_v1`，实现位于 [arm_follow.py](../tsensei_v3_2_pianist/mjlab_env/arm_follow.py)：
 
-| 参数 | 当前值 |
+| 参数 | 当时值 |
 |---|---:|
-| 控制器 | `rigid_wrist_command` |
+| 控制器 | `wuji_cartesian_v1` |
 | IK | 阻尼最小二乘 |
 | IK 迭代 | 12 |
 | 姿态误差权重 | 0.15 m |
@@ -278,11 +282,11 @@ Link7 → 固定法兰 → 四孔连接件 → 手根
 | 满罚超限比例 | 0.10 |
 | 臂运动罚上限 | −5/控制步 |
 
-IK 数值误差使用位置误差和旋转向量误差；当前 IK 不是时间上的 PD 控制器。目标制动根据剩余目标距离、关节速度和加速度硬限计算可停速度，然后再执行 J6/J7 耦合线搜索。
+IK 数值误差使用位置误差和旋转向量误差；当时 IK 不是时间上的 PD 控制器。目标制动根据剩余目标距离、关节速度和加速度硬限计算可停速度，然后再执行 J6/J7 耦合线搜索。
 
 ### 5.4 腕目标限制
 
-来源：当前合同中的 `control_limits`。
+来源：当时合同中的 `control_limits`。
 
 | 策略通道 | 目标速度上限 | 目标加速度上限 |
 |---|---:|---:|
@@ -295,7 +299,7 @@ IK 数值误差使用位置误差和旋转向量误差；当前 IK 不是时间�
 
 来源：[physics_settings.py](../tsensei_v3_2_pianist/physics_settings.py)、[contact_settings.json](../tsensei_v3_2_pianist/assets/contact_settings.json)、[self_collision.py](../tsensei_v3_2_pianist/mjlab_env/self_collision.py)、[arm_scene.py](../tsensei_v3_2_pianist/mjlab_env/arm_scene.py)。
 
-### 6.1 当前接触参数
+### 6.1 当时接触参数
 
 手：
 
@@ -334,9 +338,9 @@ solimp = [0.7, 0.97, 0.00055, 0.5, 2.0]
 - 钢琴键之间通过 piano 默认 `contype=0` 禁止相互碰撞。
 - 手—键接触保留。
 - 手内部非相邻自碰撞保留。
-- 当前刚性臂转换会自动恢复原 hand-only 模型中因 weld 变化丢失的父子过滤关系，当前合同记录为 `parent_collision_filter`。
+- 当时刚性臂转换会自动恢复原 hand-only 模型中因 weld 变化丢失的父子过滤关系，当时合同记录为 `parent_collision_filter`。
 - 有臂场景的双手根/掌部跨手接触通过显式 geom pair 进行检测，但不产生机械臂动力学反作用。
-- 机械臂 mesh 与连接件 mesh 当前是视觉/运动学几何，不作为动力学碰撞体。
+- 机械臂 mesh 与连接件 mesh 当时是视觉/运动学几何，不作为动力学碰撞体。
 
 ## 7. 未标定、未生效或不能过度解释的参数
 
@@ -356,10 +360,10 @@ solimp = [0.7, 0.97, 0.00055, 0.5, 2.0]
 
 ### 7.3 机械臂和连接件
 
-- M6 URDF 质量/惯量是名义资产参数，但当前 arm dynamics 不使用。
-- 当前没有臂 torque dynamics、控制器闭环参数、负载折减或真实伺服响应。
+- M6 URDF 质量/惯量是名义资产参数，但当时 arm dynamics 不使用。
+- 当时没有臂 torque dynamics、控制器闭环参数、负载折减或真实伺服响应。
 - 法兰钟向、螺纹配合、连接件质量/惯量、实机零位和编码器映射未完成硬件复核。
-- 当前臂可达性和目标制动验收不能解释成硬件安全验收。
+- 当时臂可达性和目标制动验收不能解释成硬件安全验收。
 
 ### 7.4 复现要求
 
@@ -369,8 +373,8 @@ solimp = [0.7, 0.97, 0.00055, 0.5, 2.0]
 2. 对应 `scene/manifest.json`；
 3. 固定源码归档及 SHA；
 4. 手模型、碰撞 profile、驱动 profile；
-5. 当前 `controller=rigid_wrist_command`、双侧七角、连接件合同；
+5. 当时 `controller=wuji_cartesian_v1`、双侧七角、连接件合同；
 6. physics/control timestep 和 contact 参数。
 
-活动设计变化后直接重新训练；`deprecated/` 中的历史 checkpoint 不进入当前流程。
+活动设计变化后直接重新训练；`deprecated/` 中的历史 checkpoint 不进入当时流程。
 

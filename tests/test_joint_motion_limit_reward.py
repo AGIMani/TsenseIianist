@@ -25,7 +25,7 @@ class JointMotionLimitRewardTest(unittest.TestCase):
         scene = scene_fixture()
         scene['control_dt'] = dt
         scene['neutral_action'][:50] = [neutral] * 50
-        manager = RewardManager(cfg, scene, {}, num_envs=count, device='cpu')
+        manager = RewardManager(cfg, scene, {'finger_tolerance':.01}, num_envs=count, device='cpu')
         action = torch.tensor(scene['neutral_action']).expand(count, -1).clone()
         return manager, action
 
@@ -74,7 +74,7 @@ class JointMotionLimitRewardTest(unittest.TestCase):
 
     def test_every_finger_including_coupled_pip_dip_followers_is_scored(self):
         names = scene_fixture()['action_names']
-        finger_names = [name for name in names if name != 'sustain' and '_Wrist_' not in name]
+        finger_names = [name for name in names if name != 'sustain' and '_Palm_Base_' not in name]
         self.assertEqual(len(finger_names), 40)
         self.assertIn('R_Index_PIP', finger_names)
         self.assertIn('L_Pinky_DIP', finger_names)
@@ -91,7 +91,7 @@ class JointMotionLimitRewardTest(unittest.TestCase):
             for axis in ('Pitch', 'Yaw'):
                 with self.subTest(side=side, axis=axis):
                     manager, action = self.fixture(2, cfg=cfg)
-                    wrist = names.index(f'{side}_Wrist_{axis}')
+                    wrist = names.index(f'{side}_Palm_Base_{axis}')
                     # Identical physical speeds: wrist is 10% over its own
                     # limit while a finger remains below the finger limit.
                     delta = 3.3 * .05
@@ -190,13 +190,14 @@ class JointMotionLimitRewardTest(unittest.TestCase):
     def test_reordering_terms_does_not_change_fingering_assignments(self):
         cfg = self.config()
         cfg['terms']['fingering_reward']['enabled'] = True
-        cfg['terms']['fingering_reward']['params']['mode'] = 'paper'
+        cfg['terms']['fingering_reward']['params'] = {}
         cfg['terms'] = {TERM: cfg['terms'][TERM], **cfg['terms']}
         manager, action = self.fixture(cfg=cfg)
         fingers = torch.zeros(1, 10, 88)
         fingers[:, 0, 0] = 1.
-        values = manager({}, action, dict(fingertips=torch.zeros(1, 10, 3),
-                         key_targets=torch.zeros(1, 88, 3)), torch.zeros(1, 89), fingers)
+        values = manager({}, action, dict(fingertip_history=torch.zeros(1,10,10,3),
+                         key_target_history=torch.zeros(1,10,88,3),
+                         exact_finger_key_history=torch.tensor([[[0]+[-1]*9]*10])), torch.zeros(1, 89), fingers)
         self.assert_values(values['fingering_reward'], [1.])
         self.assert_values(values[TERM], [0.])
 

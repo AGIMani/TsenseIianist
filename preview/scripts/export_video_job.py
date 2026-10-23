@@ -19,6 +19,33 @@ sys.path.insert(0, str(Path(__file__).parent))
 from export_videos import sha256
 
 
+def native_render_python(plan):
+    """Native MJB recordings must use the same MuJoCo runtime as capture."""
+    if not json.loads(Path(plan['config']).read_text()).get('arm_follow'):
+        return None
+    environment = ROOT/'training_mjlab/.venv'
+    if Path(sys.prefix).resolve() == environment.resolve():
+        return None
+    executable = environment/'bin/python'
+    if not executable.is_file():
+        raise FileNotFoundError('Native recording requires its learner runtime: '+str(executable))
+    return executable
+
+
+def load_recorded_model(source, *, native):
+    import mujoco
+    scene = source/'kinematic_scene'
+    if native:
+        # Native arm assets are attached after the hand bundle is compiled, so
+        # its XML asset list can omit their mesh files. The captured MJB already
+        # contains the exact compiled geometry, in the learner MuJoCo version.
+        binary = scene/'model.mjb'
+        if not binary.is_file():
+            raise FileNotFoundError('Native recording is missing its compiled model: '+str(binary))
+        return mujoco.MjModel.from_binary_path(str(binary))
+    return mujoco.MjModel.from_xml_path(str(scene/'scene.xml'))
+
+
 def save_json(path, value):
     temporary = path.with_suffix('.tmp')
     temporary.write_text(json.dumps(value, ensure_ascii=False, indent=2)+'\n')
@@ -438,12 +465,13 @@ def render_video(plan, spec, output, source, trace, raw_model, overlay, q, start
     from tsensei_v3_2_pianist.preview_keys import ActiveKeyHighlight
     from tsensei_v3_2_pianist.preview_fingering import FingeringHighlight
     from tsensei_v3_2_pianist.preview_connector import offset_transform
-    model = overlay['model'] if spec['arms'] else raw_model
+    native = spec.get('native_arms', False)
+    model = overlay['model'] if spec['arms'] and not native else raw_model
     data = mujoco.MjData(model)
     width, height = plan['width'], plan['height']
     model.vis.global_.offwidth=max(model.vis.global_.offwidth,width)
     model.vis.global_.offheight=max(model.vis.global_.offheight,height)
-    active_overlay = overlay if spec['arms'] else None
+    active_overlay = overlay if spec['arms'] and not native else None
     framing_points=[]
     for at in np.linspace(start,end,21):
         set_render_state(model,data,trace,at,active_overlay,q)
@@ -481,16 +509,12 @@ def render_video(plan, spec, output, source, trace, raw_model, overlay, q, start
                     renderer.update_scene(data,camera=camera,scene_option=option)
                     if plan['key_highlight']:highlight.color_render_scene(renderer.scene,data)
                     if fingering is not None:
-                        first_annotation=renderer.scene.ngeom
                         fingering.append(renderer.scene,data,assigned)
-                        if not plan.get('finger_labels',False):
-                            for geom in renderer.scene.geoms[first_annotation:renderer.scene.ngeom]:
-                                geom.label=''
                     picture=Image.fromarray(renderer.render())
                     if plan['overlay']:
                         draw=ImageDraw.Draw(picture);font_size=max(11,min(20,width//38))
                         draw.rectangle((0,0,width,2*font_size+14),fill=(18,25,36))
-                        draw.text((10,4),f'{settings["view"]} | {"kinematic arms" if spec["arms"] else "hands"} | t={at:.3f}s | {plan["speed"]:g}x',fill='white',font_size=font_size)
+                        draw.text((10,4),f'{settings["view"]} | {"trained rigid arms" if native else ("kinematic arms" if spec["arms"] else "hands")} | t={at:.3f}s | {plan["speed"]:g}x',fill='white',font_size=font_size)
                         draw.text((10,font_size+8),Path(plan['checkpoint_origin']).parent.name+'/'+Path(plan['checkpoint_origin']).name,fill='#c9d4e3',font_size=max(10,font_size-3))
                     if fingering is not None:
                         draw_fingering(picture,assigned,footer_height,plan['key_highlight'])
@@ -511,8 +535,8 @@ def render_video(plan, spec, output, source, trace, raw_model, overlay, q, start
     subprocess.run([ffmpeg,'-hide_banner','-loglevel','error','-xerror','-i',str(final),'-f','null','-'],check=True)
     return dict(file=str(final.relative_to(output)),preview=str(final.with_suffix('.png').relative_to(output)),
                 frames=count,fps=fps,duration=count/fps,width=total_width,height=total_height,
-                cameras=[c[1] for c in cameras],arms=spec['arms'],audio=plan['audio'],
-                fingering=score is not None,finger_labels=score is not None and plan.get('finger_labels',False),
+                cameras=[c[1] for c in cameras],arms=spec['arms'],native_arms=native,audio=plan['audio'],
+                fingering=score is not None,
                 decoded=True,sha256=sha256(final))
 
 
@@ -542,13 +566,23 @@ def run(plan):
     duration=float(trace['time'][-1]);start=plan['start'];end=duration if plan['end'] is None else plan['end']
     if not 0 <= start < end <= duration+1e-8:raise ValueError(f'Clip must be within the full trajectory [0,{duration}] seconds')
     end=min(end,duration);fps=plan['fps'] or float(record_report['fps'])
-    raw_model=mujoco.MjModel.from_xml_path(str(source/'kinematic_scene/scene.xml'))
+    config=json.loads(Path(plan['config']).read_text())
+    native=bool(config.get('arm_follow'))
+    raw_model=load_recorded_model(source,native=native)
     if raw_model.nq != raw_model.nv or raw_model.nq != trace['qpos'].shape[1]:
         raise ValueError('Exporter requires the scalar hinge/slide hand model from this project')
-    if any((raw_model.body(i).name or '').startswith('tj_') for i in range(raw_model.nbody)):
-        raise ValueError('Checkpoint already includes an arm model; noarms/IK overlay requires a hand-only checkpoint')
+    if any(v.get('native_arms', False) != native for v in plan['videos']):
+        raise ValueError('Native training arms must be preserved in all exported videos')
+    if native:
+        for side in ('right','left'):
+            if mujoco.mj_name2id(raw_model,mujoco.mjtObj.mjOBJ_BODY,'arm_flange_'+side)<0:
+                raise ValueError('Recorded native arm geometry is missing')
+        if 'arm-joints' in plan['plots']:
+            raise ValueError('Native export cannot reconstruct arm joints via overlay IK')
+    elif any((raw_model.body(i).name or '').startswith(('tj_','arm_follow_')) for i in range(raw_model.nbody)):
+        raise ValueError('Arm geometry disagrees with checkpoint contract')
     status('extracting wrist poses')
-    positions,rotations=read_targets(source,trace)
+    positions,rotations=read_targets(source,trace,model=raw_model)
     data_dir=output/'data';data_dir.mkdir()
     score=None
     if plan.get('fingering',False):
@@ -562,7 +596,7 @@ def run(plan):
         names.extend(f'{side}_{axis}' for axis in ('x_m','y_m','z_m','qx','qy','qz','qw'))
     csv(data_dir/'wrist_poses.csv',trace['time'],np.concatenate(values,axis=1),names)
     overlay=None;q=None;arms=None;arm_report=None;arm_path=None
-    if any(v['arms'] for v in plan['videos']) or 'arm-joints' in plan['plots']:
+    if not native and (any(v['arms'] for v in plan['videos']) or 'arm-joints' in plan['plots']):
         status('differential IK')
         root,connector,arms=overlay_models(plan['connector_config'],plan['arm_config'])
         q,errors=differential_track(arms,positions,rotations)
@@ -631,7 +665,7 @@ def run(plan):
                 full_episode_phase_metrics=record_report.get('phase_metrics'),
                 metrics_scope='full recorded episode, not recomputed for a cropped clip',
                 fingering_annotations=score['metadata'] if score is not None else None,
-                videos=videos,arm_analysis=arm_report,joint_motion=plot_reports,source_job=os.environ['SLURM_JOB_ID'],
+                videos=videos,arm_analysis=arm_report,native_arm_contract=config.get('arm_follow_contract') if native else None,joint_motion=plot_reports,source_job=os.environ['SLURM_JOB_ID'],
                 source_step=os.environ.get('SLURM_STEP_ID'))
     save_json(output/'report.json',result)
     blocks=['<!doctype html><meta charset="utf-8"><title>Video export</title>',
@@ -679,6 +713,13 @@ def main():
             from render_trajectory_bundle import run as render_trajectory
             render_trajectory(plan)
         else:
+            python=native_render_python(plan)
+            if python is not None:
+                if not os.environ.get('SLURM_JOB_ID'):
+                    raise RuntimeError('Native GPU export requires a Slurm allocation')
+                # Re-enter before record_once: recovering an existing recording
+                # must never evaluate the policy a second time.
+                os.execv(str(python),[str(python),str(Path(__file__).resolve()),'--plan',str(args.plan.resolve())])
             run(plan)
     except Exception as error:
         save_json(Path(plan['output'])/'status.json',dict(state='failed',error=f'{type(error).__name__}: {error}',job_id=os.environ.get('SLURM_JOB_ID')))

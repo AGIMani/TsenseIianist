@@ -9,25 +9,45 @@
       "description": "Shadow-referenced upstream positioning platform represented by TX/TY reflected translational inertia, not measured V3.2 hardware inertia or a Shadow kinematic replica.",
       "shadow_forearm_reference_only": {
         "mass": 3.0,
-        "pos": [0.0, 0.0, 0.09],
-        "diaginertia": [0.0138, 0.0138, 0.00744]
+        "pos": [
+          0.0,
+          0.0,
+          0.09
+        ],
+        "diaginertia": [
+          0.0138,
+          0.0138,
+          0.00744
+        ]
       },
       "translation": {
-        "joints": ["forearm_tx", "forearm_ty"],
-        "kp": 300.0,
+        "joints": [
+          "forearm_tx",
+          "forearm_ty"
+        ],
+        "axes": {
+          "forearm_tx": {
+            "kp": 300.0,
+            "damping": 34.15259872981849,
+            "force_limit": 50.0
+          },
+          "forearm_ty": {
+            "kp": 300.0,
+            "damping": 34.15259872981849,
+            "force_limit": 50.0
+          }
+        },
         "armature": 0.02,
         "hand_mass_kg": 0.952,
         "effective_mass_reference_kg": 0.972,
-        "damping": "critical_from_compiled_dof_M0",
-        "force_limit": 15.32,
-        "force_limit_semantics": "scaled_to_preserve_the_previous_50N_over_total_effective_mass_acceleration_envelope",
+        "force_limit_semantics": "Default restored to exper031 numerical wrist gains on 2026-10-22; per-axis explicit damping, compiled M0 check retained; provisional 50N cap, not hardware calibration.",
         "inertia_semantics": "translation_armature_v1: current A3.2 hand mass 0.952 kg plus 0.02 kg per orthogonal slide; no upstream forearm rigid body, Pitch inertia, gravity force, or collision geometry."
       },
       "pitch": {
         "kp": 8.0,
         "damping": 0.5,
         "force_limit": 5.0,
-        "reference": "Shadow WRJ1 numeric gain reference only; V3.2 forearm_pitch has a different world-axis convention."
+        "reference": "Default restored to exper031 wrist drive numerical values on 2026-10-22; not hardware calibration."
       },
       "finger": {
         "kp": 1.0,

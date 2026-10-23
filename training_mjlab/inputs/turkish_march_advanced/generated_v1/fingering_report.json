@@ -1,0 +1,33 @@
+{
+  "method": "dynamic programming over hand assignments with a soft finger-order preference; sustained-note constraints and posture/shift costs",
+  "source_sha256": "83707e4f40347d0a51402349a8ef8af7cf59c357656b50432591b3e8fceb88eb",
+  "proto_sha256": "ebb921fb3909f69b5ce7e388cd7b65c610e021ce8be6d94097afcc6f7e6efb84",
+  "instrument_to_hand": {
+    "0": "right",
+    "1": "left"
+  },
+  "note_count": 2544,
+  "all_note_attributes_preserved": true,
+  "dt": 0.025,
+  "trim_origin_seconds": 0.0,
+  "trimmed_note_count": 2544,
+  "trajectory_frames": 8899,
+  "simultaneous_finger_conflicts": 0,
+  "counts_by_finger": {
+    "0": 335,
+    "1": 291,
+    "2": 250,
+    "3": 199,
+    "4": 385,
+    "5": 488,
+    "6": 149,
+    "7": 137,
+    "8": 85,
+    "9": 225
+  },
+  "costs": {
+    "right": 7293.281134259266,
+    "left": 4140.633333333341
+  },
+  "limitations": "Candidate only. Hand split inferred from supplied tracks. Offsets/costs are engineering heuristics, not calibrated TsenseI IK or expert fingering. No claim of collision-free reachability."
+}

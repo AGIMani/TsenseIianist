@@ -35,10 +35,10 @@ class EvaluationWorlds:
         self.logic = SimpleNamespace(length=6, key_counts=torch.zeros((num_envs, 3), dtype=torch.int64))
         manifest = dict(control_dt=.05, physics_dt=.005,
                         contract={'environment': {'initial_buffer_time': .1}},
-                        action_names=['R_Wrist_TX'])
+                        action_names=['R_Palm_Base_Tx'])
         self.bundle = SimpleNamespace(manifest=manifest)
         self.scene = SimpleNamespace(device='cpu', decimation=10,
-            control_limits={'channels': {'R_Wrist_TX': {}}}, finger_clearance={'mode': 'fixture'},
+            control_limits={'channels': {'R_Palm_Base_Tx': {}}}, finger_clearance={'mode': 'fixture'},
             bundle=SimpleNamespace(manifest=manifest, active_action_indices=[0], action_ids=[0]),
             model=SimpleNamespace(actuator_trntype=[0], actuator_trnid=torch.tensor([[0, 0]]), jnt_dofadr=[0]),
             data=SimpleNamespace(ctrl=torch.zeros((num_envs, 1)), qvel=torch.zeros((num_envs, 1))))
@@ -190,7 +190,7 @@ class BatchedEvaluationTests(unittest.TestCase):
         self.assertFalse(batch['substep_key_diagnostics_valid'])
         self.assertFalse(batch['key_contact_diagnostics_valid'])
         self.assertIsNone(batch['hand_collision_frames_max'])
-        self.assertIsNone(batch['music_only_substep_key_micro_f1_min'])
+        self.assertNotIn('music_only_substep_key_micro_f1_min', batch)
         self.assertIsNone(batch['key_underside_substeps_max'])
         self.assertTrue(batch['episode_statistics'][0]['collision_diagnostics_valid'])
         self.assertFalse(batch['episode_statistics'][1]['collision_diagnostics_valid'])
@@ -225,9 +225,9 @@ class BatchedEvaluationTests(unittest.TestCase):
         self.assertEqual(result['release_tail_frames'], 10)
         self.assertTrue(result['release_tail_complete'])
         for row in result['episode_statistics']:
-            self.assertEqual(row['music_false_negative_count'], 1)
-            self.assertEqual(row['music_false_positive_count'], 0)
-            self.assertAlmostEqual(row['music_only_f1'], 314/315)
+            self.assertNotIn('music_false_negative_count', row)
+            self.assertNotIn('music_false_positive_count', row)
+            self.assertNotIn('music_only_f1', row)
             self.assertEqual(row['release_tail_wrong_key_frames'], 1)
             self.assertEqual(row['release_tail_end_active_keys'], 0)
         legacy = evaluate(Agent(), ControlFramePhaseWorlds(exact=False), episodes=2)
@@ -235,8 +235,8 @@ class BatchedEvaluationTests(unittest.TestCase):
         self.assertEqual(legacy['music_frames'], 315)
         self.assertEqual(legacy['release_tail_frames'], 10)
         self.assertTrue(legacy['release_tail_complete'])
-        self.assertEqual(legacy['episode_statistics'][0]['music_false_negative_count'], 1)
-        self.assertEqual(legacy['episode_statistics'][0]['music_false_positive_count'], 0)
+        self.assertNotIn('music_false_negative_count', legacy['episode_statistics'][0])
+        self.assertNotIn('music_false_positive_count', legacy['episode_statistics'][0])
 
     def test_exact_tail_requires_full_elapsed_tail_not_just_a_boundary_sample(self):
         for stop_after, truncated in ((355, False), (364, True)):

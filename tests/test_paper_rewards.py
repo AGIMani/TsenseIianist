@@ -24,7 +24,7 @@ def scene_fixture():
     for side in ('R','L'):
         names += [f'{side}_Thumb_{j}' for j in ('Rot','Rot2','MCP','PIP')]
         names += [f'{side}_{f}_{j}' for f in ('Index','Mid','Ring','Pinky') for j in ('MCP','SW','PIP','DIP')]
-        names += [f'{side}_Wrist_{j}' for j in ('TX','TY','TZ','Pitch','Yaw')]
+        names += [f'{side}_Palm_Base_{j}' for j in ('Tx','Ty','Tz','Pitch','Yaw')]
     return dict(action_names=names+['sustain'], action_min=[-3.]*50+[0.],
                 action_max=[3.]*50+[1.], neutral_action=[0.]*51, control_dt=.05)
 
@@ -39,7 +39,7 @@ def explicit_test_mappings(c):
     """Synthetic arithmetic fixtures, NOT TsenseI physical calibration/defaults."""
     c['action_units']='physical'
     c['regularization_shaping']='identity'
-    c['terms']['wrist_pitch_reward']['params']['directions']={'R_Wrist_Pitch':1,'L_Wrist_Pitch':-1}
+    c['terms']['wrist_pitch_reward']['params']['directions']={'R_Palm_Base_Pitch':1,'L_Palm_Base_Pitch':-1}
     c['terms']['forward_press_reward']['params']['angle_map']={
         f:dict(joints={f+'_MCP':1.},offset=0.) for f in FINGER_NAMES}
     return c
@@ -86,10 +86,10 @@ class PaperRewardsTest(unittest.TestCase):
     def test_templates_and_stage_weights(self):
         root=Path(__file__).resolve().parents[1]/'configs/rewards'
         validate(json.loads((root/'default_20261006.json').read_text()))
-        # Historical JSONs keep their removed terms and require their archive.
-        with self.assertRaises(ValueError):validate(json.loads((Path(__file__).resolve().parents[1] /
-            'deprecated/reward_experiments/paper_chord_off_20261005.json').read_text()))
-        self.assertEqual(len(template()['terms']),22)
+        # Old contracts are rejected without depending on archived runtime files.
+        old=template();old['contract']='physical_key_travel_exact_v1'
+        with self.assertRaises(ValueError):validate(old)
+        self.assertEqual(len(template()['terms']),23)
         s1=template('stage1');s2=template('stage2_canon');other=template('stage2_other')
         self.assertEqual(s1['terms']['wrist_velocity_reward']['weight'],.176)
         self.assertEqual(s2['terms']['forearm_acceleration_reward']['weight'],6.4)
@@ -118,9 +118,9 @@ class PaperRewardsTest(unittest.TestCase):
         c=only('fingering_reward',stage='stage1');d=self.inputs(c)
         self.call(d);torch.testing.assert_close(d[0].raw_terms['fingering_reward'],torch.ones(2))
         # One target finger is .11 m away: tolerance .1. Other finger remains 1.
-        d=self.inputs(c);d[2]['fingertips'][:,1,0]=.11
+        d=self.inputs(c);d[2]['fingertip_history'][:,:,1,0]=.11
         self.call(d);torch.testing.assert_close(d[0].raw_terms['fingering_reward'],torch.full((2,),.55))
-        d[5].zero_();self.call(d);torch.testing.assert_close(d[0].raw_terms['fingering_reward'],torch.zeros(2))
+        d[2]['exact_finger_key_history'].fill_(-1);self.call(d);torch.testing.assert_close(d[0].raw_terms['fingering_reward'],torch.zeros(2))
 
     def test_power_grouping_positive_only_and_pedal_excluded(self):
         c=only('forearm_power_reward','wrist_power_reward','finger_power_reward',stage='stage1')

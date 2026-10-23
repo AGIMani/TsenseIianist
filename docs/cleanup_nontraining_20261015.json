@@ -1,0 +1,2053 @@
+{
+  "recovery_directory": "/home/hj/pianist_cleanup_recovery/20261015_210432",
+  "moved": [
+    {
+      "original": "/home/hj/pianist/results/right_arm_qva_20261013",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/right_arm_qva_20261013",
+      "bytes": 19619678,
+      "files": [
+        {
+          "path": "results/right_arm_qva_20261013/audit.log",
+          "bytes": 5485,
+          "sha256": "3a5de919f08a3fb5a126eb904fcae8175e43495ccea30af166614e39d1159db2"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/audit_recorded_reference.py",
+          "bytes": 8364,
+          "sha256": "19efc46d6ce3359e783e0fff1a9b3a63e933347c05f0e7c97484c8e6dc8ec303"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/export_controller.py",
+          "bytes": 6137,
+          "sha256": "a7a939ef2f2d6771b29e122af4316df8bb0506b7a74ee9c410eda059147d4287"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/conversion.log",
+          "bytes": 1785,
+          "sha256": "e05aa29f21375ab795c1a323efd326aae6fb866221b9198935bdd8d99739da93"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/recorded_reference_audit.log",
+          "bytes": 5638,
+          "sha256": "2496581343f1b31f88860b8f6cd3bf5ba9cbd6e16b411b9463041bc6fc14cf7c"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/audit_and_package.py",
+          "bytes": 8288,
+          "sha256": "f78f2a2bd68671dda5699e38990952e1cc1faf24d2426bfa31894da8223460b7"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/export_recorded_reference.py",
+          "bytes": 7271,
+          "sha256": "32f855a9c01c2e19d8e9366b85bfc8448ce2d648301ab7180db0c3c82c4b96c3"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/controller.log",
+          "bytes": 526,
+          "sha256": "070e0334f3eafc84b869511860675471b25c72b0ebaf342b47e4322ebf658580"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/convert_source.py",
+          "bytes": 4155,
+          "sha256": "55f11d15872a96fc6f9c2d4cc532edd4f507bae448662bd5050adcf478ebd300"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/recorded_reference.log",
+          "bytes": 518,
+          "sha256": "29a882675c1db3074f1cfff9d17d55f4df2f7521e16d9a3fc03d4bd1bacbcb4b"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/right_arm_motion_audit.csv",
+          "bytes": 190948,
+          "sha256": "79c174bdec1cab713992b12540485834ee7e748df1a62eb874a2bddb0f9fc3c7"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/right_hand_fingers_rad_200Hz.csv",
+          "bytes": 732070,
+          "sha256": "34da0aed05ae333766182712ce7ebfea036ca44384c9b87d0c902298d8742b09"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/right_arm_qva_with_stop_rad.csv",
+          "bytes": 777121,
+          "sha256": "dcf5b76b1c53329ea11352b270f8600e617dd56c9a3e2db415b3d7189c274604"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/right_arm_ik_reference_rad.csv",
+          "bytes": 268542,
+          "sha256": "f475af1077911948e96f4aa4de1e75fd1a364fbde6f630ceff8682288c906c3c"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/right_wrist_executed_piano.csv",
+          "bytes": 269814,
+          "sha256": "e94092951797ee6e78ce3571d0c6c8da6c5d009ceae551068c1f95123623ce55"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/right_arm_qva_and_hand_200Hz_rad.csv",
+          "bytes": 1493033,
+          "sha256": "68896f178f37cf159c5262bc4298338cdbfd9a2c15e72b6805588e28e9f118d2"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/source_verification.json",
+          "bytes": 2007,
+          "sha256": "c462096f7b85babaf6e0bb33d47b6c0a07ed85bf8f361e3cd2486e84aeb7ce46"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/README.txt",
+          "bytes": 4143,
+          "sha256": "f54e647fa598aa59618a3bb2d6bf37559f1fea772d933e78b33328df7c8689b8"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/input_manifest.json",
+          "bytes": 1470,
+          "sha256": "8204515e42f0b18b9146af108b35b37823321e9275af087d5ee53100c30ddf20"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/wrist_tracking.png",
+          "bytes": 184762,
+          "sha256": "e6001d459f4e2e9d745b692734e5a7e1e6d3f60afed703d91f45ad6ec40906ab"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/stop_tail_raw.npz",
+          "bytes": 1895,
+          "sha256": "975bee924f21544baea84fd151b8de34fabb4066fe22794e9448ebe1e364cc79"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/trajectory_and_limits.png",
+          "bytes": 484058,
+          "sha256": "d307a99dc198979d4327279dd40f89588c868497c970a210290bcb8bd2c6dd2b"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/right_wrist_requested_piano.csv",
+          "bytes": 269750,
+          "sha256": "b5e1a3095b65739aac4da2fd7c01fbf1432d866c8e262e4f1bd58da40d18bd1f"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/report.json",
+          "bytes": 5638,
+          "sha256": "2496581343f1b31f88860b8f6cd3bf5ba9cbd6e16b411b9463041bc6fc14cf7c"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/manifest.json",
+          "bytes": 3107,
+          "sha256": "ae5c6c92cf7de01102e6d3b3a446091eb13c40f8f8a0c0fcbff2f46581433574"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/controller_contract.json",
+          "bytes": 8180,
+          "sha256": "0a678234f07b6f8ba1fc51b253827b9037846ae879b8d38ade4288820c6762f8"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/right_arm_qva_200Hz.npz",
+          "bytes": 1025305,
+          "sha256": "486439ec395753af9e5282ab266ecab7d5c2bdf3b1fc1658e012a1a822b3be63"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/controller_raw.npz",
+          "bytes": 1025143,
+          "sha256": "7dc5a7a69ded01040dd207dd5747e98efe585e0c2c5715fc01827cd9d13b395f"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/input_report.json",
+          "bytes": 3752,
+          "sha256": "6bbd40610fbd693311acd08855cde0810cced7c815dc675968792743aea64489"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/optional_stop_tail_qva_rad.csv",
+          "bytes": 1860,
+          "sha256": "633146ffeb280e9e6f87c69606d1fc80563bec4ab07441edf8b1ed16bc0460eb"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/right_arm_qva_200Hz_rad.csv",
+          "bytes": 776029,
+          "sha256": "6fa487eadc3fc1dbeb64b9219d9aab5fb369b79b8bd65f502dd4bd97612515c0"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/source_conversion/right_arm_qva_original_200Hz_rad.csv",
+          "bytes": 774549,
+          "sha256": "ff1e731209bb5ea16519539921397c35908ac3eff183e744c4e5b24825530735"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/source_conversion/right_hand_fingers_rad_200Hz.csv",
+          "bytes": 732070,
+          "sha256": "34da0aed05ae333766182712ce7ebfea036ca44384c9b87d0c902298d8742b09"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/source_conversion/right_arm_qva_and_hand_original_200Hz_rad.csv",
+          "bytes": 1491553,
+          "sha256": "cec72320453a66d6355127b18e28ffe7cda95fec964762690a14b1fd608d4c9b"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/source_conversion/conversion_report.json",
+          "bytes": 2979,
+          "sha256": "7aa652ce11cb8c84e4a3323cab7b9b8c2f739eaa89e32ac6333fa4a04aed983e"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/source_conversion/right_arm_qva_original_200Hz.npz",
+          "bytes": 432388,
+          "sha256": "489134f979c037f92b8bdf2040127eb5251725f9bb77739424cbd56f7c90e0cd"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/source_conversion/right_arm_qva_and_hand_slow_reference_rad.csv",
+          "bytes": 1530098,
+          "sha256": "bf1f539293a344379aa26d1f87ab46bec4aba770cc38f9bd42fe2c01b909290d"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/source_conversion/right_arm_qva_slow_reference.npz",
+          "bytes": 431583,
+          "sha256": "145f3277a1a032830077ca95702c2d090955403a5f173af54b770602616dced6"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/source_conversion/source_report.json",
+          "bytes": 3752,
+          "sha256": "6bbd40610fbd693311acd08855cde0810cced7c815dc675968792743aea64489"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/source_conversion/right_arm_qva_slow_reference_rad.csv",
+          "bytes": 813094,
+          "sha256": "751a638c7dbcdad6e09eb2207af9087b258f3a01294a8378afd384c354b6d74d"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/controller_limited/right_arm_motion_audit.csv",
+          "bytes": 139947,
+          "sha256": "d184f570511d5ec6ed09be8b08274c2a6362dbfcefca4aaf94fe79ae945aa0c4"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/controller_limited/right_hand_fingers_rad_200Hz.csv",
+          "bytes": 732070,
+          "sha256": "34da0aed05ae333766182712ce7ebfea036ca44384c9b87d0c902298d8742b09"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/controller_limited/right_arm_qva_with_stop_rad.csv",
+          "bytes": 426230,
+          "sha256": "ca495b15c7c7319671b829782a8e0338b6043e1376a61261feb285edaf19547d"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/controller_limited/right_arm_ik_reference_rad.csv",
+          "bytes": 272763,
+          "sha256": "6d757417368ad703ce44dc5292febd12f7fe58e5a9e8c488d2443bedf658e021"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/controller_limited/right_wrist_executed_piano.csv",
+          "bytes": 273425,
+          "sha256": "ed7c32d788f8957b738294b07ce8b3093816097b31727fc6dbac52dbfdb803dc"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/controller_limited/right_arm_qva_and_hand_200Hz_rad.csv",
+          "bytes": 1143018,
+          "sha256": "6d148e68d9b63a402ebb8d3b1ab696f694342e4254ce59a00251045ccd7dd01d"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/controller_limited/source_verification.json",
+          "bytes": 1946,
+          "sha256": "eeba454a7cdfb75f92f2a44efabb940cdfd37297ede57a1acd24a5e3ceb1f5f7"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/controller_limited/input_manifest.json",
+          "bytes": 1470,
+          "sha256": "8204515e42f0b18b9146af108b35b37823321e9275af087d5ee53100c30ddf20"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/controller_limited/wrist_tracking.png",
+          "bytes": 143578,
+          "sha256": "7b704031ef60d1c55eaa1b8445a70ca709c04c0fc5232aba8181b58aeec3fbb3"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/controller_limited/stop_tail_raw.npz",
+          "bytes": 1387,
+          "sha256": "98392aeeff301deac9d8eb3cee1d7d681f3749dd918f73f78076ad880d458b73"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/controller_limited/trajectory_and_limits.png",
+          "bytes": 224121,
+          "sha256": "21461575e5ebabe540e6d47a26eac09d7cf41a69ccef2a1481421e4b22507982"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/controller_limited/right_wrist_requested_piano.csv",
+          "bytes": 269750,
+          "sha256": "b5e1a3095b65739aac4da2fd7c01fbf1432d866c8e262e4f1bd58da40d18bd1f"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/controller_limited/report.json",
+          "bytes": 5485,
+          "sha256": "3a5de919f08a3fb5a126eb904fcae8175e43495ccea30af166614e39d1159db2"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/controller_limited/controller_contract.json",
+          "bytes": 7992,
+          "sha256": "de5492ed5481a043d50c77843a3a054b5493933aad84ec60eb99eb016fa55f3c"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/controller_limited/right_arm_qva_200Hz.npz",
+          "bytes": 371820,
+          "sha256": "1b35c9fc45f11836075acfa367074db9a21a9d6e01a7cee7c89ed8b8aafcd49b"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/controller_limited/controller_raw.npz",
+          "bytes": 371658,
+          "sha256": "668a86ebd376b07d145ab01f82b312731490ff47c2661b26a2031d63e0fd1352"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/controller_limited/input_report.json",
+          "bytes": 3752,
+          "sha256": "6bbd40610fbd693311acd08855cde0810cced7c815dc675968792743aea64489"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/controller_limited/optional_stop_tail_qva_rad.csv",
+          "bytes": 763,
+          "sha256": "e7a7d2a706f78fdae6a60b66b7fe82262e3428db8a11d8051165e760cfee5cb3"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/controller_limited/right_arm_qva_200Hz_rad.csv",
+          "bytes": 426014,
+          "sha256": "90ba11a01449d868b87cdb6fe0f9f60dc8969378f70e2a9a8f5c3c05c9368067"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/provenance/audit_recorded_reference.py",
+          "bytes": 8364,
+          "sha256": "19efc46d6ce3359e783e0fff1a9b3a63e933347c05f0e7c97484c8e6dc8ec303"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/provenance/export_recorded_reference.py",
+          "bytes": 7271,
+          "sha256": "32f855a9c01c2e19d8e9366b85bfc8448ce2d648301ab7180db0c3c82c4b96c3"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/provenance/input_right_hand_arm_trajectory.npz",
+          "bytes": 948095,
+          "sha256": "d111d5e75f45e202c853590c39fa13bb04c04a3ee517cc0a38b9e9ab3f1836f5"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/provenance/source/preview/assets/tj_m6/right/arm.urdf",
+          "bytes": 9601,
+          "sha256": "3619ecc07d24bed0b3b5f30a57480457ba129e15dde36abb27ae97501a77e8c8"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/provenance/source/tsensei_v3_2_pianist/mjlab_env/arm_options.py",
+          "bytes": 10232,
+          "sha256": "79c1f2df8820755b8a052eddfd891a0aa9ddc49d7b78569718db2285ebc432b3"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/provenance/source/tsensei_v3_2_pianist/mjlab_env/arm_follow.py",
+          "bytes": 14285,
+          "sha256": "49f93ce0c3219963143f3da0a67109dec47279a7778a44a7021f25bc2432c242"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/provenance/source/tsensei_v3_2_pianist/mjlab_env/arm_ik.py",
+          "bytes": 6297,
+          "sha256": "fd73f8a61a50e04115c8a137fd5eac1fdec371d130b9ef053a3163d61655a0b6"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/provenance/source/configs/preview/hand_connector_20260930.json",
+          "bytes": 5809,
+          "sha256": "eb6f3069a2c662c6485cb7f0adfb5e1cf5c1b204d5906a3dac0f0661faa942d9"
+        },
+        {
+          "path": "results/right_arm_qva_20261013/hard_limited/provenance/source/configs/preview/m6_sdk_joint_limits.json",
+          "bytes": 3675,
+          "sha256": "a0c35c5962e0655e8392a472d1a3821e1cd69e1ea42ac77ea292bc56d0e24f24"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/right_wrist_compensation_20261013.zip",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/right_wrist_compensation_20261013.zip",
+      "bytes": 4174003,
+      "files": [
+        {
+          "path": "results/right_wrist_compensation_20261013.zip",
+          "bytes": 4174003,
+          "sha256": "e5c14bd3f55391176bf649360ce4b9251b355f0a1075cf41e96e54caa0bf04da"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/right_hand_arm_trajectory_20261013",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/right_hand_arm_trajectory_20261013",
+      "bytes": 4677557,
+      "files": [
+        {
+          "path": "results/right_hand_arm_trajectory_20261013/right_arm_J1_J7_deg_200Hz.csv",
+          "bytes": 257528,
+          "sha256": "5e88d9759611f6946325ae2d51bcc8f01952d6991eb5d4e588a76e6d8d8f73df"
+        },
+        {
+          "path": "results/right_hand_arm_trajectory_20261013/right_hand_fingers_rad_200Hz.csv",
+          "bytes": 732070,
+          "sha256": "34da0aed05ae333766182712ce7ebfea036ca44384c9b87d0c902298d8742b09"
+        },
+        {
+          "path": "results/right_hand_arm_trajectory_20261013/finalize.py",
+          "bytes": 7044,
+          "sha256": "714832e4b7355689ffa8e076bc00c431de5a6634827c1442b46653f2d10dde0d"
+        },
+        {
+          "path": "results/right_hand_arm_trajectory_20261013/README.txt",
+          "bytes": 2233,
+          "sha256": "76f361e2e043543fa81cd632af139f14bcfc3055258057af539a76f7c9815b6e"
+        },
+        {
+          "path": "results/right_hand_arm_trajectory_20261013/trajectory_overview.png",
+          "bytes": 380805,
+          "sha256": "d54d6765277729b1c17f2b60987dd1efb024d399adf7ca58979ad04a52231969"
+        },
+        {
+          "path": "results/right_hand_arm_trajectory_20261013/right_hand_arm_slow_reference.npz",
+          "bytes": 235268,
+          "sha256": "8fc92ca0e5bf89085f345a38b50a81a8c6d50a1f9ce4011fcc3052f3b77c6776"
+        },
+        {
+          "path": "results/right_hand_arm_trajectory_20261013/report.json",
+          "bytes": 3752,
+          "sha256": "6bbd40610fbd693311acd08855cde0810cced7c815dc675968792743aea64489"
+        },
+        {
+          "path": "results/right_hand_arm_trajectory_20261013/right_hand_arm_slow_reference.csv",
+          "bytes": 994330,
+          "sha256": "da7392d1be0996fa6267afa9b4ad118b9744de3b7202209dd127d5c894e8759c"
+        },
+        {
+          "path": "results/right_hand_arm_trajectory_20261013/manifest.json",
+          "bytes": 1470,
+          "sha256": "8204515e42f0b18b9146af108b35b37823321e9275af087d5ee53100c30ddf20"
+        },
+        {
+          "path": "results/right_hand_arm_trajectory_20261013/frame_audit.csv",
+          "bytes": 130616,
+          "sha256": "b796047069f8aece1bd363afadbe8e7516a1ad849579932eca370ffbc3fe3009"
+        },
+        {
+          "path": "results/right_hand_arm_trajectory_20261013/right_hand_arm_combined_200Hz.csv",
+          "bytes": 974560,
+          "sha256": "b158b9ebe8483ef8e27313041a7b6970028c867dbfc125cada01761d7fe5159e"
+        },
+        {
+          "path": "results/right_hand_arm_trajectory_20261013/export.py",
+          "bytes": 6337,
+          "sha256": "c337049cbf32009de081d30e87b7ac4d9aa7c93d15140b4f0a7f6f25f82f5d87"
+        },
+        {
+          "path": "results/right_hand_arm_trajectory_20261013/right_hand_arm_trajectory.npz",
+          "bytes": 948095,
+          "sha256": "d111d5e75f45e202c853590c39fa13bb04c04a3ee517cc0a38b9e9ab3f1836f5"
+        },
+        {
+          "path": "results/right_hand_arm_trajectory_20261013/solver.log",
+          "bytes": 2739,
+          "sha256": "bfcafc9a718ccb92784768f52d16ebfbfa1db56ff84c98b5d2c1e01c3fe340ec"
+        },
+        {
+          "path": "results/right_hand_arm_trajectory_20261013/attempt_diagnostics/failure.json",
+          "bytes": 189,
+          "sha256": "28f2320573078d05aa7e70694c0f9e8754d6bc6c5f4e9305b46a878be784f622"
+        },
+        {
+          "path": "results/right_hand_arm_trajectory_20261013/attempt_diagnostics/nearest_solution_attempt.log",
+          "bytes": 521,
+          "sha256": "d72045990f5fce9e346f2edae6bcce9e50bc505e1f537a7325e1af6d9e739f64"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/left_flange_ik_20261013",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/left_flange_ik_20261013",
+      "bytes": 10496,
+      "files": [
+        {
+          "path": "results/left_flange_ik_20261013/README.txt",
+          "bytes": 897,
+          "sha256": "56f8aff514292125686a02cc6d074e12ba601ae3da6eb635bb36fb38b5e68300"
+        },
+        {
+          "path": "results/left_flange_ik_20261013/report.json",
+          "bytes": 4249,
+          "sha256": "bf6ba66b05fd1db15faea16d675b2a7414bbc5f301a39f6a965d063bc7bd595e"
+        },
+        {
+          "path": "results/left_flange_ik_20261013/joints_deg.txt",
+          "bytes": 66,
+          "sha256": "3279a923c0a434feb6e51a46dbfbdd53b580966a8f93ee7fc83138b45a7a0779"
+        },
+        {
+          "path": "results/left_flange_ik_20261013/calculate.py",
+          "bytes": 5284,
+          "sha256": "e2ff6d557f2d597fb910123730622323c382ddc5623052769309a88562d17ba6"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/left_wrist_compensation_20261013.zip",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/left_wrist_compensation_20261013.zip",
+      "bytes": 5567836,
+      "files": [
+        {
+          "path": "results/left_wrist_compensation_20261013.zip",
+          "bytes": 5567836,
+          "sha256": "0d5c7e24e45045ef19259863cc39e9cb002ca780c82639f1737b8c54ea1a6c00"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/right_flange_202p21_157p265_20261014",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/right_flange_202p21_157p265_20261014",
+      "bytes": 9284,
+      "files": [
+        {
+          "path": "results/right_flange_202p21_157p265_20261014/README.txt",
+          "bytes": 767,
+          "sha256": "8a69615e9e1d7e070169ad5b574d4b2491d6e61c45892f4f57597b4c767f4e4a"
+        },
+        {
+          "path": "results/right_flange_202p21_157p265_20261014/report.json",
+          "bytes": 3973,
+          "sha256": "310aedd673572b8cc25e7e80aa0f131487956c6ac631fbc854b0c13e0f398cd5"
+        },
+        {
+          "path": "results/right_flange_202p21_157p265_20261014/calculate.py",
+          "bytes": 4544,
+          "sha256": "d987cc2383eb49c55a77c1d0118314eff3bd3d0f60ee44834fcb1de87bf64bd1"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/right_tcp_reoriented_ff202a68_20261014",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/right_tcp_reoriented_ff202a68_20261014",
+      "bytes": 29101,
+      "files": [
+        {
+          "path": "results/right_tcp_reoriented_ff202a68_20261014/README.txt",
+          "bytes": 981,
+          "sha256": "5af756be9f327cd6935fec0990c14de43c164d7accdf551b7c6273ad4b9743be"
+        },
+        {
+          "path": "results/right_tcp_reoriented_ff202a68_20261014/report.json",
+          "bytes": 2731,
+          "sha256": "dfa10c42a3d3224ae034ee2e7949a4fe12c9713faa32dcbbb7992391c37d242e"
+        },
+        {
+          "path": "results/right_tcp_reoriented_ff202a68_20261014/prepare.py",
+          "bytes": 1010,
+          "sha256": "5c376b9c9b16fc3b7fcbd79e949c24cf04499c6b3dbd615278cf197c8f419ee6"
+        },
+        {
+          "path": "results/right_tcp_reoriented_ff202a68_20261014/calculate.py",
+          "bytes": 3617,
+          "sha256": "6954a8ebc003a9b68933084c20b2d630931ec476cd8be4673bf354c177942d82"
+        },
+        {
+          "path": "results/right_tcp_reoriented_ff202a68_20261014/solver.log",
+          "bytes": 2732,
+          "sha256": "31474b964632dc2756ac61684d4a48ef88e6c53c373bc8dcb071558bdd4e9ce3"
+        },
+        {
+          "path": "results/right_tcp_reoriented_ff202a68_20261014/input.json",
+          "bytes": 18030,
+          "sha256": "39c9e0e3adfc307d0a79ad565d47e0f7a16894302ae8f379246a26c0a07bc47f"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/right_wrist_ik_20261013",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/right_wrist_ik_20261013",
+      "bytes": 18989,
+      "files": [
+        {
+          "path": "results/right_wrist_ik_20261013/README.txt",
+          "bytes": 894,
+          "sha256": "c28409b6ab33815733a664ebb2eec11152ef424d0a5ebf5104d984beb45eb96a"
+        },
+        {
+          "path": "results/right_wrist_ik_20261013/t0_report.json",
+          "bytes": 3033,
+          "sha256": "0214125a398db4dd96f429e0e3cffe1b848f495ae14be226338213cb3e9f8609"
+        },
+        {
+          "path": "results/right_wrist_ik_20261013/calculate_t0.py",
+          "bytes": 3498,
+          "sha256": "212feb4ec6473e86584bd9fc3167d879cb9203f85dd6555237ce19a5de6e2d12"
+        },
+        {
+          "path": "results/right_wrist_ik_20261013/solver.log",
+          "bytes": 11564,
+          "sha256": "6c7d8b4a0bf43267856710acc97ddf80a89e11c9eda06150dbb372d054d145c7"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/right_flange_ik_a08de8bc_20261013",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/right_flange_ik_a08de8bc_20261013",
+      "bytes": 41722,
+      "files": [
+        {
+          "path": "results/right_flange_ik_a08de8bc_20261013/localization_snapshot.json",
+          "bytes": 14555,
+          "sha256": "2c8547514b53c10d21a1224b2ff11ba2f5808bc7aec3fa9a88567f5959d198d5"
+        },
+        {
+          "path": "results/right_flange_ik_a08de8bc_20261013/README.txt",
+          "bytes": 1332,
+          "sha256": "4db6e39fd33d07aafdec8a7e33dddfdde7f7f141d342669c92eca28787a84991"
+        },
+        {
+          "path": "results/right_flange_ik_a08de8bc_20261013/report.json",
+          "bytes": 2583,
+          "sha256": "b18fccf43552a70034d5d9d4f0dcfdcd0ae6e123792fa25c480e406be40afd4c"
+        },
+        {
+          "path": "results/right_flange_ik_a08de8bc_20261013/prepare.py",
+          "bytes": 2115,
+          "sha256": "2fd97b1a1ae77bed0e4010a87db489b8e44fb9d54539f3352108aa3d4bc6d05e"
+        },
+        {
+          "path": "results/right_flange_ik_a08de8bc_20261013/calculate.py",
+          "bytes": 3182,
+          "sha256": "e0a3411a97e6fcd4a7e9935292d471bd5f982b4ca764af9212570da1ccc20390"
+        },
+        {
+          "path": "results/right_flange_ik_a08de8bc_20261013/input.json",
+          "bytes": 17955,
+          "sha256": "423c60d8727e8f31e73d03f26188787345eeef4cc3efdfb841ee55d66e12a510"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/left_wrist_compensation_20261013_platform",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/left_wrist_compensation_20261013_platform",
+      "bytes": 1487967,
+      "files": [
+        {
+          "path": "results/left_wrist_compensation_20261013_platform/left_hand_positions_200Hz.csv",
+          "bytes": 730637,
+          "sha256": "7c9b2c3fe7d05ef3bde9f074e03f6076392e7625dc249a86d2aea098b8513465"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013_platform/left_hand_positions_200Hz_fixed_report.json",
+          "bytes": 28541,
+          "sha256": "f7a4adf5ae6ad8107ab3b2e761984b502ca983281c6058734c0401eeae9ac930"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013_platform/left_hand_positions_200Hz_fixed.csv",
+          "bytes": 728789,
+          "sha256": "fcbbec283f0a20c82c0a3be765396a208cc86a5f6115d99213f9aa1447c38f63"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/right_hand_arm_trajectory_20261013.zip",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/right_hand_arm_trajectory_20261013.zip",
+      "bytes": 2941719,
+      "files": [
+        {
+          "path": "results/right_hand_arm_trajectory_20261013.zip",
+          "bytes": 2941719,
+          "sha256": "a6cb7e5581aa3a6dada720b3ebd434036e2e7e078cf17315c346e966f38ee0ef"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/left_arm_joint_trajectory_20261013_hard_limited.zip",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/left_arm_joint_trajectory_20261013_hard_limited.zip",
+      "bytes": 4744268,
+      "files": [
+        {
+          "path": "results/left_arm_joint_trajectory_20261013_hard_limited.zip",
+          "bytes": 4744268,
+          "sha256": "e4b8608b3450097e5f6f254a7df44ff92207633faa0e018518b7397a7b255bfe"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/right_arm_qva_20261013_hard_limited.zip",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/right_arm_qva_20261013_hard_limited.zip",
+      "bytes": 5798703,
+      "files": [
+        {
+          "path": "results/right_arm_qva_20261013_hard_limited.zip",
+          "bytes": 5798703,
+          "sha256": "7023befdf8ab49238f5dc6488b875397611373fbcaee4ef1712a53feb6efde76"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/right_wrist_compensation_20261013",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/right_wrist_compensation_20261013",
+      "bytes": 6852199,
+      "files": [
+        {
+          "path": "results/right_wrist_compensation_20261013/metadata.json",
+          "bytes": 1704,
+          "sha256": "7e1121aa7c9ae3ad764853c7387bf2095dab7f04da1b122211e90846d98873f7"
+        },
+        {
+          "path": "results/right_wrist_compensation_20261013/trajectory_compensated_200Hz.npz",
+          "bytes": 925288,
+          "sha256": "29e0cc898f24d02eb5edd2659f74ae2adc1a18c05e4cd57b77d002d81c6bc6d1"
+        },
+        {
+          "path": "results/right_wrist_compensation_20261013/README.txt",
+          "bytes": 1581,
+          "sha256": "0e750a0667c835c0fb0a5aea583f6615f6dd4bedd982a0c6ff83dde44466026b"
+        },
+        {
+          "path": "results/right_wrist_compensation_20261013/right_wrist_pose_in_piano_200Hz.csv",
+          "bytes": 269784,
+          "sha256": "2634bd173e16d1f4e37b0dd80a0c0ebd04cce710a54de8033bdb121c0591d3c1"
+        },
+        {
+          "path": "results/right_wrist_compensation_20261013/manifest.json",
+          "bytes": 1406,
+          "sha256": "931261a67bfda5602caa7728becdf2f53408821d01427525890b6a1579d9fdfd"
+        },
+        {
+          "path": "results/right_wrist_compensation_20261013/both_hand_pose_in_piano_200Hz.csv",
+          "bytes": 528794,
+          "sha256": "0995c6f50dc848e6241e9b149268638c15d2042e91106f7988af9e2a633c6af1"
+        },
+        {
+          "path": "results/right_wrist_compensation_20261013/original/metadata.json",
+          "bytes": 15239,
+          "sha256": "1eb3fc28478f68ceeaf4c2fd096e0152533d327ce86a545b9baf4177ee3e49b6"
+        },
+        {
+          "path": "results/right_wrist_compensation_20261013/original/README.md",
+          "bytes": 1303,
+          "sha256": "7b731571b5514512718073375685c1d0d5836fca34c21571d7bbd82d1c7f756f"
+        },
+        {
+          "path": "results/right_wrist_compensation_20261013/original/hand_root_positions.png",
+          "bytes": 158066,
+          "sha256": "a8b5abdb81187a55db87b0cd72812a243c40431753411f2aafa4b39cb893a2d6"
+        },
+        {
+          "path": "results/right_wrist_compensation_20261013/original/right_joints_200Hz.csv",
+          "bytes": 1706196,
+          "sha256": "721807486cade9b07f0803ac5f97cf90328b727b10652701a0cc5816c75cc7a9"
+        },
+        {
+          "path": "results/right_wrist_compensation_20261013/original/manifest.json",
+          "bytes": 745,
+          "sha256": "86575ce5b2c3ff467fb96a6c4f57706bd0af4b912dee4c6f462b4b1dc8bbedba"
+        },
+        {
+          "path": "results/right_wrist_compensation_20261013/original/trajectory_200Hz.npz",
+          "bytes": 1006352,
+          "sha256": "f516f4cc5c7ae36bf3232a5775deebbd6c3883c9a79b65f6dd6502e1136fbdad"
+        },
+        {
+          "path": "results/right_wrist_compensation_20261013/original/both_hand_pose_in_piano_200Hz.csv",
+          "bytes": 528824,
+          "sha256": "43c56a66a001155b69da3e83b9ad92a733cd7c45071c152f1c1fc58da0ec8fc5"
+        },
+        {
+          "path": "results/right_wrist_compensation_20261013/original/export.py",
+          "bytes": 8724,
+          "sha256": "2e339b21d06dc0032812138fa3cc62778363ba5e558946b1413c18e4278f4e37"
+        },
+        {
+          "path": "results/right_wrist_compensation_20261013/original/left_joints_200Hz.csv",
+          "bytes": 1698193,
+          "sha256": "c24e63884bfecc912e674de56795df0184acd31ef62c5f33c53991c794cb62cc"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/both_hands_joints_wrist_20261013",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/both_hands_joints_wrist_20261013",
+      "bytes": 29039800,
+      "files": [
+        {
+          "path": "results/both_hands_joints_wrist_20261013/both_wrist_requested_piano.csv",
+          "bytes": 529084,
+          "sha256": "ffca21cc3520f4fe44ef845f20271b7b78420821df09e29c095df765ca5917f9"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/joint_mapping.json",
+          "bytes": 16599,
+          "sha256": "7e2fb8a0ede0613dcf2fe4c992497a257a195b9e21ce1326e9a4ef69aa086b83"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/right_wrist_executed_piano.csv",
+          "bytes": 269898,
+          "sha256": "baecb150cc78bc41384479dd1717a59b43cdd1b3cca4bb89070313f4c16e164e"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/right_arm_qva_rad.csv",
+          "bytes": 776029,
+          "sha256": "6fa487eadc3fc1dbeb64b9219d9aab5fb369b79b8bd65f502dd4bd97612515c0"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/both_joints_position_rad.csv",
+          "bytes": 1941693,
+          "sha256": "1cc7d9d950c17b0477ac5426d120d2c808f2e7e372881ae20f4c1a4f9c1e77ab"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/left_joints_qva_rad.csv",
+          "bytes": 2808887,
+          "sha256": "f5c83bcbb9d478e8233e09e490abda76e0ccd33fd9219d0057b84555d101a33e"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/README.txt",
+          "bytes": 4258,
+          "sha256": "c86ec9725528584bcd20b08080a6a5a1336cc8ae4707acaf98cea0de004b3bbf"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/export.log",
+          "bytes": 3125,
+          "sha256": "1868fde6afbe79712fcde17088950b4bfac89f05316b2b92d0b08fb29e4b1b68"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/left_wrist_requested_piano.csv",
+          "bytes": 274316,
+          "sha256": "0e3e2bc2d695854c0ed8e96f13cfafdc92955d245e3ee758fcae515d1473fdbb"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/both_hands_joints_wrist_200Hz.npz",
+          "bytes": 2724620,
+          "sha256": "4d93b3a19987c6875e9a8f8af4300e6813249b9d8585331804aeb80924da9178"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/right_wrist_requested_piano.csv",
+          "bytes": 269834,
+          "sha256": "880f9a940acf912cb5bdc189d9aab46e785fd59b20062381d6595c48ad13c438"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/report.json",
+          "bytes": 3545,
+          "sha256": "3156a83b16b0925cae9645bb1bde6a23ff7c0e89edd0f8c23309df73fb042ac9"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/both_joints_qva_rad.csv",
+          "bytes": 5729142,
+          "sha256": "f7491d08510537f980acf12a6ff8b04e5c486318d4d3dc7be5e5c722d235c11f"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/both_joints_and_wrist_200Hz.csv",
+          "bytes": 6242483,
+          "sha256": "8466c48b027723f73a0fc7a4dd41fe0987b07340c4de54be1ce7842d3cc91719"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/manifest.json",
+          "bytes": 3354,
+          "sha256": "ba40f0177b9d53aecd2fe9b4fe2a98bca9db731e05061c339dc3978d0287aad8"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/left_wrist_executed_piano.csv",
+          "bytes": 273575,
+          "sha256": "062772b657c371a4492a168bb057329cd4422fb1070d39220c1a8020177c1825"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/left_arm_qva_rad.csv",
+          "bytes": 655701,
+          "sha256": "2f66ce7b998ebeccbf269d81783f7285e0924b4e64551de1c1dc1300c8476c9e"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/joint_mapping.csv",
+          "bytes": 7671,
+          "sha256": "8bf2d8ab880aca8d55a4acee8a512566acbdc1f4ab0173c591a435b48f887ca0"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/both_wrist_executed_piano.csv",
+          "bytes": 528407,
+          "sha256": "2c1515ea19d0b27cdd9b9f45ccf96ee527d0f4281aaba5bdfe239ce239b25bb8"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/export.py",
+          "bytes": 9347,
+          "sha256": "caa188dc7f8e8b55ca50797b1ed0dc9b33a1649ea94448208d7b536275b68ccd"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/left_fingers_recorded_velocity_rad_s.csv",
+          "bytes": 755069,
+          "sha256": "35d82815601cd668c2783ffce026a20d4ac4ffe140c3bc217362b4581795ca61"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/right_fingers_position_rad.csv",
+          "bytes": 732070,
+          "sha256": "34da0aed05ae333766182712ce7ebfea036ca44384c9b87d0c902298d8742b09"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/left_fingers_position_rad.csv",
+          "bytes": 730717,
+          "sha256": "b521fc164dfadea971007e6024f5f4d2e744fefc32f615e04128be58dc6ac32f"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/right_joints_qva_rad.csv",
+          "bytes": 2935321,
+          "sha256": "92420f5daeeb7f57a52b1da865d3fe684f2717a2bb916aa7890a697a57dacb0b"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/right_fingers_recorded_velocity_rad_s.csv",
+          "bytes": 758948,
+          "sha256": "be5d84dc01d8817e7c2417e25513ee125cc8e6017dc4ec6c2b1e361ec5e93179"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/arm_stop_tails/right_stop_tail_qva_rad.csv",
+          "bytes": 1860,
+          "sha256": "633146ffeb280e9e6f87c69606d1fc80563bec4ab07441edf8b1ed16bc0460eb"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/arm_stop_tails/left_stop_tail_qva_rad.csv",
+          "bytes": 2173,
+          "sha256": "2bf9f94e210a97baa5d0683bd6ac3a1bfca41622403d89203ec31d93c8b51b43"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/provenance/right_arm.urdf",
+          "bytes": 9601,
+          "sha256": "3619ecc07d24bed0b3b5f30a57480457ba129e15dde36abb27ae97501a77e8c8"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/provenance/hand_connector.json",
+          "bytes": 5809,
+          "sha256": "eb6f3069a2c662c6485cb7f0adfb5e1cf5c1b204d5906a3dac0f0661faa942d9"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/provenance/left_source_report.json",
+          "bytes": 5198,
+          "sha256": "879e19cc2dab4ce0611f398221f7e0e8ddf4f0d9586e708e90f49898e60e275c"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/provenance/right_source_report.json",
+          "bytes": 5638,
+          "sha256": "2496581343f1b31f88860b8f6cd3bf5ba9cbd6e16b411b9463041bc6fc14cf7c"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/provenance/left_arm.urdf",
+          "bytes": 9645,
+          "sha256": "4cc1c19f2e76582c02fec945763bbe8995949f646a9ad3d02a118fb74c70eacc"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/provenance/right_controller_contract.json",
+          "bytes": 8180,
+          "sha256": "0a678234f07b6f8ba1fc51b253827b9037846ae879b8d38ade4288820c6762f8"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013/provenance/left_controller_contract.json",
+          "bytes": 8003,
+          "sha256": "7f8ff6faeac4b6e4ba5635372162ff5791b0fe16df0db7501412c124fd7ef476"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/right_flange_207_162p5_20261014",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/right_flange_207_162p5_20261014",
+      "bytes": 9170,
+      "files": [
+        {
+          "path": "results/right_flange_207_162p5_20261014/README.txt",
+          "bytes": 684,
+          "sha256": "b4de0bb7989c307f5e15d2aaee33a58556ea1bb67651c723a1bde44935f20c9e"
+        },
+        {
+          "path": "results/right_flange_207_162p5_20261014/report.json",
+          "bytes": 3943,
+          "sha256": "635da894ff678fcb3c153512108f2ae06c6525a092ad26b3f49978f90794a1b1"
+        },
+        {
+          "path": "results/right_flange_207_162p5_20261014/calculate.py",
+          "bytes": 4543,
+          "sha256": "8aa86688d9785586e621ea0f2c3734e81727d257b80be21a233ec66d51fa2242"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/both_hands_joints_wrist_20261013.zip",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/both_hands_joints_wrist_20261013.zip",
+      "bytes": 14443287,
+      "files": [
+        {
+          "path": "results/both_hands_joints_wrist_20261013.zip",
+          "bytes": 14443287,
+          "sha256": "2093512f41ca5dbfc2b2f8c299b58aca39ce89dda57666296b35cb36fe350085"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/right_flange_four_points_20261014",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/right_flange_four_points_20261014",
+      "bytes": 17691,
+      "files": [
+        {
+          "path": "results/right_flange_four_points_20261014/README.txt",
+          "bytes": 1583,
+          "sha256": "12594fe9157d44e42cf36394e88cef7d97ea73b4c0d7a446babceb30a9e2306d"
+        },
+        {
+          "path": "results/right_flange_four_points_20261014/report.json",
+          "bytes": 7968,
+          "sha256": "a709a2f5c72e0ba90c3496a29d9299cfc2c8444c1789666c7fc99caa6c205bb0"
+        },
+        {
+          "path": "results/right_flange_four_points_20261014/calculate.py",
+          "bytes": 4451,
+          "sha256": "c9c5a6d252512a7bafdd45189ac74d551e8748d14b9705e4d0e7f779e2c69c67"
+        },
+        {
+          "path": "results/right_flange_four_points_20261014/solver.log",
+          "bytes": 3689,
+          "sha256": "267118513c58eaaa3106858ee14625f00d7e80058c8a4b7dca6feedf8e80feff"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/right_flange_ik_20261013",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/right_flange_ik_20261013",
+      "bytes": 26980,
+      "files": [
+        {
+          "path": "results/right_flange_ik_20261013/README.txt",
+          "bytes": 738,
+          "sha256": "159796efed4713b74bc119429e6929d68700d4ea31f1bc07421ec342b0562b17"
+        },
+        {
+          "path": "results/right_flange_ik_20261013/report.json",
+          "bytes": 17191,
+          "sha256": "fad796c16a38081cdf289913c901b2b8162dd208f5fb7be11fe6c5ead9aec232"
+        },
+        {
+          "path": "results/right_flange_ik_20261013/calculate.py",
+          "bytes": 3602,
+          "sha256": "4f0be4443f95f1dbca6ebf2ec01bf0c0ce60a8e2807720050771ab67995904ec"
+        },
+        {
+          "path": "results/right_flange_ik_20261013/current_pose_recalculation/README.txt",
+          "bytes": 376,
+          "sha256": "e4c8eb3806627b8fd62c5c424f165d75644e048406132641b73d872889d3f287"
+        },
+        {
+          "path": "results/right_flange_ik_20261013/current_pose_recalculation/report.json",
+          "bytes": 2166,
+          "sha256": "c101e32d77b7bf8703ae916bd07c57bc61a69783f97386d41f613fa0c454242b"
+        },
+        {
+          "path": "results/right_flange_ik_20261013/current_pose_recalculation/calculate.py",
+          "bytes": 2907,
+          "sha256": "630983194cdd68f68924d60d4f889c38cc17027b7eb29634fda6d4ec57029f7a"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/both_hands_joints_wrist_20261013 (3)",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/both_hands_joints_wrist_20261013 (3)",
+      "bytes": 29039800,
+      "files": [
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/both_wrist_requested_piano.csv",
+          "bytes": 529084,
+          "sha256": "ffca21cc3520f4fe44ef845f20271b7b78420821df09e29c095df765ca5917f9"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/joint_mapping.json",
+          "bytes": 16599,
+          "sha256": "7e2fb8a0ede0613dcf2fe4c992497a257a195b9e21ce1326e9a4ef69aa086b83"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/right_wrist_executed_piano.csv",
+          "bytes": 269898,
+          "sha256": "baecb150cc78bc41384479dd1717a59b43cdd1b3cca4bb89070313f4c16e164e"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/right_arm_qva_rad.csv",
+          "bytes": 776029,
+          "sha256": "6fa487eadc3fc1dbeb64b9219d9aab5fb369b79b8bd65f502dd4bd97612515c0"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/both_joints_position_rad.csv",
+          "bytes": 1941693,
+          "sha256": "1cc7d9d950c17b0477ac5426d120d2c808f2e7e372881ae20f4c1a4f9c1e77ab"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/left_joints_qva_rad.csv",
+          "bytes": 2808887,
+          "sha256": "f5c83bcbb9d478e8233e09e490abda76e0ccd33fd9219d0057b84555d101a33e"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/README.txt",
+          "bytes": 4258,
+          "sha256": "c86ec9725528584bcd20b08080a6a5a1336cc8ae4707acaf98cea0de004b3bbf"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/export.log",
+          "bytes": 3125,
+          "sha256": "1868fde6afbe79712fcde17088950b4bfac89f05316b2b92d0b08fb29e4b1b68"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/left_wrist_requested_piano.csv",
+          "bytes": 274316,
+          "sha256": "0e3e2bc2d695854c0ed8e96f13cfafdc92955d245e3ee758fcae515d1473fdbb"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/both_hands_joints_wrist_200Hz.npz",
+          "bytes": 2724620,
+          "sha256": "4d93b3a19987c6875e9a8f8af4300e6813249b9d8585331804aeb80924da9178"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/right_wrist_requested_piano.csv",
+          "bytes": 269834,
+          "sha256": "880f9a940acf912cb5bdc189d9aab46e785fd59b20062381d6595c48ad13c438"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/report.json",
+          "bytes": 3545,
+          "sha256": "3156a83b16b0925cae9645bb1bde6a23ff7c0e89edd0f8c23309df73fb042ac9"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/both_joints_qva_rad.csv",
+          "bytes": 5729142,
+          "sha256": "f7491d08510537f980acf12a6ff8b04e5c486318d4d3dc7be5e5c722d235c11f"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/both_joints_and_wrist_200Hz.csv",
+          "bytes": 6242483,
+          "sha256": "8466c48b027723f73a0fc7a4dd41fe0987b07340c4de54be1ce7842d3cc91719"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/manifest.json",
+          "bytes": 3354,
+          "sha256": "ba40f0177b9d53aecd2fe9b4fe2a98bca9db731e05061c339dc3978d0287aad8"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/left_wrist_executed_piano.csv",
+          "bytes": 273575,
+          "sha256": "062772b657c371a4492a168bb057329cd4422fb1070d39220c1a8020177c1825"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/left_arm_qva_rad.csv",
+          "bytes": 655701,
+          "sha256": "2f66ce7b998ebeccbf269d81783f7285e0924b4e64551de1c1dc1300c8476c9e"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/joint_mapping.csv",
+          "bytes": 7671,
+          "sha256": "8bf2d8ab880aca8d55a4acee8a512566acbdc1f4ab0173c591a435b48f887ca0"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/both_wrist_executed_piano.csv",
+          "bytes": 528407,
+          "sha256": "2c1515ea19d0b27cdd9b9f45ccf96ee527d0f4281aaba5bdfe239ce239b25bb8"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/export.py",
+          "bytes": 9347,
+          "sha256": "caa188dc7f8e8b55ca50797b1ed0dc9b33a1649ea94448208d7b536275b68ccd"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/left_fingers_recorded_velocity_rad_s.csv",
+          "bytes": 755069,
+          "sha256": "35d82815601cd668c2783ffce026a20d4ac4ffe140c3bc217362b4581795ca61"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/right_fingers_position_rad.csv",
+          "bytes": 732070,
+          "sha256": "34da0aed05ae333766182712ce7ebfea036ca44384c9b87d0c902298d8742b09"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/left_fingers_position_rad.csv",
+          "bytes": 730717,
+          "sha256": "b521fc164dfadea971007e6024f5f4d2e744fefc32f615e04128be58dc6ac32f"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/right_joints_qva_rad.csv",
+          "bytes": 2935321,
+          "sha256": "92420f5daeeb7f57a52b1da865d3fe684f2717a2bb916aa7890a697a57dacb0b"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/right_fingers_recorded_velocity_rad_s.csv",
+          "bytes": 758948,
+          "sha256": "be5d84dc01d8817e7c2417e25513ee125cc8e6017dc4ec6c2b1e361ec5e93179"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/arm_stop_tails/right_stop_tail_qva_rad.csv",
+          "bytes": 1860,
+          "sha256": "633146ffeb280e9e6f87c69606d1fc80563bec4ab07441edf8b1ed16bc0460eb"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/arm_stop_tails/left_stop_tail_qva_rad.csv",
+          "bytes": 2173,
+          "sha256": "2bf9f94e210a97baa5d0683bd6ac3a1bfca41622403d89203ec31d93c8b51b43"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/provenance/right_arm.urdf",
+          "bytes": 9601,
+          "sha256": "3619ecc07d24bed0b3b5f30a57480457ba129e15dde36abb27ae97501a77e8c8"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/provenance/hand_connector.json",
+          "bytes": 5809,
+          "sha256": "eb6f3069a2c662c6485cb7f0adfb5e1cf5c1b204d5906a3dac0f0661faa942d9"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/provenance/left_source_report.json",
+          "bytes": 5198,
+          "sha256": "879e19cc2dab4ce0611f398221f7e0e8ddf4f0d9586e708e90f49898e60e275c"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/provenance/right_source_report.json",
+          "bytes": 5638,
+          "sha256": "2496581343f1b31f88860b8f6cd3bf5ba9cbd6e16b411b9463041bc6fc14cf7c"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/provenance/left_arm.urdf",
+          "bytes": 9645,
+          "sha256": "4cc1c19f2e76582c02fec945763bbe8995949f646a9ad3d02a118fb74c70eacc"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/provenance/right_controller_contract.json",
+          "bytes": 8180,
+          "sha256": "0a678234f07b6f8ba1fc51b253827b9037846ae879b8d38ade4288820c6762f8"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (3)/provenance/left_controller_contract.json",
+          "bytes": 8003,
+          "sha256": "7f8ff6faeac4b6e4ba5635372162ff5791b0fe16df0db7501412c124fd7ef476"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/both_hands_joints_wrist_20261013 (2)",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/both_hands_joints_wrist_20261013 (2)",
+      "bytes": 29039800,
+      "files": [
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/both_wrist_requested_piano.csv",
+          "bytes": 529084,
+          "sha256": "ffca21cc3520f4fe44ef845f20271b7b78420821df09e29c095df765ca5917f9"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/joint_mapping.json",
+          "bytes": 16599,
+          "sha256": "7e2fb8a0ede0613dcf2fe4c992497a257a195b9e21ce1326e9a4ef69aa086b83"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/right_wrist_executed_piano.csv",
+          "bytes": 269898,
+          "sha256": "baecb150cc78bc41384479dd1717a59b43cdd1b3cca4bb89070313f4c16e164e"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/right_arm_qva_rad.csv",
+          "bytes": 776029,
+          "sha256": "6fa487eadc3fc1dbeb64b9219d9aab5fb369b79b8bd65f502dd4bd97612515c0"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/both_joints_position_rad.csv",
+          "bytes": 1941693,
+          "sha256": "1cc7d9d950c17b0477ac5426d120d2c808f2e7e372881ae20f4c1a4f9c1e77ab"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/left_joints_qva_rad.csv",
+          "bytes": 2808887,
+          "sha256": "f5c83bcbb9d478e8233e09e490abda76e0ccd33fd9219d0057b84555d101a33e"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/README.txt",
+          "bytes": 4258,
+          "sha256": "c86ec9725528584bcd20b08080a6a5a1336cc8ae4707acaf98cea0de004b3bbf"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/export.log",
+          "bytes": 3125,
+          "sha256": "1868fde6afbe79712fcde17088950b4bfac89f05316b2b92d0b08fb29e4b1b68"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/left_wrist_requested_piano.csv",
+          "bytes": 274316,
+          "sha256": "0e3e2bc2d695854c0ed8e96f13cfafdc92955d245e3ee758fcae515d1473fdbb"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/both_hands_joints_wrist_200Hz.npz",
+          "bytes": 2724620,
+          "sha256": "4d93b3a19987c6875e9a8f8af4300e6813249b9d8585331804aeb80924da9178"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/right_wrist_requested_piano.csv",
+          "bytes": 269834,
+          "sha256": "880f9a940acf912cb5bdc189d9aab46e785fd59b20062381d6595c48ad13c438"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/report.json",
+          "bytes": 3545,
+          "sha256": "3156a83b16b0925cae9645bb1bde6a23ff7c0e89edd0f8c23309df73fb042ac9"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/both_joints_qva_rad.csv",
+          "bytes": 5729142,
+          "sha256": "f7491d08510537f980acf12a6ff8b04e5c486318d4d3dc7be5e5c722d235c11f"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/both_joints_and_wrist_200Hz.csv",
+          "bytes": 6242483,
+          "sha256": "8466c48b027723f73a0fc7a4dd41fe0987b07340c4de54be1ce7842d3cc91719"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/manifest.json",
+          "bytes": 3354,
+          "sha256": "ba40f0177b9d53aecd2fe9b4fe2a98bca9db731e05061c339dc3978d0287aad8"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/left_wrist_executed_piano.csv",
+          "bytes": 273575,
+          "sha256": "062772b657c371a4492a168bb057329cd4422fb1070d39220c1a8020177c1825"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/left_arm_qva_rad.csv",
+          "bytes": 655701,
+          "sha256": "2f66ce7b998ebeccbf269d81783f7285e0924b4e64551de1c1dc1300c8476c9e"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/joint_mapping.csv",
+          "bytes": 7671,
+          "sha256": "8bf2d8ab880aca8d55a4acee8a512566acbdc1f4ab0173c591a435b48f887ca0"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/both_wrist_executed_piano.csv",
+          "bytes": 528407,
+          "sha256": "2c1515ea19d0b27cdd9b9f45ccf96ee527d0f4281aaba5bdfe239ce239b25bb8"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/export.py",
+          "bytes": 9347,
+          "sha256": "caa188dc7f8e8b55ca50797b1ed0dc9b33a1649ea94448208d7b536275b68ccd"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/left_fingers_recorded_velocity_rad_s.csv",
+          "bytes": 755069,
+          "sha256": "35d82815601cd668c2783ffce026a20d4ac4ffe140c3bc217362b4581795ca61"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/right_fingers_position_rad.csv",
+          "bytes": 732070,
+          "sha256": "34da0aed05ae333766182712ce7ebfea036ca44384c9b87d0c902298d8742b09"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/left_fingers_position_rad.csv",
+          "bytes": 730717,
+          "sha256": "b521fc164dfadea971007e6024f5f4d2e744fefc32f615e04128be58dc6ac32f"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/right_joints_qva_rad.csv",
+          "bytes": 2935321,
+          "sha256": "92420f5daeeb7f57a52b1da865d3fe684f2717a2bb916aa7890a697a57dacb0b"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/right_fingers_recorded_velocity_rad_s.csv",
+          "bytes": 758948,
+          "sha256": "be5d84dc01d8817e7c2417e25513ee125cc8e6017dc4ec6c2b1e361ec5e93179"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/arm_stop_tails/right_stop_tail_qva_rad.csv",
+          "bytes": 1860,
+          "sha256": "633146ffeb280e9e6f87c69606d1fc80563bec4ab07441edf8b1ed16bc0460eb"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/arm_stop_tails/left_stop_tail_qva_rad.csv",
+          "bytes": 2173,
+          "sha256": "2bf9f94e210a97baa5d0683bd6ac3a1bfca41622403d89203ec31d93c8b51b43"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/provenance/right_arm.urdf",
+          "bytes": 9601,
+          "sha256": "3619ecc07d24bed0b3b5f30a57480457ba129e15dde36abb27ae97501a77e8c8"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/provenance/hand_connector.json",
+          "bytes": 5809,
+          "sha256": "eb6f3069a2c662c6485cb7f0adfb5e1cf5c1b204d5906a3dac0f0661faa942d9"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/provenance/left_source_report.json",
+          "bytes": 5198,
+          "sha256": "879e19cc2dab4ce0611f398221f7e0e8ddf4f0d9586e708e90f49898e60e275c"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/provenance/right_source_report.json",
+          "bytes": 5638,
+          "sha256": "2496581343f1b31f88860b8f6cd3bf5ba9cbd6e16b411b9463041bc6fc14cf7c"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/provenance/left_arm.urdf",
+          "bytes": 9645,
+          "sha256": "4cc1c19f2e76582c02fec945763bbe8995949f646a9ad3d02a118fb74c70eacc"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/provenance/right_controller_contract.json",
+          "bytes": 8180,
+          "sha256": "0a678234f07b6f8ba1fc51b253827b9037846ae879b8d38ade4288820c6762f8"
+        },
+        {
+          "path": "results/both_hands_joints_wrist_20261013 (2)/provenance/left_controller_contract.json",
+          "bytes": 8003,
+          "sha256": "7f8ff6faeac4b6e4ba5635372162ff5791b0fe16df0db7501412c124fd7ef476"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/right_flange_ik_ff202a68_20261014",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/right_flange_ik_ff202a68_20261014",
+      "bytes": 44910,
+      "files": [
+        {
+          "path": "results/right_flange_ik_ff202a68_20261014/localization_snapshot.json",
+          "bytes": 14578,
+          "sha256": "bf550dd4e6dd687f58f34f7b8c08b6f653d3f23342d839308db379b19d9ce1be"
+        },
+        {
+          "path": "results/right_flange_ik_ff202a68_20261014/README.txt",
+          "bytes": 1375,
+          "sha256": "4a295a299022b4566c6c24c574e388a01a8e3a1ad576ff1650dce44879696233"
+        },
+        {
+          "path": "results/right_flange_ik_ff202a68_20261014/report.json",
+          "bytes": 2612,
+          "sha256": "e5bb8bb25c7f7a2f43ad4df02bb70c8fe71a0001fe532d6bef8879d2b9e31ca0"
+        },
+        {
+          "path": "results/right_flange_ik_ff202a68_20261014/prepare.py",
+          "bytes": 2376,
+          "sha256": "8b192b4f314c76d2047e080031e8c7c56e5b2b03bec45d1542b6a7e9481f665f"
+        },
+        {
+          "path": "results/right_flange_ik_ff202a68_20261014/calculate.py",
+          "bytes": 3406,
+          "sha256": "c3b5b73aa8f613e8cd74f5c61e6bcc28bed0e9b418b44fef96461e3669853434"
+        },
+        {
+          "path": "results/right_flange_ik_ff202a68_20261014/solver.log",
+          "bytes": 2613,
+          "sha256": "821efa42b262285cf23c902031d57bcaeddbb0e3408c1db9fd4ed5067080ee41"
+        },
+        {
+          "path": "results/right_flange_ik_ff202a68_20261014/input.json",
+          "bytes": 17950,
+          "sha256": "daa28afee707aecade96f4bb639f45f961c13249463c25a641b0100bec2ff346"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/left_wrist_compensation_20261013",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/left_wrist_compensation_20261013",
+      "bytes": 8516556,
+      "files": [
+        {
+          "path": "results/left_wrist_compensation_20261013/metadata.json",
+          "bytes": 2967,
+          "sha256": "4d3f3b1ad809a6e7ad48c82e34d3ccf08078a9174f8e6f0cac78ce6436766e96"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/left_flange_pose_in_piano_200Hz.csv",
+          "bytes": 270849,
+          "sha256": "fb74c0702d25dffbe461e12e1cbfe5a2085e1c8941cedacfaf9df86d01b18816"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/left_wrist_pose_in_piano_200Hz.csv",
+          "bytes": 274287,
+          "sha256": "c792743c9f2ef2665ec364648b6d36f05be21ff07f87066e2b68c1805c97b850"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/trajectory_compensated_200Hz.npz",
+          "bytes": 925258,
+          "sha256": "6631f45384ca72a09ec758bbd27dd39e43968a734b354f26ba7fcbc75d7922b9"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/README.txt",
+          "bytes": 3508,
+          "sha256": "ae6de4e6e7d1e7228b613a7c4a984d86faebc06c4b1e2ea543e5ac4fb24107fd"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/t0_joints.csv",
+          "bytes": 252,
+          "sha256": "cbdb90d432c334a7a3db65b5529a2e5880a8f2201427481ed6888e0dc0b8acdf"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/t0_joints_deg.txt",
+          "bytes": 63,
+          "sha256": "062b776a7e4025d3618b4f8f4c7687033e7956fcd08570ede6cfbeaf32431ead"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/manifest.json",
+          "bytes": 3755,
+          "sha256": "484cf5baf52a190f27975c6945650c4f2db90940694673d07b71261d2da5f2b9"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/ik.log",
+          "bytes": 11615,
+          "sha256": "a3ce7541f2b7446838be2034672a0d21ce4b7a074a6e72d8823a0957754612a8"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/left_flange_200Hz.npz",
+          "bytes": 208844,
+          "sha256": "68e01d55e02fedea2cb0417848333a25b04ea5de2b8dfa80a506caffc996ec7a"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/both_hand_pose_in_piano_200Hz.csv",
+          "bytes": 529035,
+          "sha256": "c0b678f540dc8b25dd59ce7fd77fad7ef8f29a548b6e15e3841c59fe59873f46"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/t0_report.json",
+          "bytes": 3055,
+          "sha256": "faddca645e9e3c24f2d73e83ef45227d0f44b2200e9787cb52c92d8ef75c1fec"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/export_flange.py",
+          "bytes": 2881,
+          "sha256": "8135ee83d9401a130f51e30df8a0e2b511635e5f809dd2f41645f259d9189bc2"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/derive_t0.py",
+          "bytes": 3494,
+          "sha256": "475d2332667d46cc4f50b7b37c09da39088b18d4f7ccaa7161b145dc579d4ff5"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/simulation/front.png",
+          "bytes": 226283,
+          "sha256": "def2b87e0bcdc0ed010c90a5fc1e2a84ae2f20329fcaff09d2ea9cb8da598463"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/simulation/side.png",
+          "bytes": 283656,
+          "sha256": "3e5b0d483a570c57f5bee1902157c5eddd5ca46c0b7fdeb0773e19c6b519ade6"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/simulation/overview.png",
+          "bytes": 300914,
+          "sha256": "2bbebb4820adc809fa09295ff364066ac7ff44abf667041432fe0626716daced"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/simulation/top.png",
+          "bytes": 220915,
+          "sha256": "df5e7d599c4abf52efa3fb6ddd5c53a55622b9dac66430610488b6d01c74c27b"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/simulation/report.json",
+          "bytes": 2121,
+          "sha256": "c55c0ec8fb6875fe5c5d339cc7119116526cada90ac032b363f2d34f2b130975"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/simulation/config.json",
+          "bytes": 84993,
+          "sha256": "ef709cd72c811d521d7c9f1aa86f7de390f3b295d1b5782fe3aad180ab41755d"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/simulation/initial_state.npz",
+          "bytes": 1783,
+          "sha256": "0c427387221e41fdda7bc0a3a080b6947dbe0b4e87b49c75283e3f1157e74836"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/original/metadata.json",
+          "bytes": 15239,
+          "sha256": "1eb3fc28478f68ceeaf4c2fd096e0152533d327ce86a545b9baf4177ee3e49b6"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/original/README.md",
+          "bytes": 1303,
+          "sha256": "7b731571b5514512718073375685c1d0d5836fca34c21571d7bbd82d1c7f756f"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/original/hand_root_positions.png",
+          "bytes": 158066,
+          "sha256": "a8b5abdb81187a55db87b0cd72812a243c40431753411f2aafa4b39cb893a2d6"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/original/right_joints_200Hz.csv",
+          "bytes": 1706196,
+          "sha256": "721807486cade9b07f0803ac5f97cf90328b727b10652701a0cc5816c75cc7a9"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/original/manifest.json",
+          "bytes": 745,
+          "sha256": "86575ce5b2c3ff467fb96a6c4f57706bd0af4b912dee4c6f462b4b1dc8bbedba"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/original/trajectory_200Hz.npz",
+          "bytes": 1006352,
+          "sha256": "f516f4cc5c7ae36bf3232a5775deebbd6c3883c9a79b65f6dd6502e1136fbdad"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/original/both_hand_pose_in_piano_200Hz.csv",
+          "bytes": 528824,
+          "sha256": "43c56a66a001155b69da3e83b9ad92a733cd7c45071c152f1c1fc58da0ec8fc5"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/original/export.py",
+          "bytes": 8724,
+          "sha256": "2e339b21d06dc0032812138fa3cc62778363ba5e558946b1413c18e4278f4e37"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/original/left_joints_200Hz.csv",
+          "bytes": 1698193,
+          "sha256": "c24e63884bfecc912e674de56795df0184acd31ef62c5f33c53991c794cb62cc"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/provenance/compensate_left_wrist.py",
+          "bytes": 4843,
+          "sha256": "76af2e5b37fa1c9cc0e76a9aaa6f827b63544f7a4a583d3ed508deff0879b473"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/provenance/left_localization_and_sdk_flange.json",
+          "bytes": 4249,
+          "sha256": "bf6ba66b05fd1db15faea16d675b2a7414bbc5f301a39f6a965d063bc7bd595e"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/provenance/submission.json",
+          "bytes": 336,
+          "sha256": "b6bbf21ea71fd41d1a79d226afb3b5b137edb668d98ce656ce39747d852b9ad3"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/provenance/hand_connector.json",
+          "bytes": 5809,
+          "sha256": "eb6f3069a2c662c6485cb7f0adfb5e1cf5c1b204d5906a3dac0f0661faa942d9"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/provenance/test_render.py",
+          "bytes": 5798,
+          "sha256": "538d782e59e2a3859bd8a934e38f1f80c5fbad6007426fea1756cc81a3492163"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/provenance/archive_verification.json",
+          "bytes": 369,
+          "sha256": "f41106bf355fd40d6b44491a7ef5b67255306bb06b1a219b32498f4ad810d97a"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/provenance/left_arm.urdf",
+          "bytes": 9645,
+          "sha256": "4cc1c19f2e76582c02fec945763bbe8995949f646a9ad3d02a118fb74c70eacc"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/provenance/source_archive.sha256",
+          "bytes": 124,
+          "sha256": "6085f5b8855e63c4f5f7b9d31c70d16159e4d20b6cdeb36d718c0d4723c0bb0b"
+        },
+        {
+          "path": "results/left_wrist_compensation_20261013/provenance/remote_validation.txt",
+          "bytes": 1213,
+          "sha256": "30d8ca96ccc7ca9536653068b3b470484f2fcc74177dbfa0815a5fb0398b69a0"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/left_arm_joint_trajectory_20261013",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/left_arm_joint_trajectory_20261013",
+      "bytes": 19626384,
+      "files": [
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/left_arm_joints_original_200Hz_deg.csv",
+          "bytes": 252669,
+          "sha256": "c21ac2e8100aaef733bcc37d0f5e685810f4cf80e3f2007f167ac763871cbd49"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/left_arm_original_200Hz.npz",
+          "bytes": 982956,
+          "sha256": "5902f4906891d3c01b19832733342860dadc722a9ec077a61599b06d113cf79b"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/retimed_trajectory_audit.png",
+          "bytes": 182134,
+          "sha256": "62dc3494175d2b1c80d180c6703d1bb8398503f9500d13806ca3cc51571a6d7a"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/export_left_arm.py",
+          "bytes": 5363,
+          "sha256": "78a9787fd373b9d07c4dd3f60322b0b2de740042fc2f94e3f148b74ff50d4f58"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/export_controller.py",
+          "bytes": 4667,
+          "sha256": "7ad913f3d1d01a5f72247e2f8daa6e6e1eca69f9017b13e905df849c9388f7d4"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/package.log",
+          "bytes": 6085,
+          "sha256": "25156e5fa5a052cf30ec44d173560042bcfefc842769371217195435f599665b"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/report.json",
+          "bytes": 6085,
+          "sha256": "25156e5fa5a052cf30ec44d173560042bcfefc842769371217195435f599665b"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/left_arm_joints_original_200Hz_rad.csv",
+          "bytes": 263977,
+          "sha256": "d09d003f088f3239a57a27c230d5d547195cc975ab0845356fd4a7e4a6a702ad"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/left_arm_retimed_knots_deg.csv",
+          "bytes": 286366,
+          "sha256": "da2650c69b8ee96c4aaaa097ad82d9b971e30ca318e015d9775ef5010263b1a6"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/export_stop_tail.py",
+          "bytes": 2971,
+          "sha256": "79c73e5fd849139ba4f0a1f965beb2cd12a8f1d88fba5dd5752179f8b7024f10"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/original_time_audit.csv",
+          "bytes": 610716,
+          "sha256": "9ada44ddc373a7d3ecba5e6aeb85d4bdd794314e9b213a87be3aea14af828045"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/left_arm_qva_rad.zip",
+          "bytes": 513253,
+          "sha256": "b4ed8f34a72bc4ea9eb5852fb7ad3b9f387a19f8d636b92cbc4669cdcda74881"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/package_trajectory.py",
+          "bytes": 10991,
+          "sha256": "cfbf8012bf7a163f492266b56f9b319527eba8c5720993f316dc1b2df6b65ab6"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/solved_ik.npz",
+          "bytes": 333905,
+          "sha256": "4f0c114835dee9cf63c66be2c2f99f6b57d79ed45c3ab317b2b2ec19b62c103a"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/left_arm_retimed_quintic.npz",
+          "bytes": 2508859,
+          "sha256": "5c3792c715cd50d3babfd114e03e47b812f791502c3f2fbb2edd31a9302a48f5"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/solver_diagnostics.json",
+          "bytes": 458584,
+          "sha256": "fb54d0144714399a7f0ec9389e58b187aa6db7ad14817defd70672473087412a"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/left_arm_retimed_samples_deg.csv",
+          "bytes": 4386707,
+          "sha256": "c838316451f88bdef784ddf43ac7122ecaf1cde43361cac160438c6e5c6ec045"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/solver.log",
+          "bytes": 336,
+          "sha256": "2b56e3e593b9bf189c3c069d8365f38611dcc0574481761d7bc1475f2409389f"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/audit_controller.py",
+          "bytes": 8205,
+          "sha256": "9e169b16b2011ec5d95dbff1965528911678c39ddd1e2256044133fc72de25db"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/joint_trajectory_audit.png",
+          "bytes": 314815,
+          "sha256": "e324eb3c6a86664ccddc3f931e73dc4ef7bc71c42a82e48ae3fc83cb3c405af2"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller.log",
+          "bytes": 452,
+          "sha256": "47f5476887213c47a05f84cd695a277316d66029152bfdd688418acbfa504f81"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_audit.log",
+          "bytes": 4535,
+          "sha256": "778249dc2243986de65734331b1538a67b34bee1443b7209ed6a66b487471d6f"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/radians_with_derivatives/README.txt",
+          "bytes": 1428,
+          "sha256": "865315cf58c13a012c0564f4c91ea4bde4b123e9cf9bf9e713689d330799f6fd"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/radians_with_derivatives/left_arm_qva_200Hz_rad.csv",
+          "bytes": 655701,
+          "sha256": "2f66ce7b998ebeccbf269d81783f7285e0924b4e64551de1c1dc1300c8476c9e"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/radians_with_derivatives/report.json",
+          "bytes": 1964,
+          "sha256": "6a8272dc9bfc47485b79413c61af8ccb6c3a7a0f072f6e28c80ebf80f8ff4832"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/radians_with_derivatives/manifest.json",
+          "bytes": 563,
+          "sha256": "068c25fd682fe3467efef46c416afdf580d0f5b3935ce8fcde6d43b2efb1d274"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/radians_with_derivatives/left_arm_qva_with_stop_rad.csv",
+          "bytes": 657107,
+          "sha256": "7ca6a6bb0d4f178503c82fa5c1e15787e8841d8477c2adceaf059ffdfeecc6fd"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/radians_with_derivatives/export.py",
+          "bytes": 5062,
+          "sha256": "86df0407e159f34ada078348c65268d3b083082fc68c83e46e10b3bae8722c4b"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/radians_with_derivatives/optional_stop_tail_qva_rad.csv",
+          "bytes": 2173,
+          "sha256": "2bf9f94e210a97baa5d0683bd6ac3a1bfca41622403d89203ec31d93c8b51b43"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/stop_tail_report.json",
+          "bytes": 583,
+          "sha256": "b63b608ae5e351250797374af2ad0c8687dad2bced161d0dceec0098a8224de9"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/source_verification.json",
+          "bytes": 1753,
+          "sha256": "c598162311c7ec7dc2d540ff198548fba83a539f3f270f2b23ea8d29816c28d7"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/left_arm_joints_200Hz_rad.csv",
+          "bytes": 256008,
+          "sha256": "41383a3f716e23e7b79e8668b6310ba9b484ff5686621281ff20a7f5041b05a4"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/left_arm_ik_reference_deg.csv",
+          "bytes": 252601,
+          "sha256": "73c016419998a828dd2f3a0b5244c42fc3763f528d533f0f29aebfce02c4c1c3"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/left_arm_joints_200Hz_deg.csv",
+          "bytes": 252689,
+          "sha256": "a2623e7f42a4f2e12de06eb222086894c94d45afc0157a0914054ed9f5f7a2be"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/left_flange_executed_piano.csv",
+          "bytes": 271172,
+          "sha256": "c6f3ab0c4d0cd0b2208ac94ef42cea999d7c7db9bf2ddf0d7c38def716cea62d"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/README.txt",
+          "bytes": 4735,
+          "sha256": "cefa345cbca139c2c54cc0a95e3236d83f35228fa30fae3bdc864024148726c8"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/wrist_tracking.png",
+          "bytes": 157835,
+          "sha256": "a90c2e73ddc4fd8883aca8b5a51207efc43c77e4c9706805288fae77bf740e41"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/left_flange_requested_piano.csv",
+          "bytes": 270849,
+          "sha256": "fb74c0702d25dffbe461e12e1cbfe5a2085e1c8941cedacfaf9df86d01b18816"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/trajectory_and_limits.png",
+          "bytes": 401349,
+          "sha256": "9aac519d9677bb23e2b9ec605cacdce3f2a88438a7047a1bf9769040dd2876cd"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/report.json",
+          "bytes": 5198,
+          "sha256": "879e19cc2dab4ce0611f398221f7e0e8ddf4f0d9586e708e90f49898e60e275c"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/optional_stop_tail_deg.csv",
+          "bytes": 2102,
+          "sha256": "0a4381010c3805ea244ea6d8dc63031f0b0c1e0e59b00682757d9d8a96fb76d8"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/manifest.json",
+          "bytes": 3669,
+          "sha256": "061bd94c6dcfa209877d386b38cc2f9919829b8a5954cfb6efc57320686aae74"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/controller_contract.json",
+          "bytes": 8003,
+          "sha256": "7f8ff6faeac4b6e4ba5635372162ff5791b0fe16df0db7501412c124fd7ef476"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/left_wrist_executed_piano.csv",
+          "bytes": 273498,
+          "sha256": "0c492ce7900be1a13c890261590cca326ffafbef3ef28c8d270559d26c5857b7"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/left_arm_motion_audit.csv",
+          "bytes": 502579,
+          "sha256": "7e556bc23e5028d876b0608f26d856d89abd1a6c92c69425e37e5816e0f125e3"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/controller_raw.npz",
+          "bytes": 699765,
+          "sha256": "4af848cdde816001f832631017d92c33592f5495a1edd3d32370f8083e2401dd"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/left_arm_trajectory_200Hz.npz",
+          "bytes": 1197401,
+          "sha256": "e6ad151523af031a93fa2f7c7363f68a79b36512a865dc8a56442f00f821fbae"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/reference_only/left_arm_joints_original_200Hz_deg.csv",
+          "bytes": 252669,
+          "sha256": "c21ac2e8100aaef733bcc37d0f5e685810f4cf80e3f2007f167ac763871cbd49"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/reference_only/README.txt",
+          "bytes": 248,
+          "sha256": "fb678d434f716230c7e63d3a36ba91c9f046c66c30a87ccc265aaa98c98e8d00"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/reference_only/original_time_audit.csv",
+          "bytes": 610716,
+          "sha256": "9ada44ddc373a7d3ecba5e6aeb85d4bdd794314e9b213a87be3aea14af828045"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/reference_only/solver_diagnostics.json",
+          "bytes": 458584,
+          "sha256": "fb54d0144714399a7f0ec9389e58b187aa6db7ad14817defd70672473087412a"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/provenance/left_wrist_pose_in_piano_200Hz.csv",
+          "bytes": 274287,
+          "sha256": "c792743c9f2ef2665ec364648b6d36f05be21ff07f87066e2b68c1805c97b850"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/provenance/trajectory_compensated_200Hz.npz",
+          "bytes": 925258,
+          "sha256": "6631f45384ca72a09ec758bbd27dd39e43968a734b354f26ba7fcbc75d7922b9"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/provenance/export_left_arm.py",
+          "bytes": 5363,
+          "sha256": "78a9787fd373b9d07c4dd3f60322b0b2de740042fc2f94e3f148b74ff50d4f58"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/provenance/export_controller.py",
+          "bytes": 4667,
+          "sha256": "7ad913f3d1d01a5f72247e2f8daa6e6e1eca69f9017b13e905df849c9388f7d4"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/provenance/export_stop_tail.py",
+          "bytes": 2971,
+          "sha256": "79c73e5fd849139ba4f0a1f965beb2cd12a8f1d88fba5dd5752179f8b7024f10"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/provenance/t0_report.json",
+          "bytes": 3055,
+          "sha256": "faddca645e9e3c24f2d73e83ef45227d0f44b2200e9787cb52c92d8ef75c1fec"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/provenance/audit_controller.py",
+          "bytes": 8205,
+          "sha256": "9e169b16b2011ec5d95dbff1965528911678c39ddd1e2256044133fc72de25db"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/provenance/source/preview/assets/tj_m6/left/arm.urdf",
+          "bytes": 9645,
+          "sha256": "4cc1c19f2e76582c02fec945763bbe8995949f646a9ad3d02a118fb74c70eacc"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/provenance/source/tsensei_v3_2_pianist/mjlab_env/arm_options.py",
+          "bytes": 10232,
+          "sha256": "79c1f2df8820755b8a052eddfd891a0aa9ddc49d7b78569718db2285ebc432b3"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/provenance/source/tsensei_v3_2_pianist/mjlab_env/arm_follow.py",
+          "bytes": 14285,
+          "sha256": "49f93ce0c3219963143f3da0a67109dec47279a7778a44a7021f25bc2432c242"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/provenance/source/tsensei_v3_2_pianist/mjlab_env/arm_ik.py",
+          "bytes": 6297,
+          "sha256": "fd73f8a61a50e04115c8a137fd5eac1fdec371d130b9ef053a3163d61655a0b6"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/provenance/source/configs/preview/hand_connector_20260930.json",
+          "bytes": 5809,
+          "sha256": "eb6f3069a2c662c6485cb7f0adfb5e1cf5c1b204d5906a3dac0f0661faa942d9"
+        },
+        {
+          "path": "results/left_arm_joint_trajectory_20261013/controller_limited/provenance/source/configs/preview/m6_sdk_joint_limits.json",
+          "bytes": 3675,
+          "sha256": "a0c35c5962e0655e8392a472d1a3821e1cd69e1ea42ac77ea292bc56d0e24f24"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/right_flange_163_147p5_20261014",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/right_flange_163_147p5_20261014",
+      "bytes": 9840,
+      "files": [
+        {
+          "path": "results/right_flange_163_147p5_20261014/README.txt",
+          "bytes": 702,
+          "sha256": "e589d01afbb8395f163e47bac541acf7f165355ccf5ff225461480e438c19c98"
+        },
+        {
+          "path": "results/right_flange_163_147p5_20261014/report.json",
+          "bytes": 3791,
+          "sha256": "4ccd68795c085142ff01750d4ec598301f4c7425b4dd34d41ca65060cb12093e"
+        },
+        {
+          "path": "results/right_flange_163_147p5_20261014/calculate.py",
+          "bytes": 4426,
+          "sha256": "83d05407b0dac84a7f082060362d0f7eb0337f0732361332d034c3d5081b1d7c"
+        },
+        {
+          "path": "results/right_flange_163_147p5_20261014/solver.log",
+          "bytes": 921,
+          "sha256": "cfaa4abd85dd736aef92caa27a1aa52c1b0d5b7248ff3a07d1e3bddde34851e5"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/results/right_four_point_test_20261014",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/results/right_four_point_test_20261014",
+      "bytes": 32346,
+      "files": [
+        {
+          "path": "results/right_four_point_test_20261014/README.txt",
+          "bytes": 1465,
+          "sha256": "ee591f9e625b9fbef20834b860105745175326bb55c2b5b8d6597686c0a3f108"
+        },
+        {
+          "path": "results/right_four_point_test_20261014/report.json",
+          "bytes": 5968,
+          "sha256": "894681c1dbba823d943f69e113be639fc80a5e7c705823b96543d4fdb3d222fb"
+        },
+        {
+          "path": "results/right_four_point_test_20261014/source_input.json",
+          "bytes": 18030,
+          "sha256": "39c9e0e3adfc307d0a79ad565d47e0f7a16894302ae8f379246a26c0a07bc47f"
+        },
+        {
+          "path": "results/right_four_point_test_20261014/calculate.py",
+          "bytes": 4133,
+          "sha256": "87ff3b119cd8662ab845c9f99bfb6361c9d3fcf86e9655df1195bae5a538841c"
+        },
+        {
+          "path": "results/right_four_point_test_20261014/solver.log",
+          "bytes": 2750,
+          "sha256": "9d26731faacbe71de223d9f352d6ccacb4985b93a23389200417123613ebbda8"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/.git/lfs/tmp/4188269071",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/.git/lfs/tmp/4188269071",
+      "bytes": 8192,
+      "files": [
+        {
+          "path": ".git/lfs/tmp/4188269071",
+          "bytes": 8192,
+          "sha256": "17f2ade30a6075ee751ff89e0aa096f4b84dc539e775e570f44d7adde70b9506"
+        }
+      ]
+    },
+    {
+      "original": "/home/hj/pianist/.git/lfs/tmp/2508156331",
+      "recovery": "/home/hj/pianist_cleanup_recovery/20261015_210432/.git/lfs/tmp/2508156331",
+      "bytes": 349618176,
+      "files": [
+        {
+          "path": ".git/lfs/tmp/2508156331",
+          "bytes": 349618176,
+          "sha256": "95c4614f43174f84bd0feba08eedf07130222dcf982af04cc1abc96022849439"
+        }
+      ]
+    }
+  ],
+  "total_bytes": 535446454,
+  "preserved": [
+    "model_matching_20261014",
+    "prelude_bwv847",
+    "training_consistency_20261015",
+    "video_exports_2267_2263_20261013"
+  ],
+  "git_policy": "No valid objects, refs, history, LFS objects or working source removed.",
+  "permanent_deletion": {
+    "date": "2026-10-15",
+    "authorized_by_user": true,
+    "status": "complete",
+    "verified_manifest_sha256": true,
+    "results_files_unchanged": 2935,
+    "available_bytes_before": 959238144,
+    "available_bytes_after": 1495810048
+  }
+}

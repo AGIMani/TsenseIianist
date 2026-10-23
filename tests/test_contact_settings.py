@@ -20,7 +20,7 @@ class ContactSettingsTest(unittest.TestCase):
         np.testing.assert_allclose(m.geom('piano/white_key_geom_0').solref,[.005,1])
         np.testing.assert_allclose(m.joint('piano/white_joint_0').solimp,[.9,.95,.001,.5,2])
         for side in ('R','L'):
-            np.testing.assert_allclose(m.actuator(side+'_Wrist_TZ').ctrlrange,[-.025,0])
+            np.testing.assert_allclose(m.actuator(side+'_Palm_Base_Tz').ctrlrange,[-.025,0])
         comparison = shadow_comparison(from_model(m, b.manifest['control_dt']))
         self.assertTrue(comparison['matches_shadow'], comparison['differences'])
         np.testing.assert_allclose(comparison['hand_key_contact']['mixed_solref'], [.005, 1])
@@ -29,7 +29,7 @@ class ContactSettingsTest(unittest.TestCase):
         b=SceneBundle(DEFAULT_SCENE);m=b.model;d=b.reset_cpu()
         # A penetrating pose provides real hand-key contacts for parameter inspection.
         for side in ('R','L'):
-            j=m.actuator_trnid[m.actuator(side+'_Wrist_TZ').id,0]
+            j=m.actuator_trnid[m.actuator(side+'_Palm_Base_Tz').id,0]
             d.qpos[m.jnt_qposadr[j]]=-.015
         mujoco.mj_forward(m,d)
         def contacts():

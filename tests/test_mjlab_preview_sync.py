@@ -26,7 +26,12 @@ class MjlabPreviewSyncTests(unittest.TestCase):
         cls.bundle, cls.scene_directory, _ = build_bundle_from_config(cls.config)
 
     def test_source_and_arm_contract_are_current(self):
-        self.assertEqual(self.config["arm_follow"]["controller"], "rigid_wrist_command")
+        # The current convex link hulls cannot initialize the capsule envelope.
+        self.assertIsNone(self.config["finger_clearance"])
+        # A complete reward_config already owns this value. A second nonzero
+        # legacy scalar is rejected by the same canonicalizer used in training.
+        self.assertEqual(self.config.get("self_collision_weight", 0.), 0.)
+        self.assertEqual(self.config["arm_follow"]["controller"], "wuji_cartesian_v1")
         self.assertEqual(
             len(self.bundle.arm_follow_spec["parent_collision_filter"]["restored_body_pairs"]), 20
         )
@@ -41,7 +46,7 @@ class MjlabPreviewSyncTests(unittest.TestCase):
 
         with tempfile.TemporaryDirectory(prefix="tsensei-preview-test-") as directory:
             summary = scan_reachability(
-                self.bundle, directory, tx_points=2, ty_points=2, pitch_points=2,
+                self.bundle, directory, tx_points=2, ty_points=2, tz_points=2,
                 preparation_points=1, extra_attempts=1, batch_size=8,
             )
             self.assertEqual(summary["sides"]["left"]["total"], 8)
@@ -57,11 +62,39 @@ class MjlabPreviewSyncTests(unittest.TestCase):
         from tsensei_v3_2_pianist.mjlab_env.preview_contract import build_task_from_config
 
         env, _, _, _ = build_task_from_config(self.config, device="cuda:0", num_envs=1)
+        self.assertIsNone(env.scene.finger_clearance_guard)
         observation = env.reset()
-        self.assertEqual(env.scene.arm_follower.contract["controller"], "rigid_wrist_command")
+        self.assertEqual(env.scene.arm_follower.contract["controller"], "wuji_cartesian_v1")
         self.assertEqual(len(env.scene.arm_follower.contract["parent_collision_filter"]["restored_body_pairs"]), 20)
         action = torch.zeros((1, env.action_size), device="cuda:0")
         result = env.step(action)
+        self.assertTrue(torch.isfinite(observation).all())
+        self.assertTrue(torch.isfinite(result.observation).all())
+        self.assertTrue(torch.isfinite(result.reward).all())
+
+    @unittest.skipUnless(torch is not None and torch.cuda.is_available(), "Slurm CUDA allocation required")
+    def test_default_hand_only_gpu_task_for_one_step(self):
+        import importlib.util
+        import mujoco
+        from tsensei_v3_2_pianist.mjlab_env.preview_contract import task_kwargs
+        from tsensei_v3_2_pianist.mjlab_env.task import PianoTaskEnv
+
+        path = Path(__file__).parents[1] / 'preview/scripts/preview_mjlab.py'
+        spec = importlib.util.spec_from_file_location('current_mjlab_preview', path)
+        preview = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(preview)
+        config = preview.load_default_hand_only_config()
+        self.assertIsNone(config['arm_follow'])
+        self.assertFalse(config['reward_config']['terms']['arm_motion_limit_penalty']['enabled'])
+        env = PianoTaskEnv(self.scene_directory, self.scene_directory.parent / 'task',
+                           device='cuda:0', **task_kwargs(config))
+        self.assertIsNone(env.scene.arm_follower)
+        self.assertIsNone(env.scene.finger_clearance_guard)
+        for side in ('right', 'left'):
+            self.assertEqual(mujoco.mj_name2id(env.scene.model, mujoco.mjtObj.mjOBJ_BODY,
+                                             'arm_flange_' + side), -1)
+        observation = env.reset()
+        result = env.step(torch.zeros((1, env.action_size), device='cuda:0'))
         self.assertTrue(torch.isfinite(observation).all())
         self.assertTrue(torch.isfinite(result.observation).all())
         self.assertTrue(torch.isfinite(result.reward).all())

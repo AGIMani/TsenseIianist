@@ -31,7 +31,7 @@ def main():
     c['terms']['finger_speed_reward']['weight']=.3
     c['terms']['natural_posture_reward']['params']['reference']='scene_reset'
     c['terms']['collision_reward']['params']['categories']=['self','inter_hand','piano_case']
-    c['terms']['wrist_pitch_reward']['params']['directions']={'R_Wrist_Pitch':1,'L_Wrist_Pitch':-1}
+    c['terms']['wrist_pitch_reward']['params']['directions']={'R_Palm_Base_Pitch':1,'L_Palm_Base_Pitch':-1}
     c['terms']['forward_press_reward']['params']['angle_map']={
         f:dict(joints={f+'_MCP':1.},offset=0.) for f in FINGER_NAMES}
     c['terms']['key_press_reward']['params'].update(chord_bonus=True,chord_scope='whole_key')

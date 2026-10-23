@@ -1,4 +1,4 @@
-"""Static workspace scan using the same current rigid_wrist_command arm follower as training.
+"""Static Cartesian palm workspace scan using the active arm follower.
 
 This is a kinematic diagnostic.  ``solved`` rows are numerical IK witnesses;
 ``proven_outside_bound`` rows are outside a conservative Link7 outer bound and
@@ -18,7 +18,6 @@ from pathlib import Path
 
 import numpy as np
 import torch
-from scipy.spatial.transform import Rotation
 
 from .arm_follow import ArmFollower, rotation_error
 
@@ -26,7 +25,7 @@ from .arm_follow import ArmFollower, rotation_error
 def _limits(bundle, wrist):
     indices = np.asarray(wrist["indices"], dtype=int)
     if indices.shape != (3,):
-        raise ValueError(f"Expected TX/TY/Pitch wrist request indices, got {indices.tolist()}")
+        raise ValueError(f"Expected TX/TY/TZ Cartesian request indices, got {indices.tolist()}")
     low = np.asarray(bundle.low)[indices]
     high = np.asarray(bundle.high)[indices]
     if not (np.all(np.isfinite(low)) and np.all(np.isfinite(high)) and np.all(low < high)):
@@ -66,7 +65,7 @@ def _outer_bounds(arm):
 
 def _write_csv(path, rows):
     fields = [
-        "tx_m", "ty_m", "pitch_rad", "lift_m", "status", "position_error_m",
+        "tx_m", "ty_m", "tz_m", "lift_m", "status", "position_error_m",
         "orientation_error_rad", "attempts", "link7_radius_m", "reach_upper_m",
     ] + [f"q{i+1}_rad" for i in range(7)]
     with path.open("w", newline="") as handle:
@@ -94,8 +93,8 @@ def _plot(path, side_rows, title):
         if points:
             xy = np.asarray(points)
             ax.scatter(xy[:, 0], xy[:, 1], s=13, c=color, label=status, alpha=.8)
-    ax.set_xlabel("requested wrist TX (m)")
-    ax.set_ylabel("requested wrist TY (m)")
+    ax.set_xlabel("requested palm X displacement (m)")
+    ax.set_ylabel("requested palm Y displacement (m)")
     ax.set_title(title)
     ax.grid(True, alpha=.25)
     ax.legend(loc="best")
@@ -110,20 +109,20 @@ def scan_reachability(
     *,
     tx_points: int = 41,
     ty_points: int = 9,
-    pitch_points: int = 5,
+    tz_points: int = 5,
     preparation_points: int | None = None,
     extra_attempts: int = 12,
     batch_size: int = 256,
     seed: int = 7241,
 ):
-    """Scan wrist request coordinates from a training-augmented bundle.
+    """Scan world-frame palm XYZ displacement from a training-augmented bundle.
 
-    The default grid is the same 41 x 9 x 5 x 3 grid used by the existing
-    workspace audit.  Smaller counts are useful for a quick smoke check.
+    The default grid is a 41 x 9 x 5 x 3 XYZ/preparation grid. Smaller counts
+    are useful for a quick smoke check.
     """
 
     for name, value in (("tx_points", tx_points), ("ty_points", ty_points),
-                        ("pitch_points", pitch_points), ("extra_attempts", extra_attempts),
+                        ("tz_points", tz_points), ("extra_attempts", extra_attempts),
                         ("batch_size", batch_size)):
         if isinstance(value, bool) or not isinstance(value, int) or value < 1:
             raise ValueError(f"{name} must be a positive integer")
@@ -147,11 +146,11 @@ def scan_reachability(
     summary = {
         "schema": 1,
         "kind": "mjlab_arm_reachability_scan_v1",
-        "source": "SceneBundle + ArmFollower.当前刚性臂控制",
+        "source": "SceneBundle + ArmFollower Cartesian palm-position control",
         "physics_dt_s": dt,
         "grid": {
             "tx_points": tx_points, "ty_points": ty_points,
-            "pitch_points": pitch_points, "preparation_points": preparation_points,
+            "tz_points": tz_points, "preparation_points": preparation_points,
             "extra_attempts": extra_attempts,
         },
         "interpretation": [
@@ -168,17 +167,15 @@ def scan_reachability(
         low, high = _limits(bundle, wrist)
         xs = np.linspace(low[0], high[0], tx_points)
         ys = np.linspace(low[1], high[1], ty_points)
-        pitches = np.linspace(low[2], high[2], pitch_points)
-        mesh = np.stack(np.meshgrid(xs, ys, pitches, z_values, indexing="ij"), -1).reshape(-1, 4)
+        zs = np.linspace(low[2], high[2], tz_points)
+        mesh = np.stack(np.meshgrid(xs, ys, zs, z_values, indexing="ij"), -1).reshape(-1, 4)
         count = len(mesh)
         solver = ArmFollower(options, initial, num_envs=count, dt=dt, device="cpu")
         arm = solver.sides[side]
         p0 = np.asarray(wrist["rest_pos"])
         r0 = np.asarray(wrist["rest_rot"])
-        axes = np.asarray(wrist["axis"])
-        world_axes = r0 @ axes.T
-        target_p = p0 + mesh[:, :2] @ world_axes[:, :2].T + mesh[:, 3, None] * np.asarray([0., 0., 1.])
-        target_r = r0 @ Rotation.from_rotvec(mesh[:, 2, None] * axes[2]).as_matrix()
+        target_p = p0 + mesh[:, :3]
+        target_r = np.broadcast_to(r0, (count, 3, 3)).copy()
         target_p_t = torch.as_tensor(target_p, dtype=torch.float64)
         target_r_t = torch.as_tensor(target_r, dtype=torch.float64)
 
@@ -248,7 +245,7 @@ def scan_reachability(
         for index, values in enumerate(mesh):
             status = "solved" if solved[index] else ("proven_outside_bound" if outside_proven[index] else "unresolved")
             row = dict(
-                tx_m=float(values[0]), ty_m=float(values[1]), pitch_rad=float(values[2]), lift_m=float(values[3]),
+                tx_m=float(values[0]), ty_m=float(values[1]), tz_m=float(values[2]), lift_m=float(values[3]),
                 status=status,
                 position_error_m=None if not np.isfinite(best_position[index]) else float(best_position[index]),
                 orientation_error_rad=None if not np.isfinite(best_orientation[index]) else float(best_orientation[index]),

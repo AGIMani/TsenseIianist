@@ -55,12 +55,12 @@ def run_interactive(physics, *, wireframe=None, coordinate_frames=None, show_fin
     keys = SimpleQueue()
     paused = start_paused
     print("Control panel: drag finger or forearm sliders. Space: pause/resume. R: reset.")
-    print("R/L_Wrist_TX: world +Y; TY: world -X; TZ: world +Z.")
+    print("R/L_Palm_Base_Tx: world +Y; TY: world -X; TZ: world +Z.")
     if arm_preview is not None:
         print('M6 arms: differential IK follows actual hand wrists. F: fit full arms+piano camera.')
         print('Paused: Wrist Control sliders position the hand kinematically; arms keep following.')
         print('Mouse: double-click a green wrist handle; Ctrl+right-drag translates, Ctrl+left-drag rotates.')
-    wrist_actuators = [i for i in range(model.nu) if 'Wrist_' in (model.actuator(i).name or '')]
+    wrist_actuators = [i for i in range(model.nu) if 'Palm_Base_' in (model.actuator(i).name or '')]
     if on_save is not None:
         print("P: save both hands as next startup's initial pose (with a backup).")
     timings = {key: deque(maxlen=3600) for key in ('sync_ms', 'physics_ms', 'wire_ms', 'axes_ms', 'work_ms')}

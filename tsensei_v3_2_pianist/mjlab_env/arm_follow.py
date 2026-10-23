@@ -1,4 +1,4 @@
-"""Continuous wrist-command IK and joint trajectories with target braking.
+"""Continuous Cartesian palm IK and hard-limited joint trajectories.
 
 All stepping is Torch on the simulation device. CPU construction reads only
 project-local URDFs. q/v histories are float64 so finite differences at 200Hz
@@ -41,12 +41,13 @@ def rotation_error(actual, target):
 
 
 class ArmFollower:
-    """Wrist commands lead a single rigid arm/tool/hand chain.
+    """World-frame palm targets lead a single rigid arm/tool/hand chain.
 
     IK maintains a continuous reference independently of the rate-limited
-    trajectory. Joint speed accounts for the remaining distance to that
-    reference, including every future discrete braking step. Pose error is
-    between request and executed assembly, never an arm/hand attachment gap.
+    trajectory. The executed trajectory applies only the current-step
+    position, velocity, acceleration and coupling bounds; it does not add a
+    goal-distance or anticipatory target-braking rule. Pose error is between
+    request and executed assembly, never an arm/hand attachment gap.
     """
 
     observation_size = 54
@@ -69,8 +70,8 @@ class ArmFollower:
         self.eye = torch.eye(6, dtype=torch.float64, device=self.device)
         self.fractions = self.tensor([1., .5, .25, .125, 0.])
         self.contract = dict(controller=options['controller'], physics_dt=dt,
-            wrist_execution='policy_wrist_command_to_IK_to_single_rigid_assembly', initial_velocity='zero',
-            trajectory='discrete_target_braking_with_position_velocity_acceleration_bounds',
+            wrist_execution='policy_cartesian_palm_displacement_to_IK_to_single_rigid_assembly', initial_velocity='zero',
+            trajectory='discrete_rate_limited_with_position_velocity_acceleration_bounds',
             reference_seed='previous_reference_not_rate_limited_execution',
             observation_fields=[f'{s}_{field}' for s in SIDES for field in
                 ('q_J1_J7_rad', 'v_J1_J7_rad_s', 'reference_J1_J7_rad', 'position_error_xyz_m', 'rotation_error_xyz_rad')],
@@ -174,8 +175,9 @@ class ArmFollower:
             q = candidates[torch.arange(self.num_envs, device=self.device), index]
         return q
 
-    def _stopping_speed(self, a, gap):
-        # Braking must reserve more room than the immediate acceleration box:
+    def _boundary_speed_cap(self, a, gap):
+        # Endpoint feasibility reserves room beyond the immediate acceleration
+        # box so a position boundary cannot force a later hard-limit violation.
         # equal margins can make their intersection empty by one float64 ulp
         # after repeated saturated updates near a position boundary.
         delta = a['amax'] * self.dt * (1 - 1e-7)
@@ -188,8 +190,8 @@ class ArmFollower:
         dv = a['amax'] * self.dt * (1 - 1e-10)
         lo = torch.maximum(-a['vmax'], a['v'] - dv)
         hi = torch.minimum(a['vmax'], a['v'] + dv)
-        lo = torch.maximum(lo, -self._stopping_speed(a, a['q'] - a['low']))
-        hi = torch.minimum(hi, self._stopping_speed(a, a['high'] - a['q']))
+        lo = torch.maximum(lo, -self._boundary_speed_cap(a, a['q'] - a['low']))
+        hi = torch.minimum(hi, self._boundary_speed_cap(a, a['high'] - a['q']))
         return torch.maximum(a['low'], a['q'] + lo * self.dt), torch.minimum(a['high'], a['q'] + hi * self.dt)
 
     def begin_control(self):
@@ -218,13 +220,10 @@ class ArmFollower:
             requested_a = (requested_v - a['v']) / self.dt
             excess = torch.maximum((requested_v.abs() / (a['vmax'] * self.options['soft_limit_ratio']) - 1).amax(-1),
                                    (requested_a.abs() / (a['amax'] * self.options['soft_limit_ratio']) - 1).amax(-1)).clamp_min(0)
-            # Position-only greedy IK inside the acceleration box brakes too
-            # late. Reserve the full stopping distance to the IK reference,
-            # as well as to the URDF boundaries already protected by bounds().
-            gap = raw - a['q']
-            target_speed = torch.minimum(a['vmax'], self._stopping_speed(a, gap.abs()))
-            desired = a['q'] + gap.sign() * target_speed * self.dt
-            issued = desired.clamp(low, high)
+            # Follow the current IK reference as far as the current-step
+            # feasible box permits. No remaining-distance target braking is
+            # applied here; bounds() still protects the URDF endpoint.
+            issued = raw.clamp(low, high)
             issued = self._coupled_segment(a['q'], issued)
             velocity = (issued - a['q']) / self.dt
             acceleration = (velocity - a['v']) / self.dt

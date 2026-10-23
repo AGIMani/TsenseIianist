@@ -14,7 +14,7 @@ from tsensei_v3_2_pianist.mjlab_env.rewards import RewardManager
 from tsensei_v3_2_pianist.rl_torch.train import parser, effective_config
 
 TERM = 'joint_motion_limit_penalty'
-TCP = [f'{s}_Wrist_{a}' for s in ('R', 'L') for a in ('TX', 'TY')]
+TCP = [f'{s}_Palm_Base_{a}' for s in ('R', 'L') for a in ('Tx', 'Ty')]
 
 
 def fixture(n=1, dt=.05, **params):
@@ -113,7 +113,7 @@ def test_mixed_units_share_one_maximum_and_exclude_tz_pedal():
     raw[:, manager.tcp_indices] += 2.1 * .05**2  # TCP +5%, -2.5.
     action[1, manager.groups['finger']] += 210. * .05**2  # finger +5% against template 200.
     action[2, manager.groups['wrist']] += 16.5 * .05**2  # wrist +10%, -5.
-    raw[:, [manager.actions.index('R_Wrist_TZ'), manager.actions.index('L_Wrist_TZ'), 50]] = 100.
+    raw[:, [manager.actions.index('R_Palm_Base_Tz'), manager.actions.index('L_Palm_Base_Tz'), 50]] = 100.
     torch.testing.assert_close(score(manager, action, raw), torch.tensor([-2.5, -2.5, -5.]), atol=2e-5, rtol=1e-5)
 
 
@@ -147,8 +147,8 @@ def test_cli_persists_bilateral_hard_limits_and_demand_thresholds():
     p = c['reward_config']['terms'][TERM]['params']
     assert (p['tcp_velocity_limit'], p['tcp_acceleration_limit'], p['full_penalty_excess']) == (.95, 2., .1)
     disabled = rate_overrides(c['control_limits'], SimpleNamespace(wrist_tx_max_acceleration=0.))
-    assert 'max_acceleration' not in disabled['channels']['R_Wrist_TX']
-    assert disabled['channels']['L_Wrist_TY']['max_acceleration'] == 2.
+    assert 'max_acceleration' not in disabled['channels']['R_Palm_Base_Tx']
+    assert disabled['channels']['L_Palm_Base_Ty']['max_acceleration'] == 2.
 
 
 @pytest.mark.parametrize('transforms', [False, True])
@@ -160,11 +160,12 @@ def test_real_task_step_forwards_unclipped_tcp_demand_to_reward(transforms):
     issued = neutral.clone(); issued[:, manager.tcp_indices] += .005
     scene = SimpleNamespace(tensor=torch.as_tensor, has_action_transform=transforms,
         finger_clearance_guard=None, finger_coupler=None, joint_limiter=None,
+            arm_collision_tracker=None,
         policy_preparation=False, data=SimpleNamespace(overflow=torch.zeros(1), qvel=torch.zeros(1)),
         physical_action=lambda action: action, last_requested_physical_action=raw,
         last_applied_physical_action=issued, last_control_clip_mask=torch.zeros_like(raw, dtype=torch.bool),
         last_control_slew_mask=torch.zeros_like(raw, dtype=torch.bool), step=lambda *a, **kw: None)
-    def advance(action, snapshot, *, extra_terms, reward_transform):
+    def advance(action, snapshot, *, extra_terms=None, reward_transform):
         terms = reward_transform({}, action, snapshot, torch.zeros(1, 89), torch.zeros(1, 10, 88))
         return SimpleNamespace(observation=torch.zeros(1, 1), reward=terms[TERM], info={'reward_terms': terms})
     env = SimpleNamespace(scene=scene, logic=SimpleNamespace(done=torch.zeros(1, dtype=torch.bool), advance=advance),

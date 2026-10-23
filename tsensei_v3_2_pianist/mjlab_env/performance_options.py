@@ -1,17 +1,19 @@
-"""Current options. Key reward uses physical samples and original MIDI events.
+"""Current options. Key and fingering rewards uses physical samples and original MIDI events.
 
-Other public rewards retain the control-frame endpoint clock. Historical
-sampling switches are removed; the key mix is fixed at 50% actual activation.
+Other rewards retain their own existing sampling contracts. Historical
+sampling switches are removed; correct keys use continuous travel and wrong
+keys use actual activation at every physical sample.
 """
 import math
 
 
-DEFAULTS = dict(anticipatory_fingering_time=0., staged_fingering_reward=False,
-                anticipatory_current_priority=False, exact_note_timing=False,
-                upcoming_press_permission_time=0., anticipatory_fingering_reward=True)
+DEFAULTS = dict(anticipatory_fingering_time=0., exact_note_timing=True,
+                upcoming_press_permission_time=0.)
 REMOVED_SAMPLING_OPTIONS = frozenset((
     'substep_rewards', 'target_key_substep_reward',
-    'target_key_activation_weight', 'reward_sampling'))
+    'target_key_activation_weight', 'reward_sampling',
+    'staged_fingering_reward', 'anticipatory_current_priority',
+    'anticipatory_fingering_reward'))
 
 
 def canonical(options=None):
@@ -29,11 +31,8 @@ def canonical(options=None):
             or not math.isfinite(horizon) or not 0. <= horizon <= .5):
         raise ValueError('anticipatory_fingering_time must be finite seconds in [0, 0.5]')
     result['anticipatory_fingering_time'] = float(horizon)
-    for name in ('staged_fingering_reward',
-                 'anticipatory_current_priority', 'exact_note_timing',
-                 'anticipatory_fingering_reward'):
-        if type(result[name]) is not bool:
-            raise ValueError(name+' must be true/false')
+    if type(result['exact_note_timing']) is not bool or not result['exact_note_timing']:
+        raise ValueError('Current rewards require exact_note_timing=true')
     window = result['upcoming_press_permission_time']
     if (isinstance(window, bool) or not isinstance(window, (int, float))
             or not math.isfinite(window) or not 0. <= window <= .15):

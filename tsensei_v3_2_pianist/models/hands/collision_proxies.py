@@ -10,8 +10,7 @@ from pathlib import Path
 import numpy as np
 
 DEFAULT_PROFILE = "convex_hull_v1"
-# These two profiles are the current training/replay contract.  The convex-hull
-# profile is an explicit preview/audit option and is intentionally opt-in.
+# The current profile supports convex components for concave CAD assemblies.
 PROFILES = (DEFAULT_PROFILE, "legacy_mesh_v1")
 # The previous name remains readable only as a hull-only alias for old saved
 # recipes; it no longer contains primitive proxies.
@@ -35,22 +34,18 @@ def load(profile=None):
 
 
 def for_link(config, side, link_name):
-    """Return MJCF geometry attributes; ``None`` retains the URDF mesh.
-
-    The opt-in convex-hull profile returns a custom mesh path for links whose
-    hull was generated from the full collision STL. Entries marked
-    ``preserve_original_mesh`` deliberately fall through to the URDF mesh.
-    """
+    """Return one geom or a list of convex components, in the URDF frame."""
     entry = config["hands"][side][link_name]
+    if entry['type'] == 'compound':
+        parts = entry.get('parts', [])
+        if not parts:
+            raise ValueError(f'Empty compound collider: {side}/{link_name}')
+        return [_mesh_attributes(part['mesh_file']) for part in parts]
     if entry["type"] == "mesh":
         mesh_file = entry.get("mesh_file")
         if not mesh_file or entry.get("preserve_original_mesh"):
             return None
-        assets = CONFIG_PATH.parent.resolve()
-        path = (assets / mesh_file).resolve()
-        if not path.is_relative_to(assets) or not path.is_file():
-            raise ValueError(f"Collision mesh escapes/missing from asset root: {mesh_file!r}")
-        return {"type": "mesh", "_mesh_file": str(path)}
+        return _mesh_attributes(mesh_file)
     allowed = {"type", "pos", "quat", "size", "fromto"}
     attributes = {key: value for key, value in entry.items() if key in allowed}
     if attributes["type"] not in ("capsule", "sphere", "cylinder", "box"):
@@ -61,3 +56,11 @@ def for_link(config, side, link_name):
     if np.any(np.asarray(attributes["size"]) <= 0):
         raise ValueError(f"Nonpositive proxy size for {link_name}")
     return attributes
+
+
+def _mesh_attributes(mesh_file):
+    assets = CONFIG_PATH.parent.resolve()
+    path = (assets / mesh_file).resolve()
+    if not path.is_relative_to(assets) or not path.is_file():
+        raise ValueError(f"Collision mesh escapes/missing from asset root: {mesh_file!r}")
+    return {"type": "mesh", "_mesh_file": str(path)}

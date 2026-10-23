@@ -1,0 +1,86 @@
+{
+  "method": "Dynamic-programming candidate fingering with strict_v1 physical release correction",
+  "source_candidate": "training_mjlab/inputs/turkish_march_advanced/generated_20hz_candidate/turkish-march-advanced_fingered.proto",
+  "source_candidate_sha256": "e4dbd3cb7179cb8cc1cce403b91a6bedc930a914eea8166f51197139182d4999",
+  "source_original_midi_sha256": "83707e4f40347d0a51402349a8ef8af7cf59c357656b50432591b3e8fceb88eb",
+  "proto_sha256": "f0da715bc41de5bd2d666f0128167babcab2ed9c343c4610a8b9dcd6936ab443",
+  "note_count": 2544,
+  "fingering_unchanged": true,
+  "all_note_attributes_preserved_except_end_time": true,
+  "changed_end_times": 6,
+  "physics_hz": 200,
+  "physics_dt": 0.005,
+  "changes": [
+    {
+      "note_index": 2223,
+      "pitch": 85,
+      "start_seconds": 192.5,
+      "old_end_seconds": 193.49895833333332,
+      "new_end_seconds": 193.495,
+      "next_note_index": 2231,
+      "next_start_seconds": 193.5,
+      "gap_seconds": 0.0049999999999954525,
+      "reason": "strict_v1 post-step release sample at 200Hz"
+    },
+    {
+      "note_index": 2286,
+      "pitch": 85,
+      "start_seconds": 198.5,
+      "old_end_seconds": 199.49895833333332,
+      "new_end_seconds": 199.495,
+      "next_note_index": 2294,
+      "next_start_seconds": 199.5,
+      "gap_seconds": 0.0049999999999954525,
+      "reason": "strict_v1 post-step release sample at 200Hz"
+    },
+    {
+      "note_index": 2435,
+      "pitch": 85,
+      "start_seconds": 211.5,
+      "old_end_seconds": 212.49895833333332,
+      "new_end_seconds": 212.495,
+      "next_note_index": 2443,
+      "next_start_seconds": 212.5,
+      "gap_seconds": 0.0049999999999954525,
+      "reason": "strict_v1 post-step release sample at 200Hz"
+    },
+    {
+      "note_index": 2405,
+      "pitch": 86,
+      "start_seconds": 209.25,
+      "old_end_seconds": 209.49895833333332,
+      "new_end_seconds": 209.495,
+      "next_note_index": 2409,
+      "next_start_seconds": 209.5,
+      "gap_seconds": 0.0049999999999954525,
+      "reason": "strict_v1 post-step release sample at 200Hz"
+    },
+    {
+      "note_index": 2409,
+      "pitch": 86,
+      "start_seconds": 209.5,
+      "old_end_seconds": 209.74895833333332,
+      "new_end_seconds": 209.745,
+      "next_note_index": 2413,
+      "next_start_seconds": 209.75,
+      "gap_seconds": 0.0049999999999954525,
+      "reason": "strict_v1 post-step release sample at 200Hz"
+    },
+    {
+      "note_index": 2413,
+      "pitch": 86,
+      "start_seconds": 209.75,
+      "old_end_seconds": 209.99895833333332,
+      "new_end_seconds": 209.995,
+      "next_note_index": 2417,
+      "next_start_seconds": 210.0,
+      "gap_seconds": 0.0049999999999954525,
+      "reason": "strict_v1 post-step release sample at 200Hz"
+    }
+  ],
+  "limitations": [
+    "The six end times are shortened by 3.958333 ms so strict_v1 has a post-step release sample; this is an explicit score registration correction, not a silent runtime quantization.",
+    "Finger assignments remain the 20 Hz A3.2 candidate; kinematic contact evidence was collected on the uncorrected proto and covers the same first 10 seconds.",
+    "The fingering is an engineering DP candidate, not expert or hardware calibration."
+  ]
+}

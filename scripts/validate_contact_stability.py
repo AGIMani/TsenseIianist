@@ -20,7 +20,7 @@ CASES = ('same_hand', 'cross_hand', 'hand_key')
 
 def targets(model, reset_ctrl):
     controls = np.tile(reset_ctrl, (3, 1))
-    fingers = [a for a in range(model.nu) if not model.actuator(a).name.startswith(('R_Wrist_', 'L_Wrist_'))]
+    fingers = [a for a in range(model.nu) if not model.actuator(a).name.startswith(('R_Palm_Base_', 'L_Palm_Base_'))]
     for aid in fingers:
         name = model.actuator(aid).name
         if '_SW' in name:
@@ -29,11 +29,11 @@ def targets(model, reset_ctrl):
             controls[0, aid] = .6
         if 'MCP' in name or 'PIP' in name:
             controls[2, aid] = .85
-    controls[1, model.actuator('R_Wrist_TX').id] = -.14
-    controls[1, model.actuator('L_Wrist_TX').id] = .14
+    controls[1, model.actuator('R_Palm_Base_Tx').id] = -.14
+    controls[1, model.actuator('L_Palm_Base_Tx').id] = .14
     # At h=12 cm, move over the keybed before pressing; TY=0 can miss the keys.
     for side in ('R', 'L'):
-        controls[2, model.actuator(side+'_Wrist_TY').id] = .04
+        controls[2, model.actuator(side+'_Palm_Base_Ty').id] = .04
     joints = model.actuator_trnid[fingers, 0]
     return controls, model.jnt_qposadr[joints], model.jnt_dofadr[joints]
 

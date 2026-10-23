@@ -11,16 +11,16 @@ from tsensei_v3_2_pianist.models.hands import collision_proxies, urdf_model
 
 
 class ConvexHullCollisionProfileTest(unittest.TestCase):
-    def test_profile_records_all_22_link_hulls_without_raw_mesh_exceptions(self):
+    def test_profile_records_all_22_links_without_raw_mesh_exceptions(self):
         config = collision_proxies.load('convex_hull_v1')
         self.assertEqual(config['profile'], 'convex_hull_v1')
         for side, entries in config['hands'].items():
             self.assertEqual(len(entries), 22)
             preserved = [name for name, entry in entries.items() if entry.get('preserve_original_mesh')]
             self.assertEqual(preserved, [])
-            hulls = [entry for entry in entries.values() if 'mesh_file' in entry]
-            self.assertEqual(len(hulls), 22)
-            self.assertTrue(all(entry['hull_triangle_count'] > 4 for entry in hulls))
+            hulls = [part for entry in entries.values() for part in entry.get('parts', [entry])]
+            self.assertGreaterEqual(len(hulls), 22)
+            self.assertTrue(all(entry.get('hull_triangle_count', entry.get('triangles', 0)) > 4 for entry in hulls))
             for entry in hulls:
                 self.assertTrue((collision_proxies.CONFIG_PATH.parent / entry['mesh_file']).is_file())
 

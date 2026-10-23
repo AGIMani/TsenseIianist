@@ -149,6 +149,7 @@ def test_unfingered_midi_and_randomized_reset():
 def test_provisional_tip_is_on_distal_collision_hull(env):
     """Check the V3.2 landmark against independently compiled collision geometry."""
     from scipy.spatial import ConvexHull
+    from tsensei_v3_2_pianist.models.hands.fingertip_geometry import distal_direction
     env.reset()
     model, data = env.physics.model.ptr, env.physics.data.ptr
     for hand in (env.task.right_hand, env.task.left_hand):
@@ -162,7 +163,10 @@ def test_provisional_tip_is_on_distal_collision_hull(env):
             body_rotation = env.physics.bind(body).xmat.reshape(3, 3)
             local = (world - env.physics.bind(body).xpos) @ body_rotation
             point = np.asarray(site.pos)
-            np.testing.assert_allclose(point[2], local[:, 2].max(), atol=1e-8)
+            side = hand.hand_side.name.lower()
+            root = ET.parse(consts.ASSETS / 'urdf' / f'TsenseI_{side}.urdf').getroot()
+            direction = distal_direction(root, body.name)
+            np.testing.assert_allclose(point @ direction, (local @ direction).max(), atol=1e-8)
             hull = ConvexHull(local)
             assert np.max(hull.equations[:, :3] @ point + hull.equations[:, 3]) < 1e-8
             np.testing.assert_array_equal(site.rgba, (0, 0, 0, 1))
@@ -196,8 +200,8 @@ def test_control_panel_uses_short_actuator_labels(env):
     compiled = [model.actuator(index).name for index in range(model.nu)]
     assert "R_Index_SW" in compiled
     assert "L_Index_SW" in compiled
-    assert "R_Wrist_TX" in compiled
-    assert "L_Wrist_Yaw" in compiled
+    assert "R_Palm_Base_Tx" in compiled
+    assert "L_Palm_Base_Yaw" in compiled
     assert len(compiled) == len(set(compiled)) == 50
     assert all("/" not in name and "_hand_" not in name and "_joint" not in name
                for name in compiled)

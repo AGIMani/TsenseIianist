@@ -1,0 +1,48 @@
+{
+  "notes": 269,
+  "original_duration_s": 24.052100000000003,
+  "trim_origin_s": 0.0049,
+  "trimmed_duration_s": 24.047200000000004,
+  "episode_duration_s": 24.3,
+  "control_frames": 481,
+  "control_finger_conflict_frames": [
+    99,
+    199,
+    259,
+    279,
+    299,
+    449
+  ],
+  "exact_event_error": null,
+  "physical_coverage": {
+    "200": {
+      "valid": false,
+      "error": "Repeated key 31 has no release sample at physics resolution"
+    },
+    "400": {
+      "valid": false,
+      "error": "Repeated key 31 has no release sample at physics resolution"
+    },
+    "500": {
+      "valid": false,
+      "error": "Repeated key 31 has no release sample at physics resolution"
+    },
+    "1000": {
+      "valid": false,
+      "error": "Repeated key 31 has no release sample at physics resolution"
+    },
+    "2000": {
+      "valid": false,
+      "error": "Repeated key 38 has no release sample at physics resolution"
+    },
+    "4000": {
+      "valid": true,
+      "min_samples": 233
+    }
+  },
+  "annotation_max_rounding_error_s": 2.0000000001019203e-05,
+  "midi_sha256": "5bf6ac531ff018f1ef540ee532dd1bf871d03975d28c1a9d8ba7cc2991309fa7",
+  "annotation_sha256": "2363fbc88db79050e201597bde4740333bdc9c84bea1de6737fdabec76fbecb5",
+  "proto_sha256": "f7175961d20900090e8097982190734864e3b1277bf87bea771ca70d5ec17b11",
+  "fingering_source": "User supplied signed 1..5 right / -1..-5 left; no optimization or timing changes"
+}

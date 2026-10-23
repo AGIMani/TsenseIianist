@@ -42,7 +42,7 @@ class ArmParentFilterTests(unittest.TestCase):
             drive_profile='shadow_v1', exact_note_timing=True))
 
     def bundle(self, arms=True):
-        return SceneBundle(self.scene, disable_wrist_tz=True, disable_wrist_yaw=True,
+        return SceneBundle(self.scene, disable_wrist_tz=False, disable_wrist_yaw=True,
                            preparation=arm_tests.PREP, arm_follow=arm_tests.options() if arms else None)
 
     def test_reset_and_varied_finger_poses_preserve_physical_contact_pairs(self):
@@ -70,12 +70,34 @@ class ArmParentFilterTests(unittest.TestCase):
                     data.mocap_pos[:] = bundle.reset_mocap_pos
                     data.mocap_pos[:, 2] -= lowering
                     mujoco.mj_forward(bundle.model, data)
+                # Cartesian-arm reset omits virtual wrist TY/preparation offsets.
+                # Compare collision filtering at identical *world* hand poses.
+                for side in ('right', 'left'):
+                    old_root = baseline.model.body(f'{side}_/base_link').id
+                    new_root = rigid.model.body(f'{side}_/base_link').id
+                    parent = old_root
+                    while baseline.model.body_mocapid[parent] < 0:
+                        parent = int(baseline.model.body_parentid[parent])
+                        self.assertGreater(parent, 0)
+                    mid = int(baseline.model.body_mocapid[parent])
+                    states[0].mocap_pos[mid] += states[1].xpos[new_root] - states[0].xpos[old_root]
+                mujoco.mj_forward(baseline.model, states[0])
+                for old_id in range(baseline.model.ngeom):
+                    name = baseline.model.geom(old_id).name or ''
+                    if name.startswith(('right_/', 'left_/')):
+                        new_id = rigid.model.geom(name).id
+                        np.testing.assert_allclose(states[0].geom_xpos[old_id],
+                                                   states[1].geom_xpos[new_id], atol=1e-10, rtol=0)
+                        np.testing.assert_allclose(states[0].geom_xmat[old_id],
+                                                   states[1].geom_xmat[new_id], atol=1e-10, rtol=0)
                 before, after = [contact_pairs(m, d) for m, d in zip(models, states)]
                 with self.subTest(pose=pose, lowering=lowering):
                     self.assertEqual(before, after)
                 own = contact_pairs(rigid.model, states[1], same_hand=True)
-                if pose == 0 and lowering == 0:
-                    self.assertEqual(own, set())
+                # The active A3.2 convex-hull mesh can have native palm/finger
+                # contacts at reset.  The contract is preservation of the
+                # same physical contact set after the rigid conversion; it is
+                # not a zero-contact reset requirement.
                 detected_nonadjacent.update(own)
                 detected_keys.update(pair for pair in after if any(n.startswith('piano/') for n in pair)
                                      and any(n.startswith(('left_/', 'right_/')) for n in pair))
@@ -134,7 +156,10 @@ class ArmParentFilterTests(unittest.TestCase):
         env = arm_tests.ArmNativeSceneTests.gpu_env(self)
         scene = env.scene
         excluded = {tuple(pair) for pair in scene.arm_follower.contract['parent_collision_filter']['restored_body_pairs']}
+        from tsensei_v3_2_pianist.mjlab_env.self_collision import is_distinct_finger_pair
         samples = []
+        finger_samples = []
+        observed_pairs = set()
 
         def sample(s):
             count = int(s.data.nacon[0])
@@ -150,21 +175,32 @@ class ArmParentFilterTests(unittest.TestCase):
                 if any(all(n.startswith(side + '_/') for n in names) for side in ('right', 'left')):
                     actual[int(world)].add(names)
             samples.append([len(pairs) for pairs in actual])
+            finger_samples.append([sum(is_distinct_finger_pair(*pair) for pair in pairs) for pairs in actual])
+            for pairs in actual: observed_pairs.update(pairs)
 
         # Validate a real task step's reward first, then count the main contact
         # buffer at each 200Hz substep of a complete 20Hz control cycle.
         initial = scene.policy_action(scene.last_applied_physical_action)
         result = env.step(initial)
         self.assertTrue(torch.isfinite(result.observation).all())
-        self.assertTrue(torch.all(result.info['reward_weighted_terms']['self_collision_reward'] == 0))
+        term = env.reward_config['terms']['self_collision_reward']
+        counted = scene.self_collision.count_finger_pair_substeps().float()
+        expected = (-term['weight'] * counted).clamp_min(-term['params']['maximum_penalty_per_step'])
+        torch.testing.assert_close(result.info['reward_weighted_terms']['self_collision_reward'], expected)
         scene.step(initial, substep_callback=sample,
                    assigned_keys=env.logic.fingers[env.logic.index.clamp_max(env.logic.length-1)])
         self.assertEqual(len(samples), scene.decimation)
         torch.testing.assert_close(scene.self_collision.count_pair_substeps(('self',)),
                                    torch.tensor(np.sum(samples, axis=0), device=scene.device))
-        self.assertEqual(np.sum(samples), 0)
+        # Supplied multipart geometry has real palm/same-finger contacts.
+        # Verify the complete physical count AND the distinct-finger reward count.
+        torch.testing.assert_close(scene.self_collision.count_finger_pair_substeps(),
+                                   torch.tensor(np.sum(finger_samples, axis=0), device=scene.device))
+        self.assertGreater(np.sum(samples), 0, 'New geometry contacts must not be silently suppressed')
         print('rigid_neutral_parent_filter', dict(restored_pairs=len(excluded),
               self_pair_substeps=np.sum(samples, axis=0).tolist(),
+              distinct_finger_pair_substeps=np.sum(finger_samples, axis=0).tolist(),
+              observed_pairs=sorted(observed_pairs),
               weighted_reward=result.info['reward_weighted_terms']['self_collision_reward'].cpu().tolist()))
 
     @unittest.skipUnless(os.environ.get('SLURM_JOB_ID') and os.environ.get('TSENSEI_ARM_GPU_TEST') == '1',

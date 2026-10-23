@@ -1,6 +1,6 @@
 """Opt-in physical target clipping/slew; never rewrites policy or joint ranges.
 
-Positions use metres for Wrist_TX/TY/TZ and radians for rotational channels.
+Positions use metres for Palm_Base_Tx/Ty/Tz and radians for rotational channels.
 max_velocity means metres/s or radians/s in the same physical joint coordinate.
 Explicit wrist max_acceleration enables a final discrete target-motion projection;
 the scene applies it after all other target transforms, in m/s^2 or rad/s^2.
@@ -53,7 +53,7 @@ def rate_overrides(config, args):
     names = [row['name'] for row in _direct_contract()['channels']]
     size = (47 if getattr(args, 'disable_wrist_yaw', False) else
             49 if getattr(args, 'disable_wrist_tz', False) else 51)
-    active = {names[i] for i in active_indices(size)} - {'sustain'}
+    active = {names[i] for i in active_indices(size, getattr(args, 'action_profile', 'legacy'))} - {'sustain'}
     channels = deepcopy(options['channels']) if options else {}
 
     def apply(name, value, field='max_velocity'):
@@ -74,12 +74,12 @@ def rate_overrides(config, args):
 
     for axis, value in wrist.items():
         if value is not None:
-            label = axis.upper() if axis in ('tx', 'ty', 'tz') else axis.title()
+            label = axis.title()
             for side in ('R', 'L'):
-                apply(f'{side}_Wrist_{label}', value)
+                apply(f'{side}_Palm_Base_{label}', value)
     if finger is not None:
         for name in names[:-1]:
-            if '_Wrist_' not in name:
+            if '_Palm_Base_' not in name:
                 apply(name, finger)
     for item in joints:
         name, separator, raw = item.partition('=')
@@ -92,9 +92,9 @@ def rate_overrides(config, args):
         apply(name, value)
     for axis, value in acceleration.items():
         if value is not None:
-            label = axis.upper() if axis in ('tx', 'ty') else axis.title()
+            label = axis.title()
             for side in ('R', 'L'):
-                apply(f'{side}_Wrist_{label}', value, 'max_acceleration')
+                apply(f'{side}_Palm_Base_{label}', value, 'max_acceleration')
     result = dict(schema=1, mode=MODE, channels=channels)
     if state_mode is not None:
         result['joint_state_limits'] = state_mode
@@ -132,9 +132,9 @@ def canonical(config):
         parsed={key:_number(value,name+'.'+key,positive=key in ('max_velocity','max_acceleration'))
                 for key,value in row.items()}
         if 'max_acceleration' in parsed:
-            if name not in tuple(f'{side}_Wrist_{axis}' for side in ('R','L')
-                                 for axis in ('TX','TY','Pitch','Yaw')):
-                raise ValueError('Target acceleration limits support only Wrist_TX/TY/Pitch/Yaw')
+            if name not in tuple(f'{side}_Palm_Base_{axis}' for side in ('R','L')
+                                 for axis in ('Tx','Ty','Pitch','Yaw')):
+                raise ValueError('Target acceleration limits support only wrist Cartesian/orientation channels')
             if 'max_velocity' not in parsed:
                 raise ValueError(f'{name}: max_acceleration requires max_velocity')
         if 'min' in parsed and 'max' in parsed and parsed['min']>=parsed['max']:
@@ -172,7 +172,7 @@ def resolve(config, *, action_names, active_indices, physical_low, physical_high
             raise ValueError(f'{name}: limits must be ordered and inside original physical targets')
         if not lower<=reset<=upper:
             raise ValueError(f'{name}: software range must include the actual reset control target')
-        translation=name.endswith(('_Wrist_TX','_Wrist_TY','_Wrist_TZ'))
+        translation=name.endswith(('_Palm_Base_Tx','_Palm_Base_Ty','_Palm_Base_Tz'))
         channels[name]=dict(index=index,min=lower,max=upper,max_velocity=row.get('max_velocity'),
             position_unit='m' if translation else 'rad',velocity_unit='m/s' if translation else 'rad/s',
             original_min=original_low,original_max=original_high,reset_target=reset)

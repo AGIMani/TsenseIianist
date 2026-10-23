@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Export the trainer's eligible best checkpoint, with legacy-run compatibility.
+"""Export the trainer's eligible best checkpoint.
 
 Runs with evaluation_selection use authoritative best.pt + best.json. Missing,
 ineligible or inconsistent best records fail closed; logged higher scores never
-override the trainer's selection. Runs predating that contract retain their
-historical logged-F1 selection rule. --select-only never allocates a GPU.
+override the trainer's selection. Current runs use original per-control-frame
+F1. --select-only never allocates a GPU.
 """
 import argparse
 from datetime import datetime
@@ -19,30 +19,6 @@ import time
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT))
-EXACT_MUSIC_F1_MIN = 'exact_original_music_micro_f1_min'
-
-
-def _exact_music_score(evaluation):
-    try:
-        from tsensei_v3_2_pianist.rl_torch.checkpoint import exact_music_f1_min
-    except ModuleNotFoundError as exc:
-        if exc.name != 'torch':
-            raise
-        python = ROOT/'training_mjlab/.venv/bin/python'
-        if not python.is_file():
-            raise ValueError('Exact best validation requires training_mjlab/.venv/bin/python') from exc
-        code = ('import json,sys; from tsensei_v3_2_pianist.rl_torch.checkpoint import exact_music_f1_min; '
-                'print(json.dumps(exact_music_f1_min(json.load(sys.stdin))))')
-        env = os.environ.copy()
-        env.update(CUDA_VISIBLE_DEVICES='', OMP_NUM_THREADS='1', PYTHONPATH=str(ROOT))
-        try:
-            return json.loads(subprocess.check_output([str(python), '-c', code],
-                input=json.dumps(evaluation), text=True, env=env, cwd=ROOT))
-        except subprocess.CalledProcessError as error:
-            raise ValueError('Could not validate original-clock best evaluation on CPU') from error
-    return exact_music_f1_min(evaluation)
-
-
 def read_checkpoint_metadata(checkpoint):
     """Read trusted local weights on CPU even when this Python lacks Torch."""
     try:
@@ -81,17 +57,13 @@ def _validate_authoritative_best(config, metadata, best):
             raise ValueError('best.pt and best.json disagree on '+key)
     score = best.get('score')
     if (best.get('metric') != selection.get('best_metric')
-            or best.get('metric') not in ('music_only_f1_min', EXACT_MUSIC_F1_MIN)
+            or best.get('metric') != 'f1'
             or type(score) not in (int, float) or not math.isfinite(score) or not 0 <= score <= 1):
         raise ValueError('Invalid authoritative best music criterion/score')
     if best.get('best_eligible') is False or best.get('best_ineligible_reasons'):
         raise ValueError('Trainer best record is explicitly ineligible')
     evaluation = best.get('evaluation') or {}
-    evaluation_score = evaluation.get('music_only_f1_min')
-    if best['metric'] == EXACT_MUSIC_F1_MIN:
-        evaluation_score, reasons = _exact_music_score(evaluation)
-        if reasons:
-            raise ValueError('Authoritative exact best has incomplete physical diagnostics: ' + ', '.join(reasons))
+    evaluation_score = evaluation.get('f1')
     if (metadata.get('last_evaluation_vector_step') != best['vector_step']
             or metadata.get('last_evaluation') != evaluation
             or evaluation_score != score):

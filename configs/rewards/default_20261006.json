@@ -26,9 +26,7 @@
     "fingering_reward": {
       "enabled": true,
       "weight": 1.0,
-      "params": {
-        "mode": "legacy"
-      }
+      "params": {}
     },
     "forearm_reward": {
       "enabled": true,
@@ -140,9 +138,10 @@
       "enabled": true,
       "weight": 1.0,
       "params": {
-        "coefficient": -0.05,
+        "coefficient": -0.02,
         "reference": "scene_reset",
-        "lookahead_steps": 20
+        "lookahead_steps": 20,
+        "swing_scale": 0.5
       }
     },
     "joint_motion_limit_penalty": {
@@ -167,15 +166,19 @@
         "full_penalty_excess": 0.1,
         "maximum_penalty_per_step": 5.0
       }
+    },
+    "arm_tracking_error_penalty": {
+      "enabled": false,
+      "weight": 1.0,
+      "params": {
+        "error_scale_m": 0.001
+      }
     }
   },
   "performance": {
     "anticipatory_fingering_time": 0.15,
-    "anticipatory_fingering_reward": false,
-    "staged_fingering_reward": false,
-    "anticipatory_current_priority": false,
     "exact_note_timing": true,
     "upcoming_press_permission_time": 0.0
   },
-  "contract": "physical_key_activation50_v1"
+  "contract": "physical_key_fingering_exact_activation100_v1"
 }

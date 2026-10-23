@@ -38,8 +38,8 @@ def finite(value):
 
 
 def video_spec(tokens, number, layout):
-    if not tokens or tokens[0] not in ('arms', 'noarms'):
-        raise ValueError(f'--video{number} must begin with arms or noarms')
+    if not tokens or tokens[0] not in ('arms', 'noarms', 'native'):
+        raise ValueError(f'--video{number} must begin with arms, noarms or native')
     views, options = [], {}
     for token in tokens[1:]:
         if '=' in token:
@@ -73,7 +73,7 @@ def video_spec(tokens, number, layout):
         raise ValueError('Custom camera values require a single view in that video')
     if camera.get('distance', 1) <= 0 or not -90 <= camera.get('elevation', 0) <= 90:
         raise ValueError('Camera distance must be positive; elevation must be -90..90 degrees')
-    return dict(number=number, arms=tokens[0] == 'arms', views=views, layout=layout, name=name, camera=camera)
+    return dict(number=number, arms=tokens[0] in ('arms', 'native'), native_arms=tokens[0] == 'native', views=views, layout=layout, name=name, camera=camera)
 
 
 def parse_args(argv=None):
@@ -92,7 +92,7 @@ def parse_args(argv=None):
                    help='Slurm申请GPU数量；完整回放/渲染支持单卡，默认保留2卡')
     p.add_argument('--videonums', type=int, help='可省略，由--videoN数量推导；支持1–16')
     for number in sorted(set(numbers) | {1}):
-        p.add_argument(f'--video{number}', nargs='+', metavar='SPEC', help='arms/noarms 视角... [layout=grid] [name=名称]')
+        p.add_argument(f'--video{number}', nargs='+', metavar='SPEC', help='arms/noarms/native 视角... [layout=grid] [name=名称]')
     p.add_argument('--layout', choices=('grid', 'horizontal', 'vertical'), default='grid')
     p.add_argument('--plots', nargs='+', choices=(*PLOTS, 'all', 'none'),
                    default=['arm-joints', 'hand-joints'],
@@ -109,9 +109,7 @@ def parse_args(argv=None):
     p.add_argument('--overlay', action=argparse.BooleanOptionalAction, default=True, help='视角/时间/检查点文字')
     p.add_argument('--key-highlight', action=argparse.BooleanOptionalAction, default=True)
     p.add_argument('--fingering', action=argparse.BooleanOptionalAction, default=True,
-                   help='显示原乐谱目标指法、指尖/目标琴键颜色和R1–R5/L1–L5说明，默认开启')
-    p.add_argument('--finger-labels', action=argparse.BooleanOptionalAction, default=False,
-                   help='额外显示指尖/目标琴键上的悬浮编号，需开启fingering')
+                   help='显示原乐谱目标琴键颜色和底部指法说明，不绘制悬浮标签，默认开启')
     p.add_argument('--zip', action='store_true', help='另外打包视频/图表/CSV/报告，不复制PT和模型')
     p.add_argument('--arm-config', type=Path, help='覆盖当前M6安装配置')
     p.add_argument('--connector-config', type=Path, help='覆盖当前手腕连接件配置')
@@ -216,6 +214,11 @@ def build_plan(a):
     if not pt.is_file() or not config_path.is_file():
         raise ValueError('PT and complete config.json must exist')
     config = json.loads(config_path.read_text())
+    native = bool(config.get('arm_follow'))
+    if any(v.get('native_arms', False) != native for v in a.videos):
+        raise ValueError('A trained arm checkpoint requires native videos; hand-only checkpoints cannot use native')
+    if native and 'arm-joints' in a.plots:
+        raise ValueError('Native arm export currently supports hand-joints/tcp plots; no reconstructed IK overlay')
     checkpoint_sha = sha256(pt)
     recording = resolve_recording(a.recording) if a.recording else None
     if recording:
@@ -241,7 +244,7 @@ def build_plan(a):
                 fps=a.fps, width=a.width, height=a.height, piano_fill=a.piano_fill,
                 start=a.start, end=a.end, speed=a.speed, hold=a.hold,
                 audio=a.audio, overlay=a.overlay, key_highlight=a.key_highlight,
-                fingering=a.fingering, finger_labels=a.finger_labels, zip=a.zip, gpus=a.gpus,
+                fingering=a.fingering,  zip=a.zip, gpus=a.gpus,
                 source_project=str(ROOT), arm_config=None, connector_config=None)
     plan.update(arm_ik=a.arm_ik, arm_position_tolerance_mm=a.arm_position_tolerance_mm,
                 arm_rotation_tolerance_deg=a.arm_rotation_tolerance_deg)

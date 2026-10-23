@@ -20,7 +20,7 @@ class CUDALearner:
     views of the most recent graph execution and are overwritten by later calls.
     """
 
-    def __init__(self, agent, replay, *, optimizer_layout=False):
+    def __init__(self, agent, replay, *, optimizer_layout=False, matmul_precision='ieee'):
         if agent.device.type != 'cuda' or replay.device != agent.device:
             raise ValueError('CUDA learner requires learner and replay on the same CUDA device')
         if not agent.fused_optimizer:
@@ -30,6 +30,9 @@ class CUDALearner:
         if (replay.data.state.shape[1] != agent.obs_size
                 or replay.data.action.shape[1] != agent.action_size):
             raise ValueError('Replay dimensions differ from learner')
+        if matmul_precision not in ('ieee', 'tf32'):
+            raise ValueError('Unknown learner matmul precision')
+        self.matmul_precision = matmul_precision
         self.agent, self.replay = agent, replay
         self.optimizer_layout = optimizer_layout
         self.indices = torch.empty(replay.batch_size, dtype=torch.int64, device=agent.device)
@@ -38,7 +41,15 @@ class CUDALearner:
         self.graph.register_generator_state(agent.update_rng)
         self._failed = False
         self._optimizer_step = None
-        self._capture()
+        # The training loop drains collectors before this first capture. The
+        # captured GEMM kernels retain their precision when replayed; restore
+        # the process flag before any collector/evaluator can run again.
+        previous_tf32 = torch.backends.cuda.matmul.allow_tf32
+        try:
+            torch.backends.cuda.matmul.allow_tf32 = matmul_precision == 'tf32'
+            self._capture()
+        finally:
+            torch.backends.cuda.matmul.allow_tf32 = previous_tf32
 
     def _sample_indices(self):
         # Same call, shape, generator and integer distribution as Replay.sample.

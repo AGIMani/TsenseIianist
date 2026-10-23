@@ -2,6 +2,7 @@
 from copy import deepcopy
 import json
 import math
+from pathlib import Path
 import unittest
 
 import mujoco
@@ -67,11 +68,13 @@ class CouplingGeometryTests(unittest.TestCase):
         from tsensei_v3_2_pianist.mjlab_env.without_arms import without_arms
         from tsensei_v3_2_pianist.mjlab_env.bundle import SceneBundle
         recipe = make_recipe(task_profile='tsensei_collision_v1', drive_profile='shadow_v1', initial_buffer_time=0.,
-                             preparation_time=1., preparation_mode='policy_v1')
+                             preparation_time=1., preparation_mode='policy_v1', preparation_lift=.025,
+                             wrist_pitch_range_scale=.8)
         scene, task, _ = build(recipe)
         scene, task = without_arms(scene, task, scene.parent/'coupling_hand_only')
         cls.bundle = SceneBundle(scene, disable_wrist_tz=True, disable_wrist_yaw=True, preparation=recipe['preparation'])
-        low, high = physical_bounds('direct_joint_v1', cls.bundle.manifest['action_names'], cls.bundle.low, cls.bundle.high)
+        low, high = physical_bounds('direct_joint_v1', cls.bundle.manifest['action_names'], cls.bundle.low, cls.bundle.high,
+                                    range_scales=cls.bundle.manifest.get('action_range_scales'))
         cls.coupler = FingerCoupler(cls.bundle, device='cpu', options=OPTIONS, physical_low=low, physical_high=high)
         cls.manifest = json.loads((task/'task.json').read_text())
         cls.low = np.asarray(low); cls.high = np.asarray(high)
@@ -94,6 +97,88 @@ class CouplingGeometryTests(unittest.TestCase):
 
     def test_predicted_angle_matches_native_mirrored_nonparallel_axes(self):
         self.assert_native_fk(self.coupler)
+
+    def test_current_60_80_bounds_are_feasible_at_origin_and_across_command_ranges(self):
+        options = dict(schema=1, mode=RANGE_MODE, angle_ranges_deg=json.loads(
+            (Path(__file__).resolve().parents[1] / 'configs/finger_coupling/angle_ranges_60_80.json').read_text()))
+        g = self.range_coupler(options)
+        self.assertFalse(any(g.reference_diagnostics['coupling_infeasible']))
+        self.assertFalse(any(g.reference_diagnostics['coupling_follower_at_limit']))
+        b = self.bundle; m = b.model
+        commands = []; states = []; matrices = []
+        for pitch in (-.16, 0., .16):
+            for swing in (-.35, 0., .35):
+                for fraction in np.linspace(0., 1., 27):
+                    data = b.reset_cpu(); data.qpos[:] = b.origin_qpos
+                    physical = np.array(b.neutral_action)
+                    ids = g.indices[:, 0].numpy()
+                    physical[ids] = self.low[ids] + fraction * (self.high[ids] - self.low[ids])
+                    for actuator, full in zip(b.action_ids, b.active_action_indices):
+                        joint = int(m.actuator_trnid[actuator, 0]); name = m.joint(joint).name
+                        if name.endswith('forearm_pitch'):
+                            data.qpos[m.jnt_qposadr[joint]] = pitch
+                        elif name.endswith('_swing_joint'):
+                            data.qpos[m.jnt_qposadr[joint]] = swing
+                    mujoco.mj_forward(m, data)
+                    commands.append(physical); states.append(data.qpos.copy()); matrices.append(data.xmat.copy())
+        physical, qpos, xmat = [torch.tensor(np.array(v), dtype=torch.float32)
+                               for v in (commands, states, matrices)]
+        output, info = g.apply(physical, actual_qpos=qpos, body_xmat=xmat)
+        self.assertFalse(info['coupling_infeasible'].any())
+        self.assertTrue(torch.all(output[:, g.indices[:, 1:]] >= g.low))
+        self.assertTrue(torch.all(output[:, g.indices[:, 1:]] <= g.high))
+        # Independent native FK checks the site direction of issued targets.
+        actual_angles = []
+        for row in range(len(output)):
+            data = b.reset_cpu(); data.qpos[:] = qpos[row].numpy()
+            for group in g.groups:
+                for address, full in zip(group['qpos_addresses'], group['full_indices']):
+                    data.qpos[address] = output[row, full]
+            mujoco.mj_forward(m, data)
+            angles = []
+            for group in g.groups:
+                side, finger = group['name'].split('_', 1)
+                site = m.site(f'{side}_/{finger}_distal_support').id
+                joint = m.joint(group['joint_names'][2]).id
+                direction = data.site_xpos[site] - data.xanchor[joint]
+                direction /= np.linalg.norm(direction)
+                angles.append(math.degrees(math.asin(np.clip(-direction @ g.normal.numpy(), -1, 1))))
+            actual_angles.append(angles)
+        np.testing.assert_allclose(info['coupling_target_angle_deg'], actual_angles, atol=6e-4, rtol=0)
+        self.assertGreaterEqual(np.min(actual_angles), 60 - g.TOLERANCE_DEG - .001)
+        self.assertLessEqual(np.max(actual_angles), 80 + g.TOLERANCE_DEG + .001)
+
+    def test_reward_tip_position_does_not_change_coupling_direction(self):
+        baseline = self.range_coupler()
+        sites = [self.bundle.model.site(f"{side}_/{finger}_tip").id
+                 for side in ('right', 'left') for finger in ('index', 'mid', 'ring', 'pinky')]
+        original = self.bundle.model.site_pos[sites].copy()
+        try:
+            self.bundle.model.site_pos[sites] += [.01, -.02, .03]
+            shifted = self.range_coupler()
+            self.assertEqual(baseline.groups, shifted.groups)
+            physical, qpos, matrices = self.states()
+            before, _ = baseline.apply(physical, actual_qpos=qpos, body_xmat=matrices)
+            after, _ = shifted.apply(physical, actual_qpos=qpos, body_xmat=matrices)
+            torch.testing.assert_close(before, after, rtol=0, atol=0)
+        finally:
+            self.bundle.model.site_pos[sites] = original
+
+    def test_reference_guard_rejects_old_local_z_landmark_regression(self):
+        b = self.bundle
+        sites = [b.model.site(f"{side}_/{finger}_distal_support").id
+                 for side in ('right', 'left') for finger in ('index', 'mid', 'ring', 'pinky')]
+        original = b.model.site_pos[sites].copy()
+        try:
+            # Geometry from the erroneous current-CAD local +Z selection.
+            for site in sites:
+                sign = -1 if b.model.site(site).name.startswith('right') else 1
+                b.model.site_pos[site] = [.007400314, sign * .002159625, .010603888]
+            with self.assertRaisesRegex(ValueError, 'reference pose cannot reach'):
+                self.range_coupler(dict(schema=1, mode=RANGE_MODE,
+                    angle_ranges_deg={name: [60., 80.] for name in FINGER_NAMES}))
+        finally:
+            b.model.site_pos[sites] = original
 
     def test_range_angles_match_native_fk_and_distance_outside_each_interval(self):
         options = dict(RANGE_OPTIONS, angle_ranges_deg={name: [45+i, 65+i] for i, name in enumerate(FINGER_NAMES)})
@@ -144,7 +229,7 @@ class CouplingGeometryTests(unittest.TestCase):
         torch.testing.assert_close(g.high, torch.tensor([[.9, .8]]).expand(8, -1))
         for group in g.groups:
             for name in group['joint_names'][1:]:
-                np.testing.assert_allclose(m.joint(name).range, [0., 1.57])
+                np.testing.assert_allclose(m.joint(name).range, [0., 1.57])  # supplied 2026-10-20 URDF limit
         self.assertTrue(torch.all(followers >= g.low))
         self.assertTrue(torch.all(followers <= g.high))
         torch.testing.assert_close(info['coupling_infeasible'], info['coupling_target_error_deg'] > g.TOLERANCE_DEG)
@@ -234,7 +319,11 @@ class CouplingGeometryTests(unittest.TestCase):
         physical, qpos, matrices = self.states(2)
         for options in (OPTIONS, RANGE_OPTIONS):
             with self.subTest(mode=options['mode']):
-                g = FingerCoupler(self.bundle, device='cpu', options=options, physical_low=low, physical_high=high)
+                with self.assertRaisesRegex(ValueError, 'reference pose cannot reach'):
+                    FingerCoupler(self.bundle, device='cpu', options=options, physical_low=low, physical_high=high)
+                # Exercise the bounded fallback independently of the new startup guard.
+                g = self.range_coupler(options)
+                g.high.fill_(1e-4)
                 output, info = g.apply(physical, actual_qpos=qpos, body_xmat=matrices)
                 self.assertTrue(info['coupling_infeasible'].any())
                 self.assertTrue(torch.all(output[:, g.indices[:, 1:]] <= 1e-4))

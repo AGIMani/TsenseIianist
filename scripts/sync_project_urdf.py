@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
-"""Install the latest 20-output hand export and convex-hull collisions.
+"""Install the current supplied bilateral A3.2 multipart URDF on the remote host.
 
-The input package is a visual-only URDF with one merged STL per link. This
-script copies that package into the standalone project, mirrors it into the
-provisional right hand, computes a convex hull for every link, and writes the
-two URDFs plus both collision-proxy manifests. The active URDFs always point
-at the hull meshes, so a legacy mesh profile cannot silently re-enable raw CAD
-collision geometry.
+Preserve both joint trees and supplied inertias; restore the user-requested
+Thumb_Rot2 coordinate sign; merge rigid visual parts and
+build one convex hull per link from the source collision geometry.
 """
 from __future__ import annotations
 
@@ -20,7 +17,6 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 
 import numpy as np
-import mujoco
 from scipy.spatial import ConvexHull
 from scipy.spatial.transform import Rotation
 
@@ -83,15 +79,6 @@ def convex_hull(source: Path, target: Path) -> dict:
     }
 
 
-def mirror_stl(source: Path, target: Path) -> None:
-    triangles = read_triangles(source)
-    triangles["vertices"][:, :, 1] *= -1
-    triangles["vertices"] = triangles["vertices"][:, [0, 2, 1], :]
-    triangles["normal"][:, 1] *= -1
-    target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_bytes(source.read_bytes()[:80] + struct.pack("<I", len(triangles)) + triangles.tobytes())
-
-
 def write_obj(path: Path, triangles: np.ndarray) -> None:
     vertices, inverse = np.unique(triangles.reshape(-1, 3), axis=0, return_inverse=True)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -109,285 +96,189 @@ def maybe_write_obj(stl: Path) -> None:
         write_obj(stl.with_suffix(".obj"), triangles["vertices"])
 
 
-def mirror_obj(source: Path, target: Path) -> None:
-    vertices = []
-    faces = []
-    for line in source.read_text().splitlines():
-        parts = line.split()
-        if not parts:
-            continue
-        if parts[0] == "v":
-            vertices.append([float(parts[1]), -float(parts[2]), float(parts[3])])
-        elif parts[0] == "f":
-            faces.append([parts[1], parts[3], parts[2]])
-    target.parent.mkdir(parents=True, exist_ok=True)
-    with target.open("w") as stream:
-        stream.write("# Mirrored OBJ conversion for the provisional right hand.\n")
-        for vertex in vertices:
-            stream.write("v " + fmt(vertex) + "\n")
-        for face in faces:
-            stream.write("f " + " ".join(face) + "\n")
-
-
-def mirror_origin(origin: ET.Element) -> None:
-    transform = np.eye(4)
-    transform[:3, :3] = Rotation.from_euler("xyz", np.fromstring(origin.get("rpy", "0 0 0"), sep=" ")).as_matrix()
-    transform[:3, 3] = np.fromstring(origin.get("xyz", "0 0 0"), sep=" ")
-    transform[:3, :3] = REFLECTION @ transform[:3, :3] @ REFLECTION
-    transform[:3, 3] = REFLECTION @ transform[:3, 3]
-    origin.set("xyz", fmt(transform[:3, 3]))
-    origin.set("rpy", fmt(Rotation.from_matrix(transform[:3, :3]).as_euler("xyz")))
-
-
-def mirror_inertia(element: ET.Element) -> None:
-    for cross_term in ("ixy", "iyz"):
-        if element.get(cross_term) is not None:
-            element.set(cross_term, format(-float(element.get(cross_term)), ".17g"))
-
-
-def hull_inertial(path: Path, mass: float) -> tuple[np.ndarray, np.ndarray]:
-    """Estimate COM and full body-frame inertia from a uniform convex hull."""
-    xml = (f'<mujoco><compiler angle="radian"/><asset><mesh name="h" file="{path.resolve()}"/>'
-           '</asset><worldbody><body name="link"><geom type="mesh" mesh="h" density="1"/>'
-           '</body></worldbody></mujoco>')
-    model = mujoco.MjModel.from_xml_string(xml)
-    volume = float(model.body_mass[1])
-    if not np.isfinite(volume) or volume <= 0:
-        raise ValueError(f"Convex hull has no positive volume: {path}")
-    com = model.body_ipos[1].copy()
-    matrix = np.zeros((3, 3))
-    mujoco.mju_quat2Mat(matrix.reshape(-1), model.body_iquat[1])
-    inertia = matrix @ np.diag(model.body_inertia[1]) @ matrix.T
-    return com, inertia * (float(mass) / volume)
-
-
-def add_inertial(link: ET.Element, com: np.ndarray, inertia: np.ndarray, mass: float) -> None:
-    inertial = ET.Element("inertial")
-    ET.SubElement(inertial, "origin", xyz=fmt(com), rpy="0 0 0")
-    ET.SubElement(inertial, "mass", value=format(float(mass), ".17g"))
-    ET.SubElement(inertial, "inertia", {
-        "ixx": format(float(inertia[0, 0]), ".17g"),
-        "ixy": format(float(inertia[0, 1]), ".17g"),
-        "ixz": format(float(inertia[0, 2]), ".17g"),
-        "iyy": format(float(inertia[1, 1]), ".17g"),
-        "iyz": format(float(inertia[1, 2]), ".17g"),
-        "izz": format(float(inertia[2, 2]), ".17g"),
-    })
-    link.insert(0, inertial)
-
-
 def write_xml(root: ET.Element, target: Path) -> None:
     ET.indent(root)
     ET.ElementTree(root).write(target, encoding="utf-8", xml_declaration=True)
 
 
-def install(source_dir: Path) -> None:
+def resolved_mesh(source_dir: Path, urdf: Path, element: ET.Element) -> Path:
+    path = (urdf.parent / element.get('filename')).resolve()
+    if not path.is_relative_to(source_dir.resolve()) or not path.is_file():
+        raise ValueError(f'Mesh missing or outside supplied package: {path}')
+    return path
+
+
+def combined_geometry(source_dir: Path, urdf: Path, link: ET.Element, kind: str) -> np.ndarray:
+    """Merge each rigid link in its own frame, honoring every mesh origin/scale."""
+    pieces = []
+    for geom in link.findall(kind):
+        mesh = geom.find('geometry/mesh')
+        if mesh is None:
+            raise ValueError(f'Expected mesh: {link.get("name")}/{kind}')
+        path = resolved_mesh(source_dir, urdf, mesh)
+        points = read_triangles(path)['vertices'].astype(np.float64)
+        scale = np.fromstring(mesh.get('scale', '1 1 1'), sep=' ')
+        if scale.shape != (3,) or not np.isfinite(scale).all() or np.any(scale <= 0):
+            raise ValueError(f'Invalid positive mesh scale: {path}')
+        origin = geom.find('origin')
+        xyz = np.zeros(3) if origin is None else np.fromstring(origin.get('xyz', '0 0 0'), sep=' ')
+        rpy = np.zeros(3) if origin is None else np.fromstring(origin.get('rpy', '0 0 0'), sep=' ')
+        rotation = Rotation.from_euler('xyz', rpy).as_matrix()
+        points = (points * scale) @ rotation.T + xyz
+        if not np.isfinite(points).all():
+            raise ValueError(f'Nonfinite geometry: {path}')
+        pieces.append(points)
+    if not pieces:
+        raise ValueError(f'Missing {kind}: {link.get("name")}')
+    return np.concatenate(pieces)
+
+
+def supplied_inertia(link: ET.Element) -> tuple[float, np.ndarray, np.ndarray]:
+    inertial = link.find('inertial')
+    if inertial is None:
+        raise ValueError(f'Missing supplied inertia: {link.get("name")}')
+    mass = float(inertial.find('mass').get('value'))
+    origin = inertial.find('origin')
+    com = np.fromstring(origin.get('xyz', '0 0 0'), sep=' ')
+    rotation = Rotation.from_euler('xyz', np.fromstring(origin.get('rpy', '0 0 0'), sep=' ')).as_matrix()
+    values = inertial.find('inertia').attrib
+    tensor = np.array([[float(values['i'+min(a,b)+max(a,b)]) for b in 'xyz'] for a in 'xyz'])
+    eigenvalues = np.linalg.eigvalsh(tensor)
+    if (not np.isfinite(mass) or mass <= 0 or not np.isfinite(com).all()
+            or not np.isfinite(tensor).all() or eigenvalues[0] <= 0
+            or eigenvalues[2] > eigenvalues[0]+eigenvalues[1]+1e-14):
+        raise ValueError(f'Invalid supplied mass/inertia: {link.get("name")}')
+    return mass, com, rotation @ tensor @ rotation.T
+
+
+def install(source_dir: Path, source_zip_sha256: str) -> None:
+    """Install both supplied hands; never infer the right hand or replace inertias."""
+    import tempfile
     source_dir = source_dir.resolve()
-    source_urdf = source_dir / "urdf" / "TsenseI_hand_left_v3_2_withid.urdf"
-    source_mesh_dir = source_dir / "meshes" / "left"
-    if not source_urdf.is_file() or not source_mesh_dir.is_dir():
-        raise FileNotFoundError(f"Expected latest package URDF and meshes under {source_dir}")
-    source_root = ET.parse(source_urdf).getroot()
-    links = source_root.findall("link")
-    joints = source_root.findall("joint")
-    if len(links) != 22 or len(joints) != 21:
-        raise ValueError(f"Expected latest export to have 22 links/21 joints, got {len(links)}/{len(joints)}")
-    if any(link.find("inertial") is not None for link in links):
-        raise ValueError("This importer expects the latest visual-only export; inertials must be reviewed separately")
-
-    latest_root = ASSETS / "source" / "latest_project"
-    if latest_root.exists():
-        shutil.rmtree(latest_root)
-    (latest_root / "urdf").mkdir(parents=True)
-    shutil.copy2(source_urdf, latest_root / "urdf" / source_urdf.name)
-    shutil.copytree(source_mesh_dir, latest_root / "meshes" / "left")
-    for mesh in (latest_root / "meshes" / "left").glob("*.STL"):
-        maybe_write_obj(mesh)
-    (latest_root / "source_directory.txt").write_text(str(source_dir) + "\n")
-
-    hull_root = ASSETS / "collision_hulls"
-    if hull_root.exists():
-        shutil.rmtree(hull_root)
-    stale_collision_sources = ASSETS / "collision_sources"
-    if stale_collision_sources.exists():
-        shutil.rmtree(stale_collision_sources)
-    records = {"left": {}, "right": {}}
-    left_hulls = {}
-    mass_source = ASSETS / "source" / "TsenseI_left_mass952_before_mount.urdf"
-    if not mass_source.is_file():
-        raise FileNotFoundError(f"Missing approved 0.952 kg mass source: {mass_source}")
-    mass_root = ET.parse(mass_source).getroot()
-    mass_by_link = {
-        link.get("name"): float(link.find("inertial/mass").get("value"))
-        for link in mass_root.findall("link")
-    }
-    for link in links:
-        name = link.get("name")
-        source_name = f"{name}.STL"
-        source_mesh = source_mesh_dir / source_name
-        if not source_mesh.is_file():
-            raise FileNotFoundError(f"Missing merged link mesh: {source_mesh}")
-        hull_target = hull_root / "left" / f"{name}_convex_hull.stl"
-        hull_stats = convex_hull(source_mesh, hull_target)
-        left_hulls[name] = hull_target
-        mass = mass_by_link.get(name)
-        if mass is None:
-            raise ValueError(f"Approved mass source has no link {name}")
-        com, inertia = hull_inertial(hull_target, mass)
-        records["left"][name] = {
-            "source_mesh": str((latest_root / "meshes" / "left" / source_name).relative_to(ASSETS)),
-            "source_sha256": hashlib.sha256(source_mesh.read_bytes()).hexdigest(),
-            "type": "mesh",
-            "mesh_file": str(hull_target.relative_to(ASSETS)),
-            "physical_role": "rigid_mount" if name in {"base_link", "Left_hand_palm_link"} else "finger_link",
-            "hull_method": "scipy_convex_hull_v1",
-            "mass_kg": mass,
-            "inertial_origin_xyz_m": com.tolist(),
-            "inertia_kg_m2": inertia.tolist(),
-            "inertia_method": "uniform_convex_hull_scaled_to_0.952kg_link_mass",
-            **hull_stats,
-        }
-
-    left = copy.deepcopy(source_root)
-    left.set("name", "TsenseI_A3.2_left_latest_project")
-    for link in left.findall("link"):
-        name = link.get("name")
-        for visual in link.findall("visual"):
-            mesh = visual.find("geometry/mesh")
-            mesh.set("filename", f"../source/latest_project/meshes/left/{name}.STL")
-        collision = ET.SubElement(link, "collision", {"name": "convex_hull_collision"})
-        ET.SubElement(collision, "origin", {"xyz": "0 0 0", "rpy": "0 0 0"})
-        geometry = ET.SubElement(collision, "geometry")
-        ET.SubElement(geometry, "mesh", {"filename": f"../collision_hulls/left/{name}_convex_hull.stl", "scale": "1 1 1"})
-        row = records["left"][name]
-        add_inertial(link, np.asarray(row["inertial_origin_xyz_m"]),
-                     np.asarray(row["inertia_kg_m2"]), row["mass_kg"])
-    write_xml(left, URDFS / "TsenseI_left.urdf")
-
-    right = copy.deepcopy(left)
-    right.set("name", "TsenseI_A3.2_right_MIRRORED_PROVISIONAL")
-    right_mesh_dir = latest_root / "meshes" / "right"
-    right_mesh_dir.mkdir(parents=True)
-    right_hull_dir = hull_root / "right"
-    for element in right.iter():
-        for key in ("name", "link"):
-            if key in element.attrib:
-                element.set(key, right_name(element.get(key)))
-        if element.tag == "origin":
-            mirror_origin(element)
-        elif element.tag == "axis":
-            element.set("xyz", fmt(-REFLECTION @ np.fromstring(element.get("xyz"), sep=" ")))
-        elif element.tag == "inertia":
-            mirror_inertia(element)
-        elif element.tag == "mesh":
-            filename = Path(element.get("filename"))
-            if "source/latest_project/meshes/left" in element.get("filename"):
-                source_mesh = latest_root / "meshes" / "left" / filename.name
-                target = right_mesh_dir / right_name(filename.name)
+    if len(source_zip_sha256) != 64 or any(c not in '0123456789abcdef' for c in source_zip_sha256):
+        raise ValueError('Expected source ZIP SHA256')
+    sources = {}
+    for side in ('left', 'right'):
+        path = source_dir / 'urdf' / f'TsenseI_hand_{side}_v3_2_withid.urdf'
+        root = ET.parse(path).getroot()
+        links, joints = root.findall('link'), root.findall('joint')
+        if len(links) != 22 or len(joints) != 21 or len(root.findall("joint[@type='revolute']")) != 20:
+            raise ValueError(f'Expected A3.2 22 links / 20 moving joints: {side}')
+        for link in links:
+            supplied_inertia(link)
+            for mesh in link.findall('.//mesh'):
+                resolved_mesh(source_dir, path, mesh)
+        sources[side] = (path, root)
+    # Build in a staging directory. Caller preserves the prior revision before installation.
+    with tempfile.TemporaryDirectory(prefix='hand-install-', dir=ASSETS.parent) as temporary:
+        stage = Path(temporary)
+        latest = stage / 'source/latest_project'
+        (latest / 'urdf').mkdir(parents=True)
+        (stage / 'urdf').mkdir()
+        records = {'left': {}, 'right': {}}
+        source_hashes = {}; generated = {}; totals = {}
+        for side, (source_urdf, source_root) in sources.items():
+            shutil.copy2(source_urdf, latest/'urdf'/source_urdf.name)
+            for element in source_root.findall('.//mesh'):
+                mesh_path = resolved_mesh(source_dir, source_urdf, element)
+                target = latest / mesh_path.relative_to(source_dir)
                 if not target.exists():
-                    mirror_stl(source_mesh, target)
-                    if source_mesh.with_suffix(".obj").is_file():
-                        mirror_obj(source_mesh.with_suffix(".obj"), target.with_suffix(".obj"))
-                element.set("filename", f"../source/latest_project/meshes/right/{target.name}")
-            elif "collision_hulls/left" in element.get("filename"):
-                left_name = filename.name.removesuffix("_convex_hull.stl")
-                source_hull = left_hulls[left_name]
-                target = right_hull_dir / f"{right_name(left_name)}_convex_hull.stl"
-                if not target.exists():
-                    mirror_stl(source_hull, target)
-                element.set("filename", f"../collision_hulls/right/{target.name}")
-    for name, left_entry in records["left"].items():
-        source_mesh = latest_root / "meshes" / "left" / f"{name}.STL"
-        raw_target = right_mesh_dir / f"{right_name(name)}.STL"
-        if not raw_target.exists():
-            mirror_stl(source_mesh, raw_target)
-        hull_target = right_hull_dir / f"{right_name(name)}_convex_hull.stl"
-        records["right"][right_name(name)] = {
-            **left_entry,
-            "source_mesh": str(raw_target.relative_to(ASSETS)),
-            "source_sha256": hashlib.sha256(raw_target.read_bytes()).hexdigest(),
-            "mesh_file": str(hull_target.relative_to(ASSETS)),
-            "hull_sha256": hashlib.sha256(hull_target.read_bytes()).hexdigest(),
-            "inertial_origin_xyz_m": (REFLECTION @ np.asarray(left_entry["inertial_origin_xyz_m"])).tolist(),
-            "inertia_kg_m2": (REFLECTION @ np.asarray(left_entry["inertia_kg_m2"]) @ REFLECTION).tolist(),
-        }
-    write_xml(right, URDFS / "TsenseI_right.urdf")
-
-    source_slot = ASSETS / "source" / "left_original.urdf"
-    previous = source_slot.read_bytes() if source_slot.exists() else None
-    if previous is not None and previous != source_urdf.read_bytes():
-        backup = ROOT / "deprecated" / "model_revisions" / "updated_urdf_20261012" / "left_original_before_latest_project.urdf"
-        backup.parent.mkdir(parents=True, exist_ok=True)
-        if not backup.exists():
-            backup.write_bytes(previous)
-    shutil.copy2(source_urdf, source_slot)
-
-    manifest = {
-        "schema": 1,
-        "profile": "convex_hull_v1",
-        "units": "metres; all active collision meshes are scipy convex hulls of the supplied merged per-link STL",
-        "reference": "TsenseI_hand_20_outputs_description",
-        "source_urdf": "source/latest_project/urdf/TsenseI_hand_left_v3_2_withid.urdf",
-        "source_urdf_sha256": hashlib.sha256(source_urdf.read_bytes()).hexdigest(),
-        "preserve_original_mesh_links": [],
-        "limitations": [
-            "Convex hulls fill concave cavities and are an outer collision approximation.",
-            "The right hand is a geometric mirror candidate, not a manufacturer right-hand model.",
-            "The supplied export has no inertial tags; dynamics must be reviewed before hardware claims.",
-        ],
-        "hands": records,
-    }
-    (ASSETS / "collision_proxies_convex_hull.json").write_text(json.dumps(manifest, indent=2) + "\n")
-    primitive_alias = dict(manifest)
-    primitive_alias["profile"] = "shadow_primitive_v1"
-    primitive_alias["reference"] = "Deprecated profile name retained only as a hull-only alias"
-    (ASSETS / "collision_proxies.json").write_text(json.dumps(primitive_alias, indent=2) + "\n")
-    report = {
-        "model_name": "TsenseI_A3.2",
-        "source_joint_schema": "latest_project_20_outputs_withid_v1",
-        "left_source": "source/left_original.urdf",
-        "left_source_sha256": hashlib.sha256(source_urdf.read_bytes()).hexdigest(),
-        "source_package": str(source_dir),
-        "source_package_urdf": "source/latest_project/urdf/TsenseI_hand_left_v3_2_withid.urdf",
-        "right_hand_is_provisional_mirror": True,
-        "reflection": REFLECTION.tolist(),
-        "link_count": 22,
-        "joint_count": 21,
-        "revolute_joint_count": 20,
-        "left_source_name_map": {},
-        "canonical_from_source_root": {
-            "xyz": [0.0, 0.0, 0.0],
-            "rpy": [0.0, 0.0, 0.0],
-            "meaning": "The supplied latest export is already in the project hand frame.",
-        },
-        "mass_source": "source/TsenseI_left_mass952_before_mount.urdf",
-        "mass_total_kg": float(sum(mass_by_link.values())),
-        "inertia_estimation": {
-            "method": "uniform convex hull volume at density one, scaled to each retained link mass",
-            "hardware_calibration_status": "TODO(V32-MASS-HULL-CALIBRATION)",
-            "source_export_contains_inertial_tags": False,
-        },
-        "collision_contract": "convex_hull_v1 for every link; no raw mesh collision fallback",
-        "source_urdf_sha256": hashlib.sha256(source_urdf.read_bytes()).hexdigest(),
-        "generated_sha256": {
-            str(path.relative_to(ASSETS)): hashlib.sha256(path.read_bytes()).hexdigest()
-            for path in sorted([URDFS / "TsenseI_left.urdf", URDFS / "TsenseI_right.urdf"] +
-                               list(hull_root.rglob("*.stl")))
-        },
-        "limitations": manifest["limitations"],
-    }
-    (ASSETS / "model_derivation.json").write_text(json.dumps(report, indent=2) + "\n")
-    print(json.dumps({"source": str(source_urdf), "source_sha256": report["source_urdf_sha256"],
-                      "links": 22, "joints": 21, "hulls": 44}, indent=2))
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(mesh_path, target)
+            source_hashes[side] = hashlib.sha256(source_urdf.read_bytes()).hexdigest()
+            active = copy.deepcopy(source_root)
+            active.set('name', f'TsenseI_A3.2_{side}_supplied_20261020')
+            # User requested the previous Thumb_Rot2 coordinate direction.
+            # Reverse axis AND angle limits: R(-a, -q) == R(a, q).
+            thumb = active.find(f"joint[@name='{side}_hand_thumb_rotaback_joint2']")
+            axis = thumb.find('axis')
+            axis.set('xyz', fmt(-np.fromstring(axis.get('xyz'), sep=' ')))
+            limit = thumb.find('limit')
+            lower, upper = float(limit.get('lower')), float(limit.get('upper'))
+            limit.set('lower', format(-upper, '.17g'))
+            limit.set('upper', format(-lower, '.17g'))
+            total = 0.
+            for link, original in zip(active.findall('link'), source_root.findall('link')):
+                name = link.get('name')
+                visual_path = latest / 'merged' / side / f'{name}.STL'
+                write_binary_stl(visual_path, combined_geometry(source_dir, source_urdf, original, 'visual'))
+                maybe_write_obj(visual_path)
+                collision_source = stage/'collision_sources'/side/f'{name}.stl'
+                write_binary_stl(collision_source, combined_geometry(source_dir, source_urdf, original, 'collision'))
+                hull = stage/'collision_hulls'/side/f'{name}_convex_hull.stl'
+                stats = convex_hull(collision_source, hull)
+                mass, com, inertia = supplied_inertia(original)
+                total += mass
+                for old in list(link.findall('visual')) + list(link.findall('collision')):
+                    link.remove(old)
+                for kind, mesh_path in [('visual', visual_path), ('collision', hull)]:
+                    element = ET.SubElement(link, kind, name=f'{name}_{kind}')
+                    ET.SubElement(element, 'origin', xyz='0 0 0', rpy='0 0 0')
+                    geom = ET.SubElement(element, 'geometry')
+                    ET.SubElement(geom, 'mesh', filename='../'+str(mesh_path.relative_to(stage)), scale='1 1 1')
+                records[side][name] = dict(
+                    type='mesh', mesh_file=str(hull.relative_to(stage)),
+                    source_mesh=str(collision_source.relative_to(stage)),
+                    source_sha256=hashlib.sha256(collision_source.read_bytes()).hexdigest(),
+                    physical_role='rigid_mount' if name in {'base_link', f'{side.capitalize()}_hand_palm_link'} else 'finger_link',
+                    hull_method='scipy_convex_hull_v1', mass_kg=mass,
+                    inertial_origin_xyz_m=com.tolist(), inertia_kg_m2=inertia.tolist(),
+                    inertia_method='supplied_urdf_inertial_preserved',
+                    source_visual_count=len(original.findall('visual')),
+                    source_collision_count=len(original.findall('collision')), **stats)
+            totals[side] = total
+            write_xml(active, stage/'urdf'/f'TsenseI_{side}.urdf')
+        shutil.copy2(sources['left'][0], stage/'source/left_original.urdf')
+        for path in sorted(stage.rglob('*')):
+            if path.is_file():
+                generated[str(path.relative_to(stage))] = hashlib.sha256(path.read_bytes()).hexdigest()
+        limitations = [
+            'Convex hulls fill concave cavities; they are not exact shells.',
+            'Both hands come from the user-supplied ZIP, not a newly generated mirror; manufacturer provenance is unverified.',
+            'Supplied masses/inertias are preserved; hardware calibration is unverified (TODO(V32-MASS-SOURCE-CALIBRATION)).',
+            'Visuals merge all rigid per-link parts after applying their original origins/scales; no original shape is trimmed.']
+        manifest = dict(schema=1, profile='convex_hull_v1', units='metres',
+                        reference='TsenseI_hand_A3.2_withid_upper_thumb5mm_noupper_mid',
+                        source_urdf='source/latest_project/urdf/TsenseI_hand_left_v3_2_withid.urdf',
+                        source_urdf_sha256=source_hashes['left'], source_urdf_sha256_by_side=source_hashes,
+                        preserve_original_mesh_links=[], limitations=limitations, hands=records)
+        report = dict(model_name='TsenseI_A3.2', source_joint_schema='a32_supplied_bilateral_parts_20261020',
+                      left_source='source/left_original.urdf', left_source_sha256=source_hashes['left'],
+                      source_package=source_dir.name, source_zip_sha256=source_zip_sha256,
+                      source_package_urdf=manifest['source_urdf'], source_urdf_sha256=source_hashes['left'],
+                      source_urdf_sha256_by_side=source_hashes,
+                      right_hand_is_provisional_mirror=False, right_hand_source='supplied_package',
+                      joint_coordinate_overrides={f'{side}_hand_thumb_rotaback_joint2': dict(axis_multiplier=-1, angle_multiplier=-1, reason='2026-10-20 user requested previous axis direction; equivalent physical rotation') for side in ('left','right')},
+                      link_count=22, joint_count=21, revolute_joint_count=20, left_source_name_map={},
+                      canonical_from_source_root=dict(xyz=[0.,0.,0.], rpy=[0.,0.,0.], meaning='Both supplied root frames preserved independently.'),
+                      mass_source='supplied bilateral URDF inertial tags', mass_total_kg=totals['left'], mass_total_kg_by_side=totals,
+                      inertia_estimation=dict(method='supplied_urdf_inertial_preserved', hardware_calibration_status='TODO(V32-MASS-SOURCE-CALIBRATION)', source_export_contains_inertial_tags=True),
+                      collision_contract='convex_hull_v1 for every link; no raw mesh collision fallback',
+                      generated_sha256=generated, limitations=limitations)
+        (stage/'collision_proxies_convex_hull.json').write_text(json.dumps(manifest, indent=2)+'\n')
+        (stage/'collision_proxies.json').write_text(json.dumps(dict(manifest, profile='shadow_primitive_v1'), indent=2)+'\n')
+        (stage/'model_derivation.json').write_text(json.dumps(report, indent=2)+'\n')
+        for relative in ['source/latest_project', 'source/left_original.urdf', 'collision_hulls', 'collision_sources',
+                         'urdf/TsenseI_left.urdf', 'urdf/TsenseI_right.urdf',
+                         'collision_proxies_convex_hull.json', 'collision_proxies.json', 'model_derivation.json']:
+            target = ASSETS/relative
+            if target.is_dir():
+                shutil.rmtree(target)
+            elif target.exists():
+                target.unlink()
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.move(str(stage/relative), str(target))
+    print(json.dumps(dict(source_sha256=source_hashes, source_zip_sha256=source_zip_sha256,
+                          links_per_hand=22, hulls=44, mass_kg=totals), indent=2))
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--source-dir", type=Path,
-                        default=Path("/home/hj/TsenseI_hand_20_outputs_description"))
+    parser.add_argument('--source-dir', type=Path, required=True)
+    parser.add_argument('--source-zip-sha256', required=True)
     args = parser.parse_args()
-    install(args.source_dir)
+    install(args.source_dir, args.source_zip_sha256)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

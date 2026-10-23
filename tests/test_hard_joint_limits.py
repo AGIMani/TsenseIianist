@@ -15,7 +15,7 @@ from tsensei_v3_2_pianist.mjlab_env.action_mapping import policy_bounds, active_
 
 class HardJointLimitsCPU(unittest.TestCase):
     def test_options_preserve_legacy_and_group_overrides(self):
-        old = dict(schema=1, mode='target_clip_slew_v1', channels={'L_Wrist_TX': {'max_velocity': 1.}})
+        old = dict(schema=1, mode='target_clip_slew_v1', channels={'L_Palm_Base_Tx': {'max_velocity': 1.}})
         self.assertEqual(canonical(old), old)
         self.assertEqual(rate_overrides(old, SimpleNamespace()), old)
         new = rate_overrides(old, SimpleNamespace(hard_joint_limits=True))

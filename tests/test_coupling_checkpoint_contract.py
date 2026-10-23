@@ -9,13 +9,17 @@ import torch
 
 from tsensei_v3_2_pianist.rl_torch import checkpoint
 from tsensei_v3_2_pianist.rl_torch.sac import SAC, SACConfig
-from tests.test_run_entry_controls import run_config
+from tsensei_v3_2_pianist.rl_torch.train import effective_config, parser
 from tsensei_v3_2_pianist.mjlab_env.finger_coupling import canonical, RANGE_MODE
 
 
 OPTIONS = dict(schema=1, mode='distal_60deg_v1', target_angle_deg=60., reduce_observation=True)
 GEOMETRY = dict(**OPTIONS, plane_normal=[0., 0., 1.], follower_full_indices=[6, 7])
 OBSERVATION = dict(retained_base_indices=[0, 1], removed_base_indices=[2, 3])
+
+
+def run_config(*args):
+    return effective_config(parser().parse_args(list(args)))
 
 
 class CouplingCheckpointTests(unittest.TestCase):

@@ -41,6 +41,11 @@ _RIGHT_HAND_QUATERNION = hand_consts.ATTACHMENT_QUATERNION
 
 _ATTACHMENT_YAW = 0  # Degrees.
 
+# Keep the existing wrist workspace independent of the piano layout revision.
+# The previous 1221 mm keyboard supplied this half-span; changing key geometry
+# must not also change joint limits, actuator ranges or action normalization.
+_FOREARM_LATERAL_HALF_RANGE = 1.221 / 2
+
 
 class PianoOnlyTask(composer.Task):
     """Piano task with no hands."""
@@ -165,7 +170,7 @@ class PianoTask(PianoOnlyTask):
         attachment_yaw: float,
         forearm_dofs: Sequence[str],
     ) -> tsensei_hand.TsenseiHand:
-        joint_range = [-self._piano.size[1], self._piano.size[1]]
+        joint_range = [-_FOREARM_LATERAL_HALF_RANGE, _FOREARM_LATERAL_HALF_RANGE]
 
         # Offset the joint range by the hand's initial position.
         joint_range[0] -= position[1]

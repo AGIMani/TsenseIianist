@@ -39,6 +39,7 @@ def draw_keyboard_map(path, model, data, key_ids, default_targets, finger_target
                       *, heading="Fingering reward target on every piano key", display_keys=None):
     """Draw every target directly on its key in an exact top-plane projection."""
     from PIL import Image, ImageDraw, ImageFont
+    from tsensei_v3_2_pianist.fingering_targets import key_reference
     from tsensei_v3_2_pianist.preview_fingering import FINGER_COLORS, finger_label, note_name
 
     width, height = 5200, 1500
@@ -59,10 +60,11 @@ def draw_keyboard_map(path, model, data, key_ids, default_targets, finger_target
         raise ValueError("display_keys must be a nonempty subset of [0, 87]")
     corners_world = []
     for geom_id in key_ids:
-        sx, sy = model.geom_size[geom_id, :2]
-        local = np.array(((-sx, -sy, 0), (-sx, sy, 0), (sx, sy, 0), (sx, -sy, 0)))
-        rotation = data.geom_xmat[geom_id].reshape(3, 3)
-        corners_world.append(local @ rotation.T + data.geom_xpos[geom_id])
+        site, size = key_reference(model, geom_id)
+        sx, sy, sz = size
+        local = np.array(((-sx, -sy, sz), (-sx, sy, sz), (sx, sy, sz), (sx, -sy, sz)))
+        rotation = data.site_xmat[site].reshape(3, 3)
+        corners_world.append(local @ rotation.T + data.site_xpos[site])
     all_points = np.concatenate([corners_world[key] for key in display_keys])
     world_y_min, world_y_max = all_points[:, 1].min(), all_points[:, 1].max()
     world_x_min, world_x_max = all_points[:, 0].min(), all_points[:, 0].max()
@@ -92,7 +94,7 @@ def draw_keyboard_map(path, model, data, key_ids, default_targets, finger_target
     active_by_key = {int(key): int(finger) for finger, key in np.argwhere(assigned)}
     for key in display_keys:
         geom_id, black = key_ids[key], kinds[key]
-        center = pixel(data.geom_xpos[geom_id])
+        center = pixel(data.site_xpos[key_reference(model, geom_id)[0]])
         target = pixel(default_targets[key])
         label_color = (245, 245, 245) if black else (25, 28, 35)
         note = note_name(key)
@@ -141,11 +143,12 @@ def main():
     configure_backend(headless=True)
     import mujoco
     from PIL import Image, ImageDraw, ImageFont
+    from tsensei_v3_2_pianist.fingering_targets import key_reference
     from tsensei_v3_2_pianist.preview_camera import configure_camera
     from tsensei_v3_2_pianist.preview_fingering import (
         FINGER_COLORS, FINGER_NAMES, finger_label, note_name,
     )
-    from tsensei_v3_2_pianist.fingering_targets import target_position, options_from_manifest, THUMB_GLOBAL_INDICES
+    from tsensei_v3_2_pianist.fingering_targets import target_position, target_for_key, key_reference, options_from_manifest, THUMB_GLOBAL_INDICES
 
     manifest = json.loads((args.task / "task.json").read_text())
     score = np.load(args.task / "score.npz")
@@ -164,20 +167,10 @@ def main():
 
     # This is deliberately identical to PianoTaskEnv.snapshot(): offsets are in
     # world X/Z, not the key's rotated local frame.
-    targets = data.geom_xpos[key_ids].copy()
-    targets[:, 0] += 0.35 * model.geom_size[key_ids, 0]
-    targets[:, 2] += 0.5 * model.geom_size[key_ids, 2]
+    task_profile = manifest.get('task_profile', 'tsensei_v1')
+    options_from_manifest(manifest.get('fingering_target'), task_profile)
+    targets = np.array([target_for_key(model, data, gid, task_profile=task_profile) for gid in key_ids])
     finger_targets = np.repeat(targets[None], 10, axis=0)
-    if "fingering_target" in manifest:
-        task_profile = manifest.get('task_profile', 'tsensei_v1')
-        thumb_target = options_from_manifest(manifest['fingering_target'], task_profile)
-        for finger in range(10):
-            for key, geom_id in enumerate(key_ids):
-                finger_targets[finger, key] = target_position(
-                    data.geom_xpos[geom_id], model.geom_size[geom_id], model.geom(geom_id).name,
-                    thumb=finger in THUMB_GLOBAL_INDICES,
-                    task_profile=task_profile, thumb_target=thumb_target,
-                )
     assigned = score["fingers"][args.frame] > 0
 
     width, height = 1600, 900
@@ -222,11 +215,7 @@ def main():
               font=title, fill="white")
     draw.text((24, 58), "small orange: all 88 key target points | large color: assigned target | line: fingertip distance",
               font=font, fill=(235, 235, 235))
-    formula_text = (
-        "thumb X = +X key end - 2.0 cm (white) / 1.5 cm (black); other fingers retain default X"
-        if "fingering_target" in manifest else
-        "target = key geom position + [0.35 x half-length, 0, 0.5 x half-thickness] in world axes"
-    )
+    formula_text = "All fingers: X = +X key end - 40 mm (white) / 20 mm (black); Z = center + 0.5 half-height"
     draw.text((24, 88), formula_text, font=font, fill=(255, 195, 105))
     y = height - 42 * (len(rows) + 1) - 12
     draw.rectangle((0, y - 10, width, height), fill=(18, 23, 32))

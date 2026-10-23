@@ -185,11 +185,11 @@
         "R_Pinky_SW",
         "R_Pinky_PIP",
         "R_Pinky_DIP",
-        "R_Wrist_TX",
-        "R_Wrist_TY",
-        "R_Wrist_TZ",
-        "R_Wrist_Pitch",
-        "R_Wrist_Yaw"
+        "R_Palm_Base_Tx",
+        "R_Palm_Base_Ty",
+        "R_Palm_Base_Tz",
+        "R_Palm_Base_Pitch",
+        "R_Palm_Base_Yaw"
       ],
       "neutral_control": [
         1.0,
@@ -327,11 +327,11 @@
         "L_Pinky_SW",
         "L_Pinky_PIP",
         "L_Pinky_DIP",
-        "L_Wrist_TX",
-        "L_Wrist_TY",
-        "L_Wrist_TZ",
-        "L_Wrist_Pitch",
-        "L_Wrist_Yaw"
+        "L_Palm_Base_Tx",
+        "L_Palm_Base_Ty",
+        "L_Palm_Base_Tz",
+        "L_Palm_Base_Pitch",
+        "L_Palm_Base_Yaw"
       ],
       "neutral_control": [
         1.0,

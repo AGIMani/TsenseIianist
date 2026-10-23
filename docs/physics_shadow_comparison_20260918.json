@@ -9562,7 +9562,7 @@
         ]
       },
       {
-        "name": "R_Wrist_TX",
+        "name": "R_Palm_Base_Tx",
         "kp": 300.0,
         "force_limited": true,
         "force_range": [
@@ -9571,7 +9571,7 @@
         ]
       },
       {
-        "name": "R_Wrist_TY",
+        "name": "R_Palm_Base_Ty",
         "kp": 300.0,
         "force_limited": true,
         "force_range": [
@@ -9580,7 +9580,7 @@
         ]
       },
       {
-        "name": "R_Wrist_TZ",
+        "name": "R_Palm_Base_Tz",
         "kp": 1000.0,
         "force_limited": true,
         "force_range": [
@@ -9589,7 +9589,7 @@
         ]
       },
       {
-        "name": "R_Wrist_Pitch",
+        "name": "R_Palm_Base_Pitch",
         "kp": 50.0,
         "force_limited": true,
         "force_range": [
@@ -9598,7 +9598,7 @@
         ]
       },
       {
-        "name": "R_Wrist_Yaw",
+        "name": "R_Palm_Base_Yaw",
         "kp": 300.0,
         "force_limited": true,
         "force_range": [
@@ -9787,7 +9787,7 @@
         ]
       },
       {
-        "name": "L_Wrist_TX",
+        "name": "L_Palm_Base_Tx",
         "kp": 300.0,
         "force_limited": true,
         "force_range": [
@@ -9796,7 +9796,7 @@
         ]
       },
       {
-        "name": "L_Wrist_TY",
+        "name": "L_Palm_Base_Ty",
         "kp": 300.0,
         "force_limited": true,
         "force_range": [
@@ -9805,7 +9805,7 @@
         ]
       },
       {
-        "name": "L_Wrist_TZ",
+        "name": "L_Palm_Base_Tz",
         "kp": 1000.0,
         "force_limited": true,
         "force_range": [
@@ -9814,7 +9814,7 @@
         ]
       },
       {
-        "name": "L_Wrist_Pitch",
+        "name": "L_Palm_Base_Pitch",
         "kp": 50.0,
         "force_limited": true,
         "force_range": [
@@ -9823,7 +9823,7 @@
         ]
       },
       {
-        "name": "L_Wrist_Yaw",
+        "name": "L_Palm_Base_Yaw",
         "kp": 300.0,
         "force_limited": true,
         "force_range": [

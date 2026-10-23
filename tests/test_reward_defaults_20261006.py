@@ -1,4 +1,4 @@
-"""User-selected endpoint rewards, signed wrong-key cost and idle target L1."""
+"""User-selected exact key rewards, signed wrong-key cost and idle target L1."""
 from copy import deepcopy
 import json
 import os
@@ -34,13 +34,15 @@ def evaluate_posture(action, fingers=None, *, scene=None, cfg=None, snapshot=Non
 
 def test_current_default_contract_and_no_deleted_terms():
     c = validate(json.loads(DEFAULT.read_text()))
-    assert len(c['terms']) == 22
+    assert len(c['terms']) == 23
     assert c['terms']['arm_motion_limit_penalty']['enabled'] is False
+    assert c['terms']['arm_tracking_error_penalty'] == dict(enabled=False, weight=1.,
+        params=dict(error_scale_m=.001))
     assert c['terms']['self_collision_reward'] == dict(
         enabled=True, weight=.1, params=dict(aggregation='substep_sum', maximum_penalty_per_step=5.))
     assert c['terms']['false_press_penalty'] == dict(enabled=False, weight=-.05, params={})
     assert c['terms'][GESTURE] == dict(enabled=True, weight=1., params=dict(
-        coefficient=-.05, reference='scene_reset', lookahead_steps=20))
+        coefficient=-.02, reference='scene_reset', lookahead_steps=20, swing_scale=.5))
     assert c['terms']['key_press_reward']['params'] == dict(mode='paper', chord_bonus=False, chord_scope=None)
     assert c['terms']['joint_motion_limit_penalty']['params']['full_penalty_excess'] == .1
     assert contact_options(c) == dict(collision_categories=('self',), ignored_body_pairs=[],
@@ -64,7 +66,7 @@ def test_zero_at_initial_target_and_physical_radian_sum_includes_followers():
     action[:, 20:25] = 2.  # Wrist and translation are excluded.
     action[:, 45:] = 2.  # Other wrist and pedal are excluded.
     result, _ = evaluate_posture(action, scene=scene)
-    torch.testing.assert_close(result, torch.tensor([0., -.1, -.4]), atol=1e-7, rtol=1e-6)
+    torch.testing.assert_close(result, torch.tensor([0., -.09, -.4]), atol=1e-7, rtol=1e-6)
 
 
 def test_current_used_fingers_are_exempt_and_measured_pose_is_irrelevant():
@@ -73,11 +75,11 @@ def test_current_used_fingers_are_exempt_and_measured_pose_is_irrelevant():
     fingers[1, :2, 10] = 1
     fingers[2, :, 10] = 1
     cfg = only(GESTURE)
-    cfg['performance'] = dict(anticipatory_fingering_time=.15, anticipatory_fingering_reward=False)
+    cfg['performance'] = dict(anticipatory_fingering_time=.15)
     sample = dict(right_qpos=torch.full((3, 25), 100.), left_qpos=torch.full((3, 25), -100.),
                   anticipatory_mask=torch.ones(3, 10, dtype=torch.bool))
     result, _ = evaluate_posture(action, fingers, cfg=cfg, snapshot=sample)
-    torch.testing.assert_close(result, torch.tensor([-4., -3.2, 0.]))
+    torch.testing.assert_close(result, torch.tensor([-3.6, -2.85, 0.]))
 
 
 @pytest.mark.parametrize('dt', [.01, .025, .05])
@@ -87,8 +89,8 @@ def test_posture_final_control_step_units_and_weight_apply_once(dt):
     cfg['terms'][GESTURE]['weight'] = .5
     scene = scene_fixture(); scene['control_dt'] = dt
     result, manager = evaluate_posture(torch.ones(1, 51), cfg=cfg, scene=scene)
-    torch.testing.assert_close(manager.raw_terms[GESTURE], torch.tensor([-4.]))
-    torch.testing.assert_close(result, torch.tensor([-2.]))
+    torch.testing.assert_close(manager.raw_terms[GESTURE], torch.tensor([-3.6]))
+    torch.testing.assert_close(result, torch.tensor([-1.8]))
 
 
 def test_idle_reference_uses_updated_real_reset_target_and_survives_partial_reset():
@@ -117,6 +119,18 @@ def test_signed_false_press_weight_is_negative_cost_and_self_pairs_are_additive(
     torch.testing.assert_close(result['self_collision_reward'], torch.tensor([0., -.2, -.6]))
 
 
+def test_cross_hand_collision_is_scored_per_physics_substep():
+    from tsensei_v3_2_pianist.forearm_collision import forearm_contact_reward
+
+    samples = torch.tensor([0., 1., 5., 10., 20.])
+    result = forearm_contact_reward(samples, 'tsensei_collision_v1', decimation=10)
+    torch.testing.assert_close(result, torch.tensor([0., -.05, -.25, -.5, -.5]))
+    # The endpoint form remains available to archived/legacy fixtures.
+    torch.testing.assert_close(
+        forearm_contact_reward(torch.tensor([True, False]), 'tsensei_collision_v1'),
+        torch.tensor([-.5, 0.]))
+
+
 def test_key_scoring_includes_earlier_transients():
     bundle, logic, sample, base = shadow_inputs()
     cfg = json.loads(DEFAULT.read_text())
@@ -134,7 +148,7 @@ def test_key_scoring_includes_earlier_transients():
     result = manager(base, torch.zeros(1, 51), sample,
                      logic.goal[logic.index], logic.fingers[logic.index])
     assert 'false_press_penalty' not in result
-    assert result['key_press_reward'].item() == pytest.approx(.1+.9*(.3*10**(-3.61)+.4*__import__('math').exp(-1.25)))
+    assert result['key_press_reward'].item() == pytest.approx(.1+.9*(.6*10**(-3.61)+.4*__import__('math').exp(-1.25)))
     assert result['sustain_reward'].item() == pytest.approx(1.)
     assert result['forearm_reward'].item() == 0.
     assert result['energy_reward'].item() == base['energy_reward'].item()
@@ -171,13 +185,19 @@ def test_unified_entry_uses_physical_key_rewards(tmp_path, extra):
     # job.sbatch now invokes train_from_source directly; the archived coupled
     # wrapper is no longer an active entry. Unified arguments are complete.
     parsed, _ = parser().parse_known_args(args)
+    assert args[args.index('--collector-devices') + 1] == 'cuda:0'
+    assert args[args.index('--learner-device') + 1] == 'cuda:1'
+    for flag,value in (('--control-hz','20'),('--physics-hz','200'),('--num-envs','512'),('--batch-size','1024'),('--updates-per-transition','0.25'),('--vector-steps','19532')):
+        assert args[args.index(flag)+1]==value
     config = effective_config(parsed)
     expected = validate(json.loads(DEFAULT.read_text()))
+    # Unified entry explicitly overrides the JSON's historical TCP soft speed.
+    expected['terms']['joint_motion_limit_penalty']['params']['tcp_velocity_limit']=1.90
     assert config['reward_config'] == expected
     assert bool(config['finger_coupling']) == (not extra)
     assert config['requested_transitions'] == 10000384
     assert config['execution_layout']['collector_pipeline']
     assert config['control_limits']['joint_state_limits'] == 'hard_v1'
     for side in ('R', 'L'):
-        row = config['control_limits']['channels'][side+'_Wrist_Pitch']
+        row = config['control_limits']['channels'][side+'_Palm_Base_Pitch']
         assert row['max_velocity'] == 3.1416 and row['max_acceleration'] == 15.708

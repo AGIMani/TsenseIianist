@@ -56,7 +56,7 @@ class DriveProfileTest(unittest.TestCase):
             self.assertEqual(shadow.dof_armature[dof], legacy.dof_armature[dof])
             self.assertAlmostEqual(shadow.dof_M0[dof], legacy.dof_M0[dof], places=14)
 
-    def test_only_slides_gain_reflected_inertia_and_critical_damping(self):
+    def test_only_slides_gain_reflected_inertia_and_explicit_axis_damping(self):
         legacy = self.envs['legacy_v1'].physics.model.ptr
         shadow = self.envs['shadow_v1'].physics.model.ptr
         changed = []
@@ -67,7 +67,7 @@ class DriveProfileTest(unittest.TestCase):
                 changed.append(dof)
                 self.assertEqual(shadow.dof_armature[dof], .02)
                 self.assertAlmostEqual(shadow.dof_M0[dof]-legacy.dof_M0[dof], .02, places=12)
-                self.assertAlmostEqual(shadow.dof_damping[dof], 2*np.sqrt(300*shadow.dof_M0[dof]), places=11)
+                self.assertAlmostEqual(shadow.dof_damping[dof], 34.15259872981849, places=11)
                 self.assertAlmostEqual(shadow.dof_M0[dof], .972, places=12)
         difference = shadow.dof_armature-legacy.dof_armature
         np.testing.assert_array_equal(np.flatnonzero(difference), sorted(changed))
@@ -91,7 +91,8 @@ class DriveProfileTest(unittest.TestCase):
                 self.assertEqual(model.dof_damping[dof], .5)
                 np.testing.assert_array_equal(model.actuator_forcerange[a], [-5., 5.])
             elif name.endswith(('/forearm_tx', '/forearm_ty')):
-                np.testing.assert_array_equal(model.actuator_forcerange[a], [-15.32, 15.32])
+                self.assertEqual(model.actuator_gainprm[a, 0], 300.)
+                np.testing.assert_array_equal(model.actuator_forcerange[a], [-50., 50.])
         self.assertEqual(count, 40)
 
     def test_unknown_profile_is_rejected(self):

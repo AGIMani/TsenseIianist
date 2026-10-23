@@ -37,3 +37,60 @@ outputs/
 !/logs/mount_alignment_20261013/source_mount_aligned.tar.gz
 !/logs/mount_alignment_20261013/source_mount_aligned.tar.gz.sha256
 !/logs/mount_alignment_20261013/source_mount_aligned.tar.gz.manifest.json
+!/logs/training_consistency_20261015/
+/logs/training_consistency_20261015/*
+!/logs/training_consistency_20261015/source_training_consistent.tar.gz
+!/logs/training_consistency_20261015/source_training_consistent.tar.gz.sha256
+!/logs/training_consistency_20261015/source_training_consistent.tar.gz.manifest.json
+!/logs/training_consistency_20261015/archive_changes.json
+
+# Current supplied bilateral A3.2 training source; omit temporary deployment logs.
+!/logs/model_replace_20261020/
+/logs/model_replace_20261020/*
+!/logs/model_replace_20261020/source_supplied_hand_v6.tar.gz
+!/logs/model_replace_20261020/source_supplied_hand_v6.tar.gz.sha256
+!/logs/model_replace_20261020/source_supplied_hand_v6.tar.gz.manifest.json
+!/logs/model_replace_20261020/source_provenance.json
+!/logs/model_replace_20261020/build_archive.py
+
+# Fixed source and provenance required by the repaired A3.2 training entry.
+!/logs/collision_mesh_repair_20261022/
+/logs/collision_mesh_repair_20261022/*
+!/logs/collision_mesh_repair_20261022/source_cad_part_collision_v1.tar.gz
+!/logs/collision_mesh_repair_20261022/source_cad_part_collision_v1.tar.gz.sha256
+!/logs/collision_mesh_repair_20261022/source_provenance.json
+!/logs/collision_mesh_repair_20261022/build_release.py
+!/logs/collision_mesh_repair_20261022/execution_record.json
+
+# Exact-time fingering release and reproducible verification (no training outputs).
+!/logs/exact_fingering_20261022/
+/logs/exact_fingering_20261022/*
+!/logs/exact_fingering_20261022/source_exact_fingering_v1.tar.gz
+!/logs/exact_fingering_20261022/source_exact_fingering_v1.tar.gz.sha256
+!/logs/exact_fingering_20261022/source_provenance.json
+!/logs/exact_fingering_20261022/overlay_files.json
+!/logs/exact_fingering_20261022/build_release.py
+!/logs/exact_fingering_20261022/run_cpu_checks.sh
+!/logs/exact_fingering_20261022/verification.json
+!/logs/exact_fingering_20261022/execution_record.json
+!/logs/exact_fingering_20261022/runtime_equivalence.json
+!/logs/exact_fingering_20261022/verify_release.py
+!/logs/exact_fingering_20261022/merged_control_config.json
+!/logs/exact_fingering_20261022/verify_active_archive.py
+!/logs/exact_fingering_20261022/active_archive_equivalence.json
+
+# Current black-key release required by the unified training entry.
+!/logs/black_key_model_20261023/
+/logs/black_key_model_20261023/*
+!/logs/black_key_model_20261023/source_black_key_shape_v1.tar.gz
+!/logs/black_key_model_20261023/source_black_key_shape_v1.tar.gz.sha256
+!/logs/black_key_model_20261023/source_black_key_shape_v1.tar.gz.manifest.json
+!/logs/black_key_model_20261023/source_provenance.json
+!/logs/black_key_model_20261023/build_archive.py
+!/logs/black_key_model_20261023/overlay_files.txt
+!/logs/black_key_model_20261023/local_overlay_sha256.json
+!/logs/black_key_model_20261023/release_validation.json
+!/logs/black_key_model_20261023/validation_commands.txt
+
+# Historical material stays local; do not publish deprecated artifacts.
+/deprecated/

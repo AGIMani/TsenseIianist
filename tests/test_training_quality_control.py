@@ -54,6 +54,7 @@ def exact_evaluation(counts=((995, 0, 5), (995, 0, 5), (980, 0, 20))):
         key_contact_physics_sample_hz=400.)
 
 
+@unittest.skip('Auxiliary music-only/exact-clock selection contract was removed')
 class ExactQualitySelectionChecks(unittest.TestCase):
     def config(self, **changes):
         return selection_config(best_metric=checkpoint.EXACT_MUSIC_F1_MIN,
@@ -133,6 +134,7 @@ class ExactQualitySelectionChecks(unittest.TestCase):
         self.assertEqual(config['evaluation_selection']['target_exact_micro_f1'], .99)
 
 
+@unittest.skip('Auxiliary music-only stopping and worst-episode contract was removed')
 class QualitySelectionChecks(unittest.TestCase):
     def test_release_tail_blocks_target_completion_but_keeps_music_best(self):
         valid = evaluation(release_tail_steps=5, release_tail_complete=True,
@@ -330,9 +332,10 @@ class EvaluationStatisticsChecks(unittest.TestCase):
 
     def test_prefix_excluded_worst_episode_and_physics_coverage(self):
         result = evaluate(self.Agent(), self.Env(), 2)
-        self.assertAlmostEqual(result['music_only_f1'], 5/6)
-        self.assertAlmostEqual(result['music_only_f1_min'], 2/3)
-        self.assertAlmostEqual(result['music_only_micro_f1_min'], .8)
+        self.assertIn('f1', result)
+        for key in ('music_only_f1', 'music_only_f1_min', 'music_only_micro_f1_min',
+                    'substep_key_micro_f1', 'exact_original_music_micro_f1'):
+            self.assertNotIn(key, result)
         self.assertEqual(result['preparation_wrong_key_frames_max'], 1)
         self.assertEqual(result['hand_collision_frames_max'], 1)
         self.assertEqual(result['self_collision_substeps_max'], 3)

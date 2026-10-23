@@ -15,7 +15,7 @@ def _housing_is_base():
     # The latest 20-output export puts the physical shell in ``base_link``
     # and keeps the fixed palm link as the mounting segment.  Keep the older
     # with-ID schema readable for archived source bundles.
-    return schema in {'a32_with_id_semantic_chain', 'latest_project_20_outputs_withid_v1'}
+    return schema in {'a32_with_id_semantic_chain', 'latest_project_20_outputs_withid_v1', 'a32_supplied_bilateral_parts_20261020'}
 
 
 def palm_housing_body_name(side):
@@ -57,7 +57,24 @@ def task_collision_groups(manifest):
     return manifest['forearm_collision_geoms']
 
 
-def forearm_contact_reward(collision, task_profile='tsensei_v1'):
-    """Shared CPU/Torch base rule; collision may be a bool or a float tensor."""
+def forearm_contact_reward(collision, task_profile='tsensei_v1', *, decimation=None):
+    """Shared CPU/Torch base rule.
+
+    For the current full-hand profile, ``collision`` is a count of physical
+    substeps with any cross-hand contact when ``decimation`` is supplied.  A
+    control step with contact on every substep therefore receives the same
+    total ``-0.5`` as the old endpoint rule, while a contact on one of ten
+    200Hz samples receives ``-0.05``.  The bool/endpoint form remains for
+    archived task fixtures and legacy profiles.
+    """
     collision_scope(task_profile)
-    return -.5 * collision if task_profile == 'tsensei_collision_v1' else .5 * (1 - collision)
+    if task_profile == 'tsensei_collision_v1':
+        if decimation is not None:
+            if isinstance(decimation, bool) or not isinstance(decimation, int) or decimation < 1:
+                raise ValueError('decimation must be a positive integer')
+            if hasattr(collision, 'float'):
+                collision = collision.float()
+            collision = collision.clamp(0, decimation)
+            return -.5 * collision / decimation
+        return -.5 * collision
+    return .5 * (1 - collision)

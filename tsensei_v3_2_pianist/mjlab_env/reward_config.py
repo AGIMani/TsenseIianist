@@ -24,7 +24,7 @@ PAPER_WEIGHTS = {
 FINGER_NAMES = tuple(f'{side}_{finger}' for side in ('R','L')
                      for finger in ('Thumb','Index','Mid','Ring','Pinky'))
 IDLE_TARGET_POSTURE_GESTURE = dict(coefficient=-.1,
-                                  reference='scene_reset', lookahead_steps=20)
+                                  reference='scene_reset', lookahead_steps=20, swing_scale=.5)
 JOINT_MOTION_LIMIT_PENALTY = dict(
     finger_velocity_limit=10., finger_acceleration_limit=200.,
     wrist_velocity_limit=None, wrist_acceleration_limit=None,
@@ -44,7 +44,7 @@ def template(stage='current'):
             mode='paper', chord_bonus=False, chord_scope=None),
         'sustain_reward': term(not paper),
         'energy_reward': term(not paper),
-        'fingering_reward': term(True, 1.5 if 'stage2' in stage else 1., mode='paper' if paper else 'legacy'),
+        'fingering_reward': term(True, 1.5 if 'stage2' in stage else 1.),
         'forearm_reward': term(not paper),
         'self_collision_reward': term(False, .2, aggregation='substep_sum',
                                       maximum_penalty_per_step=5.),
@@ -55,6 +55,7 @@ def template(stage='current'):
         'joint_motion_limit_penalty': term(False, 1., **JOINT_MOTION_LIMIT_PENALTY),
         'arm_motion_limit_penalty': term(False, 1., soft_limit_ratio=.95,
             full_penalty_excess=.1, maximum_penalty_per_step=5.),
+        'arm_tracking_error_penalty': term(False, 1., error_scale_m=.001),
     }
     for kind in KINDS:
         for i, group in enumerate(GROUPS):
@@ -66,7 +67,7 @@ def template(stage='current'):
         'wrist_pitch_reward': term(False, bonus=.05, directions=None),
         'forward_press_reward': term(False, coefficient=-.1, threshold=math.pi/2, angle_map=None),
     })
-    return dict(contract='physical_key_activation50_v1', weight_stage=stage, scale_by_dt=paper, action_units=None,
+    return dict(contract='physical_key_fingering_exact_activation100_v1', weight_stage=stage, scale_by_dt=paper, action_units=None,
                 regularization_shaping=None if 'stage2' in stage else 'identity', terms=terms)
 
 
@@ -92,8 +93,9 @@ def validate(config):
                          'optional: performance, reference_dt')
     if 'performance' in config:
         config['performance'] = performance_options.canonical(config['performance'])
-    if config['contract'] != 'physical_key_activation50_v1':
-        raise ValueError('Reward config must use physical_key_activation50_v1; old endpoint checkpoints/configs are incompatible')
+    if config['contract'] != 'physical_key_fingering_exact_activation100_v1':
+        raise ValueError('Reward config must use physical_key_fingering_exact_activation100_v1; '
+                         'old activation-mix and endpoint checkpoints/configs are incompatible')
     if config['weight_stage'] not in ('current', *PAPER_WEIGHTS):
         raise ValueError('Unknown weight_stage')
     if type(config['scale_by_dt']) is not bool:
@@ -124,6 +126,8 @@ def validate(config):
                                  'deprecated collision configurations are not supported')
         if not isinstance(params,dict) or set(params) != set(expected_params):
             raise ValueError(f'{name}.params must contain {list(expected_params)}')
+        if gesture:
+            finite_number(params['swing_scale'], 'humanoid_finger_gesture_reward.swing_scale', nonnegative=True)
         if gesture and params.get('reference') != 'scene_reset':
             raise ValueError('Humanoid gesture reference must be scene_reset')
         if gesture and (type(params['lookahead_steps']) is not int or params['lookahead_steps'] <= 0):
@@ -148,6 +152,10 @@ def validate(config):
             if (params['soft_limit_ratio'] != .95 or params['full_penalty_excess'] != .1
                     or params['maximum_penalty_per_step'] != 5. or term['weight'] != 1.):
                 raise ValueError('Arm penalty contract requires 95% SDK, 10% excess, weight=1, independent maximum=5')
+        if name == 'arm_tracking_error_penalty':
+            finite_number(params['error_scale_m'], f'{name}.error_scale_m', positive=True)
+            if term['weight'] > 1.:
+                raise ValueError('Arm tracking penalty requires weight<=1')
         for key in ('coefficient','limit','bonus','threshold','maximum_penalty_per_step'):
             if key in params:
                 finite_number(params[key],f'{name}.{key}',positive=key in ('limit','threshold'),
@@ -159,14 +167,8 @@ def validate(config):
     terms = config['terms']
     if terms['key_press_reward']['params']['mode'] != 'paper':
         raise ValueError('key_press_reward only supports the current substep paper algorithm')
-    if terms['fingering_reward']['params']['mode'] not in ('legacy', 'paper'):
-        raise ValueError('fingering_reward.mode must be legacy or paper')
-    experiments = performance_options.get(config)
-    if (experiments['anticipatory_fingering_time'] and experiments['anticipatory_fingering_reward']
-            or experiments['staged_fingering_reward']):
-        if ('fingering_reward' not in enabled or
-                terms['fingering_reward']['params']['mode'] != 'legacy'):
-            raise ValueError('Fingering experiments require enabled legacy fingering_reward')
+    if not performance_options.get(config)['exact_note_timing']:
+        raise ValueError('Current key/fingering rewards require exact_note_timing=true')
     key = terms['key_press_reward']['params']
     if type(key['chord_bonus']) is not bool or key['chord_scope'] not in (None,'on','whole_key'):
         raise ValueError('key_press_reward: chord_bonus is boolean, chord_scope is null/on/whole_key')
@@ -186,8 +188,8 @@ def validate(config):
         raise ValueError('Disable legacy energy_reward before enabling positive-power rewards')
     directions=terms['wrist_pitch_reward']['params']['directions']
     if 'wrist_pitch_reward' in enabled:
-        if not isinstance(directions,dict) or set(directions)!={'R_Wrist_Pitch','L_Wrist_Pitch'}:
-            raise ValueError('Fill wrist_pitch_reward.directions for R_Wrist_Pitch and L_Wrist_Pitch')
+        if not isinstance(directions,dict) or set(directions)!={'R_Palm_Base_Pitch','L_Palm_Base_Pitch'}:
+            raise ValueError('Fill wrist_pitch_reward.directions for R_Palm_Base_Pitch and L_Palm_Base_Pitch')
         if any(type(v) not in (int,float) or v not in (-1,1) for v in directions.values()):
             raise ValueError('Wrist pitch directions must each be +1 or -1')
     angles=terms['forward_press_reward']['params']['angle_map']

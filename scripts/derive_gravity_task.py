@@ -21,7 +21,7 @@ def derive(source_scene, source_task, target_scene, output):
     if source.manifest['gravity_compensation'] is not False or target.manifest['gravity_compensation'] is not True:
         raise ValueError('Expected uncompensated source and compensated target')
     for key in ('action_names', 'action_min', 'action_max', 'joint_names',
-                'actuator_names', 'physics_dt', 'control_dt', 'key_threshold'):
+                'actuator_names', 'physics_dt', 'control_dt', 'key_activation_fraction'):
         if source.manifest[key] != target.manifest[key]:
             raise ValueError(f'Scene contract changed beyond gravity compensation: {key}')
     for key in ('qpos', 'qvel', 'ctrl'):

@@ -10,6 +10,21 @@ PROFILE_ENV = 'TSENSEI_V32_DRIVE_PROFILE'
 PROFILES = ('legacy_v1', 'shadow_v1')
 
 
+def translation_damping(settings, compiled_inertia, joint):
+    """Return the selected axis damping after checking the compiled slide mass.
+
+    This is a scalar, contact-free reference, not a closed-loop tracking or
+    hardware guarantee. Force limits are independent of the armature value.
+    """
+    expected = settings['effective_mass_reference_kg']
+    if (not math.isfinite(compiled_inertia) or compiled_inertia <= 0
+            or not math.isclose(compiled_inertia, expected, rel_tol=1e-6, abs_tol=1e-9)):
+        raise ValueError(f'Translation compiled inertia {compiled_inertia:g} kg '
+                         f'does not match drive reference {expected:g} kg; '
+                         'review hand mass and translation armature')
+    return settings['axes'][joint]['damping']
+
+
 def load(profile=None):
     """Return a fresh profile, rejecting silent fallback on misspelled settings."""
     document = json.loads(SETTINGS_PATH.read_text())
@@ -27,10 +42,20 @@ def load(profile=None):
                 if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value <= 0:
                     raise ValueError(f'Invalid drive value {name}.{key}')
         translation = result['translation']
-        if translation['joints'] != ['forearm_tx', 'forearm_ty'] or translation['damping'] != 'critical_from_compiled_dof_M0':
+        if (translation['joints'] != ['forearm_tx', 'forearm_ty']
+                or not isinstance(translation.get('axes'), dict)
+                or set(translation.get('axes', {})) != set(translation['joints'])
+                or any(key in translation for key in ('kp', 'damping', 'force_limit'))):
             raise ValueError('Unsupported translation drive contract')
-        if any(not math.isfinite(translation[k]) or translation[k] <= 0
-               for k in ('kp', 'force_limit', 'armature', 'hand_mass_kg',
+        for joint, axis in translation['axes'].items():
+            if (not isinstance(axis, dict) or set(axis) != {'kp', 'damping', 'force_limit'}
+                    or any(isinstance(v, bool) or not isinstance(v, (int, float))
+                           or not math.isfinite(v) or v <= 0 for v in axis.values())):
+                raise ValueError(f'Invalid translation drive value: {joint}')
+        if any(isinstance(translation[k], bool)
+               or not isinstance(translation[k], (int, float))
+               or not math.isfinite(translation[k]) or translation[k] <= 0
+               for k in ('armature', 'hand_mass_kg',
                          'effective_mass_reference_kg')):
             raise ValueError('Invalid translation drive value')
         expected_mass = translation['hand_mass_kg'] + translation['armature']

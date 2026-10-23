@@ -1,0 +1,47 @@
+{
+  "selected": "model_xy_movement_0.35",
+  "candidates": {
+    "baseline_heuristic": {
+      "mean_xy_alignment_residual_mm": 18.42764912337473,
+      "max_xy_alignment_residual_mm": 71.22003477358788,
+      "max_neutral_anchor_shift_m": 0.14099999999999996,
+      "posture_cost": 1207.0477303694,
+      "movement_cost": 11218.828442867629,
+      "selection_cost": 5133.63768537307
+    },
+    "model_xy_movement_0.1": {
+      "mean_xy_alignment_residual_mm": 13.194943405079245,
+      "max_xy_alignment_residual_mm": 59.93672985464274,
+      "max_neutral_anchor_shift_m": 0.14244006954717564,
+      "posture_cost": 618.87029653662,
+      "movement_cost": 10104.83500208749,
+      "selection_cost": 4155.562547267241
+    },
+    "model_xy_movement_0.35": {
+      "mean_xy_alignment_residual_mm": 16.683943438246562,
+      "max_xy_alignment_residual_mm": 71.22003477358788,
+      "max_neutral_anchor_shift_m": 0.14099999999999996,
+      "posture_cost": 989.42297955844,
+      "movement_cost": 8120.672141387726,
+      "selection_cost": 3831.658229044144
+    },
+    "model_xy_movement_1.0": {
+      "mean_xy_alignment_residual_mm": 19.426039396145967,
+      "max_xy_alignment_residual_mm": 71.22003477358788,
+      "max_neutral_anchor_shift_m": 0.14099999999999996,
+      "posture_cost": 1341.3839492915665,
+      "movement_cost": 7459.413063127873,
+      "selection_cost": 3952.1785213863222
+    }
+  },
+  "note_count": 2544,
+  "all_note_attributes_except_fingering_preserved": true,
+  "control_hz": 20,
+  "physics_hz": 1000,
+  "simultaneous_finger_conflicts": 0,
+  "proto_sha256": "f15e83b71ec1a151c9271c19a750b12f237143c070d96ac297626e400673f5dd",
+  "geometry_sha256": "f4842e1ca063ce6d96027df316c4d6e0eac9ad7d38432a795ffe99b0203c3df7",
+  "source_proto_sha256": "e4dbd3cb7179cb8cc1cce403b91a6bedc930a914eea8166f51197139182d4999",
+  "selection": "Minimum posture + 0.35 movement cost among baseline and three DP candidates. Geometry-derived neutral tip XY residual, not a physical success score.",
+  "limitations": "Only nominal coupled pose geometry, not joint-space reachability, force or collision validation. No guarantee of globally optimal fingering or trained performance."
+}

@@ -124,7 +124,7 @@ def main():
             a,b=interval['first_tick'],interval['last_tick']+1
             motion=[]
             for row in meta['joints']:
-                if '_Wrist_' not in row['name']:continue
+                if '_Palm_Base_' not in row['name']:continue
                 aid,qid,vid=row['actuator_id'],row['qpos_adr'],row['qvel_adr']
                 motion.append(dict(joint=row['name'],position_start=float(z['qpos'][a,qid]),position_end=float(z['qpos'][b-1,qid]),
                                    target_min=float(z['ctrl'][a:b,aid].min()),target_max=float(z['ctrl'][a:b,aid].max()),
@@ -142,7 +142,7 @@ def main():
                 rows=[]
                 for joint in meta['joints']:
                     if not joint['name'].startswith(side_prefix):continue
-                    if '_Wrist_' not in joint['name'] and (finger is None or '_'+finger+'_' not in joint['name'].lower()):continue
+                    if '_Palm_Base_' not in joint['name'] and (finger is None or '_'+finger+'_' not in joint['name'].lower()):continue
                     aid,qid,vid=joint['actuator_id'],joint['qpos_adr'],joint['qvel_adr']
                     actual=z['qpos'][a:b,qid];target=z['ctrl'][a:b,aid];force=z['actuator_force'][a:b,aid]
                     rows.append(dict(joint=joint['name'],qpos_start=float(actual[0]),qpos_end=float(actual[-1]),

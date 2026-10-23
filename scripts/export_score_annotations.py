@@ -110,7 +110,9 @@ def main():
             link.parent.mkdir(parents=True, exist_ok=True)
             link.symlink_to((ROOT/name/'.venv').resolve(), target_is_directory=True)
         env = os.environ.copy()
-        env.update(PYTHONPATH=str(archive_root), PYTHONDONTWRITEBYTECODE='1')
+        from source_pythonpath import source_pythonpath
+        env.update(PYTHONPATH=source_pythonpath(archive_root, deployment_root=ROOT),
+                   PYTHONDONTWRITEBYTECODE='1')
         subprocess.run([str(ROOT/'training_mjlab/.venv/bin/python'), str(Path(__file__).resolve()),
                         '--archive-root', str(archive_root), '--config', str(args.config.resolve()),
                         '--recording', str(args.recording.resolve()), '--output', str(args.output.resolve())],

@@ -1,0 +1,17 @@
+{
+  "README.md": "5130356460a558fe694531139fdf68b103bf5b751606555df23250659ac4e996",
+  "changes.csv": "10cbf05c05bf03a825eec22a70a540d7fa133c35d3586ae5105dfad3b0055ca3",
+  "diagnosis.png": "3f3cccfb25bc98c174126114f15ab516b8a3377941232d3f760132e939811c8b",
+  "fingering.csv": "99256304e71554693a0812cf74d57c6865a94ed614ce5cf8fcd0fa3e7b73a4d7",
+  "fingering_report.json": "42dfeba773a345d0ffa6e347253b474a658ff42cdbe5326d41fc0cba6015aecf",
+  "note_diagnostics.csv": "f0d9d84c15323217c8446843c4a9a7c7f6527272e4059bc0b708e5dd4d487787",
+  "original_fingered.proto": "be5b424d18fe823bf4a066de6954660f9cc546974bbf53b25b01132ff024cf6c",
+  "pitch_finger_diagnostics.csv": "436babc930f344a06acebee049265dc260d394775947df263dddcbaccecbedfa",
+  "plot_diagnostics.py": "82c11827136f55d9759ddd783acf10da75d6aa8c6317b042d1899044946685d8",
+  "prelude-bwv-847_fingered.proto": "ad58e67de1998c218e380b7370c95d64ba23fe80d6dfbe26f415184e1a80b33a",
+  "previous_active_files/fingering.csv": "de5d0427d531744d1dc92e3246d5958ac86ca6e2969a09d37b1c4fb3b0726fea",
+  "previous_active_files/fingering_report.json": "a7eab59920ed7d6da888746dc4522075d53dc7cd633e571620348ae31ab72942",
+  "previous_active_files/prelude-bwv-847_fingered.proto": "be5b424d18fe823bf4a066de6954660f9cc546974bbf53b25b01132ff024cf6c",
+  "revision_script_snapshot.py": "1d900dcaf537826e0e0d9fc31fb14ac5ca61a67e0e0e6cf7fad57c1dde739a78",
+  "unresolved_notes.csv": "48cb48608e882534d895c84175d341a0b82be4a5bf63426f3091a7c0ebfa693f"
+}

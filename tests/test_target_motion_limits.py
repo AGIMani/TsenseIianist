@@ -12,8 +12,8 @@ from tsensei_v3_2_pianist.mjlab_env.target_motion_limits import TargetMotionLimi
 
 
 NAMES = [row['name'] for row in _direct_contract()['channels']]
-PITCH = NAMES.index('R_Wrist_Pitch')
-YAW = NAMES.index('L_Wrist_Yaw')
+PITCH = NAMES.index('R_Palm_Base_Pitch')
+YAW = NAMES.index('L_Palm_Base_Yaw')
 
 
 def config(**channels):
@@ -22,7 +22,7 @@ def config(**channels):
 
 def contract(options, dt=.05, reset=None, active=range(50)):
     low, high = [-3.] * 50 + [0.], [3.] * 50 + [1.]
-    for name in ('R_Wrist_Pitch', 'L_Wrist_Yaw'):
+    for name in ('R_Palm_Base_Pitch', 'L_Palm_Base_Yaw'):
         i = NAMES.index(name)
         low[i], high[i] = -.16, .16
     return resolve(options, action_names=NAMES, active_indices=active,
@@ -32,20 +32,20 @@ def contract(options, dt=.05, reset=None, active=range(50)):
 
 def make(dt=.05, worlds=8, reset=None, **kwargs):
     options = config(**{name: dict(max_velocity=3.1416, max_acceleration=15.708)
-                        for name in ('R_Wrist_Pitch', 'L_Wrist_Yaw')})
+                        for name in ('R_Palm_Base_Pitch', 'L_Palm_Base_Yaw')})
     reset = torch.zeros(51) if reset is None else reset
     resolved = contract(options, dt, reset.tolist())
     return TargetMotionLimiter(resolved, num_envs=worlds, device='cpu', reset_action=reset, **kwargs)
 
 
 class TargetMotionLimitsCPU(unittest.TestCase):
-    def test_rigid_wrist_brakes_to_unslewed_goal_and_returns_without_repeated_crossing(self):
-        # Exercise the production order: old one-step slew first, final target
-        # braking second. The real distant goal must remain available.
-        options = config(R_Wrist_TX=dict(max_velocity=.99, max_acceleration=1.99))
+    def test_wrist_rate_limiter_keeps_hard_limits_without_goal_braking(self):
+        # The final limiter follows the requested target subject only to the
+        # current-step rate and endpoint feasibility bounds.
+        options = config(R_Palm_Base_Tx=dict(max_velocity=.99, max_acceleration=1.99))
         resolved = contract(options)
         limiter = TargetMotionLimiter(resolved, num_envs=2, device='cpu',
-            reset_action=torch.zeros(51), brake_to_target=True)
+            reset_action=torch.zeros(51))
         first = TargetLimiter(resolved, device='cpu')
         previous = torch.zeros(2, 51)
         history=[]; velocities=[]
@@ -53,7 +53,7 @@ class TargetMotionLimitsCPU(unittest.TestCase):
             request = torch.zeros_like(previous)
             request[:, 20] = torch.tensor([.48, -.48]) if step < 60 else 0.
             clipped = first.apply(request, previous)[0]
-            issued, _ = limiter.apply(clipped, braking_target=request)
+            issued, _ = limiter.apply(clipped)
             history.append(issued[:, 20].double().clone())
             velocities.append(limiter.velocity.clone())
             previous = issued
@@ -61,19 +61,17 @@ class TargetMotionLimitsCPU(unittest.TestCase):
         a=torch.diff(torch.cat([torch.zeros(1, 2),v]),dim=0)/.05
         self.assertLessEqual(float(v.abs().max()), .99+1e-12)
         self.assertLessEqual(float(a.abs().max()), 1.99+1e-12)
-        self.assertLessEqual(float(q.abs().max()), float(torch.tensor(.48)))
-        self.assertTrue(torch.all(torch.diff(q[:60, 0])>=0))
-        self.assertTrue(torch.all(torch.diff(q[60:, 0])<=0))
-        self.assertEqual(float(q[-1].abs().max()), 0.)
-        self.assertEqual(float(v[-1].abs().max()), 0.)
-        self.assertEqual(limiter.contract['controller'], 'wrist_target_braking')
+        # The removed goal-braking branch no longer hides the unslewed request
+        # behind a one-step target; endpoint/rate bounds still hold.
+        self.assertGreater(float(q.abs().max()), .48)
+        self.assertEqual(limiter.contract['controller'], 'wrist_target_rate_limits')
 
     def test_legacy_resolved_contract_and_target_math_are_unchanged(self):
-        old = config(R_Wrist_Pitch=dict(max_velocity=4.))
+        old = config(R_Palm_Base_Pitch=dict(max_velocity=4.))
         self.assertEqual(canonical(old), old)
         self.assertEqual(rate_overrides(old, SimpleNamespace()), old)
         resolved = contract(old)
-        self.assertEqual(resolved['channels']['R_Wrist_Pitch'], dict(index=PITCH,
+        self.assertEqual(resolved['channels']['R_Palm_Base_Pitch'], dict(index=PITCH,
             min=-.16, max=.16, max_velocity=4., position_unit='rad', velocity_unit='rad/s',
             original_min=-.16, original_max=.16, reset_target=0.))
         self.assertEqual(resolved['application'],
@@ -90,7 +88,7 @@ class TargetMotionLimitsCPU(unittest.TestCase):
                                   '--wrist-pitch-max-acceleration', '15.708'])
         args.disable_wrist_tz = args.disable_wrist_yaw = True
         options = rate_overrides(None, args)
-        self.assertEqual(set(options['channels']), {'R_Wrist_Pitch', 'L_Wrist_Pitch'})
+        self.assertEqual(set(options['channels']), {'R_Palm_Base_Pitch', 'L_Palm_Base_Pitch'})
         for row in options['channels'].values():
             self.assertEqual(row, dict(max_velocity=3.1416, max_acceleration=15.708))
         disabled = rate_overrides(options, SimpleNamespace(wrist_pitch_max_acceleration=0.))
@@ -100,10 +98,10 @@ class TargetMotionLimitsCPU(unittest.TestCase):
                 wrist_yaw_max_acceleration=15.708, disable_wrist_yaw=True))
 
     def test_invalid_acceleration_contracts_fail(self):
-        invalid = [config(R_Wrist_Pitch=dict(max_acceleration=15.708)),
-                   config(R_Wrist_Pitch=dict(max_velocity=3., max_acceleration=0.)),
-                   config(R_Wrist_Pitch=dict(max_velocity=3., max_acceleration=float('inf'))),
-                   config(R_Wrist_TZ=dict(max_velocity=3., max_acceleration=15.)),
+        invalid = [config(R_Palm_Base_Pitch=dict(max_acceleration=15.708)),
+                   config(R_Palm_Base_Pitch=dict(max_velocity=3., max_acceleration=0.)),
+                   config(R_Palm_Base_Pitch=dict(max_velocity=3., max_acceleration=float('inf'))),
+                   config(R_Palm_Base_Tz=dict(max_velocity=3., max_acceleration=15.)),
                    config(R_Thumb_MCP=dict(max_velocity=3., max_acceleration=15.))]
         for value in invalid:
             with self.subTest(value=value), self.assertRaises(ValueError):
@@ -116,8 +114,7 @@ class TargetMotionLimitsCPU(unittest.TestCase):
         velocity = limiter.velocity.clone()
         peak_v = peak_a = 0.
         for requested in requests:
-            applied, changed = limiter.apply(requested,
-                braking_target=requested if limiter.brake_to_target else None)
+            applied, changed = limiter.apply(requested)
             positions = applied[:, limiter.indices].double()
             actual_velocity = (positions - previous) / limiter.dt
             actual_acceleration = (actual_velocity - velocity) / limiter.dt
@@ -137,11 +134,11 @@ class TargetMotionLimitsCPU(unittest.TestCase):
             previous, velocity = positions.clone(), actual_velocity.clone()
         return peak_v, peak_a
 
-    def test_rigid_braking_random_reversals_keep_the_same_hard_limits(self):
+    def test_random_reversals_keep_the_same_hard_limits(self):
         generator = torch.Generator().manual_seed(273)
         for dt in (.01, .05, .1):
             with self.subTest(dt=dt):
-                limiter = make(dt=dt, brake_to_target=True)
+                limiter = make(dt=dt)
                 requests = [torch.rand((8, 51), generator=generator)*4-2 for _ in range(1000)]
                 self.assert_sequence(limiter, requests)
 

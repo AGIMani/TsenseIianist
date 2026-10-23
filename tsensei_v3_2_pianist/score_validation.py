@@ -38,7 +38,7 @@ def audit_note_coverage(sequence, frames, dt, *, min_pitch=21, max_pitch=108):
         raise ValueError('Score timestep must be positive and finite')
     report = dict(schema='strict_note_coverage_v1', control_dt=dt,
                   source_notes=len(sequence.notes), score_frames=len(frames),
-                  covered_notes=0, notes=[], errors=[])
+                  covered_notes=0, notes=[], errors=[], warnings=[])
     errors = report['errors']
     sources = []
     owners = {}
@@ -78,7 +78,9 @@ def audit_note_coverage(sequence, frames, dt, *, min_pitch=21, max_pitch=108):
                 retained[owner].append(frame_index)
         for finger, pitches in by_finger.items():
             if len(pitches) > 1:
-                errors.append(dict(kind='finger_conflict', frame=frame_index,
+                # Preserve upstream targets: one finger may occur on multiple keys
+                # after floor/ceil quantization. Report, but never reject or rewrite.
+                report['warnings'].append(dict(kind='finger_conflict', frame=frame_index,
                     message=f'frame {frame_index}: finger {finger} assigned keys {sorted(pitches)}'))
         for pitch, fingers in by_pitch.items():
             if len(fingers) > 1:

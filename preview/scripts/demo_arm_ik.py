@@ -49,7 +49,7 @@ def main():
                             'TZ':-.012*(np.sin(phase)**2),'Pitch':.08*np.sin(phase),
                             'Yaw':.25-.15*(1-np.cos(phase))/2}
                     for channel,value in values.items():
-                        aid=next(i for i in range(model.nu) if model.actuator(i).name.endswith(f'{side}_Wrist_{channel}'))
+                        aid=next(i for i in range(model.nu) if model.actuator(i).name.endswith(f'{side}_Palm_Base_{channel}'))
                         jid=model.actuator_trnid[aid,0]
                         physics.data.qpos[model.jnt_qposadr[jid]]=value
                 physics.forward();arms.update(1/30)

@@ -79,26 +79,30 @@ def build(path, name):
                 if kind == "collision" and proxies is not None:
                     attributes = collision_proxies.for_link(proxies, side, link_name)
                     if attributes is not None:
+                        # A compound proxy supplies the complete link collider.
+                        # Remaining URDF collision entries serve direct URDF consumers.
                         if idx != 0:
-                            raise ValueError(f"Unexpected extra URDF collision for {link_name}")
-                        if attributes["type"] == "mesh" and "_mesh_file" in attributes:
-                            # Convex-hull preview meshes are already in metres;
-                            # preserve the URDF collision origin on the geom.
-                            mesh_file = attributes.pop("_mesh_file")
-                            mesh_name = f"collision_proxy_{side}_{link_name}"
-                            asset = model.find("mesh", mesh_name)
-                            if asset is None:
-                                asset = model.asset.add("mesh", name=mesh_name, file=mesh_file)
-                            xyz, rotation = _origin(geom)
-                            body.add("geom", name=f"{link_name}_{kind}_{idx}",
-                                     type="mesh", mesh=asset, pos=xyz,
-                                     quat=np.roll(rotation.as_quat(), 1),
-                                     contype=1, conaffinity=1, group=3,
-                                     rgba=(.5, .5, .5, .3))
-                        else:
-                            body.add("geom", name=f"{link_name}_{kind}_{idx}",
-                                     contype=1, conaffinity=1, group=3,
-                                     rgba=(.5, .5, .5, .3), **attributes)
+                            continue
+                        components = attributes if isinstance(attributes, list) else [attributes]
+                        for part_index, part in enumerate(components):
+                            part = dict(part)
+                            if part["type"] == "mesh" and "_mesh_file" in part:
+                                mesh_file = part.pop("_mesh_file")
+                                suffix = f"_{part_index}" if len(components) > 1 else ""
+                                mesh_name = f"collision_proxy_{side}_{link_name}{suffix}"
+                                asset = model.find("mesh", mesh_name)
+                                if asset is None:
+                                    asset = model.asset.add("mesh", name=mesh_name, file=mesh_file)
+                                xyz, rotation = _origin(geom)
+                                body.add("geom", name=f"{link_name}_{kind}_{part_index}",
+                                         type="mesh", mesh=asset, pos=xyz,
+                                         quat=np.roll(rotation.as_quat(), 1),
+                                         contype=1, conaffinity=1, group=3,
+                                         rgba=(.5, .5, .5, .3))
+                            else:
+                                body.add("geom", name=f"{link_name}_{kind}_{part_index}",
+                                         contype=1, conaffinity=1, group=3,
+                                         rgba=(.5, .5, .5, .3), **part)
                         continue
                 mesh = geom.find("geometry/mesh")
                 if mesh is None:

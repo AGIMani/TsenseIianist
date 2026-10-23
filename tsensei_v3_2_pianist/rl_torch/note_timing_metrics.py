@@ -10,6 +10,7 @@ from pathlib import Path
 import numpy as np
 import torch
 from scipy.optimize import linear_sum_assignment
+from ..mjlab_env.exact_score import control_buffer_offset
 
 
 _SCALARS = (
@@ -76,11 +77,15 @@ class NoteTimingMetrics:
             self.num_envs = getattr(env, 'num_envs', 1)
             physics_dt = manifest.get('physics_dt')
             environment = manifest.get('contract', {}).get('environment', {})
-            music_start = environment.get('initial_buffer_time', 0.)
+            try:
+                music_start = control_buffer_offset(environment.get('initial_buffer_time', 0.),
+                                                    manifest.get('control_dt'))
+            except (ValueError, TypeError) as exc:
+                self.reason = 'Invalid score preparation clock: ' + str(exc)
             events = getattr(bundle, 'exact_note_events', None)
             if events is not None:
                 self.source = 'exact_note_events'
-            else:
+            elif self.reason is None:
                 directory = getattr(bundle, 'directory', None)
                 path = None if directory is None else Path(directory) / 'score_coverage.json'
                 if path is None or not path.is_file():

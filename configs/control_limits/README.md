@@ -8,7 +8,7 @@
 - `--wrist-pitch-max-velocity`：左右同时设置，单位rad/s；当前JSON默认4。
 - `--wrist-tz-max-velocity` / `--wrist-yaw-max-velocity`：分别m/s、rad/s；当前入口移除了两轴，不能设置正限速。
 - `--finger-max-velocity`：双手40个手指关节，单位rad/s；默认不新增限速。
-- `--joint-max-velocity NAME=VALUE`：只设置指定关节，可重复，例如 `R_Wrist_TX=0.6`、`L_Pinky_PIP=8`。
+- `--joint-max-velocity NAME=VALUE`：只设置指定关节，可重复，例如 `R_Palm_Base_Tx=0.6`、`L_Pinky_PIP=8`。
 
 底层CLI不传时沿用JSON；`run.sh`已显式传入TX/TY各1m/s，用户可在命令末尾覆盖。传0移除对应 `max_velocity`，保留该关节的min/max位置约束。优先级为JSON、组参数、单关节参数；单关节重复时最后一个生效。负数、NaN、无穷、未知关节及已移除轴的正限速会报错。全部限速移除且没有位置约束时，合同为None。
 

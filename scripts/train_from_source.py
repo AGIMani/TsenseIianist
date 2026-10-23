@@ -48,8 +48,8 @@ def resolve_exact_note_timing(cli_value, rest):
             reward_path = Path(rest[index + 1])
         elif argument.startswith('--reward-config='):
             reward_path = Path(argument.partition('=')[2])
-    value = (json.loads(reward_path.read_text()).get('performance', {}).get('exact_note_timing', False)
-             if reward_path is not None else False)
+    value = (json.loads(reward_path.read_text()).get('performance', {}).get('exact_note_timing', True)
+             if reward_path is not None else True)
     if type(value) is not bool:
         raise ValueError('performance.exact_note_timing must be true/false')
     return value
@@ -59,7 +59,7 @@ def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--height',type=float,default=.10)
     p.add_argument('--ty',type=float,default=.04)
-    p.add_argument('--yaw',type=float,default=.15)
+    p.add_argument('--yaw',type=float,default=0.5235987755982988)
     p.add_argument('--wrist-pitch-range-scale',type=float,default=1.,
                    help='Scale both physical Pitch limits and policy target bounds; (0,1], default unchanged')
     p.add_argument('--control-hz',type=float,default=20.)
@@ -79,17 +79,11 @@ def main(argv=None):
     p.add_argument('--preparation-mode',choices=('fixed_v1','policy_v1'),default='fixed_v1',
                    help='policy_v1 trains during preparation; fixed_v1 retains the historical fixed prefix')
     p.add_argument('--preparation-lift',type=float,default=.02,
-                   help='World-Z initial lift in metres; does not create a Wrist_TZ action')
+                   help='World-Z initial lift in metres; does not create a Palm_Base_Tz action')
     p.add_argument('--gravity-compensation',action=argparse.BooleanOptionalAction,default=True)
     p.add_argument('--action-reward-observation',action=argparse.BooleanOptionalAction,default=True)
     p.add_argument('--disable-forearm-reward',action='store_true')
     p.add_argument('--task-profile', choices=('tsensei_v1','tsensei_collision_v1'), default='tsensei_v1')
-    p.add_argument('--thumb-target-mode', choices=('profile','uniform'), default='profile',
-                   help='profile preserves the selected task defaults; uniform gives thumbs the common target')
-    p.add_argument('--thumb-white-target-distance', type=float,
-                   help='Optional white-key thumb target distance in metres from the +world-X end toward -X')
-    p.add_argument('--thumb-black-target-distance', type=float,
-                   help='Optional black-key thumb target distance in metres from the +world-X end toward -X')
     p.add_argument('--collision-profile', choices=('legacy_mesh_v1','convex_hull_v1','shadow_primitive_v1'),
                    default='convex_hull_v1')
     p.add_argument('--drive-profile', choices=('legacy_v1','shadow_v1'), default='legacy_v1')
@@ -99,6 +93,8 @@ def main(argv=None):
     from swanlab_upload import add_arguments, run_with_upload
     add_arguments(p)
     a,rest=p.parse_known_args(argv)
+    if any(x.split("=")[0] in ("--thumb-target-mode", "--thumb-white-target-distance", "--thumb-black-target-distance") for x in rest):
+        p.error("Thumb-only target options were removed; all fingers use white 40 mm / black 20 mm")
     from tsensei_v3_2_pianist.mjlab_env.arm_options import preflight as arm_preflight
     arm_preflight(rest)
     if any(x.split('=')[0] in ('--scene','--task','--source-config','--cache-dir') for x in rest):
@@ -119,7 +115,8 @@ def main(argv=None):
     scene,task,config=build(recipe)
     if a.build_only:
         print(json.dumps({'pose':recipe['pose'],'environment':recipe['environment'],'status':'built_from_source'},indent=2));return
-    env=os.environ.copy();env['PYTHONPATH']=str(ROOT)
+    from source_pythonpath import source_pythonpath
+    env=os.environ.copy();env['PYTHONPATH']=source_pythonpath(ROOT)
     for name in ('TSENSEI_V32_EXPORT_POSE','TSENSEI_V32_COLLISION_PROFILE','TSENSEI_V32_DRIVE_PROFILE'):
         env.pop(name,None)
     if a.progress:

@@ -1,0 +1,633 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="TsenseI_A3.2_right_MIRRORED_PROVISIONAL">
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0.012543886773968504 -0.0051695293302617606 0.0462415450806863" rpy="0 0 0" />
+      <mass value="0.14999999999999999" />
+      <inertia ixx="0.00018981930673541865" ixy="-2.3170498438480423e-06" ixz="4.8995782242197579e-06" iyy="0.00012197835841304161" iyz="-3.3209972911397525e-06" izz="0.00011079307971544695" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../source/latest_project/meshes/right/base_link.STL" scale="1 1 1" />
+      </geometry>
+      <material name="base_link_color">
+        <color rgba="0.69 0.74 0.78 1" />
+      </material>
+    </visual>
+    <collision name="convex_hull_collision">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../collision_hulls/right/base_link_convex_hull.stl" scale="1 1 1" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="Right_hand_palm_link">
+    <inertial>
+      <origin xyz="-0.021200000307706454 0.00017515875894607349 0.005817111075988579" rpy="0 0 0" />
+      <mass value="0.017000000000000001" />
+      <inertia ixx="1.3970394518754335e-05" ixy="-0" ixz="0" iyy="5.749882709901274e-06" iyz="-2.3422772835612155e-07" izz="8.2460031680281113e-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../source/latest_project/meshes/right/Right_hand_palm_link.STL" scale="1 1 1" />
+      </geometry>
+      <material name="Right_hand_palm_link_color">
+        <color rgba="0.79 0.85 0.90 1" />
+      </material>
+    </visual>
+    <collision name="convex_hull_collision">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../collision_hulls/right/Right_hand_palm_link_convex_hull.stl" scale="1 1 1" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="right_hand_thumb_rota_block_link">
+    <inertial>
+      <origin xyz="0.013152307688155004 0.01546619022058579 -0.0058576081543448375" rpy="0 0 0" />
+      <mass value="0.035000000000000003" />
+      <inertia ixx="5.0254434662197442e-06" ixy="-1.8897011963507633e-06" ixz="7.2423190443812725e-07" iyy="4.5382012769579688e-06" iyz="7.9106511345908562e-07" izz="6.4878560397288689e-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../source/latest_project/meshes/right/right_hand_thumb_rota_block_link.STL" scale="1 1 1" />
+      </geometry>
+      <material name="right_hand_thumb_rota_block_link_color">
+        <color rgba="0.69 0.74 0.78 1" />
+      </material>
+    </visual>
+    <collision name="convex_hull_collision">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../collision_hulls/right/right_hand_thumb_rota_block_link_convex_hull.stl" scale="1 1 1" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="right_hand_thumb_rotaback_link2">
+    <inertial>
+      <origin xyz="0.026031713107455702 0.0032326278358895022 0.01145077603078771" rpy="0 0 0" />
+      <mass value="0.074999999999999997" />
+      <inertia ixx="5.6229761709191849e-06" ixy="-1.549208804391713e-06" ixz="-9.6954844874405786e-07" iyy="2.0564591310742848e-05" iyz="-5.6454944280653656e-07" izz="2.0299959311144604e-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../source/latest_project/meshes/right/right_hand_thumb_rotaback_link2.STL" scale="1 1 1" />
+      </geometry>
+      <material name="right_hand_thumb_rotaback_link2_color">
+        <color rgba="0.69 0.74 0.78 1" />
+      </material>
+    </visual>
+    <collision name="convex_hull_collision">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../collision_hulls/right/right_hand_thumb_rotaback_link2_convex_hull.stl" scale="1 1 1" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="right_hand_thumb_MCP_link">
+    <inertial>
+      <origin xyz="0.0032791126767443553 -0.013972845185338652 -0.0013895372982137143" rpy="0 0 0" />
+      <mass value="0.040000000000000001" />
+      <inertia ixx="3.3949608434621819e-06" ixy="-3.8428760005977155e-07" ixz="0" iyy="2.3759345944991488e-06" iyz="-0" izz="4.3115948829315823e-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../source/latest_project/meshes/right/right_hand_thumb_MCP_link.STL" scale="1 1 1" />
+      </geometry>
+      <material name="right_hand_thumb_MCP_link_color">
+        <color rgba="0.69 0.74 0.78 1" />
+      </material>
+    </visual>
+    <collision name="convex_hull_collision">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../collision_hulls/right/right_hand_thumb_MCP_link_convex_hull.stl" scale="1 1 1" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="right_hand_thumb_PIP_link">
+    <inertial>
+      <origin xyz="0.0027670199897001624 -0.0074275053126238956 0.0031213298555099111" rpy="0 0 0" />
+      <mass value="0.014999999999999999" />
+      <inertia ixx="5.6180774340937578e-07" ixy="-1.1429320522649197e-07" ixz="4.1538149018844829e-23" iyy="5.3498477939473558e-07" iyz="-0" izz="7.4828476977172093e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../source/latest_project/meshes/right/right_hand_thumb_PIP_link.STL" scale="1 1 1" />
+      </geometry>
+      <material name="right_hand_thumb_PIP_link_color">
+        <color rgba="0.69 0.74 0.78 1" />
+      </material>
+    </visual>
+    <collision name="convex_hull_collision">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../collision_hulls/right/right_hand_thumb_PIP_link_convex_hull.stl" scale="1 1 1" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="right_hand_index_MCP_link">
+    <inertial>
+      <origin xyz="0.004165413828378664 -0.0097478118939021609 -0.0010000018909042826" rpy="0 0 0" />
+      <mass value="0.029999999999999999" />
+      <inertia ixx="1.8596324353060838e-06" ixy="1.1123557254755653e-07" ixz="0" iyy="2.6051741212675028e-06" iyz="-0" izz="2.8556901015500259e-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../source/latest_project/meshes/right/right_hand_index_MCP_link.STL" scale="1 1 1" />
+      </geometry>
+      <material name="right_hand_index_MCP_link_color">
+        <color rgba="0.69 0.74 0.78 1" />
+      </material>
+    </visual>
+    <collision name="convex_hull_collision">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../collision_hulls/right/right_hand_index_MCP_link_convex_hull.stl" scale="1 1 1" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="right_hand_index_swing_link">
+    <inertial>
+      <origin xyz="0.019145911500341679 0.00064881563882546178 -0.015620483551029985" rpy="0 0 0" />
+      <mass value="0.070000000000000007" />
+      <inertia ixx="6.6659501455604462e-06" ixy="-3.0326003853132334e-07" ixz="2.033594656012365e-06" iyy="1.5600391088300606e-05" iyz="6.8845254938113553e-08" izz="1.2977271013335727e-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../source/latest_project/meshes/right/right_hand_index_swing_link.STL" scale="1 1 1" />
+      </geometry>
+      <material name="right_hand_index_swing_link_color">
+        <color rgba="0.69 0.74 0.78 1" />
+      </material>
+    </visual>
+    <collision name="convex_hull_collision">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../collision_hulls/right/right_hand_index_swing_link_convex_hull.stl" scale="1 1 1" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="right_hand_index_PIP_link">
+    <inertial>
+      <origin xyz="0.0032577075825765693 -0.013903779353034357 -0.0013763609546612095" rpy="0 0 0" />
+      <mass value="0.040000000000000001" />
+      <inertia ixx="3.4283173776264894e-06" ixy="-3.9180084205140064e-07" ixz="-2.4132108845176876e-22" iyy="2.3854052126903512e-06" iyz="-0" izz="4.3472542561121242e-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../source/latest_project/meshes/right/right_hand_index_PIP_link.STL" scale="1 1 1" />
+      </geometry>
+      <material name="right_hand_index_PIP_link_color">
+        <color rgba="0.69 0.74 0.78 1" />
+      </material>
+    </visual>
+    <collision name="convex_hull_collision">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../collision_hulls/right/right_hand_index_PIP_link_convex_hull.stl" scale="1 1 1" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="right_hand_index_DIP_link">
+    <inertial>
+      <origin xyz="0.0028434074735079976 -0.0090163318950650471 0.0031213118942064995" rpy="0 0 0" />
+      <mass value="0.014999999999999999" />
+      <inertia ixx="7.3193704193088999e-07" ixy="-1.5308285327329623e-07" ixz="-5.1119831701683086e-23" iyy="5.3272921005949091e-07" iyz="-0" izz="9.2089302001177199e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../source/latest_project/meshes/right/right_hand_index_DIP_link.STL" scale="1 1 1" />
+      </geometry>
+      <material name="right_hand_index_DIP_link_color">
+        <color rgba="0.69 0.74 0.78 1" />
+      </material>
+    </visual>
+    <collision name="convex_hull_collision">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../collision_hulls/right/right_hand_index_DIP_link_convex_hull.stl" scale="1 1 1" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="right_hand_mid_MCP_link">
+    <inertial>
+      <origin xyz="0.004165413828378664 -0.0097478118939021609 -0.0010000018909042826" rpy="0 0 0" />
+      <mass value="0.029999999999999999" />
+      <inertia ixx="1.8596324353060838e-06" ixy="1.1123557254755653e-07" ixz="0" iyy="2.6051741212675028e-06" iyz="-0" izz="2.8556901015500259e-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../source/latest_project/meshes/right/right_hand_mid_MCP_link.STL" scale="1 1 1" />
+      </geometry>
+      <material name="right_hand_mid_MCP_link_color">
+        <color rgba="0.69 0.74 0.78 1" />
+      </material>
+    </visual>
+    <collision name="convex_hull_collision">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../collision_hulls/right/right_hand_mid_MCP_link_convex_hull.stl" scale="1 1 1" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="right_hand_mid_swing_link">
+    <inertial>
+      <origin xyz="0.019144611176145434 -0.00064905320012828517 -0.014635176863917401" rpy="0 0 0" />
+      <mass value="0.070000000000000007" />
+      <inertia ixx="6.6626715709320231e-06" ixy="3.0318107278566162e-07" ixz="2.0328871401221002e-06" iyy="1.5598620140375123e-05" iyz="-6.8984160600865481e-08" izz="1.2979347008911561e-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../source/latest_project/meshes/right/right_hand_mid_swing_link.STL" scale="1 1 1" />
+      </geometry>
+      <material name="right_hand_mid_swing_link_color">
+        <color rgba="0.69 0.74 0.78 1" />
+      </material>
+    </visual>
+    <collision name="convex_hull_collision">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../collision_hulls/right/right_hand_mid_swing_link_convex_hull.stl" scale="1 1 1" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="right_hand_mid_PIP_link">
+    <inertial>
+      <origin xyz="0.0032577075395853437 -0.013903779340682721 0.0014030917743241785" rpy="0 0 0" />
+      <mass value="0.040000000000000001" />
+      <inertia ixx="3.4283173625040646e-06" ixy="-3.918008396010275e-07" ixz="0" iyy="2.3854052019609006e-06" iyz="-0" izz="4.3472542538919814e-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../source/latest_project/meshes/right/right_hand_mid_PIP_link.STL" scale="1 1 1" />
+      </geometry>
+      <material name="right_hand_mid_PIP_link_color">
+        <color rgba="0.69 0.74 0.78 1" />
+      </material>
+    </visual>
+    <collision name="convex_hull_collision">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../collision_hulls/right/right_hand_mid_PIP_link_convex_hull.stl" scale="1 1 1" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="right_hand_mid_DIP_link">
+    <inertial>
+      <origin xyz="0.0028434074735079976 -0.0090163318950650471 0.0031213118942064995" rpy="0 0 0" />
+      <mass value="0.014999999999999999" />
+      <inertia ixx="7.3193704193088999e-07" ixy="-1.5308285327329623e-07" ixz="-5.1119831701683086e-23" iyy="5.3272921005949091e-07" iyz="-0" izz="9.2089302001177199e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../source/latest_project/meshes/right/right_hand_mid_DIP_link.STL" scale="1 1 1" />
+      </geometry>
+      <material name="right_hand_mid_DIP_link_color">
+        <color rgba="0.69 0.74 0.78 1" />
+      </material>
+    </visual>
+    <collision name="convex_hull_collision">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../collision_hulls/right/right_hand_mid_DIP_link_convex_hull.stl" scale="1 1 1" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="right_hand_ring_MCP_link">
+    <inertial>
+      <origin xyz="0.004165413828378664 -0.0097478118939021609 -0.0010000018909042826" rpy="0 0 0" />
+      <mass value="0.029999999999999999" />
+      <inertia ixx="1.8596324353060838e-06" ixy="1.1123557254755653e-07" ixz="0" iyy="2.6051741212675028e-06" iyz="-0" izz="2.8556901015500259e-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../source/latest_project/meshes/right/right_hand_ring_MCP_link.STL" scale="1 1 1" />
+      </geometry>
+      <material name="right_hand_ring_MCP_link_color">
+        <color rgba="0.69 0.74 0.78 1" />
+      </material>
+    </visual>
+    <collision name="convex_hull_collision">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../collision_hulls/right/right_hand_ring_MCP_link_convex_hull.stl" scale="1 1 1" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="right_hand_ring_swing_link">
+    <inertial>
+      <origin xyz="0.01914460016066509 0.00064899084884642707 -0.01561563034235439" rpy="0 0 0" />
+      <mass value="0.070000000000000007" />
+      <inertia ixx="6.6626839824506921e-06" ixy="-3.0335543723073289e-07" ixz="2.0328850942880475e-06" iyy="1.5598607635875903e-05" iyz="6.9047246023581121e-08" izz="1.2979345887572868e-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../source/latest_project/meshes/right/right_hand_ring_swing_link.STL" scale="1 1 1" />
+      </geometry>
+      <material name="right_hand_ring_swing_link_color">
+        <color rgba="0.69 0.74 0.78 1" />
+      </material>
+    </visual>
+    <collision name="convex_hull_collision">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../collision_hulls/right/right_hand_ring_swing_link_convex_hull.stl" scale="1 1 1" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="right_hand_ring_PIP_link">
+    <inertial>
+      <origin xyz="0.0032577075825765693 -0.013903779353034357 -0.0013763609546612095" rpy="0 0 0" />
+      <mass value="0.040000000000000001" />
+      <inertia ixx="3.4283173776264894e-06" ixy="-3.9180084205140064e-07" ixz="-2.4132108845176876e-22" iyy="2.3854052126903512e-06" iyz="-0" izz="4.3472542561121242e-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../source/latest_project/meshes/right/right_hand_ring_PIP_link.STL" scale="1 1 1" />
+      </geometry>
+      <material name="right_hand_ring_PIP_link_color">
+        <color rgba="0.69 0.74 0.78 1" />
+      </material>
+    </visual>
+    <collision name="convex_hull_collision">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../collision_hulls/right/right_hand_ring_PIP_link_convex_hull.stl" scale="1 1 1" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="right_hand_ring_DIP_link">
+    <inertial>
+      <origin xyz="0.0022764367733857632 -0.010057809994633179 0.0031213326644891439" rpy="0 0 0" />
+      <mass value="0.014999999999999999" />
+      <inertia ixx="8.5623467448014587e-07" ixy="-1.9074180599850333e-07" ixz="0" iyy="5.7867898564069198e-07" iyz="-0" izz="1.0710407887923501e-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../source/latest_project/meshes/right/right_hand_ring_DIP_link.STL" scale="1 1 1" />
+      </geometry>
+      <material name="right_hand_ring_DIP_link_color">
+        <color rgba="0.69 0.74 0.78 1" />
+      </material>
+    </visual>
+    <collision name="convex_hull_collision">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../collision_hulls/right/right_hand_ring_DIP_link_convex_hull.stl" scale="1 1 1" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="right_hand_pinky_MCP_link">
+    <inertial>
+      <origin xyz="0.004165413828378664 -0.0097478118939021609 -0.0010000018909042826" rpy="0 0 0" />
+      <mass value="0.029999999999999999" />
+      <inertia ixx="1.8596324353060838e-06" ixy="1.1123557254755653e-07" ixz="0" iyy="2.6051741212675028e-06" iyz="-0" izz="2.8556901015500259e-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../source/latest_project/meshes/right/right_hand_pinky_MCP_link.STL" scale="1 1 1" />
+      </geometry>
+      <material name="right_hand_pinky_MCP_link_color">
+        <color rgba="0.69 0.74 0.78 1" />
+      </material>
+    </visual>
+    <collision name="convex_hull_collision">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../collision_hulls/right/right_hand_pinky_MCP_link_convex_hull.stl" scale="1 1 1" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="right_hand_pinky_swing_link">
+    <inertial>
+      <origin xyz="0.017351394850595305 0.0014070708711414128 -0.014991404515528085" rpy="0 0 0" />
+      <mass value="0.070000000000000007" />
+      <inertia ixx="6.1708509693081802e-06" ixy="-6.0350473947551472e-07" ixz="2.1219761228196837e-06" iyy="1.3566876445723428e-05" iyz="1.7178813773376447e-07" izz="1.0840706666273051e-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../source/latest_project/meshes/right/right_hand_pinky_swing_link.STL" scale="1 1 1" />
+      </geometry>
+      <material name="right_hand_pinky_swing_link_color">
+        <color rgba="0.69 0.74 0.78 1" />
+      </material>
+    </visual>
+    <collision name="convex_hull_collision">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../collision_hulls/right/right_hand_pinky_swing_link_convex_hull.stl" scale="1 1 1" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="right_hand_pinky_PIP_link">
+    <inertial>
+      <origin xyz="0.0010714890603742879 -0.013311346794565679 -0.0030260756617001608" rpy="0 0 0" />
+      <mass value="0.040000000000000001" />
+      <inertia ixx="3.1610515117712935e-06" ixy="-3.6684279713453382e-07" ixz="1.7209256926487074e-08" iyy="2.2587717058482989e-06" iyz="-7.3317738222397667e-10" izz="3.9441043821401493e-06" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../source/latest_project/meshes/right/right_hand_pinky_PIP_link.STL" scale="1 1 1" />
+      </geometry>
+      <material name="right_hand_pinky_PIP_link_color">
+        <color rgba="0.69 0.74 0.78 1" />
+      </material>
+    </visual>
+    <collision name="convex_hull_collision">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../collision_hulls/right/right_hand_pinky_PIP_link_convex_hull.stl" scale="1 1 1" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="right_hand_pinky_DIP_link">
+    <inertial>
+      <origin xyz="0.0027712476817273635 -0.0074197880770405737 0.0031170630899578513" rpy="0 0 0" />
+      <mass value="0.014999999999999999" />
+      <inertia ixx="5.6245933486466371e-07" ixy="-1.1467757178385792e-07" ixz="4.1565574340490456e-23" iyy="5.3507930870778335e-07" iyz="-0" izz="7.487788204450963e-07" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../source/latest_project/meshes/right/right_hand_pinky_DIP_link.STL" scale="1 1 1" />
+      </geometry>
+      <material name="right_hand_pinky_DIP_link_color">
+        <color rgba="0.69 0.74 0.78 1" />
+      </material>
+    </visual>
+    <collision name="convex_hull_collision">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="../collision_hulls/right/right_hand_pinky_DIP_link_convex_hull.stl" scale="1 1 1" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="Right_hand_palm_joint" type="fixed">
+    <origin xyz="0.023699999999999999 -0.0064999999999999997 0.044138006984399999" rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="Right_hand_palm_link" />
+    <axis xyz="0 0 0" />
+  </joint>
+  <joint name="right_hand_thumb_rota_block_joint" type="revolute">
+    <origin xyz="0.020095209458105473 0.018319894388608274 0.034425784821471982" rpy="-0.40984935396284505 0.035990946425296766 1.0998426892375148" />
+    <parent link="base_link" />
+    <child link="right_hand_thumb_rota_block_link" />
+    <axis xyz="0 0 -1" />
+    <limit effort="1.0" lower="0.0" upper="2.09" velocity="1.0" />
+  </joint>
+  <joint name="right_hand_thumb_rotaback_joint2" type="revolute">
+    <origin xyz="0.025906534761571742 3.4694469519536142e-18 -0.010516065096279111" rpy="-1.5707963267949003 -1.1774916255348222 0.55582153100282139" />
+    <parent link="right_hand_thumb_rota_block_link" />
+    <child link="right_hand_thumb_rotaback_link2" />
+    <axis xyz="0 0 1" />
+    <limit effort="1.0" lower="0.0" upper="1.7400000000000002" velocity="1.0" />
+  </joint>
+  <joint name="right_hand_thumb_MCP_joint" type="revolute">
+    <origin xyz="0.051777369955726356 1.3877787807814457e-17 0.0054157007354755024" rpy="-0.5275107839615536 -0.9084965891297635 2.3106248516321068" />
+    <parent link="right_hand_thumb_rotaback_link2" />
+    <child link="right_hand_thumb_MCP_link" />
+    <axis xyz="0 0 -1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="right_hand_thumb_PIP_joint" type="revolute">
+    <origin xyz="-0.0053114137218719798 -0.025846448194579846 -0.0045110466755894085" rpy="-1.6792123247455493e-15 2.2204460492503131e-15 -0.12903783821924114" />
+    <parent link="right_hand_thumb_MCP_link" />
+    <child link="right_hand_thumb_PIP_link" />
+    <axis xyz="0 0 -1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="right_hand_index_MCP_joint" type="revolute">
+    <origin xyz="0.027106823283284235 0.026576387592038783 0.087815835680192231" rpy="-1.4508509931644693 0.42625833852372441 -3.084615774699254" />
+    <parent link="base_link" />
+    <child link="right_hand_index_MCP_link" />
+    <axis xyz="0 0 -1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="right_hand_index_swing_joint" type="revolute">
+    <origin xyz="0.01819644753826806 -0.019340354107076171 -0.00099999999999282954" rpy="-1.5707963267948957 -0.03388279193140975 -2.0005586058915599" />
+    <parent link="right_hand_index_MCP_link" />
+    <child link="right_hand_index_swing_link" />
+    <axis xyz="0 0 -1" />
+    <limit effort="1.0" lower="-0.35" upper="0.35" velocity="1.0" />
+  </joint>
+  <joint name="right_hand_index_PIP_joint" type="revolute">
+    <origin xyz="0.041023546156784746 -3.4694469519536142e-18 -0.026999999999999597" rpy="-1.5707963267948963 -1.1967399807955119 -3.1077098616583827" />
+    <parent link="right_hand_index_swing_link" />
+    <child link="right_hand_index_PIP_link" />
+    <axis xyz="0 0 -1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="right_hand_index_DIP_joint" type="revolute">
+    <origin xyz="-0.0053114137261469213 -0.025846448194837987 -0.0045110466755889644" rpy="2.7755575615628914e-17 0 -0.12903783821920917" />
+    <parent link="right_hand_index_PIP_link" />
+    <child link="right_hand_index_DIP_link" />
+    <axis xyz="0 0 -1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="right_hand_mid_MCP_joint" type="revolute">
+    <origin xyz="0.02719999953837687 0.00049999877805580509 0.088138007230611604" rpy="-1.5707963267948974 0.4297622790966602 3.1415926535897896" />
+    <parent link="base_link" />
+    <child link="right_hand_mid_MCP_link" />
+    <axis xyz="0 0 -1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="right_hand_mid_swing_joint" type="revolute">
+    <origin xyz="0.017305157670401285 -0.018931832119254491 -0.00099998783788761165" rpy="-1.570796326794897 0.033883077619299984 -2.0005586058915852" />
+    <parent link="right_hand_mid_MCP_link" />
+    <child link="right_hand_mid_swing_link" />
+    <axis xyz="0 0 -1" />
+    <limit effort="1.0" lower="-0.35" upper="0.35" velocity="1.0" />
+  </joint>
+  <joint name="right_hand_mid_PIP_joint" type="revolute">
+    <origin xyz="0.041023559408067872 -2.1684043449710089e-19 -0.026019547123553179" rpy="-1.5707963267948974 -1.1967399807954626 3.1077095759704942" />
+    <parent link="right_hand_mid_swing_link" />
+    <child link="right_hand_mid_PIP_link" />
+    <axis xyz="0 0 -1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="right_hand_mid_DIP_joint" type="revolute">
+    <origin xyz="-0.0053114137261472405 -0.025846448194837821 -0.0017315940115265904" rpy="5.5511151231257827e-17 0 -0.12903783821923204" />
+    <parent link="right_hand_mid_PIP_link" />
+    <child link="right_hand_mid_DIP_link" />
+    <axis xyz="0 0 -1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="right_hand_ring_MCP_joint" type="revolute">
+    <origin xyz="0.027106823283282962 -0.023481417630913871 0.080906629963767754" rpy="-1.666766012560992 0.42864098926106609 3.1087726476133142" />
+    <parent link="base_link" />
+    <child link="right_hand_ring_MCP_link" />
+    <axis xyz="0 0 -1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="right_hand_ring_swing_joint" type="revolute">
+    <origin xyz="0.018196447538267047 -0.019340354107075949 -0.00099999999999785677" rpy="-1.5707963267948963 -0.033882791931390432 -2.0005586058915599" />
+    <parent link="right_hand_ring_MCP_link" />
+    <child link="right_hand_ring_swing_link" />
+    <axis xyz="0 0 -1" />
+    <limit effort="1.0" lower="-0.35" upper="0.35" velocity="1.0" />
+  </joint>
+  <joint name="right_hand_ring_PIP_joint" type="revolute">
+    <origin xyz="0.04102354615678494 1.7347234759768071e-18 -0.026999999999998935" rpy="-1.5707963267948948 -1.1967399807954981 -3.107709861658404" />
+    <parent link="right_hand_ring_swing_link" />
+    <child link="right_hand_ring_PIP_link" />
+    <axis xyz="0 0 -1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="right_hand_ring_DIP_joint" type="revolute">
+    <origin xyz="-0.0053114137258253313 -0.025846448194971533 -0.0045110466755893131" rpy="2.7755575615628914e-17 0 -0.12903783821922418" />
+    <parent link="right_hand_ring_PIP_link" />
+    <child link="right_hand_ring_DIP_link" />
+    <axis xyz="0 0 -1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="right_hand_pinky_MCP_joint" type="revolute">
+    <origin xyz="0.0271068232832797 -0.044704606014039389 0.070250121398440751" rpy="-1.7043559433280713 0.42725082875541354 3.0931711956586163" />
+    <parent link="base_link" />
+    <child link="right_hand_pinky_MCP_link" />
+    <axis xyz="0 0 -1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="right_hand_pinky_swing_joint" type="revolute">
+    <origin xyz="0.018196447538267484 -0.019340354107076102 -0.0010000000000004935" rpy="-1.5707963267948957 -0.080896324855458612 -2.0005586058915581" />
+    <parent link="right_hand_pinky_MCP_link" />
+    <child link="right_hand_pinky_swing_link" />
+    <axis xyz="0 0 -1" />
+    <limit effort="1.0" lower="-0.35" upper="0.35" velocity="1.0" />
+  </joint>
+  <joint name="right_hand_pinky_PIP_joint" type="revolute">
+    <origin xyz="0.038626320568843936 0 -0.02181000000000018" rpy="-1.5707963267948974 -1.3258211702687228 -3.0606963287343287" />
+    <parent link="right_hand_pinky_swing_link" />
+    <child link="right_hand_pinky_PIP_link" />
+    <axis xyz="0 0 -1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+  <joint name="right_hand_pinky_DIP_joint" type="revolute">
+    <origin xyz="-0.0063815055464910009 -0.025204810461647131 -0.006034842938728309" rpy="0.0062711979857275647 0.025075123623853113 0.00012198116402359176" />
+    <parent link="right_hand_pinky_PIP_link" />
+    <child link="right_hand_pinky_DIP_link" />
+    <axis xyz="0 0 -1" />
+    <limit effort="1.0" lower="0.0" upper="1.5707963267948966" velocity="1.0" />
+  </joint>
+</robot>

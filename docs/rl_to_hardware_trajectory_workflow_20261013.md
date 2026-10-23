@@ -16,7 +16,7 @@ flowchart TD
     F --> G
     G --> H[首帧IK得到起始七角]
     H --> I[连续IK参考]
-    I --> J[提前制动和关节硬限]
+    I --> J[当前步关节硬限]
     J --> K[导出q v a及差分和FK审计]
     K --> L[待完成 进场及双臂手指同步下发]
     L --> M[待完成 实机反馈和触键验收]
@@ -186,13 +186,13 @@ training/.venv/bin/python results/right_wrist_ik_20261013/calculate_t0.py
 
 ## 5 连续IK参考与运动硬限
 
-**共同输入**：原200Hz时间轴、q0、补偿目标、固定基座/安装、URDF和 `configs/preview/m6_sdk_joint_limits.json`。核心实现为 `tsensei_v3_2_pianist/mjlab_env/arm_follow.py` 的 `ArmFollower`，合同 `rigid_wrist_command`。
+**共同输入**：原200Hz时间轴、q0、补偿目标、固定基座/安装、URDF和 `configs/preview/m6_sdk_joint_limits.json`。核心实现为 `tsensei_v3_2_pianist/mjlab_env/arm_follow.py` 的 `ArmFollower`，合同 `wuji_cartesian_v1`。
 
 **共同输出**：离线限幅后目标q、v、a，IK参考、请求/FK位姿、逐帧误差、合同及源码核对记录。这里的“执行位姿”是目标角度的模型FK，不是实机测量。
 
-### 左侧连续IK及制动
+### 左侧连续IK及硬限
 
-以首帧q0和零速度开始；每步从上一IK参考求新参考，再按当前实际已下发目标的q/v状态提前制动、限制速度和加速度、保证位置与耦合可行。输入是补偿后的记录位姿新请求，没有再次施加训练上游20Hz腕目标投影。
+以首帧q0和零速度开始；每步从上一IK参考求新参考，再按当前实际已下发目标的q/v状态限制速度和加速度，并保证位置与耦合可行；不按剩余目标距离提前制动。输入是补偿后的记录位姿新请求，没有再次施加训练上游20Hz腕目标投影。
 
 条件复现顺序：
 
@@ -222,7 +222,7 @@ training/.venv/bin/python results/right_arm_qva_20261013/audit_recorded_referenc
 
 前两步产出连续IK包及manifest/ZIP；后两步读取该ZIP，在 `hard_limited/` 生成限幅主轨迹、收停、q/v/a、原20手指同步列及审计图。重定位输出时需同步调整第3步写死的ZIP输入。
 
-**最终版并未重新运行在线IK**：`RecordedReferenceFollower.solve` 用原包连续七角覆盖参考来源，沿用 `ArmFollower.step/bounds/_stopping_speed/_coupled_segment`。早先 `results/right_arm_qva_20261013/export_controller.py` 的完整在线IK尝试在耦合边界附近停住，其 `controller_limited/` 不是最终交付；`source_conversion/` 也不是限幅主文件。
+**最终版并未重新运行在线IK**：`RecordedReferenceFollower.solve` 用原包连续七角覆盖参考来源，沿用 `ArmFollower.step/bounds/_coupled_segment`。早先 `results/right_arm_qva_20261013/export_controller.py` 的完整在线IK尝试在耦合边界附近停住，其 `controller_limited/` 不是最终交付；`source_conversion/` 也不是限幅主文件。
 
 右侧原IK包的7.5倍慢速参考改变时长和采样率，不能当作200Hz原速轨迹。最终选择的 `hard_limited/` 保持9.15秒原时序，允许跟踪误差。
 

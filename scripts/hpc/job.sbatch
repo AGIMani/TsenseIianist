@@ -4,6 +4,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --gres=gpu:2
+# The submit wrapper overrides this default with gpu:4 for multi-collector jobs.
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=128G
 #SBATCH --time=24:00:00
@@ -13,9 +14,9 @@ PROJECT_DIR="$1"
 MODE="$2"
 shift 2
 expected_gpus="${TSENSEI_EXPECTED_GPUS:-2}"
-[[ "$expected_gpus" =~ ^[12]$ ]] || { echo 'TSENSEI_EXPECTED_GPUS must be 1 or 2' >&2; exit 2; }
+[[ "$expected_gpus" =~ ^(1|2|4)$ ]] || { echo 'TSENSEI_EXPECTED_GPUS must be 1, 2 or 4' >&2; exit 2; }
 if [[ "$expected_gpus" == 1 ]]; then
-  case "$MODE" in replay|train|validate|reward-diagnostic|export|mjlab-preview) ;; *) echo 'Unsupported single-GPU mode' >&2; exit 2;; esac
+  case "$MODE" in replay|train|validate|export|mjlab-preview) ;; *) echo 'Unsupported single-GPU mode' >&2; exit 2;; esac
 fi
 JOB_DIR="$PROJECT_DIR/logs/hpc/$SLURM_JOB_ID"
 if [[ "${TSENSEI_ALLOCATION_STEP:-0}" == 1 ]]; then
@@ -25,6 +26,12 @@ mkdir -p "$JOB_DIR"
 export MUJOCO_GL=egl PYTHONUNBUFFERED=1
 export OMP_NUM_THREADS=4 MKL_NUM_THREADS=4 OPENBLAS_NUM_THREADS=4
 export MAX_JOBS=4
+# Optional native IK dependencies belong to this deployment, never the shared
+# training environment. Propagate them to training and later Slurm exports.
+if [[ -d "$PROJECT_DIR/training_mjlab/native_ik_deps" ]]; then
+  export PYTHONPATH="$PROJECT_DIR/training_mjlab/native_ik_deps${PYTHONPATH:+:$PYTHONPATH}"
+  export NUMBA_NUM_THREADS="${NUMBA_NUM_THREADS:-8}"
+fi
 # Use separate per-job JIT caches. Never alter Slurm's CUDA_VISIBLE_DEVICES.
 export TORCH_EXTENSIONS_DIR="$JOB_DIR/torch_extensions"
 export TORCHINDUCTOR_CACHE_DIR="$JOB_DIR/torchinductor"
@@ -84,6 +91,9 @@ RUN_ROOT="$JOB_DIR/source"
 mkdir -p "$RUN_ROOT/training" "$RUN_ROOT/training_mjlab"
 ln -s "$PROJECT_DIR/training/.venv" "$RUN_ROOT/training/.venv"
 ln -s "$PROJECT_DIR/training_mjlab/.venv" "$RUN_ROOT/training_mjlab/.venv"
+if [[ -d "$PROJECT_DIR/training_mjlab/native_ik_deps" ]]; then
+  ln -s "$PROJECT_DIR/training_mjlab/native_ik_deps" "$RUN_ROOT/training_mjlab/native_ik_deps"
+fi
 if [[ -d "$PROJECT_DIR/training_mjlab/audio_runtime" ]]; then
   ln -s "$PROJECT_DIR/training_mjlab/audio_runtime" "$RUN_ROOT/training_mjlab/audio_runtime"
 fi
@@ -132,8 +142,6 @@ elif [[ "$MODE" == online-export ]]; then
   exec_command=("$PYTHON_BIN" -m online_control.export checkpoint "$@")
 elif [[ "$MODE" == strike-diagnostic ]]; then
   exec_command=("$PYTHON_BIN" scripts/hpc/strike_timing_diagnostic.py "$@")
-elif [[ "$MODE" == reward-diagnostic ]]; then
-  exec_command=("$PYTHON_BIN" scripts/hpc/early_release_diagnostic.py "$@")
 elif [[ "$MODE" == train ]]; then
   # Defaults are resolved by all_use_this_train.sh before submission.
   # Execute only the current archive entry; never recover deprecated defaults.

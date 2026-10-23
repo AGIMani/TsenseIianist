@@ -35,7 +35,7 @@ def audit_episode(directory, score, meta):
             or not np.isfinite(limits).all() or (limits[:,1]<=0).any()
             or p['qpos'].shape[1]<88 or c['qpos'].shape[1]<88):
         raise ValueError('Pressure audit requires the known 88-key zero-rest joint contract: '+str(directory))
-    activation=np.abs(np.clip(p['qpos'][:,:88],limits[:,0],limits[:,1])-limits[:,1])<=float(p['key_threshold'])
+    activation=np.clip(p['qpos'][:,:88],limits[:,0],limits[:,1])>=limits[:,1]*float(p['key_activation_fraction'])
     if not np.array_equal(activation,p['key_activation']):
         raise ValueError('qpos[0:88] does not reproduce saved key activation; supply a verified key mapping: '+str(directory))
     if (not np.array_equal(activation[decimation-1::decimation],actual)
@@ -64,7 +64,8 @@ def audit_episode(directory, score, meta):
                 projection=bool(d['finger_projection_mask'][f,finger]),
                 post_step_permission=bool(d['finger_terminal_allowed'][f,finger]))for f,k in indices]))
     thumb_frames=np.flatnonzero((miss&score['fingers'][:,5].astype(bool)).any(-1))
-    left_full=[x['full_index']for x in meta['action_contract']['channels']if x['name'].startswith('L_Wrist')]
+    left_full=[x['full_index']for x in meta['action_contract']['channels']
+               if x['name'].startswith('L_Palm_Base')]
     joints=[]
     if thumb_frames.size:
         ticks=(thumb_frames[:,None]*decimation+np.arange(decimation)).ravel()
@@ -130,7 +131,7 @@ def main():
         ax.scatter(ct,c['qpos'][:,key]/p['key_limits'][key,1],s=13,label=f'{1/dt:g} Hz sampled travel',zorder=3)
         goal=np.repeat(c['goals'][:,key],decimation)
         ax.fill_between(t,0,1,where=goal.astype(bool),alpha=.15,color='purple',label=f'{note} requested')
-        threshold=1-float(p['key_threshold'])/p['key_limits'][key,1]
+        threshold=float(p['key_activation_fraction'])
         ax.axhline(threshold,color='gray',ls='--',label='Activation threshold')
         assigned=np.flatnonzero(c['goals'][:,key])
         if assigned.size:

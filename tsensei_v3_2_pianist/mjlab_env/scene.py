@@ -6,6 +6,7 @@ Native XML servos act directly, with no
 additional MJLab PD controller or modifications to imported MuJoCo options.
 """
 from contextlib import contextmanager
+import gc
 
 import numpy as np
 import mujoco
@@ -56,12 +57,16 @@ class PianoScene:
             raise ValueError('Control timestep must be an integer multiple of physics dt')
         physics_model = self.bundle.model
         self.arm_collision_model = None
-        if 'm6' in self.bundle.manifest:
+        self.arm_collision_data = None
+        self.arm_collision_tracker = None
+        self._arm_collision_graph = None
+        self._arm_collision_step_graph = None
+        query_model = getattr(self.bundle, 'arm_collision_query_model', None)
+        if query_model is not None:
             # A separate collision-only model cannot accidentally add arm forces
             # to CPU stepping, the main GPU model, or its captured physics graph.
-            query_model=mujoco.MjModel.from_xml_path(str(self.bundle.directory/'collision_query.xml'))
             with self.scope():
-                self.arm_collision_model=mjwarp.put_model(query_model)
+                self.arm_collision_model = mjwarp.put_model(query_model)
         with self.scope():
             self.sim = Simulation(num_envs=num_envs, model=physics_model, device=str(self.device),
                                   cfg=SimulationCfg(mujoco=ImportedMujocoCfg(timestep=dt),
@@ -78,9 +83,21 @@ class PianoScene:
                     setattr(self.self_query_data, field, getattr(self.sim.wp_data, field))
         self.model = self.sim.mj_model
         self.data = self.sim.data
+        if query_model is not None:
+            from .arm_collision import ArmCollisionTracker
+            with self.scope():
+                self.arm_collision_data = mjwarp.make_data(
+                    query_model, nworld=num_envs, nconmax=8192, njmax=4096)
+                # Only kinematic transforms are shared.  Query contacts and
+                # capacity remain private to the detection-only model.
+                for field in ('geom_xpos', 'geom_xmat', 'xpos', 'xquat', 'xmat'):
+                    setattr(self.arm_collision_data, field, getattr(self.sim.wp_data, field))
+            self.arm_collision_tracker = ArmCollisionTracker(
+                query_model, self.bundle.arm_collision_query_pairs,
+                num_envs=num_envs, device=self.device)
         from .action_mapping import active_indices, physical_bounds, policy_bounds, resolved_contract
         self.action_profile = action_profile
-        self.policy_ids = torch.tensor(active_indices(self.action_size), device=self.device)
+        self.policy_ids = torch.tensor(active_indices(self.action_size, action_profile), device=self.device)
         self.physical_ids = torch.tensor(list(self.bundle.active_action_indices), device=self.device)
         self.low = self.tensor(self.bundle.low)
         self.high = self.tensor(self.bundle.high)
@@ -103,6 +120,7 @@ class PianoScene:
         self.finger_coupling = None if self.finger_coupler is None else self.finger_coupler.contract
         self.finger_coupling_metrics = {}
         self._coupling_graph = None
+        self._coupling_substep_actual_error_max = None
         self.key_qadr = torch.as_tensor(self.bundle.key_qadr, device=self.device)
         self.key_limits = self.tensor(self.model.jnt_range[self.bundle.key_ids])
         self.sustain = torch.zeros(num_envs, device=self.device)
@@ -167,8 +185,7 @@ class PianoScene:
                 self.target_motion_limiter = TargetMotionLimiter(self.control_limits,
                     num_envs=num_envs, device=self.device, reset_action=self.control_reset_action,
                     physical_low=self.hard_target_low if self.joint_limiter is not None else self.physical_low,
-                    physical_high=self.hard_target_high if self.joint_limiter is not None else self.physical_high,
-                    brake_to_target=arm_follow is not None)
+                    physical_high=self.hard_target_high if self.joint_limiter is not None else self.physical_high)
                 self.control_limits['target_motion_contract'] = self.target_motion_limiter.contract
         self.control_steps = torch.zeros(num_envs, device=self.device, dtype=torch.int64)
         from .preparation import is_policy, MOUNTS, support_kernel
@@ -216,7 +233,11 @@ class PianoScene:
         self.arm_ik = None
         if arm_follow is not None:
             from .arm_scene import SceneArmFollower
-            self.arm_follower = SceneArmFollower(self.bundle, num_envs=num_envs, device=self.device)
+            follower_type = SceneArmFollower
+            if arm_follow.get('execution_backend', 'torch') == 'numba_cpu':
+                from .arm_native_scene import NativeSceneArmFollower
+                follower_type = NativeSceneArmFollower
+            self.arm_follower = follower_type(self.bundle, num_envs=num_envs, device=self.device)
         if 'm6' in self.bundle.manifest:
             from .arm_ik import GPUArmIK
             self.arm_ik = GPUArmIK(self)
@@ -234,7 +255,8 @@ class PianoScene:
                               self.decimation,substep,self.preparation_physics_steps,
                               self.bundle.preparation_options['lift']],device=str(self.device))
 
-    def configure_reward_sampling(self, geom_pair_mask, *, collision_margin=0.0):
+    def configure_reward_sampling(self, geom_pair_mask, *, collision_margin=0.0,
+                                  tip_ids=None, key_site_ids=None, key_offsets=None):
         """Collect post-integration samples for key reward and diagnostics.
 
         Current rigid-wrist arm followers step alongside physics and use this
@@ -243,8 +265,6 @@ class PianoScene:
         if geom_pair_mask is None:
             self.reward_sampling = None
         else:
-            if self.arm_ik is not None:
-                raise ValueError('Substep reward sampling currently requires --no-arms')
             from .substep_rewards import SubstepRewardCollector
             if isinstance(geom_pair_mask, torch.Tensor):
                 geom_pair_mask = geom_pair_mask.detach().cpu().numpy()
@@ -257,7 +277,8 @@ class PianoScene:
                     key_limits=self.model.jnt_range[self.bundle.key_ids],
                     action_ids=self.bundle.action_ids, geom_pair_mask=geom_pair_mask,
                     collision_margin=collision_margin,
-                    key_threshold=self.bundle.manifest['key_threshold'])
+                    key_activation_fraction=self.bundle.manifest['key_activation_fraction'],
+                    tip_ids=tip_ids, key_site_ids=key_site_ids, key_offsets=key_offsets)
                 # Compile only read-only kernels before capture; never step physics.
                 self._sample_reward_substep(0)
                 self.reward_sampling.clear()
@@ -265,10 +286,53 @@ class PianoScene:
         self._captured_step_graph = None
 
     def _sample_reward_substep(self, substep):
+        # Euler leaves transforms at the pre-integration pose unless a hard
+        # joint limiter/arm follower already refreshed them. Kinematics alone
+        # refreshes post-step sites/geoms, without another contact solve/step.
+        if self.reward_sampling.fingertip_history is not None and self.joint_limiter is None and self.arm_follower is None:
+            mjwarp.kinematics(self.sim.wp_model, self.sim.wp_data)
         contact_data = self.self_query_data if self.hand_collision_detection_only else None
         if contact_data is not None and self.self_collision is None:
             mjwarp.collision(self.self_query_model, contact_data)
         self.reward_sampling.sample(self.sim, substep, contact_data=contact_data)
+
+    def _sample_arm_collision(self):
+        if self.arm_collision_tracker is not None:
+            self.arm_collision_tracker.sample(self.arm_collision_data, device=self.sim.wp_device)
+
+    def _query_and_sample_arm_collision(self):
+        # Called on the scene's shared Torch/Warp stream, after forward. Keep
+        # tracker sampling outside capture: it owns Torch temporaries and must
+        # accumulate exactly once per physical substep, including the first.
+        if (self.physics_graph and self.sim.use_cuda_graph
+                and self.sim.step_graph is not None):
+            if (self._arm_collision_graph is None
+                    or self._arm_collision_step_graph is not self.sim.step_graph):
+                # MJLab recreates its graphs after replacing simulation arrays.
+                # Refresh the query aliases too before capturing their pointers.
+                self._arm_collision_graph = None
+                for field in ('geom_xpos', 'geom_xmat', 'xpos', 'xquat', 'xmat'):
+                    setattr(self.arm_collision_data, field, getattr(self.sim.wp_data, field))
+                # Compile/allocate outside capture without sampling or stepping
+                # physics. The actual substep is queried again by graph replay.
+                mjwarp.collision(self.arm_collision_model, self.arm_collision_data)
+                # As in MJLab graph creation, do not let unrelated Warp array
+                # destructors get recorded by a collection during capture.
+                gc_enabled = gc.isenabled()
+                if gc_enabled:
+                    gc.disable()
+                try:
+                    with wp.ScopedCapture() as capture:
+                        mjwarp.collision(self.arm_collision_model, self.arm_collision_data)
+                finally:
+                    if gc_enabled:
+                        gc.enable()
+                self._arm_collision_graph = capture.graph
+                self._arm_collision_step_graph = self.sim.step_graph
+            wp.capture_launch(self._arm_collision_graph)
+        else:
+            mjwarp.collision(self.arm_collision_model, self.arm_collision_data)
+        self._sample_arm_collision()
 
     def preparation_state(self):
         """One observed phase determines support height/velocity from config."""
@@ -300,11 +364,22 @@ class PianoScene:
             self.control_graph = capture.graph
             self._captured_step_graph = self.sim.step_graph
 
-    def _enforce_joint_limits(self):
+    def _enforce_joint_limits(self, *, use_cached_forward=None):
+        # ``use_cached_forward`` was an internal diagnostic switch.  Keep the
+        # keyword accepted for callers from the GPU regression suite, but do
+        # not reintroduce the unsafe eager-forward branch.
         if self.joint_limiter is not None:
             self.joint_limiter.apply(self.sim.wp_data)
             # Refresh geometry and contacts before all per-substep consumers.
-            mjwarp.forward(self.sim.wp_model, self.sim.wp_data)
+            # Reuse MJLab's already-captured forward graph whenever it is
+            # available.  Calling mjwarp.forward directly after sim.step()
+            # would allocate a fresh collision context on every substep while
+            # the step graph may still be in flight; with large batched
+            # collectors that can surface as Warp CUDA error 700.  Simulation
+            # falls back to eager forward on configurations without a graph.
+            # The call remains a native kernel launch when the surrounding
+            # control graph is being captured.
+            self.sim.forward()
 
     def tensor(self, array):
         return torch.as_tensor(array, device=self.device, dtype=torch.float32)
@@ -373,12 +448,12 @@ class PianoScene:
                 self.key_contact_diagnostics.clear(ids)
             if self.reward_sampling is not None:
                 self.reward_sampling.clear(ids)
+            if self.arm_collision_tracker is not None:
+                self.arm_collision_tracker.clear(ids)
             self.sim.forward()
             if self.self_query_model is not None:
                 mjwarp.collision(self.self_query_model, self.self_query_data)
             self.last_step_actuator_force[ids] = self.data.actuator_force[ids]
-            if self.arm_collision_model is not None:
-                mjwarp.collision(self.arm_collision_model,self.sim.wp_data)
         return self.state()
 
     def physical_action(self, action):
@@ -389,11 +464,16 @@ class PianoScene:
         if self.action_size != 51:
             physical = self.physical_low.expand(*active.shape[:-1], 51).clone()
             physical[..., self.policy_ids] = active
-            if self.disable_wrist_tz:
-                physical[..., [22, 47]] = 0
-            for index, side in ((24, 'right'), (49, 'left')):
-                name = f'{side}_/forearm_yaw'
-                if name in self.bundle.fixed_joint_values:
+            fixed_indices = {
+                'right_/forearm_tz': 22, 'left_/forearm_tz': 47,
+                'right_/forearm_pitch': 23, 'left_/forearm_pitch': 48,
+                'right_/forearm_yaw': 24, 'left_/forearm_yaw': 49,
+            }
+            for name, index in fixed_indices.items():
+                # Cartesian TZ is a live request even though its obsolete
+                # physical slide was removed by rigid arm augmentation.
+                if (name in self.bundle.fixed_joint_values
+                        and index not in getattr(self.bundle, 'policy_action_indices', ())):
                     physical[..., index] = self.bundle.fixed_joint_values[name]
             return physical
         return active
@@ -510,13 +590,14 @@ class PianoScene:
                 physical,self.finger_coupling_metrics=self._couple_finger_targets(physical)
                 follower_ids = self.finger_coupler.indices[:, 1:].flatten()
                 self.last_requested_physical_action[:, follower_ids] = physical[:, follower_ids]
+                self._coupling_substep_actual_error_max = torch.zeros(
+                    (self.num_envs, len(self.finger_coupler.groups)), device=self.device)
             if self.finger_clearance_guard is not None:
                 physical,self.finger_clearance_metrics=self._filter_finger_targets(physical,assigned_keys)
             if self.joint_limiter is not None:
                 physical = physical.clamp(self.hard_target_low, self.hard_target_high)
             if self.target_motion_limiter is not None:
-                physical, motion_limited = self.target_motion_limiter.apply(physical,
-                    braking_target=self.last_requested_physical_action if self.arm_follower is not None else None)
+                physical, motion_limited = self.target_motion_limiter.apply(physical)
                 self.last_control_slew_mask |= motion_limited
             if self.has_action_transform:
                 self.last_applied_physical_action=physical.clone()
@@ -530,7 +611,11 @@ class PianoScene:
                 self.key_contact_diagnostics.clear()
             if self.reward_sampling is not None:
                 self.reward_sampling.clear()
-            if (self.arm_follower is None and self.physics_graph and substep_callback is None
+            if self.arm_collision_tracker is not None:
+                self.arm_collision_tracker.clear_step()
+            if (self.arm_follower is None and self.arm_collision_tracker is None
+                    and self.finger_coupler is None
+                    and self.physics_graph and substep_callback is None
                     and self.sim.step_graph is not None and not self.sim.nan_guard.enabled):
                 self._ensure_control_graph()
                 wp.capture_launch(self.control_graph)
@@ -538,6 +623,13 @@ class PianoScene:
                 # Audio/contact diagnostics must still observe every substep.
                 for substep in range(self.decimation):
                     self._advance_preparation(substep+1)
+                    if self.finger_coupler is not None:
+                        # Re-solve against the current physical qpos/xmat at
+                        # 200Hz. This removes control-frame target hold while
+                        # retaining real servo lag and contact.
+                        physical, coupling_metrics = self._couple_finger_targets(physical)
+                        self.finger_coupling_metrics.update(coupling_metrics)
+                        self.data.ctrl[:, self.action_ids] = physical[:, self.physical_ids]
                     if self.arm_follower is not None:
                         # Wrist commands lead IK. The only actual hand root is
                         # rigidly attached to Link7; physics and rewards use it.
@@ -549,6 +641,13 @@ class PianoScene:
                     self._enforce_joint_limits()
                     if self.arm_follower is not None:
                         self.sim.forward()
+                    if self.finger_coupler is not None:
+                        actual = self.finger_coupler.actual_diagnostics(self.data.xmat[:])
+                        self._coupling_substep_actual_error_max = torch.maximum(
+                            self._coupling_substep_actual_error_max,
+                            actual['coupling_actual_error_deg'])
+                    if self.arm_collision_model is not None:
+                        self._query_and_sample_arm_collision()
                     if self.self_collision is not None:
                         self._sample_self_collision(count_substep=True)
                     if self.key_contact_diagnostics is not None:
@@ -558,6 +657,12 @@ class PianoScene:
                     if substep_callback is not None:
                         substep_callback(self)
             self.control_steps += 1
+            if self.finger_coupler is not None:
+                # The final substep target is the applied previous-action
+                # observation for the next control frame.
+                self.last_applied_physical_action = physical.clone()
+                follower_ids = self.finger_coupler.indices[:, 1:].flatten()
+                self.last_requested_physical_action[:, follower_ids] = physical[:, follower_ids]
             self.last_step_actuator_force[:] = self.data.actuator_force[:]
             if self.arm_ik is not None:
                 self.arm_ik.update()
@@ -567,12 +672,14 @@ class PianoScene:
             self.sim.forward()
             if self.finger_coupler is not None:
                 self.finger_coupling_metrics.update(self.finger_coupler.actual_diagnostics(self.data.xmat[:]))
+                self.finger_coupling_metrics['coupling_substep_actual_error_deg_max'] = (
+                    self._coupling_substep_actual_error_max.clone())
             if self.self_query_model is not None:
                 mjwarp.collision(self.self_query_model, self.self_query_data)
             if self.self_collision is not None:
                 self._sample_self_collision()
-            if self.arm_collision_model is not None:
-                mjwarp.collision(self.arm_collision_model,self.sim.wp_data)
+            # Arm query contacts were sampled after every physical substep;
+            # do not sample the endpoint again or double-count the last sample.
             if self.reward_sampling is not None:
                 self.reward_sampling.sample_contacts(
                     self.sim, contact_data=(self.self_query_data if self.hand_collision_detection_only else None))
@@ -593,7 +700,7 @@ class PianoScene:
     def state(self):
         q = self.data.qpos[:, self.key_qadr].clamp(self.key_limits[:, 0], self.key_limits[:, 1])
         return {'qpos': self.data.qpos[:], 'qvel': self.data.qvel[:],
-                'key_activation': (q - self.key_limits[:, 1]).abs() <= self.bundle.manifest['key_threshold'],
+                'key_activation': q >= self.key_limits[:, 1] * self.bundle.manifest['key_activation_fraction'],
                 'sustain': self.sustain, 'control_steps': self.control_steps}
 
     def cpu_snapshot(self, env_id=0):

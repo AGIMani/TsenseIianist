@@ -217,8 +217,8 @@ def test_recording_reference_resolves_clean_export_without_model_files(tmp_path)
 
 
 def test_fingering_switches_are_independent_of_general_overlay():
-    args=cli.parse_args(['--pt','best.pt','--no-overlay','--finger-labels'])
-    assert args.fingering and args.finger_labels and not args.overlay
+    args=cli.parse_args(['--pt','best.pt','--no-overlay'])
+    assert args.fingering and not args.overlay
     assert not cli.parse_args(['--pt','best.pt','--no-fingering']).fingering
 
 
@@ -318,3 +318,89 @@ def test_fingering_footer_reserves_vertical_space_without_zooming_out():
     up=(job.piano_corners(model)-gl.pos) @ gl.up
     pixels=720*(.5-up/settings['ortho_height_m'])
     assert pixels.min()>54 and pixels.max()<720-92
+
+
+def test_native_trained_arms_require_explicit_native_export(tmp_path,monkeypatch):
+    pt=tmp_path/'best.pt';pt.write_bytes(b'fixture')
+    (tmp_path/'config.json').write_text(json.dumps({'arm_follow':{'controller':'wuji_cartesian_v1'},'source_runtime':{'source_sha256':{'x':'y'}}}))
+    monkeypatch.setattr(cli,'select_archive',lambda *a,**k:pt)
+    args=cli.parse_args(['--pt',str(pt),'--video1','native','front','--plots','hand-joints'])
+    plan=cli.build_plan(args)
+    assert plan['videos'][0]['native_arms'] and plan['videos'][0]['arms']
+    args=cli.parse_args(['--pt',str(pt),'--video1','noarms','front','--plots','hand-joints'])
+    with pytest.raises(ValueError,match='requires native'):cli.build_plan(args)
+    args=cli.parse_args(['--pt',str(pt),'--video1','native','front'])
+    with pytest.raises(ValueError,match='hand-joints/tcp'):cli.build_plan(args)
+
+
+def test_native_recording_binary_keeps_geometry_when_xml_mesh_is_missing(tmp_path):
+    import mujoco
+    from replay_arm_ik import read_targets
+    folder=tmp_path/'kinematic_scene';folder.mkdir()
+    mesh=b'v 0 0 0\nv .1 0 0\nv 0 .1 0\nv 0 0 .1\nf 1 3 2\nf 1 2 4\nf 1 4 3\nf 2 3 4\n'
+    xml='''<mujoco><asset><mesh name="arm" file="right_Link1_R.obj"/></asset>
+      <worldbody><body name="right_/base_link"><joint type="slide" axis="1 0 0"/>
+      <geom type="mesh" mesh="arm"/></body><body name="left_/base_link" pos="0 1 0">
+      <joint type="slide" axis="0 1 0"/><geom type="mesh" mesh="arm"/></body></worldbody></mujoco>'''
+    original=mujoco.MjModel.from_xml_string(xml,assets={'right_Link1_R.obj':mesh})
+    mujoco.mj_saveLastXML(str(folder/'scene.xml'),original)
+    mujoco.mj_saveModel(original,str(folder/'model.mjb'))
+    with pytest.raises(ValueError,match='right_Link1_R.obj'):
+        job.load_recorded_model(tmp_path,native=False)
+    model=job.load_recorded_model(tmp_path,native=True)
+    np.testing.assert_array_equal(model.mesh_vert,original.mesh_vert)
+    np.testing.assert_array_equal(model.mesh_face,original.mesh_face)
+    trace=dict(time=np.array([0.,.005]),qpos=np.array([[0.,0.],[.01,.02]]),
+               mocap_pos=np.empty((2,0,3)),mocap_quat=np.empty((2,0,4)))
+    positions,rotations=read_targets(tmp_path,trace,model=model)
+    np.testing.assert_allclose(positions,[[[0,0,0],[0,1,0]],[[.01,0,0],[0,1.02,0]]])
+    np.testing.assert_allclose(rotations,np.broadcast_to(np.eye(3),(2,2,3,3)))
+
+
+def test_native_model_does_not_silently_fall_back_to_xml(tmp_path):
+    folder=tmp_path/'kinematic_scene';folder.mkdir()
+    (folder/'scene.xml').write_text('<mujoco/>')
+    with pytest.raises(FileNotFoundError,match='compiled model'):
+        job.load_recorded_model(tmp_path,native=True)
+
+
+def test_native_runtime_uses_venv_prefix_and_skips_non_native(tmp_path,monkeypatch):
+    root=tmp_path/'project';environment=tmp_path/'learner_env'
+    (environment/'bin').mkdir(parents=True)
+    (environment/'bin/python').write_text('fixture executable')
+    (root/'training_mjlab').mkdir(parents=True)
+    (root/'training_mjlab/.venv').symlink_to(environment,target_is_directory=True)
+    config=tmp_path/'config.json';config.write_text(json.dumps({'arm_follow':{'enabled':True}}))
+    plan={'config':str(config)}
+    monkeypatch.setattr(job,'ROOT',root)
+    monkeypatch.setattr(job.sys,'prefix',str(tmp_path/'composer'))
+    assert job.native_render_python(plan)==root/'training_mjlab/.venv/bin/python'
+    monkeypatch.setattr(job.sys,'prefix',str(environment))
+    assert job.native_render_python(plan) is None
+    config.write_text('{}')
+    monkeypatch.setattr(job.sys,'prefix',str(tmp_path/'composer'))
+    assert job.native_render_python(plan) is None
+
+
+def test_native_runtime_reexec_happens_before_recording_or_workspace(tmp_path,monkeypatch):
+    planfile=tmp_path/'plan.json';planfile.write_text(json.dumps({'output':str(tmp_path)}))
+    python=tmp_path/'learner/bin/python'
+    monkeypatch.setattr(sys,'argv',['export_video_job.py','--plan',str(planfile)])
+    monkeypatch.setenv('SLURM_JOB_ID','123')
+    monkeypatch.setattr(job,'native_render_python',lambda plan:python)
+    monkeypatch.setattr(job,'run',lambda plan:pytest.fail('run called before learner re-exec'))
+    class Reentered(BaseException):pass
+    calls=[]
+    def execute(executable,arguments):
+        calls.append((executable,arguments));raise Reentered
+    monkeypatch.setattr(job.os,'execv',execute)
+    with pytest.raises(Reentered):job.main()
+    assert calls==[(str(python),[str(python),str(Path(job.__file__).resolve()),'--plan',str(planfile)])]
+
+
+def test_recovery_reuses_hashed_recording_without_rerunning_policy(tmp_path,monkeypatch):
+    recording=tmp_path/'recording';recording.mkdir()
+    (recording/'physics_trace.npz').write_bytes(b'original replay')
+    plan={'recording':str(recording),'recording_sha256':{'physics_trace.npz':cli.sha256(recording/'physics_trace.npz')}}
+    monkeypatch.setattr(job.subprocess,'run',lambda *a,**k:pytest.fail('recovery reran policy'))
+    assert job.record_once(plan,tmp_path/'new_job')==recording

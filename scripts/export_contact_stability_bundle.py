@@ -27,7 +27,7 @@ def export(scene_path, task_path, output):
         raise FileExistsError(f'Refusing to overwrite a frozen bundle: {output}')
     m = source.model
     fingers = [m.joint(int(m.actuator_trnid[a, 0])).name for a in range(m.nu)
-               if not m.actuator(a).name.startswith(('R_Wrist_', 'L_Wrist_'))]
+               if not m.actuator(a).name.startswith(('R_Palm_Base_', 'L_Palm_Base_'))]
     if len(fingers) != 40 or len(set(fingers)) != 40:
         raise ValueError('Expected exactly 40 independent finger hinges')
     if m.npair:
@@ -87,7 +87,7 @@ def export(scene_path, task_path, output):
     for name in fingers:
         assert loaded.model.dof_armature[loaded.model.joint(name).dofadr[0]] == PROVISIONAL_FINGER_ARMATURE
     for aid in range(m.nu):
-        if m.actuator(aid).name.startswith(('R_Wrist_', 'L_Wrist_')):
+        if m.actuator(aid).name.startswith(('R_Palm_Base_', 'L_Palm_Base_')):
             np.testing.assert_array_equal(loaded.model.actuator_gainprm[aid], m.actuator_gainprm[aid])
             np.testing.assert_array_equal(loaded.model.actuator_biasprm[aid], m.actuator_biasprm[aid])
         else:

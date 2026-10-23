@@ -5,7 +5,71 @@ import struct
 import xml.etree.ElementTree as ET
 
 import numpy as np
+from scipy.spatial import ConvexHull
 from scipy.spatial.transform import Rotation
+
+LANDMARK_METHOD = "urdf_chain_distal_support_v1"
+FINGERTIP_SETBACK_M = 0.003
+
+
+def distal_direction(root, link_name):
+    """Find the outward phalanx direction from the URDF, not a named local axis.
+
+    A terminal hinge's origin connects the preceding joint pivot to this pivot.
+    Express that displacement in the terminal link frame and remove its hinge
+    axis component (the lateral offset between the two bearing planes). This
+    preserves the direction under a rigid change of link coordinates and the
+    project's right-hand reflection. It is not a measured contact-pad normal.
+    """
+    joints = [j for j in root.findall("joint")
+              if j.find("child").get("link") == link_name]
+    if len(joints) != 1 or joints[0].get("type") not in ("revolute", "continuous"):
+        raise ValueError(f"Distal landmark requires one incoming hinge: {link_name}")
+    joint = joints[0]
+    parent = joint.find("parent").get("link")
+    preceding = [j for j in root.findall("joint")
+                 if j.find("child").get("link") == parent]
+    if len(preceding) != 1 or preceding[0].get("type") not in ("revolute", "continuous"):
+        raise ValueError(f"Distal landmark requires a preceding hinge pivot: {link_name}")
+    origin = joint.find("origin")
+    if origin is None:
+        raise ValueError(f"Missing distal joint displacement: {link_name}")
+    rotation = Rotation.from_euler("xyz", np.fromstring(origin.get("rpy", "0 0 0"), sep=" "))
+    displacement = rotation.inv().apply(np.fromstring(origin.get("xyz", "0 0 0"), sep=" "))
+    axis_element = joint.find("axis")
+    axis = np.fromstring("1 0 0" if axis_element is None else axis_element.get("xyz"), sep=" ")
+    if axis.shape != (3,) or not np.isfinite(axis).all() or np.linalg.norm(axis) < 1e-10:
+        raise ValueError(f"Invalid distal hinge axis: {link_name}")
+    axis /= np.linalg.norm(axis)
+    direction = displacement - axis * np.dot(displacement, axis)
+    length = np.linalg.norm(direction)
+    if not np.isfinite(length) or length < 1e-6:
+        raise ValueError(f"Cannot infer distal direction from coincident hinge pivots: {link_name}")
+    return direction / length
+
+
+def distal_support_center(vertices, direction):
+    """Center the exposed distal face/edge, invariant to interior tessellation.
+
+    All returned points are convex combinations of mesh support vertices. A
+    change of link coordinates cannot select the lateral shell as the tip.
+    """
+    projection = vertices @ direction
+    support = vertices[projection >= projection.max() - 1e-9]
+    center = support.mean(axis=0)
+    if len(support) == 1:
+        return center
+    _, values, basis = np.linalg.svd(support - center, full_matrices=False)
+    if len(values) < 2 or values[1] < 1e-9:
+        along = (support - center) @ basis[0]
+        return center + basis[0] * ((along.min() + along.max()) / 2)
+    plane = (support - center) @ basis[:2].T
+    boundary = ConvexHull(plane).vertices
+    polygon = plane[boundary]
+    following = np.roll(polygon, -1, axis=0)
+    cross = polygon[:, 0] * following[:, 1] - following[:, 0] * polygon[:, 1]
+    centroid = ((polygon + following) * cross[:, None]).sum(axis=0) / (3 * cross.sum())
+    return center + centroid @ basis[:2]
 
 
 def read_stl_vertices(path):
@@ -25,13 +89,14 @@ def read_stl_vertices(path):
 def measure_distal_tip(urdf_path, link_name):
     """Return a provisional distal-face landmark in the URDF link frame, metres.
 
-    V3.2 has flat/tied distal extrema rather than V2's unique farthest vertex.
-    Use the bounding-box midpoint of the local +Z extreme vertices as an
-    explicit, provisional reward landmark, independent of mesh tessellation.
+    Select the distal support surface along the joint-chain direction. The
+    latest A3.2 export uses a different local frame: local +Z points sideways
+    along the bearing axis and must not be interpreted as the finger's length.
     TODO(V32-07): Replace with the measured contact-pad center/geometry.
     """
     urdf_path = Path(urdf_path).resolve()
-    link = ET.parse(urdf_path).getroot().find(f"link[@name='{link_name}']")
+    root = ET.parse(urdf_path).getroot()
+    link = root.find(f"link[@name='{link_name}']")
     if link is None:
         raise ValueError(f"Missing URDF link: {link_name}")
     clouds = []
@@ -52,6 +117,19 @@ def measure_distal_tip(urdf_path, link_name):
     if not clouds:
         raise ValueError(f"No collision mesh for {link_name}")
     vertices = np.unique(np.concatenate(clouds), axis=0)
-    distal = vertices[vertices[:, 2] == vertices[:, 2].max()]
-    point = (distal.min(axis=0) + distal.max(axis=0)) / 2
+    point = distal_support_center(vertices, distal_direction(root, link_name))
+    return tuple(float(value) for value in point)
+
+
+@lru_cache(maxsize=16)
+def measure_fingertip_target(urdf_path, link_name):
+    """Reward/observation point, 3 mm toward the palm along the distal segment.
+
+    The physical support landmark remains unchanged for collision construction
+    and coupling orientation. This setback does not identify a pad normal or
+    move the mesh; it is attached to the terminal link, not a world-space axis.
+    """
+    root = ET.parse(urdf_path).getroot()
+    point = np.asarray(measure_distal_tip(urdf_path, link_name))
+    point = point - FINGERTIP_SETBACK_M * distal_direction(root, link_name)
     return tuple(float(value) for value in point)

@@ -48,7 +48,7 @@ def summarize(run, steps, graph, seed):
         assert (run/'forward.pt').is_file()
     assert not list(run.glob('step-*.pt'))
     for row in config['action_contract']['channels']:
-        if row['name'].endswith('_Wrist_Pitch'):
+        if row['name'].endswith('_Palm_Base_Pitch'):
             assert abs(row['physical_min']+.16) < 1e-10 and abs(row['physical_max']-.16) < 1e-10
     fraction = config['scheduling']['update_ratio_fraction']
     expected = max(0, summary['transitions']-config['learning_start_transition_1_based']+1)*fraction[0]//fraction[1]

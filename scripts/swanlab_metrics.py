@@ -18,17 +18,20 @@ LEGACY_REWARDS = (
 )
 REWARD_NAMES = frozenset((*LEGACY_REWARDS, "self_collision_reward",
     "false_press_penalty", "humanoid_finger_gesture_reward", "finger_speed_reward", "joint_motion_limit_penalty",
+    "arm_motion_limit_penalty", "arm_tracking_error_penalty",
     "wrist_pitch_reward",
     "forward_press_reward", *(f"{group}_{kind}_reward"
         for group in ("forearm", "wrist", "finger")
         for kind in ("power", "velocity", "acceleration"))))
 TRAIN_FIELDS = ("actor_loss", "critic_loss", "entropy", "q", "temperature",
                 "temperature_loss")
+ARM_TRACKING_FIELDS = ("requested_peak_m", "ik_target_peak_m", "over_1mm_substeps",
+    "sampled_substeps", "within_1mm_substep_fraction", "over_1mm_entry_events",
+    "over_1mm_control_steps", "sampled_control_steps")
 EVAL_FIELDS = (
     "return", "length", "completed_episodes", "truncated_episodes",
     "evaluation_episodes", "metric_sample_hz", "music_frames",
-    "music_only_f1", "music_only_f1_min", "music_only_micro_f1",
-    "music_only_micro_f1_min", "key_frame_micro_f1", "sustain_f1",
+    "key_frame_micro_f1", "sustain_f1",
     "sustain_recall", "sustain_precision", "preparation_frames",
     "preparation_wrong_key_frames", "preparation_wrong_key_frames_max",
     "preparation_wrong_key_count", "extra_buffer_frames",
@@ -37,16 +40,15 @@ EVAL_FIELDS = (
     "substep_key_diagnostics_coverage", "substep_key_coverage",
     "substep_key_sample_hz", "motion_sample_hz",
     "music_end_frame", "release_tail_steps", "release_tail_frames",
-    "release_tail_substep_key_micro_f1", "release_tail_substep_key_micro_f1_min",
     *(name + maximum
       for name in ("release_tail_wrong_key_frames", "release_tail_wrong_key_count",
                    "release_tail_end_active_keys", "release_tail_wrong_key_substeps",
                    "release_tail_wrong_key_key_substeps")
       for maximum in ("", "_max")),
     *(prefix + suffix + maximum
-      for prefix in ("", "music_only_", "preparation_")
-      for suffix in ("wrong_key_substeps", "wrong_key_key_substeps", "substep_key_micro_f1")
-      for maximum in ("", "_max" if suffix != "substep_key_micro_f1" else "_min")),
+      for prefix in ("", "preparation_")
+      for suffix in ("wrong_key_substeps", "wrong_key_key_substeps")
+      for maximum in ("", "_max")),
     *(name + maximum
       for name in ("hand_collision_frames", "self_collision_frames", "inter_hand_collision_frames",
                    "self_collision_pair_frames", "inter_hand_collision_pair_frames",
@@ -94,30 +96,6 @@ def metric_order(config: Mapping) -> list[str]:
                        for index, name in enumerate(_reward_names(config), 4))]
 
 
-def _music_micro(evaluation, *, substeps=False):
-    rows = evaluation.get("episode_statistics")
-    if not isinstance(rows, list) or not rows:
-        return {}
-    prefix = "music_only_substep_" if substeps else "music_"
-    fields = [prefix + name + "_count" for name in
-              ("true_positive", "false_positive", "false_negative")]
-    # All episodes must have all counts. Do not create an optimistic partial sum.
-    if any(not isinstance(row, Mapping) or any(
-            not _finite(row.get(name)) or row[name] < 0 or row[name] % 1
-            for name in fields) for row in rows):
-        return {}
-    tp, fp, fn = (sum(row[name] for row in rows) for name in fields)
-    label = "music_only_substep_key_micro_" if substeps else "music_only_micro_"
-    result = {}
-    for name, numerator, denominator in (
-        ("f1", 2 * tp, 2 * tp + fp + fn),
-        ("recall", tp, tp + fn), ("precision", tp, tp + fp),
-    ):
-        if denominator:
-            result["evaluation/" + label + name] = numerator / denominator
-    return result
-
-
 def scalars_from_record(record: Mapping, config: Mapping) -> dict[str, float]:
     """Convert one JSONL row; preserve chart order and omit unavailable values.
 
@@ -144,19 +122,25 @@ def scalars_from_record(record: Mapping, config: Mapping) -> dict[str, float]:
             extra["evaluation/" + field] = float(evaluation[field])
     if type(evaluation.get('release_tail_complete')) is bool:
         extra['evaluation/release_tail_complete'] = float(evaluation['release_tail_complete'])
-    extra.update(_music_micro(evaluation))
-    extra.update(_music_micro(evaluation, substeps=True))
     for group, data, fields in (
         ("reward_raw", record.get("reward_raw_terms"), _reward_names(config)),
         ("train", record.get("train"), TRAIN_FIELDS),
         ("train_episodes", record.get("episodes"), ("count", "mean_return", "mean_f1")),
         ("training", record, ("vector_step", "transitions", "updates", "replay_size",
                                "loop_transitions_per_second")),
+        ("arm_tracking", record.get("arm_tracking"), ARM_TRACKING_FIELDS),
+        ("evaluation_arm_tracking", evaluation.get("arm_tracking"), ARM_TRACKING_FIELDS),
     ):
         data = _mapping(data)
         for field in fields:
             if _finite(data.get(field)):
                 extra[f"{group}/{field}"] = float(data[field])
+    for group, data in (("arm_tracking", record.get("arm_tracking")),
+                        ("evaluation_arm_tracking", evaluation.get("arm_tracking"))):
+        sides = _mapping(_mapping(data).get("over_1mm_side_substeps"))
+        for side in ("right", "left"):
+            if _finite(sides.get(side)):
+                extra[f"{group}/over_1mm_{side}_substeps"] = float(sides[side])
     return {**result, **dict(sorted(extra.items()))}
 
 
@@ -192,6 +176,8 @@ _TOP_NUMERIC = ("stage", "num_envs", "replay_capacity", "batch_size", "warmup_ve
 _TOP_BOOL = ("no_arms", "disable_wrist_tz", "disable_wrist_yaw",
     "hand_collision_detection_only", "self_collision_detection_only", "collision_diagnostics")
 _ENUMS = {
+    "contract": {"physical_key_fingering_exact_activation100_v1"},
+    "reward_contract": {"physical_key_fingering_exact_activation100_v1"},
     "action_profile": {"legacy", "mixed_v1", "direct_joint_v1", "shadow_v1"},
     "weight_stage": {"current", "stage1", "stage2_canon", "stage2_other"},
     "action_units": {"physical", "normalized"}, "regularization_shaping": {"identity"},
@@ -199,9 +185,18 @@ _ENUMS = {
     "trajectory": {"quintic_v1"}, "task_profile": {"tsensei_v1", "tsensei_collision_v1"},
     "collision_profile": {"legacy_mesh_v1", "convex_hull_v1", "shadow_primitive_v1"},
     "drive_profile": {"legacy_v1", "shadow_v1"},
-    "best_metric": {"music_only_f1_min"},
-    "chord_scope": {"same_hand", "both_hands"},
+    "best_metric": {"f1"},
+    "chord_scope": {"on", "whole_key"},
     "score_validation": {"legacy", "strict_v1"},
+    "reward_target": {"original_midi_physical_substeps", "control_grid_per_physical_substep"},
+    "reward_state": {"post_physics_substep_mean"},
+    "key_correct_signal": {"continuous_gaussian_key_travel"},
+    "key_wrong_signal": {"physical_key_activation_count"},
+    "other_rewards": {"shadow_control_frame_before_action_endpoint"},
+    "schema": {"exact_note_events_v1"},
+    "interval": {"start_inclusive_end_exclusive"},
+    "physical_sample_time": {"post_step"},
+    "observation": {"next_on_off_seconds_v1"},
 }
 
 
@@ -239,7 +234,7 @@ def public_config(config: Mapping) -> dict:
         "replay_prefill": (("episodes", "episode_steps", "required_vector_steps", "required_transitions",
             "requested_learning_start_transition_1_based", "effective_learning_start_transition_1_based"),
             ("resolved",), ()),
-        "evaluation_selection": (("target_music_f1", "target_micro_f1", "consecutive_evaluations",
+        "evaluation_selection": (("consecutive_evaluations",
             "max_preparation_wrong_frames", "max_hand_collision_frames", "max_key_underside_substeps"),
             ("save_best", "eval_at_start", "require_complete_episodes", "require_full_collision_coverage"),
             ("best_metric",)),
@@ -254,7 +249,7 @@ def public_config(config: Mapping) -> dict:
     reward = _mapping(config.get("reward_config"))
     if reward:
         clean = _pick(reward, ("schema", "reference_dt"), ("scale_by_dt",),
-                      ("weight_stage", "action_units", "regularization_shaping"))
+                      ("contract", "weight_stage", "action_units", "regularization_shaping"))
         clean["terms"] = {}
         for name, term in sorted(_mapping(reward.get("terms")).items()):
             if name not in REWARD_NAMES or not isinstance(term, Mapping):
@@ -263,14 +258,25 @@ def public_config(config: Mapping) -> dict:
             clean_term["params"] = _pick(term.get("params"),
                 ("coefficient", "limit", "bonus", "threshold", "maximum_per_finger", "sigma",
                  "maximum_total", "lookahead_seconds", "missed_key_fraction", "clearance_scale",
-                 "posture_fraction", "score_multiplier"), ("chord_bonus",), ("mode", "chord_scope"))
+                 "posture_fraction", "score_multiplier", "error_scale_m",
+                 "maximum_penalty_per_step", "soft_limit_ratio", "full_penalty_excess"),
+                ("chord_bonus",), ("mode", "chord_scope"))
             clean["terms"][name] = clean_term
         if "performance" in reward:
             clean["performance"] = _pick(reward["performance"],
-                ("anticipatory_fingering_time", "target_key_activation_weight"),
-                ("staged_fingering_reward", "substep_rewards", "target_key_substep_reward",
-                 "anticipatory_current_priority"))
+                ("anticipatory_fingering_time", "upcoming_press_permission_time"),
+                ("exact_note_timing",))
         result["reward_config"] = clean
+    timing = _mapping(config.get("score_timing_contract"))
+    if timing:
+        result["score_timing_contract"] = _pick(timing,
+            ("control_dt", "physics_dt", "music_end_step", "release_tail_steps"), (),
+            ("reward_contract", "reward_target", "reward_state", "key_correct_signal",
+             "key_wrong_signal", "other_rewards", "score_validation"))
+        if "exact_events" in timing:
+            result["score_timing_contract"]["exact_events"] = _pick(timing["exact_events"],
+                ("observation_size", "absent_event", "observation_horizon"), (),
+                ("schema", "interval", "physical_sample_time", "observation"))
     runtime = _mapping(config.get("source_runtime"))
     if runtime:
         result["environment"] = _pick(runtime.get("environment"),

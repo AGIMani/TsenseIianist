@@ -12,6 +12,8 @@ import numpy as np
 from scipy.optimize import least_squares
 from scipy.spatial.transform import Rotation
 
+from .interactive_ik import damped_least_squares_step
+
 ASSETS = Path(__file__).parent / 'assets' / 'tj_m6'
 if not ASSETS.is_dir():
     # Optional arm assets live with the preview, outside A3.2 training assets.
@@ -156,7 +158,7 @@ class ArmPreview:
         self.handle_ids = {side:int(m.body_mocapid[m.body(body.full_identifier).id])
                            for side,body in self.handles.items()}
         self.wrist_actuators = {side: [i for i in range(m.nu)
-                                      if f'{side[0].upper()}_Wrist_' in (m.actuator(i).name or '')]
+                                      if f'{side[0].upper()}_Palm_Base_' in (m.actuator(i).name or '')]
                                for side in self.sides}
         self.handle_last = {}
         self.hand_work = mujoco.MjData(m)
@@ -275,7 +277,7 @@ class ArmPreview:
                 if np.linalg.norm(error)<1e-6: break
                 mujoco.mj_jacBody(m,work,jp,jr,bid)
                 jac=np.vstack((jp[:,dof], .15*jr[:,dof]))
-                delta=jac.T@np.linalg.solve(jac@jac.T+1e-6*np.eye(6),error)
+                delta=damped_least_squares_step(jac,error,1e-3)
                 work.qpos[adr]=np.clip(work.qpos[adr]+delta,m.jnt_range[jids,0],m.jnt_range[jids,1])
             actual.ctrl[aids]=work.qpos[adr]
 
@@ -324,7 +326,7 @@ class ArmPreview:
                     mujoco.mj_jacSite(self.model, self.data, self.jacp, self.jacr, arm['sid'])
                     jac = np.vstack((self.jacp[:,arm['dof']],
                         self.config['orientation_weight_m']*self.jacr[:,arm['dof']]))
-                    delta = jac.T @ np.linalg.solve(jac@jac.T+self.config['damping']**2*np.eye(6), error)
+                    delta = damped_least_squares_step(jac, error, self.config['damping'])
                     q = np.clip(q+delta, low, high)
                 if np.linalg.norm(residual(q)) < 1e-5:
                     chosen = candidate

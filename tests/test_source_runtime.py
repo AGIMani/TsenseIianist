@@ -84,33 +84,20 @@ class SourceRuntimeChecks(unittest.TestCase):
         rebuilt_scene, rebuilt_task, _ = runtime.build(json.loads(json.dumps(recipe)))
         self.assertEqual(expected, (sha256(rebuilt_scene/'manifest.json'), sha256(rebuilt_task/'task.json')))
 
-    def test_thumb_distances_survive_source_json_and_legacy_missing_field(self):
-        from tsensei_v3_2_pianist.fingering_targets import options_from_manifest, target_position
-        recipe = runtime.make_recipe(initial_buffer_time=0, task_profile='tsensei_collision_v1',
-                                     thumb_white_target_distance=.02, thumb_black_target_distance=.015)
-        recipe = json.loads(json.dumps(recipe))
-        # Diagnostics rebuild by unpacking a saved environment mapping.
-        rebuilt_recipe = runtime.make_recipe(**recipe['environment'])
-        self.assertEqual(rebuilt_recipe['environment'], recipe['environment'])
-        scene_path, task_path, _ = runtime.build(recipe)
+    def test_current_all_finger_target_contract(self):
+        from tsensei_v3_2_pianist.fingering_targets import manifest_config, target_position, key_reference
+        recipe = runtime.make_recipe(initial_buffer_time=0, task_profile='tsensei_collision_v1')
+        scene_path, task_path, _ = runtime.build(json.loads(json.dumps(recipe)))
         scene = SceneBundle(scene_path)
         task = TaskBundle(task_path, scene)
-        options = options_from_manifest(task.manifest['fingering_target'], 'tsensei_collision_v1')
-        self.assertEqual(options, recipe['environment']['thumb_target'])
-        self.assertEqual(options, task.manifest['contract']['environment']['thumb_target'])
+        self.assertEqual(task.manifest['fingering_target'], manifest_config('tsensei_collision_v1'))
         for name in task.manifest['key_geoms']:
             geom = scene.model.geom(name)
-            distance = .02 if 'white_key_geom' in name else .015
-            offset = target_position(np.zeros(3), geom.size, name, thumb=True,
-                                     task_profile='tsensei_collision_v1', thumb_target=options)
-            self.assertAlmostEqual(offset[0], geom.size[0] - distance)
-        # Old source recipes had no options field: Shadow keeps uniform targets,
-        # not the new user-specified distances from a different recipe.
-        recipe['environment'].pop('thumb_target')
-        legacy_scene, legacy_task, _ = runtime.build(recipe)
-        legacy = TaskBundle(legacy_task, SceneBundle(legacy_scene))
-        self.assertEqual(legacy.manifest['fingering_target']['schema'], 1)
-        self.assertIsNone(legacy.manifest['fingering_target']['thumb'])
+            distance = .040 if 'white_key_geom' in name else .020
+            _, size = key_reference(scene.model, geom.id)
+            offset = target_position(np.zeros(3), size, name, task_profile='tsensei_collision_v1')
+            self.assertAlmostEqual(offset[0], size[0] - distance)
+        with self.assertRaises(TypeError): runtime.make_recipe(thumb_white_target_distance=.02)
 
 
 if __name__ == '__main__':

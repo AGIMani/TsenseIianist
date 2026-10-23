@@ -15,7 +15,11 @@ CONNECTOR = ROOT / 'configs/preview/hand_connector_20260930.json'
 # CCS-696 V4.0's SDK couples the nominal J6/J7 position region.  These are
 # the SI values reconstructed from ccs_m6_40.MvKDCfg/FxRobot.cpp and are kept
 # in the resolved arm contract so online IK and replay share one convention.
-ARM_CONTROLLER = 'rigid_wrist_command'
+ARM_CONTROLLER = 'wuji_cartesian_v1'
+DEFAULT_INITIAL_DEG = {
+    'right': [-84.27055, -68.29417, 61.39675, -89.05803, -64.834334, 27.92905, -7.30834],
+    'left': [84.27055, -68.29417, -61.39675, -89.05803, 64.834334, 27.92905, -7.30834],
+}
 CCS696_COUPLING = dict(
     constraint='ccs696_j6_j7_absolute',
     j6_index=5,
@@ -41,22 +45,22 @@ def connector_sources():
 
 
 def add_arguments(parser):
-    parser.add_argument('--arms', action='store_true', help='Enable kinematic M6 followers; explicit initial angles required')
+    parser.add_argument('--arms', action='store_true', help='Enable ROSELIA-style Cartesian M6 followers')
     for side in SIDES:
-        parser.add_argument(f'--arm-initial-{side}-deg', nargs=7, type=float, default=None,
-                            metavar='ANGLE', help=f'{side} SDK/URDF J1..J7 initial angles in degrees; no default')
+        parser.add_argument(f'--arm-initial-{side}-deg', nargs=7, type=float,
+                            default=None, metavar='ANGLE',
+                            help=f'{side} SDK/URDF J1..J7 initial angles in degrees')
+    parser.add_argument('--arm-ik-backend', choices=('torch', 'numba_cpu'), default='torch',
+                        help='IK execution backend; same controller and hard constraints')
     parser.add_argument('--arm-mount', type=Path, default=None,
                         help='Explicit link7_to_hand transforms JSON; defaults to the current four-hole connector assembly')
 
 
 def from_args(args):
     if not args.arms:
-        if args.arm_mount is not None or any(getattr(args, f'arm_initial_{side}_deg') is not None for side in SIDES):
+        if args.arm_mount is not None:
             raise ValueError('Arm parameters require --arms')
         return None
-    missing = [f'--arm-initial-{s}-deg' for s in SIDES if getattr(args, f'arm_initial_{s}_deg') is None]
-    if missing:
-        raise ValueError('无法开启机械臂训练：必须显式提供初始关节角 ' + ' / '.join(missing))
     mount = args.arm_mount or CONNECTOR
     mount_raw = Path(mount).read_bytes()
     if args.arm_mount is None:
@@ -70,15 +74,18 @@ def from_args(args):
         tools = json.loads(mount_raw)['link7_to_hand']
     limits_raw = (ROOT / 'configs/preview/m6_sdk_joint_limits.json').read_bytes()
     sdk = json.loads(limits_raw)
-    result = dict(controller=ARM_CONTROLLER, initial_q_rad={}, link7_to_hand={},
-                  joint_limits={}, source_sha256={}, substep_ik=True,
+    result = dict(controller=ARM_CONTROLLER, execution_backend=getattr(args, 'arm_ik_backend', 'torch'), mode='cartesian_palm_position',
+                  action_frame='world', action_channels=('TX', 'TY', 'TZ'),
+                  position_bounds_m={'x': [-.025, .025], 'y': [-.10, .10], 'z': [-.025, .025]},
+                  orientation='fixed_installed_palm_down', initial_q_rad={}, link7_to_hand={},
+                  joint_limits={}, source_sha256={}, cartesian_ik=True,
                   coupling=deepcopy(CCS696_COUPLING),
                   failure_policy='bounded_reference', observation='q_v_reference_pose_error_each_side',
                   soft_limit_ratio=.95, full_penalty_excess=.1, maximum_penalty_per_step=5.,
                   penalty_aggregation='physics_substep_max_per_control_step',
                   iterations=12, orientation_weight_m=.15, damping=.008)
     for side in SIDES:
-        angles = getattr(args, f'arm_initial_{side}_deg')
+        angles = getattr(args, f'arm_initial_{side}_deg') or DEFAULT_INITIAL_DEG[side]
         if len(angles) != 7 or any(not math.isfinite(v) for v in angles):
             raise ValueError(f'{side}: seven finite initial angles required')
         urdf = ASSETS / side / 'arm.urdf'
@@ -112,9 +119,15 @@ def canonical(value):
     if value is None:
         return None
     result = deepcopy(value)
-    if (set(result) & {'schema', 'mode'} or result.get('controller') != ARM_CONTROLLER
-            or result.get('failure_policy') != 'bounded_reference' or result.get('substep_ik') is not True):
-        raise ValueError('Arm follower contract must use the current rigid_wrist_command controller without schema versions')
+    if result.get('execution_backend', 'torch') not in ('torch', 'numba_cpu'):
+        raise ValueError('Unknown arm IK execution backend')
+    if (result.get('controller') != ARM_CONTROLLER or result.get('mode') != 'cartesian_palm_position'
+            or result.get('action_frame') != 'world'
+            or tuple(result.get('action_channels', ())) != ('TX', 'TY', 'TZ')
+            or result.get('orientation') != 'fixed_installed_palm_down'
+            or result.get('failure_policy') != 'bounded_reference'
+            or result.get('cartesian_ik') is not True):
+        raise ValueError('Arm follower contract must use wuji_cartesian_v1')
     if result.get('coupling') != CCS696_COUPLING:
         raise ValueError('Arm follower requires the resolved CCS-696 J6/J7 coupling contract')
     if (result.get('soft_limit_ratio') != .95 or result.get('full_penalty_excess') != .1

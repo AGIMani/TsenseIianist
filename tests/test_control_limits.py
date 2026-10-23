@@ -9,6 +9,7 @@ import unittest
 import torch
 
 from tsensei_v3_2_pianist.mjlab_env.control_limits import canonical,resolve,TargetLimiter
+from tsensei_v3_2_pianist.mjlab_env.reward_config import template
 from tests.test_paper_rewards import scene_fixture
 
 
@@ -31,29 +32,29 @@ class ControlLimitsTest(unittest.TestCase):
 
     def test_none_identity_and_canonical_determinism(self):
         self.assertIsNone(canonical(None));self.assertIsNone(self.resolve(None))
-        a=config(R_Wrist_TX={'max_velocity':1,'max':.1,'min':-.1})
+        a=config(R_Palm_Base_Tx={'max_velocity':1,'max':.1,'min':-.1})
         self.assertEqual(canonical(a),canonical(json.loads(json.dumps(a))))
-        self.assertEqual(a['channels']['R_Wrist_TX']['max_velocity'],1)
+        self.assertEqual(a['channels']['R_Palm_Base_Tx']['max_velocity'],1)
         resolved=self.resolve(a)
-        self.assertEqual(resolved['channels']['R_Wrist_TX']['velocity_unit'],'m/s')
-        self.assertEqual(resolved['channels']['R_Wrist_TX']['original_min'],-.7605)
-        self.assertEqual(resolved['channels']['R_Wrist_TX']['reset_target'],0.)
+        self.assertEqual(resolved['channels']['R_Palm_Base_Tx']['velocity_unit'],'m/s')
+        self.assertEqual(resolved['channels']['R_Palm_Base_Tx']['original_min'],-.7605)
+        self.assertEqual(resolved['channels']['R_Palm_Base_Tx']['reset_target'],0.)
 
     def test_invalid_fields_names_fixed_channels_and_ranges(self):
-        values=[{},dict(schema=True,mode='target_clip_slew_v1',channels={'R_Wrist_TX':{'min':0}}),
-            config(sustain={'max_velocity':1}),config(R_Wrist_TZ={'max_velocity':1}),
-            config(R_Wrist_Yaw={'max_velocity':1}),config(unknown={'max_velocity':1}),
-            config(R_Wrist_TX={'min':.01}),config(R_Wrist_TY={'max':.03}),
-            config(R_Wrist_TX={'max':2.}),config(R_Wrist_TX={'min':0.,'max':0.}),
-            config(R_Wrist_TX={'max_velocity':0.}),config(R_Wrist_TX={'max_velocity':float('nan')}),
-            config(R_Wrist_TX={'min':True}),config(R_Wrist_TX={'typo':1}),
-            config(R_Wrist_TX={})]
+        values=[{},dict(schema=True,mode='target_clip_slew_v1',channels={'R_Palm_Base_Tx':{'min':0}}),
+            config(sustain={'max_velocity':1}),config(R_Palm_Base_Tz={'max_velocity':1}),
+            config(R_Palm_Base_Yaw={'max_velocity':1}),config(unknown={'max_velocity':1}),
+            config(R_Palm_Base_Tx={'min':.01}),config(R_Palm_Base_Ty={'max':.03}),
+            config(R_Palm_Base_Tx={'max':2.}),config(R_Palm_Base_Tx={'min':0.,'max':0.}),
+            config(R_Palm_Base_Tx={'max_velocity':0.}),config(R_Palm_Base_Tx={'max_velocity':float('nan')}),
+            config(R_Palm_Base_Tx={'min':True}),config(R_Palm_Base_Tx={'typo':1}),
+            config(R_Palm_Base_Tx={})]
         for value in values:
             with self.subTest(value=value),self.assertRaises(ValueError):self.resolve(value)
 
     def test_clip_then_rate_limit_from_previous_issued_target(self):
-        limits=self.resolve(config(R_Wrist_TX={'min':-.1,'max':.1,'max_velocity':.2},
-                                  R_Wrist_TY={'max':.08}))
+        limits=self.resolve(config(R_Palm_Base_Tx={'min':-.1,'max':.1,'max_velocity':.2},
+                                  R_Palm_Base_Ty={'max':.08}))
         limiter=TargetLimiter(limits,device='cpu')
         previous=torch.tensor(self.scene['neutral_action']).expand(2,-1).clone()
         previous[1,20]=.04
@@ -71,7 +72,7 @@ class ControlLimitsTest(unittest.TestCase):
         torch.testing.assert_close(next_applied[:,20],torch.tensor([.02,.06]))
 
     def test_partial_reset_uses_actual_reset_and_leaves_other_world(self):
-        limiter=TargetLimiter(self.resolve(config(R_Wrist_TX={'max_velocity':.2})),device='cpu')
+        limiter=TargetLimiter(self.resolve(config(R_Palm_Base_Tx={'max_velocity':.2})),device='cpu')
         previous=torch.tensor(self.scene['neutral_action']).expand(2,-1).clone()
         requested=previous.clone();requested[:,20]=.4
         previous=limiter.apply(requested,previous)[0]
@@ -91,13 +92,16 @@ class GPUControlLimitsTest(unittest.TestCase):
             scene=Path(temporary)/'scene';scene.mkdir();write_fixture(scene)
             task=Path(temporary)/'task';write_task(scene,task)
             options=dict(num_envs=2,disable_wrist_tz=True,disable_wrist_yaw=True,preparation=POLICY)
-            control=config(right_actuator_0={'min':0.,'max':.3,'max_velocity':1.})
+            control=config(R_Thumb_Rot={'min':0.,'max':.3,'max_velocity':1.})
+            reward = template()
+            reward['terms']['key_press_reward']['enabled'] = False
             # Simulate a historical task whose reset action observation differs
             # from real ctrl; the limiter must expose true previous applied state.
             tm=json.loads((task/'task.json').read_text());tm['reset_action']=[-.25]*51
             (task/'task.json').write_text(json.dumps(tm))
             for graph in (False,True):
-                env=PianoTaskEnv(scene,task,physics_graph=graph,control_limits=control,**options)
+                env=PianoTaskEnv(scene,task,physics_graph=graph,control_limits=control,
+                                 reward_config=reward,**options)
                 obs=env.reset()
                 self.assertAlmostEqual(env.logic.last_action[0,0].item(),.1,places=6)
                 self.assertAlmostEqual(obs[0,0].item(),.1,places=6)

@@ -119,6 +119,34 @@ class NoteTimingTests(unittest.TestCase):
             self.assertAlmostEqual(row['note_timing_offset_mean_ms'], 10.)
             self.assertEqual(row['note_timing_records'][0]['target_start_s'], 1.02)
 
+    def test_preparation_offset_matches_export_clock_for_exact_and_coverage_events(self):
+        # Direct exports round only the buffer to control frames. Diagnostics
+        # must use that same origin, not the unrounded input or rounded notes.
+        with tempfile.TemporaryDirectory() as directory:
+            Path(directory, 'score_coverage.json').write_text(json.dumps({'notes': [dict(
+                start_time=.012, end_time=.031, pitch=23, fingering=1)]}))
+            for exact in (None, np.array([[.062, .081, 2, 1]])):
+                bundle = SimpleNamespace(directory=directory, exact_note_events=exact,
+                    manifest=dict(physics_dt=.005, control_dt=.05,
+                        contract=dict(environment=dict(initial_buffer_time=.026))))
+                metrics = NoteTimingMetrics(SimpleNamespace(bundle=bundle, num_envs=1))
+                # This extra key is before the actual .05s music origin.
+                metrics.sample(history([(.03, .045, 7), (.062, .081, 2)], dt=.005, duration=.15))
+                row = metrics.result()
+                self.assertTrue(row['note_timing_available'])
+                self.assertEqual(row['note_timing_music_start_s'], .05)
+                self.assertEqual(row['exact_original_music_micro_f1'], 1.)
+                self.assertEqual(row['exact_original_music_true_positive_count'], 4)
+                self.assertEqual(row['note_timing_extra_count'], 1)
+                self.assertAlmostEqual(row['note_timing_records'][0]['target_start_s'], .062)
+
+    def test_invalid_preparation_clock_marks_diagnostics_unavailable(self):
+        bundle = SimpleNamespace(exact_note_events=np.array([[.05, .1, 2, 1]]),
+            manifest=dict(physics_dt=.005, control_dt=0., contract=dict(environment={})))
+        row = NoteTimingMetrics(SimpleNamespace(bundle=bundle, num_envs=1)).result()
+        self.assertFalse(row['note_timing_available'])
+        self.assertIn('preparation clock', row['note_timing_unavailable_reason'])
+
     def test_unavailable_is_none_and_truncated_scores_not_claimed_complete(self):
         missing = NoteTimingMetrics(SimpleNamespace(num_envs=1)).result()
         self.assertFalse(missing['note_timing_available'])

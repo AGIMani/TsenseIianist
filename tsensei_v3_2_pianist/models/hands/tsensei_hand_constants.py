@@ -29,8 +29,8 @@ FOREARM_DOFS = {
     "forearm_tx": ("slide", (0, -1, 0), (-0.6, 0.6), 300, 30, 50),
     "forearm_ty": ("slide", (0, 0, 1), (-0.05, 0.15), 300, 30, 50),
     "forearm_tz": ("slide", (-1, 0, 0), (-0.025, 0), 1000, 50, 50),
-    "forearm_pitch": ("hinge", (1, 0, 0), (-0.2, 0.2), 50, 3, 5),
-    "forearm_yaw": ("hinge", (0, -1, 0), (-0.25, 0.25), 300, 10, 5),
+    "forearm_pitch": ("hinge", (1, 0, 0), (0.0, 0.5), 50, 3, 5),
+    "forearm_yaw": ("hinge", (0, -1, 0), (-math.pi/6, math.pi/6), 300, 10, 5),
 }
 DEFAULT_FOREARM_DOFS = tuple(FOREARM_DOFS)
 FINGERTIP_COLORS = ((.8,.2,.8), (.8,.2,.2), (.2,.8,.8), (.2,.2,.8), (.8,.8,.2))
@@ -60,11 +60,11 @@ CONTROL_LABELS = {
     "pinky_swing": "Pinky_SW",
     "pinky_PIP": "Pinky_PIP",
     "pinky_DIP": "Pinky_DIP",
-    "forearm_tx": "Wrist_TX",
-    "forearm_ty": "Wrist_TY",
-    "forearm_tz": "Wrist_TZ",
-    "forearm_pitch": "Wrist_Pitch",
-    "forearm_yaw": "Wrist_Yaw",
+    "forearm_tx": "Palm_Base_Tx",
+    "forearm_ty": "Palm_Base_Ty",
+    "forearm_tz": "Palm_Base_Tz",
+    "forearm_pitch": "Palm_Base_Pitch",
+    "forearm_yaw": "Palm_Base_Yaw",
 }
 
 
@@ -95,7 +95,8 @@ INITIAL_ANGLES = {
 # override INITIAL_ANGLES; clear a side's dictionary to use the shared defaults.
 # Installation position stays in RIGHT_POSITION / LEFT_POSITION above; wrist
 # translations remain joint values, so they must not also be added there.
-# 2026-10-01: five fingertip landmarks share a horizontal plane at reset.
+# 2026-10-20: retain the accepted numeric reference and user-requested old
+# Thumb_Rot2 axis/positive angle. New geometry is not asserted coplanar.
 # Finger angles only; wrists/mounts unchanged. TODO(V32-03), TODO(V32-07): provisional
 # human-like pose and mesh landmarks, not calibrated physical contact pads.
 # See docs/initial_five_tip_plane_20261001.md.
@@ -103,52 +104,52 @@ INITIAL_ANGLES_BY_SIDE = {'right': {'thumb_rota_block': 1.135929529,
            'thumb_rotaback_joint2': 0.476648962,
            'thumb_MCP': 0.241250147,
            'thumb_PIP': 0.34598514,
-           'index_MCP': 0.274966111,
+           'index_MCP': 0.215778546714,
            'index_swing': 0.0,
-           'index_PIP': 0.376053926,
-           'index_DIP': 0.191980845,
-           'mid_MCP': 0.226118825,
+           'index_PIP': 0.345984067635,
+           'index_DIP': 0.177049848625,
+           'mid_MCP': 0.16688924586,
            'mid_swing': 0.0,
-           'mid_PIP': 0.367534728,
-           'mid_DIP': 0.194547042,
-           'ring_MCP': 0.231149339,
+           'mid_PIP': 0.33724412436,
+           'mid_DIP': 0.179382869067,
+           'ring_MCP': 0.1741387815,
            'ring_swing': 0.0,
-           'ring_PIP': 0.396375195,
-           'ring_DIP': 0.208665629,
-           'pinky_MCP': 0.258693121,
+           'ring_PIP': 0.366567845739,
+           'ring_DIP': 0.193132156912,
+           'pinky_MCP': 0.193021298123,
            'pinky_swing': 0.0,
-           'pinky_PIP': 0.422932915,
-           'pinky_DIP': 0.228418149,
+           'pinky_PIP': 0.389615614939,
+           'pinky_DIP': 0.213344010776,
            'forearm_tx': 0.0,
            'forearm_ty': 0.04,
            'forearm_tz': 0.0,
            'forearm_pitch': 0.0,
-           'forearm_yaw': 0.15},
+           'forearm_yaw': 0.5235987755982988},
  'left': {'thumb_rota_block': 1.135929529,
           'thumb_rotaback_joint2': 0.476648962,
           'thumb_MCP': 0.241250147,
           'thumb_PIP': 0.34598514,
-          'index_MCP': 0.274966111,
+          'index_MCP': 0.215778546714,
           'index_swing': 0.0,
-          'index_PIP': 0.376053926,
-          'index_DIP': 0.191980845,
-          'mid_MCP': 0.226118825,
+          'index_PIP': 0.345984067635,
+          'index_DIP': 0.177049848625,
+          'mid_MCP': 0.16688924586,
           'mid_swing': 0.0,
-          'mid_PIP': 0.367534728,
-          'mid_DIP': 0.194547042,
-          'ring_MCP': 0.231149339,
+          'mid_PIP': 0.33724412436,
+          'mid_DIP': 0.179382869067,
+          'ring_MCP': 0.1741387815,
           'ring_swing': 0.0,
-          'ring_PIP': 0.396375195,
-          'ring_DIP': 0.208665629,
-          'pinky_MCP': 0.258693121,
+          'ring_PIP': 0.366567845739,
+          'ring_DIP': 0.193132156912,
+          'pinky_MCP': 0.193021298123,
           'pinky_swing': 0.0,
-          'pinky_PIP': 0.422932915,
-          'pinky_DIP': 0.228418149,
+          'pinky_PIP': 0.389615614939,
+          'pinky_DIP': 0.213344010776,
           'forearm_tx': 0.0,
           'forearm_ty': 0.04,
           'forearm_tz': 0.0,
           'forearm_pitch': 0.0,
-          'forearm_yaw': 0.15}}
+          'forearm_yaw': 0.5235987755982988}}
 
 
 def _apply_export_pose_overrides():

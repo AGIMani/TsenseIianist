@@ -1,0 +1,16 @@
+{
+  "status": "verified",
+  "archive_sha256": "1951eb00657ad1a82a8bc7092f6274dcf4607f26746cc4dfa4d936f89761dd84",
+  "archive_bytes": 507684603,
+  "reviewed_overlays": 33,
+  "reviewed_overlays_match_archive": true,
+  "preview_matches_source": true,
+  "cpu_tests_passed": 20,
+  "cuda_acceptance": false,
+  "training_started": false,
+  "local_preview": "NVIDIA static MJB only; no integration; MemoryMax=3G",
+  "unresolved": [
+    "No full performance/training/hardware validation"
+  ],
+  "remote_root": "volc-a32:/home/houj/projects/pianist_black_key_20261023"
+}

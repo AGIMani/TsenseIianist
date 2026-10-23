@@ -37,6 +37,7 @@ if error_path.is_file():
     if matches: output=Path(matches[-1].strip())
 if output is not None and (output.parent!=prefix.parent or not output.name.startswith(prefix.name+'-')):
     raise RuntimeError('Job output does not match the registered experiment')
+if output is not None and not output.exists(): output=None
 files=[]
 if output and output.exists():
     for path in sorted(output.rglob('*')):
@@ -153,6 +154,12 @@ def transfer(submission, root, remote):
                         'midi_comparison/key_comparison.npz', 'replay_data/audio_substeps.npz')
             if not all((folder/name).is_file() for name in required):
                 raise RuntimeError('Missing comparison/replay delivery files')
+            if submission.get('export_requirements', {}).get('interactive_replay'):
+                if validation.get('interactive_replay', {}).get('state') != 'validated':
+                    raise RuntimeError('Interactive replay has not passed validation')
+                for name in ('replay.py','physics_trace.npz','played.wav','replay.json','score_annotations.npz','launch_cpu.sh'):
+                    if not (folder/'interactive_replay'/name).is_file():
+                        raise RuntimeError('Missing interactive replay file: '+name)
             plan = json.loads((folder/'export_plan.json').read_text())
             if digest(root/'best.pt') != validation['checkpoint_sha256'] or plan['checkpoint_sha256'] != validation['checkpoint_sha256']:
                 raise RuntimeError('Delivered video does not match this round best.pt')
@@ -199,8 +206,8 @@ if not registration.exists():
             print(json.dumps(dict(state='submission_needs_recovery',error='Export directory exists without a unique registered job; not resubmitting')));sys.exit(0)
     else:
         args=['bash',str(project/'export_video.sh'),'--pt',str(best),'--source-archive',s['remote_source_archive'],
-              '--output',str(folder),'--gpus','1','--video1','noarms','front','name=best_fingering',
-              '--plots','hand-joints','--audio','--fingering','--finger-labels','--key-highlight']
+              '--output',str(folder),'--gpus','1','--video1',('native' if s.get('arms') else 'noarms'),'front','name=best_fingering',
+              '--plots','hand-joints','--audio','--fingering','--key-highlight']
         result=subprocess.run(args,text=True,capture_output=True)
         (output/'auto_export_submit.log').write_text(result.stdout+'\n'+result.stderr)
         if result.returncode:raise RuntimeError('Export submission failed: '+result.stderr)
@@ -212,12 +219,21 @@ for row in rows.splitlines():
     if v[0]==job:state=v[1].split()[0].rstrip('+');code=v[2]
 result=dict(job_id=job,state=state,exit_code=code,output=str(folder))
 if state=='COMPLETED' and code=='0:0':
-    if not (folder/'delivery_validation.json').is_file():
+    proof=folder/'delivery_validation.json'
+    needs_interactive=s.get('export_requirements',{}).get('interactive_replay')
+    if not proof.is_file() or (needs_interactive and json.loads(proof.read_text()).get('interactive_replay',{}).get('state')!='validated'):
         env=os.environ.copy()
         env['PATH']=str(project/'training_mjlab/hpc/tools')+':'+env.get('PATH','')
         with (output/'auto_export_finalize.log').open('a') as log:
-            done=subprocess.run([str(project/'training/.venv/bin/python'),str(project/'scripts/finalize_training_video.py'),
-                '--export',str(folder)],env=env,stdout=log,stderr=subprocess.STDOUT)
+            args=[str(project/'training/.venv/bin/python'),str(project/'scripts/finalize_training_video.py'),
+                '--export',str(folder)]
+            if s.get('original_midi'):
+                args += ['--original-midi',s['original_midi'],
+                         '--original-midi-sha256',s['original_midi_sha256']]
+            if s.get('registered_score'):
+                args += ['--registered-score',s['registered_score'],
+                         '--registered-score-sha256',s['registered_score_sha256']]
+            done=subprocess.run(args,env=env,stdout=log,stderr=subprocess.STDOUT)
         if done.returncode:raise RuntimeError('CPU export validation failed; see auto_export_finalize.log')
     result['state']='validated'
 print(json.dumps(result))
@@ -227,7 +243,7 @@ print(json.dumps(result))
 def advance_export(submission, root, remote):
     if not remote['output']:
         save(root/'export_status.json', dict(state='missing_output', training_state=remote['state'], updated_at=now()))
-        return False
+        return None
     command = 'python3 -c '+shlex.quote(EXPORT_REMOTE)+' '+shlex.join([json.dumps(submission), remote['output']])
     result = subprocess.check_output(['ssh','-o','BatchMode=yes','-o','ConnectTimeout=15',
         submission['remote_host'], command], text=True, timeout=1200)
@@ -248,6 +264,8 @@ def advance_export(submission, root, remote):
                      root/'slurm_export'/ (export_job+'.'+suffix))
             except subprocess.SubprocessError:
                 pass
+    if status['state']=='missing_best':
+        return None
     return status['state']=='validated'
 
 
@@ -273,6 +291,9 @@ def main():
     while True:
         try:
             remote = query(submission)
+            submission['training_state'] = remote['state']
+            submission['remote_output'] = remote['output']
+            save(root/'submission.json', submission)
             if remote['state'] != last_state:
                 print(f'state={remote["state"]} utc={now()}', flush=True)
                 last_state = remote['state']
@@ -280,9 +301,16 @@ def main():
                 if not submission.get('export_required'):
                     transfer(submission, root, query(submission, hashes=True))
                     return
-                if not (root/'transfer_manifest.json').exists():
+                manifest = root/'transfer_manifest.json'
+                if not manifest.exists() or not json.loads(manifest.read_text()).get('verified_at'):
                     transfer(submission, root, query(submission, hashes=True))
-                if advance_export(submission, root, remote):
+                exported = advance_export(submission, root, remote)
+                if exported is None:
+                    save(root/'sync_status.json', dict(state='failed_training_diagnostics_transferred_replay_missing',
+                        training_success=False, slurm_state=remote['state'], updated_at=now(),
+                        reason='No output or no best.pt; required replay cannot be produced. See export_status.json.'))
+                    return
+                if exported:
                     if transfer(submission, root, query(submission, hashes=True)):
                         return
                 time.sleep(args.interval)

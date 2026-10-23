@@ -93,7 +93,7 @@ def load_inputs(bundle_path, directory):
     if len(key_ids) != 88:
         raise ValueError('Missing recorded piano channels')
     # Use only unchanged, hash-verified CURRENT score/threshold readers.
-    references = ['tsensei_v3_2_pianist/music/library.py', 'tsensei_v3_2_pianist/music/midi_file.py',
+    references = ['tsensei_v3_2_pianist/key_activation.py', 'tsensei_v3_2_pianist/preview_keys.py', 'tsensei_v3_2_pianist/music/library.py', 'tsensei_v3_2_pianist/music/midi_file.py',
                   'tsensei_v3_2_pianist/models/piano/piano.py',
                   'tsensei_v3_2_pianist/music/data/rousseau/twinkle-twinkle-trimmed.mid']
     expected = config['source_runtime']['source_sha256']
@@ -128,9 +128,9 @@ def export_comparison(output, arrays, source):
     import matplotlib.pyplot as plt
     from matplotlib.patches import Patch
     from plot_recorded_midi_comparison import intervals, draw
-    from tsensei_v3_2_pianist.preview_keys import KEY_THRESHOLD
+    from tsensei_v3_2_pianist.preview_keys import KEY_ACTIVATION_FRACTION
     time = arrays['time_s'][1:]; q = source['key_qpos'][1:]; limits = source['key_limits']
-    actual = np.abs(np.clip(q, limits[:, 0], limits[:, 1])-limits[:, 1]) <= KEY_THRESHOLD
+    actual = np.clip(q, limits[:, 0], limits[:, 1]) >= limits[:, 1]*KEY_ACTIVATION_FRACTION
     expected = np.zeros_like(actual)
     for start, stop, pitch, finger in source['events']:
         expected[(time >= start-1e-10) & (time < stop-1e-10), int(pitch)-21] = True
@@ -147,7 +147,7 @@ def export_comparison(output, arrays, source):
     np.savetxt(output/'original_midi_absolute_events.csv', source['original_events'], delimiter=',',
                header='original_start_s,original_end_s,midi_pitch,finger', comments='')
     np.savez_compressed(output/'key_comparison.npz', time=time, actual=actual, original=expected,
-                        key_qpos=q, key_limits=limits, key_threshold=KEY_THRESHOLD, physics_dt=source['dt'],
+                        key_qpos=q, key_limits=limits, key_activation_fraction=KEY_ACTIVATION_FRACTION, physics_dt=source['dt'],
                         reference_events=source['events'])
     fig, axes = plt.subplots(3, 1, figsize=(17, 9), sharex=True, sharey=True)
     draw(axes[0], sets['original'], '#2563eb'); draw(axes[1], sets['correct'], '#159f73')
@@ -176,7 +176,7 @@ def run(plan):
     from scipy.spatial.transform import Rotation
     from tsensei_v3_2_pianist.mjlab_env.source_runtime import make_recipe
     from tsensei_v3_2_pianist.mjlab_env.preview_contract import build_bundle_from_config
-    from tsensei_v3_2_pianist.preview_keys import ActiveKeyHighlight, KEY_THRESHOLD
+    from tsensei_v3_2_pianist.preview_keys import ActiveKeyHighlight, KEY_ACTIVATION_FRACTION
     from tsensei_v3_2_pianist.preview_fingering import FingeringHighlight
     from tsensei_v3_2_pianist.preview_audio import events_from_states, write_midi, PianoSynth
     from export_video_job import visual_corners, camera_for
@@ -229,7 +229,7 @@ def run(plan):
     np.savez_compressed(output/'pose_validation.npz', time_s=arrays['time_s'], max_transform_error=errors)
     metrics = export_comparison(output, arrays, source)
     fps = plan['fps']; end = float(arrays['time_s'][-1]); count = round((end+plan['hold'])*fps)+1
-    events = events_from_states(source['key_qpos'][1:], source['key_limits'], source['sustain'], source['dt'], KEY_THRESHOLD)
+    events = events_from_states(source['key_qpos'][1:], source['key_limits'], source['sustain'], source['dt'], KEY_ACTIVATION_FRACTION)
     save(output/'played_events.json', events); write_midi(output/'played.mid', events)
     synth = PianoSynth()
     try: audio = synth.render(events, count/fps, output/'played.wav')

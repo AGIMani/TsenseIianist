@@ -26,6 +26,61 @@ def episode(tp, fp, fn):
 
 
 class SwanLabMetricsTest(unittest.TestCase):
+    def test_arm_reward_and_tracking_diagnostics_keep_units_counts_and_privacy(self):
+        cfg = config()
+        cfg['reward_config']['terms']['arm_tracking_error_penalty'] = dict(enabled=True, weight=1.,
+            params=dict(error_scale_m=.001, private_path='/private/no-upload'))
+        cfg['reward_config']['terms']['arm_motion_limit_penalty'] = dict(enabled=True, weight=1.,
+            params=dict(soft_limit_ratio=.95, full_penalty_excess=.1, maximum_penalty_per_step=5.))
+        diagnostics = dict(requested_peak_m=.003, ik_target_peak_m=.0005,
+            over_1mm_substeps=3, sampled_substeps=10, within_1mm_substep_fraction=.7,
+            over_1mm_entry_events=2, over_1mm_control_steps=1, sampled_control_steps=1,
+            over_1mm_side_substeps=dict(right=2, left=2, private=99), private='no-upload')
+        values = metrics.scalars_from_record(dict(arm_tracking=diagnostics,
+            eval=dict(arm_tracking=diagnostics),
+            reward_weighted_terms=dict(arm_tracking_error_penalty=-4., arm_motion_limit_penalty=-5.)), cfg)
+        for group in ('arm_tracking', 'evaluation_arm_tracking'):
+            self.assertEqual(values[group+'/requested_peak_m'], .003)
+            self.assertEqual(values[group+'/within_1mm_substep_fraction'], .7)
+            self.assertEqual(values[group+'/over_1mm_substeps'], 3)
+            self.assertEqual(values[group+'/over_1mm_right_substeps'], 2)
+        for term, expected in (('arm_tracking_error_penalty', -4.), ('arm_motion_limit_penalty', -5.)):
+            name = next(key for key in metrics.metric_order(cfg) if key.endswith('_'+term))
+            self.assertEqual(values[name], expected)
+        public = metrics.public_config(cfg)
+        self.assertEqual(public['reward_config']['terms']['arm_tracking_error_penalty']['params'],
+            dict(error_scale_m=.001))
+        self.assertNotIn('private', json.dumps(values))
+        self.assertNotIn('private', json.dumps(public))
+
+    def test_current_key_formula_and_exact_sampling_contract_are_published(self):
+        root=Path(__file__).parents[1]
+        reward=json.loads((root/'configs/rewards/default_20261006.json').read_text())
+        source=dict(reward_config=reward,score_timing_contract=dict(
+            reward_contract=reward['contract'],reward_target='original_midi_physical_substeps',
+            reward_state='post_physics_substep_mean',key_correct_signal='continuous_gaussian_key_travel',
+            key_wrong_signal='physical_key_activation_count',control_dt=.05,physics_dt=.005,
+            key_activation_weight=.5, private_path='/private/do-not-upload',
+            exact_events=dict(schema='exact_note_events_v1',interval='start_inclusive_end_exclusive',
+                physical_sample_time='post_step',observation='next_on_off_seconds_v1',
+                observation_size=176,absent_event=-1.,observation_horizon=.5,
+                source_path='/private/do-not-upload')))
+        source['reward_config']['performance'].update(target_key_activation_weight=.5,
+            substep_rewards=True,target_key_substep_reward=True)
+        public=metrics.public_config(source)
+        self.assertEqual(public['reward_config']['contract'],'physical_key_travel_exact_v1')
+        self.assertIs(public['reward_config']['performance']['exact_note_timing'],True)
+        timing=public['score_timing_contract']
+        self.assertEqual(timing['key_correct_signal'],'continuous_gaussian_key_travel')
+        self.assertEqual(timing['key_wrong_signal'],'physical_key_activation_count')
+        self.assertEqual(timing['physics_dt'],.005)
+        self.assertEqual(timing['exact_events']['physical_sample_time'],'post_step')
+        encoded=json.dumps(public)
+        for removed in ('activation_weight','substep_rewards','target_key_substep_reward','/private/'):
+            self.assertNotIn(removed,encoded)
+        source['score_timing_contract']['key_correct_signal']='/private/do-not-upload'
+        self.assertNotIn('key_correct_signal',metrics.public_config(source)['score_timing_contract'])
+
     def test_joint_motion_penalty_is_reported_without_reweighting(self):
         cfg = config()
         cfg['reward_config']['terms']['joint_motion_limit_penalty'] = {'enabled': True, 'weight': .5}
@@ -102,10 +157,8 @@ class SwanLabMetricsTest(unittest.TestCase):
         values = metrics.scalars_from_record(row, config())
         self.assertEqual(list(values)[:3], list(metrics.PRIMARY))
         self.assertEqual([values[key] for key in metrics.PRIMARY], [.8, .81, .82])
-        self.assertEqual(values["evaluation/music_only_f1_min"], .69)
-        self.assertAlmostEqual(values["evaluation/music_only_micro_precision"], 40 / 48)
-        self.assertAlmostEqual(values["evaluation/music_only_micro_recall"], 40 / 60)
-        self.assertAlmostEqual(values["evaluation/music_only_micro_f1"], 80 / 108)
+        self.assertNotIn("evaluation/music_only_f1_min", values)
+        self.assertFalse(any("music_only_micro" in key for key in values))
         self.assertEqual(values["train_episodes/mean_f1"], .3)
 
     def test_weighted_reward_is_never_multiplied_again_or_replaced_with_raw(self):
@@ -142,9 +195,7 @@ class SwanLabMetricsTest(unittest.TestCase):
             values = metrics.scalars_from_record({"eval": {"episode_statistics": episodes}}, config())
             self.assertFalse(any("micro_" in key for key in values))
         values = metrics.scalars_from_record({"eval": {"episode_statistics": [episode(0, 0, 3)]}}, config())
-        self.assertEqual(values["evaluation/music_only_micro_recall"], 0)
-        self.assertEqual(values["evaluation/music_only_micro_f1"], 0)
-        self.assertNotIn("evaluation/music_only_micro_precision", values)
+        self.assertFalse(any("micro_" in key for key in values))
         values = metrics.scalars_from_record({"eval": {"episode_statistics": [episode(0, 0, 0)]}}, config())
         self.assertFalse(any("micro_" in key for key in values))
 
@@ -154,8 +205,7 @@ class SwanLabMetricsTest(unittest.TestCase):
                    music_only_substep_false_positive_count=5,
                    music_only_substep_false_negative_count=15)
         values = metrics.scalars_from_record({"eval": {"episode_statistics": [row]}}, config())
-        self.assertAlmostEqual(values["evaluation/music_only_micro_recall"], .8)
-        self.assertAlmostEqual(values["evaluation/music_only_substep_key_micro_recall"], 20 / 35)
+        self.assertFalse(any("micro_" in key for key in values))
 
     def test_merge_same_step_keeps_train_episode_eval_and_latest_present_value(self):
         rows = [

@@ -121,8 +121,6 @@ class FingerCoupler:
         self.options = canonical(options)
         if self.options is None:
             raise ValueError('Construct coupling only for explicit options')
-        if 'm6' in bundle.manifest:
-            raise ValueError('Finger coupling currently requires --no-arms')
         self.device = torch.device(device)
         tensor = lambda x: torch.as_tensor(np.asarray(x), dtype=torch.float32, device=self.device)
         integer = lambda x: torch.as_tensor(np.asarray(x), dtype=torch.int64, device=self.device)
@@ -171,9 +169,10 @@ class FingerCoupler:
                     return last == first
                 if not ancestor(int(bodies[0]), int(bodies[1])) or int(model.body_parentid[bodies[2]]) != bodies[1]:
                     raise ValueError('Unsupported finger chain for coupling')
-                site = model.site(f'{side}_/{finger}_tip').id
+                # Structural orientation must not follow task-point setbacks.
+                site = model.site(f'{side}_/{finger}_distal_support').id
                 if model.site_bodyid[site] != bodies[2]:
-                    raise ValueError('Distal tip site must belong to DIP body')
+                    raise ValueError('Distal support site must belong to DIP body')
                 direction = model.site_pos[site]-model.jnt_pos[joints[2]]
                 if np.linalg.norm(direction) < 1e-6:
                     raise ValueError('Invalid distal landmark direction')
@@ -181,6 +180,7 @@ class FingerCoupler:
                 groups.append(dict(name=side+'_'+finger, joint_names=joint_names, full_indices=full,
                     qpos_addresses=model.jnt_qposadr[joints].tolist(), body_ids=bodies.tolist(),
                     local_axes=model.jnt_axis[joints].tolist(), distal_direction_local=direction.tolist(),
+                    distal_landmark_local=model.site_pos[site].tolist(),
                     follower_low=low[full[1:]].tolist(), follower_high=high[full[1:]].tolist(),
                     follower_origin=bundle.origin_qpos[model.jnt_qposadr[joints[1:]]].tolist()))
         self.groups = groups
@@ -205,15 +205,36 @@ class FingerCoupler:
         self.contract = dict(**self.options, physical_model='unchanged_servo_joints',
             follower_full_indices=list(FOLLOWER_INDICES), coupled_fingers=groups,
             upstream_state='actual wrist and swing; commanded MCP',
-            plane_normal=normal.tolist(), distal_axis='DIP pivot to packaged fingertip landmark; TODO(V32-07)',
+            plane_normal=normal.tolist(),
+            distal_axis='DIP pivot to URDF-chain distal support landmark; TODO(V32-07)',
+            reference_validation='all eight origin-pose target angles must satisfy requested bounds',
             solver=dict(name='bounded_pip_grid_analytic_dip_v1', grid_points=self.GRID_POINTS,
                 refinement_points=self.REFINEMENT_POINTS, tolerance_deg=self.TOLERANCE_DEG,
                 preference='minimum squared PIP/DIP displacement from origin among feasible candidates'),
-            update='once per control frame; no qpos projection',
+            update='re-solved before every physical substep; no qpos projection',
             angle='signed downward angle of directed distal axis to resting piano plane')
         if self.range_mode:
             self.contract['solver']['name'] = 'bounded_pip_grid_analytic_dip_interval_v1'
             self.contract['solver']['error'] = 'distance outside each finger interval; zero throughout interval'
+        # A coordinate/landmark regression must fail before collecting a replay
+        # buffer. This checks the solved target at the reference pose, not actual
+        # tracking or reachability for every later wrist pose/contact state.
+        with torch.no_grad():
+            _, info = self.apply(tensor(bundle.neutral_action)[None],
+                                actual_qpos=tensor(reference.qpos)[None],
+                                body_xmat=tensor(reference.xmat)[None])
+        self.reference_diagnostics = {name: value[0].cpu().tolist() for name, value in info.items()}
+        failures = [f"{group['name']}={angle:.3f}deg (outside by {error:.3f}deg)"
+                    for group, angle, error, failed in zip(groups,
+                        self.reference_diagnostics['coupling_target_angle_deg'],
+                        self.reference_diagnostics['coupling_target_error_deg'],
+                        self.reference_diagnostics['coupling_infeasible']) if failed]
+        if failures:
+            raise ValueError('Finger coupling reference pose cannot reach requested angle bounds; '
+                             'check the URDF/landmark/control matching: ' + '; '.join(failures))
+        print('Finger coupling reference targets validated (deg): ' + ', '.join(
+            f"{group['name']}={angle:.4f}" for group, angle in zip(
+                groups, self.reference_diagnostics['coupling_target_angle_deg'])), flush=True)
 
     def _angle_error(self, angle):
         if not self.range_mode:

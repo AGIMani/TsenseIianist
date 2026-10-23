@@ -1,0 +1,364 @@
+{
+  "schema_version": 1,
+  "name": "wuji_cartesian_v1",
+  "description": "2026-10-20 supplied bilateral A3.2 with user-requested previous Thumb_Rot2 axis: targets 0.05..1.57 rad within restored 0..1.74 rad limits; 2026-10-22: all ten MCP targets use 0..1.4 rad; other control bounds retained.",
+  "channels": [
+    {
+      "name": "R_Thumb_Rot",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.05,
+      "physical_max": 1.57
+    },
+    {
+      "name": "R_Thumb_Rot2",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.05,
+      "physical_max": 1.57
+    },
+    {
+      "name": "R_Thumb_MCP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 1.4
+    },
+    {
+      "name": "R_Thumb_PIP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.05,
+      "physical_max": 1.2
+    },
+    {
+      "name": "R_Index_MCP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 1.4
+    },
+    {
+      "name": "R_Index_SW",
+      "policy_min": -1.0,
+      "policy_max": 1.0,
+      "physical_min": -0.35,
+      "physical_max": 0.35
+    },
+    {
+      "name": "R_Index_PIP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 0.9
+    },
+    {
+      "name": "R_Index_DIP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 0.8
+    },
+    {
+      "name": "R_Mid_MCP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 1.4
+    },
+    {
+      "name": "R_Mid_SW",
+      "policy_min": -1.0,
+      "policy_max": 1.0,
+      "physical_min": -0.35,
+      "physical_max": 0.35
+    },
+    {
+      "name": "R_Mid_PIP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 0.9
+    },
+    {
+      "name": "R_Mid_DIP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 0.8
+    },
+    {
+      "name": "R_Ring_MCP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 1.4
+    },
+    {
+      "name": "R_Ring_SW",
+      "policy_min": -1.0,
+      "policy_max": 1.0,
+      "physical_min": -0.35,
+      "physical_max": 0.35
+    },
+    {
+      "name": "R_Ring_PIP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 0.9
+    },
+    {
+      "name": "R_Ring_DIP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 0.8
+    },
+    {
+      "name": "R_Pinky_MCP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 1.4
+    },
+    {
+      "name": "R_Pinky_SW",
+      "policy_min": -1.0,
+      "policy_max": 1.0,
+      "physical_min": -0.35,
+      "physical_max": 0.35
+    },
+    {
+      "name": "R_Pinky_PIP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 0.9
+    },
+    {
+      "name": "R_Pinky_DIP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 0.8
+    },
+    {
+      "name": "R_Palm_Base_Tx",
+      "policy_min": -1.0,
+      "policy_max": 1.0,
+      "physical_min": -0.025,
+      "physical_max": 0.025
+    },
+    {
+      "name": "R_Palm_Base_Ty",
+      "policy_min": -1.0,
+      "policy_max": 1.0,
+      "physical_min": -0.1,
+      "physical_max": 0.1
+    },
+    {
+      "name": "R_Palm_Base_Tz",
+      "policy_min": -1.0,
+      "policy_max": 1.0,
+      "physical_min": -0.025,
+      "physical_max": 0.025
+    },
+    {
+      "name": "R_Palm_Base_Pitch",
+      "policy_min": -1.0,
+      "policy_max": 1.0,
+      "physical_min": -0.3,
+      "physical_max": 0.3
+    },
+    {
+      "name": "R_Palm_Base_Yaw",
+      "policy_min": -1.0,
+      "policy_max": 1.0,
+      "physical_min": -0.25,
+      "physical_max": 0.25
+    },
+    {
+      "name": "L_Thumb_Rot",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.05,
+      "physical_max": 1.57
+    },
+    {
+      "name": "L_Thumb_Rot2",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.05,
+      "physical_max": 1.57
+    },
+    {
+      "name": "L_Thumb_MCP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 1.4
+    },
+    {
+      "name": "L_Thumb_PIP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.05,
+      "physical_max": 1.2
+    },
+    {
+      "name": "L_Index_MCP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 1.4
+    },
+    {
+      "name": "L_Index_SW",
+      "policy_min": -1.0,
+      "policy_max": 1.0,
+      "physical_min": -0.35,
+      "physical_max": 0.35
+    },
+    {
+      "name": "L_Index_PIP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 0.9
+    },
+    {
+      "name": "L_Index_DIP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 0.8
+    },
+    {
+      "name": "L_Mid_MCP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 1.4
+    },
+    {
+      "name": "L_Mid_SW",
+      "policy_min": -1.0,
+      "policy_max": 1.0,
+      "physical_min": -0.35,
+      "physical_max": 0.35
+    },
+    {
+      "name": "L_Mid_PIP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 0.9
+    },
+    {
+      "name": "L_Mid_DIP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 0.8
+    },
+    {
+      "name": "L_Ring_MCP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 1.4
+    },
+    {
+      "name": "L_Ring_SW",
+      "policy_min": -1.0,
+      "policy_max": 1.0,
+      "physical_min": -0.35,
+      "physical_max": 0.35
+    },
+    {
+      "name": "L_Ring_PIP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 0.9
+    },
+    {
+      "name": "L_Ring_DIP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 0.8
+    },
+    {
+      "name": "L_Pinky_MCP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 1.4
+    },
+    {
+      "name": "L_Pinky_SW",
+      "policy_min": -1.0,
+      "policy_max": 1.0,
+      "physical_min": -0.35,
+      "physical_max": 0.35
+    },
+    {
+      "name": "L_Pinky_PIP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 0.9
+    },
+    {
+      "name": "L_Pinky_DIP",
+      "policy_min": 0.0,
+      "policy_max": 2.0,
+      "physical_min": 0.0,
+      "physical_max": 0.8
+    },
+    {
+      "name": "L_Palm_Base_Tx",
+      "policy_min": -1.0,
+      "policy_max": 1.0,
+      "physical_min": -0.1,
+      "physical_max": 0.1
+    },
+    {
+      "name": "L_Palm_Base_Ty",
+      "policy_min": -1.0,
+      "policy_max": 1.0,
+      "physical_min": -0.025,
+      "physical_max": 0.025
+    },
+    {
+      "name": "L_Palm_Base_Tz",
+      "policy_min": -1.0,
+      "policy_max": 1.0,
+      "physical_min": -0.025,
+      "physical_max": 0.025
+    },
+    {
+      "name": "L_Palm_Base_Pitch",
+      "policy_min": -1.0,
+      "policy_max": 1.0,
+      "physical_min": -0.3,
+      "physical_max": 0.3
+    },
+    {
+      "name": "L_Palm_Base_Yaw",
+      "policy_min": -1.0,
+      "policy_max": 1.0,
+      "physical_min": -0.25,
+      "physical_max": 0.25
+    },
+    {
+      "name": "sustain",
+      "policy_min": -1.0,
+      "policy_max": 1.0,
+      "physical_min": 0.0,
+      "physical_max": 1.0
+    }
+  ]
+}

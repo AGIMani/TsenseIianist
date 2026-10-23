@@ -37,6 +37,21 @@ class ScoreConversionTests(unittest.TestCase):
             self.assertEqual([index for index, row in enumerate(notes) if row], expected)
         self.assertEqual(seq.SerializeToString(), original)
 
+    def test_same_finger_quantized_overlap_preserves_upstream_targets(self):
+        seq = music_pb2.NoteSequence(total_time=.14)
+        seq.notes.add(pitch=74, velocity=90, start_time=0, end_time=.0716, part=1)
+        seq.notes.add(pitch=72, velocity=90, start_time=.0794, end_time=.14, part=1)
+        original = seq.SerializeToString()
+        frames, sustain = NoteTrajectory.seq_to_trajectory(seq, .05, score_validation='strict_v1')
+        upstream, upstream_sustain = NoteTrajectory.seq_to_trajectory(seq, .05, score_validation='legacy')
+        self.assertEqual(frames, upstream)
+        self.assertEqual(sustain, upstream_sustain)
+        self.assertEqual({n.number for n in frames[1]}, {72, 74})
+        self.assertEqual(seq.SerializeToString(), original)
+        report = require_note_coverage(seq, frames, .05)
+        self.assertEqual(len(report['warnings']), 1)
+        self.assertEqual(report['covered_notes'], 2)
+
     def test_valid_long_repeat_retains_explicit_release(self):
         seq = music_pb2.NoteSequence(total_time=.2)
         seq.notes.add(pitch=60, velocity=90, start_time=0, end_time=.1, part=0)

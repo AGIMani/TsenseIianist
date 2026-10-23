@@ -1,4 +1,4 @@
-"""Wrist-command IK with a structural flange/connector/hand rigid assembly.
+"""Cartesian palm-position IK with a structural flange/connector/hand assembly.
 
 Link7 is a kinematic mocap root. The flange, connector and hand base are its
 jointless descendants; only finger/key joints are simulated dynamically.
@@ -115,16 +115,79 @@ def _restore_parent_collision_filter(old, new, contact):
     return sorted(restored)
 
 
+def _make_arm_collision_query(xml, model, assets):
+    """Compile a contact-only model for arm conflicts.
+
+    The active scene keeps arm meshes visual-only so the kinematic assembly
+    cannot inject unmodelled reaction forces.  This copy enables only arm
+    meshes and adds explicit pairs for the three supported diagnostic scopes.
+    The returned pair list is name-based and therefore stable across compiled
+    geom re-numbering.
+    """
+    root = ET.fromstring(ET.tostring(xml, encoding='unicode'))
+    contact = root.find('contact')
+    if contact is None:
+        contact = ET.SubElement(root, 'contact')
+    for node in list(contact):
+        if node.tag == 'pair':
+            contact.remove(node)
+    def side(name):
+        return 'right' if name.startswith('arm_follow_right_') or name.startswith('arm_connector_right_') else (
+            'left' if name.startswith('arm_follow_left_') or name.startswith('arm_connector_left_') else None)
+    arm = []
+    hand = []
+    piano = []
+    for gid in range(model.ngeom):
+        name = model.geom(gid).name or ''
+        body = model.body(int(model.geom_bodyid[gid])).name or ''
+        if side(name) is not None:
+            arm.append((name, body, side(name)))
+        elif body.startswith(('right_/', 'left_/')):
+            hand.append((name, body, 'right' if body.startswith('right_/') else 'left'))
+        elif name.startswith('piano/'):
+            piano.append((name, body, None))
+    if not arm:
+        raise ValueError('Rigid arm collision query found no arm meshes')
+    arm_names = {name for name, _, _ in arm}
+    for node in root.iter('geom'):
+        if node.get('name') in arm_names:
+            node.set('contype', '1'); node.set('conaffinity', '1'); node.set('density', '0')
+    pairs = []
+    for i, (first, first_body, first_side) in enumerate(arm):
+        for second, second_body, second_side in arm[i+1:]:
+            if first_side != second_side:
+                pairs.append((first, second, 'arm_arm'))
+        for second, second_body, second_side in hand:
+            # Link7, flange and connector are the approved rigid mounting
+            # chain.  Their same-side contacts are structural, not conflicts.
+            mounting = (first_side == second_side and
+                        any(token in first_body for token in ('Link7_', 'arm_flange_', 'arm_connector_')))
+            if not mounting:
+                pairs.append((first, second, 'arm_hand'))
+        for second, _, _ in piano:
+            pairs.append((first, second, 'arm_piano'))
+    seen = set()
+    for first, second, category in pairs:
+        key = (min(first, second), max(first, second))
+        if key in seen:
+            continue
+        seen.add(key)
+        ET.SubElement(contact, 'pair', name=f'arm_query_{category}_{len(seen)}',
+                       geom1=first, geom2=second, margin='0', gap='0', condim='1')
+    query = mujoco.MjModel.from_xml_string(ET.tostring(root, encoding='unicode'), assets)
+    return query, pairs
+
+
 def augment_bundle(bundle, options):
     """Transform a private bundle; historical XML, recordings and archives stay intact."""
     options = canonical(options)
     old = bundle.model
     if 'm6' in bundle.manifest:
-        raise ValueError('Rigid arm assembly requires the hand-only source; old m6 bundles need their archive')
+        raise ValueError('Cartesian arm assembly requires the hand-only source; old m6 bundles need their archive')
     if bundle.preparation_options is not None and bundle.preparation_options.get('mode') != 'policy_v1':
         raise ValueError('Arm follower supports policy preparation or no preparation')
-    if not bundle.disable_wrist_tz or 'right_/forearm_yaw' not in bundle.fixed_joint_values:
-        raise ValueError('Arm follower requires structurally removed TZ/Yaw command axes')
+    if bundle.disable_wrist_tz or 'right_/forearm_yaw' not in bundle.fixed_joint_values:
+        raise ValueError('Cartesian arm follower requires live TX/TY/TZ and structurally fixed Yaw')
     connector = load_config(CONNECTOR)
     installed = tool_transforms(connector)
     for side in SIDES:
@@ -136,29 +199,59 @@ def augment_bundle(bundle, options):
     initial, reference = bundle.reset_cpu(), bundle.reset_cpu()
     reference.mocap_pos[:] = bundle.origin_mocap_pos
     reference.mocap_quat[:] = bundle.origin_mocap_quat
-    wrist_ids = {side: [j for j in range(old.njnt)
-                 if (old.joint(j).name or '').startswith(side + '_/forearm_')] for side in SIDES}
-    for ids in wrist_ids.values():
-        reference.qpos[old.jnt_qposadr[ids]] = 0
+    translation_names = ('forearm_tx', 'forearm_ty', 'forearm_tz')
+    pitch_name = 'forearm_pitch'
+    wrist_ids = {}
+    translation_ids = {}
+    pitch_ids = {}
+    for side in SIDES:
+        translation_ids[side] = [j for j in range(old.njnt)
+            if (old.joint(j).name or '') in {f'{side}_/{name}' for name in translation_names}]
+        pitch_ids[side] = [j for j in range(old.njnt)
+            if (old.joint(j).name or '') == f'{side}_/{pitch_name}']
+        if len(translation_ids[side]) != 3 or len(pitch_ids[side]) != 1:
+            raise ValueError('Cartesian arm requires TX/TY/TZ plus fixed Pitch in each hand scene')
+        wrist_ids[side] = translation_ids[side] + pitch_ids[side]
+        reference.qpos[old.jnt_qposadr[translation_ids[side]]] = 0
     mujoco.mj_forward(old, reference)
     wrists, initial_poses, removed = {}, {}, set()
     indices = list(bundle.active_action_indices)
+    pitch_action_indices = set()
+    cartesian_policy_indices = []
     for side in SIDES:
         body_name = bundle.manifest['hands'][side]['body']
         body, ids = old.body(body_name).id, wrist_ids[side]
-        actions = [int(full) for aid, full in zip(bundle.action_ids, indices) if old.actuator_trnid[aid, 0] in ids]
-        if len(ids) != 3 or list(old.jnt_type[ids]) != [2, 2, 3]:
-            raise ValueError('Expected TX/TY/Pitch wrist request coordinates')
-        wrists[side] = dict(indices=actions, axis=old.jnt_axis[ids].copy(), kind=old.jnt_type[ids].tolist(),
+        translation = translation_ids[side]
+        actions = [int(full) for aid, full in zip(bundle.action_ids, indices)
+                   if old.actuator_trnid[aid, 0] in translation]
+        pitch_actions = [int(full) for aid, full in zip(bundle.action_ids, indices)
+                         if old.actuator_trnid[aid, 0] in pitch_ids[side]]
+        if len(actions) != 3 or len(pitch_actions) != 1 or list(old.jnt_type[translation]) != [2, 2, 2]:
+            raise ValueError('Expected TX/TY/TZ Cartesian request coordinates and fixed Pitch')
+        pitch_action_indices.update(pitch_actions)
+        cartesian_policy_indices.extend(actions)
+        wrists[side] = dict(indices=actions, axis=old.jnt_axis[translation].copy(), kind=old.jnt_type[translation].tolist(),
             rest_pos=reference.xpos[body].copy(), rest_rot=reference.xmat[body].reshape(3, 3).copy(),
             body_name=body_name)
-        initial_poses[side] = (initial.xpos[body].copy(), initial.xmat[body].reshape(3, 3).copy())
+        # The Cartesian zero is the installed hand-only reference after the
+        # three virtual translation joints are set to zero. Calibrating IK to
+        # the unmodified reset would bake its historical TY/TZ offsets into a
+        # supposedly zero displacement request.
+        initial_poses[side] = (reference.xpos[body].copy(), reference.xmat[body].reshape(3, 3).copy())
         for j in ids:
             removed.add(old.joint(j).name)
             # These are placeholders in the historical joint vector only. The
             # current arm observation adds actual q/v, IK reference and pose errors.
             bundle.fixed_joint_values[old.joint(j).name] = float(bundle.reset_qpos[old.jnt_qposadr[j]])
+    # The freshly exported music task still uses the verified hand-only
+    # coordinate convention. Keep that reference for strict asset validation;
+    # runtime observations/rewards use the derived Cartesian reset below.
+    bundle.task_source_neutral_action = bundle.neutral_action.copy()
     bundle.neutral_action[indices] = bundle.reset_ctrl[bundle.action_ids]
+    # Cartesian rows are displacements from the installed palm pose. The
+    # hand-only scene's TY reset (0.04 m) is an absolute slide coordinate and
+    # must not become an initial Cartesian request.
+    bundle.neutral_action[cartesian_policy_indices] = 0.
     with tempfile.TemporaryDirectory(prefix='tsensei-arm-model-') as folder:
         path = Path(folder) / 'compiled.xml'
         mujoco.mj_saveLastXML(str(path), old)
@@ -244,7 +337,11 @@ def augment_bundle(bundle, options):
     restored_parent_pairs = _restore_parent_collision_filter(old, new, contact)
     if restored_parent_pairs:
         new = mujoco.MjModel.from_xml_string(ET.tostring(xml, encoding='unicode'), assets)
+    # Build this before preserving compiled physical arrays so the query has
+    # exactly the same body/geom layout and mocap addresses as the force model.
+    arm_query, arm_query_pairs = _make_arm_collision_query(xml, new, assets)
     _preserve_physical_parameters(old, new, {w['body_name'] for w in wrists.values()})
+    _preserve_physical_parameters(old, arm_query, {w['body_name'] for w in wrists.values()})
     for prefix in ('origin', 'reset'):
         for field in ('qpos', 'qvel', 'qacc_warmstart', 'ctrl'):
             attr = prefix + '_' + field
@@ -261,8 +358,16 @@ def augment_bundle(bundle, options):
                 after[ni] = before[oi]
             setattr(bundle, attr, after)
     bundle.model = new
-    bundle.policy_action_indices = np.asarray(indices)
-    bundle.active_action_indices = np.asarray([i for i in indices if '_Wrist_' not in bundle.manifest['action_names'][i]])
+    # Cartesian policy outputs are the six translation slots plus the 40 hand
+    # targets.  The two pitch actions are structurally removed from the model
+    # and held at their installed reset orientation.
+    policy_indices = [i for i in indices if i not in pitch_action_indices]
+    if sorted(policy_indices) != sorted(cartesian_policy_indices +
+                                       [i for i in indices if '_Palm_Base_' not in bundle.manifest['action_names'][i]]):
+        raise ValueError('Cartesian policy action mapping lost a hand or translation channel')
+    bundle.policy_action_indices = np.asarray(policy_indices)
+    bundle.active_action_indices = np.asarray([i for i in policy_indices
+                                                if '_Palm_Base_' not in bundle.manifest['action_names'][i]])
     bundle.action_ids = bundle.ids(mujoco.mjtObj.mjOBJ_ACTUATOR,
         [bundle.manifest['action_names'][i] for i in bundle.active_action_indices])
     bundle.ctrl_ids = np.arange(new.nu); bundle.joint_ids = np.arange(new.njnt)
@@ -279,6 +384,8 @@ def augment_bundle(bundle, options):
         parent_collision_filter=dict(source='hand_only_native_parent_filter',
             source_enabled=not bool(old.opt.disableflags & mujoco.mjtDisableBit.mjDSBL_FILTERPARENT),
             restored_body_pairs=restored_parent_pairs))
+    bundle.arm_collision_query_model = arm_query
+    bundle.arm_collision_query_pairs = arm_query_pairs
     zero = mujoco.MjData(new)
     follower = SceneArmFollower(bundle, num_envs=1, device='cpu')
     for prefix in ('origin', 'reset'):
@@ -309,8 +416,8 @@ class SceneArmFollower(ArmFollower):
         self.wrists = {s: {k: (self.tensor(v) if k in ('axis', 'rest_pos', 'rest_rot') else v)
                            for k, v in w.items()} for s, w in spec['wrists'].items()}
         self.preparation = bundle.preparation_options
-        self.contract['request_axes'] = {s: list(w['indices']) for s, w in self.wrists.items()}
-        self.contract['target_sampling'] = 'policy_wrist_command_and_preparation_at_next_physics_substep'
+        self.contract['request_channels'] = {s: ['TX', 'TY', 'TZ'] for s in self.wrists}
+        self.contract['target_sampling'] = 'policy_cartesian_palm_displacement_and_preparation_at_next_physics_substep'
         piano_p, piano_r = spec['piano_pose']
         self.contract['piano_world_pose'] = dict(position_m=piano_p.tolist(), rotation=piano_r.tolist())
         self.contract['base_in_piano'] = {}
@@ -320,9 +427,20 @@ class SceneArmFollower(ArmFollower):
                 rotation=(piano_r.T @ np.asarray(base['rotation'])).tolist())
         self.contract['base_coordinate_frame'] = 'world; base_in_piano stores the same fixed bases in the piano frame'
         self.contract['root_physics'] = 'kinematic_arm_rigid_connector_hand_fingers_dynamic'
-        self.contract['disabled_axes'] = 'no_TZ_or_Yaw_policy_channel; actual_full_pose_is_arm_FK'
+        self.contract['request_frame'] = 'world'
+        self.contract['request_units'] = 'metres_displacement'
+        self.contract['position_bounds_m'] = spec['options']['position_bounds_m']
+        self.contract['fixed_orientation'] = 'installed_palm_down'
         self.contract['attachment'] = 'Link7 > fixed_flange > fixed_four_hole_connector > fixed_hand_base'
         self.contract['rigid_hand_collision'] = 'explicit original cross-hand root/palm pairs; no kinematic reaction forces'
+        self.contract['arm_collision'] = dict(
+            mode='rigid_arm_detection_only_v1',
+            categories=['arm_arm', 'arm_hand', 'arm_piano'],
+            sample_hz=round(1.0 / bundle.manifest['physics_dt']),
+            aggregation='unique_geom_pair_per_physics_substep_then_sum_per_control_step',
+            force_solver='query_only; arm meshes remain contype=0/conaffinity=0 in the active model',
+            pair_count=len(getattr(bundle, 'arm_collision_query_pairs', ())),
+        )
         self.contract['parent_collision_filter'] = spec['parent_collision_filter']
         self.contract['flange_in_link7_m'] = FLANGE_IN_LINK7.tolist()
         self.contract['historical_wrist_observation_slots'] = 'fixed_reset_placeholders; actual_full_pose_from_arm_q'
@@ -330,14 +448,12 @@ class SceneArmFollower(ArmFollower):
     def requests(self, physical, times):
         result = {}
         for side, w in self.wrists.items():
-            q = physical[:, w['indices']].double()
-            p = w['rest_pos'].expand(self.num_envs, 3)
+            displacement = physical[:, w['indices']].double()
+            # ROSELIA Cartesian semantics: the policy sends a world-frame
+            # palm displacement, while orientation remains the installed
+            # palm-down pose.  The A3.2 connector transform is retained.
+            p = w['rest_pos'].expand(self.num_envs, 3) + displacement
             r = w['rest_rot'].expand(self.num_envs, 3, 3)
-            for i, kind in enumerate(w['kind']):
-                if kind == 2:
-                    p = p + (r @ w['axis'][i, :, None]).squeeze(-1) * q[:, i, None]
-                else:
-                    r = r @ rot(w['axis'][i], q[:, i])
             if self.preparation is not None:
                 u = (times.double() / self.preparation['duration']).clamp(0, 1)
                 lift = self.preparation['lift'] * (1 - u**3 * (10 - 15*u + 6*u*u))

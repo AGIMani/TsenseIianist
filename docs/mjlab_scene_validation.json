@@ -94,11 +94,11 @@
       "max_hinge_error_rad": 3.295824348992227e-07,
       "exporter_mujoco_version": "3.13.0"
     },
-    "wrist_TX_R_Wrist_TX_responds": {
+    "wrist_TX_R_Palm_Base_Tx_responds": {
       "passed": true,
       "signed_displacement": 0.01194119080901146
     },
-    "wrist_TX_L_Wrist_TX_responds": {
+    "wrist_TX_L_Palm_Base_Tx_responds": {
       "passed": true,
       "signed_displacement": 0.011941189877688885
     },
@@ -115,11 +115,11 @@
       "max_hinge_error_rad": 2.54417342526736e-07,
       "exporter_mujoco_version": "3.13.0"
     },
-    "wrist_TY_R_Wrist_TY_responds": {
+    "wrist_TY_R_Palm_Base_Ty_responds": {
       "passed": true,
       "signed_displacement": 0.007960822433233261
     },
-    "wrist_TY_L_Wrist_TY_responds": {
+    "wrist_TY_L_Palm_Base_Ty_responds": {
       "passed": true,
       "signed_displacement": 0.007960822433233261
     },
@@ -136,11 +136,11 @@
       "max_hinge_error_rad": 4.1746930268260485e-07,
       "exporter_mujoco_version": "3.13.0"
     },
-    "wrist_TZ_R_Wrist_TZ_responds": {
+    "wrist_TZ_R_Palm_Base_Tz_responds": {
       "passed": true,
       "signed_displacement": 0.006680958438664675
     },
-    "wrist_TZ_L_Wrist_TZ_responds": {
+    "wrist_TZ_L_Palm_Base_Tz_responds": {
       "passed": true,
       "signed_displacement": 0.006680958438664675
     },
@@ -157,11 +157,11 @@
       "max_hinge_error_rad": 3.203581619981577e-07,
       "exporter_mujoco_version": "3.13.0"
     },
-    "wrist_Pitch_R_Wrist_Pitch_responds": {
+    "wrist_Pitch_R_Palm_Base_Pitch_responds": {
       "passed": true,
       "signed_displacement": 0.09998007118701935
     },
-    "wrist_Pitch_L_Wrist_Pitch_responds": {
+    "wrist_Pitch_L_Palm_Base_Pitch_responds": {
       "passed": true,
       "signed_displacement": 0.09998007118701935
     },
@@ -178,11 +178,11 @@
       "max_hinge_error_rad": 5.349288401124142e-07,
       "exporter_mujoco_version": "3.13.0"
     },
-    "wrist_Yaw_R_Wrist_Yaw_responds": {
+    "wrist_Yaw_R_Palm_Base_Yaw_responds": {
       "passed": true,
       "signed_displacement": 0.14955124258995056
     },
-    "wrist_Yaw_L_Wrist_Yaw_responds": {
+    "wrist_Yaw_L_Palm_Base_Yaw_responds": {
       "passed": true,
       "signed_displacement": 0.14955124258995056
     },

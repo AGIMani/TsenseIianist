@@ -40,8 +40,8 @@ def main():
         check('hard_contact_profile', scene.model.opt.timestep <= .0005
               and np.all(scene.model.jnt_solimp[b.key_ids, 0] >= .999))
         check('wrist_25mm_range', all(np.allclose(
-            scene.model.actuator_ctrlrange[scene.model.actuator(side+'_Wrist_TZ').id], [-.025, 0])
-            and np.allclose(b.low[b.manifest['action_names'].index(side+'_Wrist_TZ')], -.025)
+            scene.model.actuator_ctrlrange[scene.model.actuator(side+'_Palm_Base_Tz').id], [-.025, 0])
+            and np.allclose(b.low[b.manifest['action_names'].index(side+'_Palm_Base_Tz')], -.025)
             for side in ('R', 'L')))
         check('initial_state_all_worlds', np.allclose(scene.data.qpos[:].cpu().numpy(), b.reset_qpos, atol=1e-6))
         n = args.num_envs

@@ -1,0 +1,14 @@
+{
+  "joints_rad": {
+    "right_/right_hand_thumb_rota_block_joint": 0.9475930292716872,
+    "right_/right_hand_thumb_rotaback_joint2": 1.569835984966514,
+    "right_/right_hand_thumb_MCP_joint": 0.9644535515552067,
+    "right_/right_hand_thumb_PIP_joint": 0.3780027879670928,
+    "left_/left_hand_thumb_rota_block_joint": 0.9357039931063835,
+    "left_/left_hand_thumb_rotaback_joint2": 1.569989271024205,
+    "left_/left_hand_thumb_MCP_joint": 0.8066661453990698,
+    "left_/left_hand_thumb_PIP_joint": 0.22464469655996758
+  },
+  "source": "results/ik_015_5_20261020/runs/thumb_parking_v76/solution.json",
+  "scope": "015-5 revised v2; validated only with revised_park_v84 initial pose and smooth wrist preparation; recheck any new trajectory"
+}

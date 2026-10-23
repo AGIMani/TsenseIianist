@@ -5,8 +5,8 @@ from dm_control.composer.observation import observable
 from mujoco_utils import spec_utils
 from tsensei_v3_2_pianist.models.hands import base, urdf_model
 from tsensei_v3_2_pianist.models.hands import tsensei_hand_constants as consts
-from tsensei_v3_2_pianist.models.hands.fingertip_geometry import measure_distal_tip
-from tsensei_v3_2_pianist.drive_settings import load as load_drive_settings
+from tsensei_v3_2_pianist.models.hands.fingertip_geometry import measure_distal_tip, measure_fingertip_target
+from tsensei_v3_2_pianist.drive_settings import load as load_drive_settings, translation_damping
 from tsensei_v3_2_pianist.forearm_collision import palm_housing_body_name
 
 FINGERTIP_SITE_GROUP = 5  # Group 4 is already used by the piano's sensor sites.
@@ -47,8 +47,9 @@ class TsenseiHand(base.Hand):
             kind, axis, bounds, kp, damping, force = consts.FOREARM_DOFS[dof]
             if self._drive_settings['profile'] == 'shadow_v1':
                 if dof in self._drive_settings['translation']['joints']:
-                    kp = self._drive_settings['translation']['kp']
-                    force = self._drive_settings['translation']['force_limit']
+                    translation = self._drive_settings['translation']['axes'][dof]
+                    kp = translation['kp']
+                    force = translation['force_limit']
                 elif dof == 'forearm_pitch':
                     # Numeric WRJ1 reference; preserve the user's V3.2 axis.
                     pitch = self._drive_settings['pitch']
@@ -70,10 +71,9 @@ class TsenseiHand(base.Hand):
                                          ctrlrange=bounds, ctrllimited=True,
                                          forcerange=(-force,force), forcelimited=True)
         if self._drive_settings['profile'] == 'shadow_v1':
-            # Like Shadow's _add_dofs, compile inertias and write damping back
-            # into MJCF, so exported GPU scenes receive the identical values.
+            # Verify the reflected mass before applying explicit per-axis
+            # damping; exported CPU/GPU scenes must retain the selected gains.
             from dm_control import mjcf
-            import math
             physics = mjcf.Physics.from_mjcf_model(self._mjcf_root)
             try:
                 for name in self._drive_settings['translation']['joints']:
@@ -82,7 +82,7 @@ class TsenseiHand(base.Hand):
                         joint_id = physics.model.name2id(joint.full_identifier, 'joint')
                         dof_id = int(physics.model.jnt_dofadr[joint_id])
                         inertia = float(physics.model.dof_M0[dof_id])
-                        joint.damping = 2 * math.sqrt(inertia * self._drive_settings['translation']['kp'])
+                        joint.damping = translation_damping(self._drive_settings['translation'], inertia, name)
             finally:
                 physics.free()
         self._joints = tuple(self._mjcf_root.find_all("joint"))
@@ -91,10 +91,13 @@ class TsenseiHand(base.Hand):
         for finger in consts.FINGERS:
             distal = "PIP" if finger == "thumb" else "DIP"
             body = self._mjcf_root.find("body", f"{self._prefix}{finger}_{distal}_link")
-            # Provisional distal-face landmark, measured after URDF collision scale/origin transforms.
-            # TODO(V32-07): Real hardware pad deformation still needs calibration.
-            pos = measure_distal_tip(
-                consts.ASSETS / "urdf" / f"TsenseI_{label}.urdf", body.name)
+            # Keep the unshifted support for coupling; move only the task point
+            # 3 mm toward the palm in the terminal link frame (direction A).
+            urdf = consts.ASSETS / "urdf" / f"TsenseI_{label}.urdf"
+            body.add("site", name=finger+"_distal_support",
+                     pos=measure_distal_tip(urdf, body.name), type="sphere", size=(.001,),
+                     rgba=(0, 0, 0, 0), group=FINGERTIP_SITE_GROUP)
+            pos = measure_fingertip_target(urdf, body.name)
             site = body.add("site", name=finger+"_tip", pos=pos, type="sphere", size=(.004,),
                             rgba=(0, 0, 0, 1), group=FINGERTIP_SITE_GROUP)
             self._fingertip_bodies.append(body)

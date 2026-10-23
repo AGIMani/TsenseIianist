@@ -32,6 +32,7 @@ def write_fixture(directory):
                       limited='true', range='0 .01', damping='1', stiffness='100')
         ET.SubElement(body, 'geom', name=f'piano/key_geom_{index}', type='sphere', size='.003', mass='.01', contype='0', conaffinity='0')
     for side, y in (('right', .2), ('left', -.2)):
+        code = 'R' if side == 'right' else 'L'
         attachment = ET.SubElement(world, 'body', name=side+'_/')
         name = side+'_/base_link'
         body = ET.SubElement(attachment, 'body', name=name, pos=f'.2 {y} .1')
@@ -58,8 +59,14 @@ def write_fixture(directory):
             joint_targets[name] = .1
         control_joints = [side+f'_/finger_{index}' for index in range(20)]
         control_joints += [side+'_/forearm_'+w[0] for w in wrist]
+        finger_names = [f'{code}_Thumb_{joint}' for joint in ('Rot','Rot2','MCP','PIP')]
+        finger_names += [f'{code}_{finger}_{joint}'
+                         for finger in ('Index','Mid','Ring','Pinky')
+                         for joint in ('MCP','SW','PIP','DIP')]
+        wrist_names = [f'{code}_Palm_Base_{joint}' for joint in ('Tx','Ty','Tz','Pitch','Yaw')]
+        action_labels = finger_names + wrist_names
         for index, joint in enumerate(control_joints):
-            name = side+f'_actuator_{index}'
+            name = action_labels[index]
             low, high = (-.5, .5) if index < 20 else wrist[index-20][3:5]
             ET.SubElement(actuators, 'position', name=name, joint=joint, kp='1',
                           ctrllimited='true', ctrlrange=f'{low} {high}')
@@ -78,7 +85,7 @@ def write_fixture(directory):
         actuator_names=action_names, action_names=action_names+['sustain'],
         qpos=data.qpos.tolist(), qvel=data.qvel.tolist(), ctrl=data.ctrl.tolist(),
         physics_options={}, exporter_default_options={}, physics_dt=.005, control_dt=.05,
-        piano_joints=key_names, key_threshold=.001, hands=hands,
+        piano_joints=key_names, key_activation_fraction=1., hands=hands,
         neutral_action=data.ctrl.tolist()+[0.],
         action_min=model.actuator_ctrlrange[:,0].tolist()+[0.],
         action_max=model.actuator_ctrlrange[:,1].tolist()+[1.])

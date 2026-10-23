@@ -7,8 +7,8 @@ import numpy as np
 
 from .bundle import SceneBundle, sha256
 from ..forearm_collision import collision_scope, is_forearm_collision_geom, is_palm_collision_geom
-from ..fingering_targets import (manifest_config, options_from_manifest, target_position,
-                                validate_thumb_target, THUMB_GLOBAL_INDICES)
+from ..fingering_targets import (manifest_config, options_from_manifest, target_for_key,
+                                THUMB_GLOBAL_INDICES)
 
 
 RESET_ACTION_SEMANTICS = 'scene_neutral_physical_v1'
@@ -41,14 +41,13 @@ def _replace_initial_action_observation(observation, contract, physical_action):
 def export_task(output, scene_directory, *, midi='Toy', lookahead=20, frame_stack=1,
                 action_reward_observation=True, disable_forearm_reward=False,
                 reference_steps=64, initial_buffer_time=0.0,
-                build_reference=True, task_profile='tsensei_v1', thumb_target=None,
+                build_reference=True, task_profile='tsensei_v1',
                 release_tail_time=0., score_validation='legacy', exact_note_timing=False):
     collision_scope(task_profile)
     if type(exact_note_timing) is not bool:
         raise ValueError('exact_note_timing must be true/false')
     from ..score_validation import validate_mode
     validate_mode(score_validation)
-    thumb_target = validate_thumb_target(thumb_target)
     if isinstance(reference_steps, bool) or not isinstance(reference_steps, int) or reference_steps < 1:
         raise ValueError('reference_steps must be a positive integer')
     # No Composer/music/JAX imports on the GPU runtime side.
@@ -69,8 +68,7 @@ def export_task(output, scene_directory, *, midi='Toy', lookahead=20, frame_stac
         initial_buffer_time=initial_buffer_time,
         release_tail_time=release_tail_time, score_validation=score_validation,
         frame_stack=frame_stack, action_reward_observation=action_reward_observation,
-        disable_forearm_reward=disable_forearm_reward, task_profile=task_profile,
-        thumb_target=thumb_target)
+        disable_forearm_reward=disable_forearm_reward, task_profile=task_profile)
     env, raw, contract = make_environment(cfg)
     try:
         initial = env.reset()
@@ -138,7 +136,7 @@ def export_task(output, scene_directory, *, midi='Toy', lookahead=20, frame_stac
             control_dt=scene.manifest['control_dt'], physics_dt=scene.manifest['physics_dt'],
             contract=contract, length=length, key_geoms=key_geoms, hand_joints=joints,
             fingertip_sites=sites, palm_geoms=palms, reward_terms=terms,
-            fingering_target=manifest_config(task_profile, thumb_target),
+            fingering_target=manifest_config(task_profile),
             forearm_collision_scope=collision_scope(task_profile), forearm_collision_geoms=collision_groups,
             finger_tolerance=task_source._FINGER_CLOSE_ENOUGH_TO_KEY,
             key_tolerance=task_source._KEY_CLOSE_ENOUGH_TO_PRESSED,
@@ -157,7 +155,7 @@ def export_task(output, scene_directory, *, midi='Toy', lookahead=20, frame_stac
         if exact_note_timing:
             from .exact_score import SCHEMA
             manifest['note_timing'] = SCHEMA
-            manifest['limitations'].append('Exact MIDI rewards use physical sample timestamps; Composer reference is grid-based and is not exported for this mode')
+            manifest['limitations'].append('Exact MIDI rewards use physical sample timestamps; Composer key reward remains grid-based, so a full reference is not exported for this mode')
         if task._release_tail_steps:
             manifest['release_tail_steps'] = task._release_tail_steps
             manifest['music_end_step'] = task._music_end_step
@@ -172,11 +170,10 @@ def export_task(output, scene_directory, *, midi='Toy', lookahead=20, frame_stac
             target = np.empty((10, 88, 3), dtype=float)
             for finger in range(10):
                 for key, geom_id in enumerate(geom_ids):
-                    target[finger, key] = target_position(
-                        d.geom_xpos[geom_id], m.geom_size[geom_id], m.geom(geom_id).name,
+                    target[finger, key] = target_for_key(
+                        m, d, geom_id,
                         thumb=finger in THUMB_GLOBAL_INDICES,
                         task_profile=task_profile,
-                        thumb_target=thumb_target,
                     )
             return dict(qpos=d.qpos.copy(), qvel=d.qvel.copy(),
                 right_qpos=d.qpos[m.jnt_qposadr[joint_ids[0]]].copy(),
@@ -303,12 +300,9 @@ class TaskBundle:
         collision_scope(task_profile)
         if m.get('contract', {}).get('environment', {}).get('task_profile', 'tsensei_v1') != task_profile:
             raise ValueError('Task profile differs from the exported environment contract')
-        if 'fingering_target' in m:
-            thumb_target = options_from_manifest(m['fingering_target'], task_profile)
-            if thumb_target != m.get('contract', {}).get('environment', {}).get('thumb_target'):
-                raise ValueError('Thumb target geometry differs from the exported environment contract')
-        elif m.get('contract', {}).get('environment', {}).get('thumb_target') is not None:
-            raise ValueError('Explicit thumb target options require a frozen fingering target geometry')
+        options_from_manifest(m.get('fingering_target'), task_profile)
+        if 'thumb_target' in m.get('contract', {}).get('environment', {}):
+            raise ValueError('Removed thumb target environment contract')
         if task_profile == 'tsensei_collision_v1':
             expected = [[scene.model.geom(i).name for i in range(scene.model.ngeom)
                          if (scene.model.geom(i).name or '').startswith(side + '_/')
@@ -325,5 +319,9 @@ class TaskBundle:
         if semantics not in ('legacy_action_lower_bound_v1', RESET_ACTION_SEMANTICS):
             raise ValueError(f'Unsupported reset action semantics: {semantics}')
         if semantics == RESET_ACTION_SEMANTICS:
-            if not np.allclose(reset_action, scene.neutral_action, rtol=0, atol=1e-10):
+            # Arm augmentation changes virtual slide coordinates into zero
+            # world displacements. Validate the source task against its original
+            # frozen scene, never weaken the check to accept either convention.
+            expected_reset = getattr(scene, 'task_source_neutral_action', scene.neutral_action)
+            if not np.allclose(reset_action, expected_reset, rtol=0, atol=1e-10):
                 raise ValueError('Reset action must match frozen scene neutral control')

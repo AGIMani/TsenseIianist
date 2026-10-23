@@ -28,7 +28,7 @@ from tsensei_v3_2_pianist.models.piano import piano_constants as piano_consts
 _ACTIVATION_COLOR = (0.2, 0.8, 0.2, 1.0)
 
 # Thresholds for determining whether a key is activated.
-_KEY_THRESHOLD = 0.00872665  # 0.5 degrees.
+from ...key_activation import KEY_ACTIVATION_FRACTION as _KEY_ACTIVATION_FRACTION
 _SUSTAIN_THRESHOLD = 0.5
 
 
@@ -187,7 +187,7 @@ class Piano(composer.Entity):
             self._state[:] = np.clip(joints_pos, *self._qpos_range.T)
             self._normalized_state[:] = self._state / self._qpos_range[:, 1]
             self._activation[:] = (
-                np.abs(self._state - self._qpos_range[:, 1]) <= _KEY_THRESHOLD
+                self._state >= self._qpos_range[:, 1] * _KEY_ACTIVATION_FRACTION
             )
         self._sustain_activation[:] = self._sustain_state >= _SUSTAIN_THRESHOLD
 

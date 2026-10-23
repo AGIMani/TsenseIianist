@@ -123,7 +123,8 @@ def main(argv=None):
             archived_audio.symlink_to(audio_runtime.resolve(), target_is_directory=True)
         env = os.environ.copy()
         # Replace rather than append: do not fall through to the current project.
-        env['PYTHONPATH'] = str(directory)
+        from source_pythonpath import source_pythonpath
+        env['PYTHONPATH'] = source_pythonpath(directory, deployment_root=ROOT)
         env['PYTHONDONTWRITEBYTECODE'] = '1'
         command = [str(directory/'training_mjlab/.venv/bin/python'),
                    str(directory/'scripts/eval_from_source.py'),

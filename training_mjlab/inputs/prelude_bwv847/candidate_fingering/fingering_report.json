@@ -1,109 +1,77 @@
 {
-  "method": "dynamic programming over hand assignments with a soft finger-order preference; sustained-note constraints and posture/shift costs",
-  "source_sha256": "d331952a784bcee15735ae6d6c787cddddf06c00a2283384c3073d9bb4f30ef5",
-  "proto_sha256": "be5b424d18fe823bf4a066de6954660f9cc546974bbf53b25b01132ff024cf6c",
+  "method": "Empirical hold-coverage costs + constrained per-hand dynamic programming; engineering heuristic",
+  "source_experiment": "/data/projects/pianist/results/exper009",
+  "source_pose": {
+    "height": 0.1,
+    "ty": 0.04,
+    "yaw": 0.15
+  },
+  "best_vector_step": 47000,
+  "training_transitions": 25000448,
+  "source_sha256": "be5b424d18fe823bf4a066de6954660f9cc546974bbf53b25b01132ff024cf6c",
+  "proto_sha256": "ad58e67de1998c218e380b7370c95d64ba23fe80d6dfbe26f415184e1a80b33a",
+  "note_count": 1090,
+  "changed_notes": 61,
+  "sample_hz": 200,
+  "preparation_offset_seconds": 1.0,
+  "physical_replay_micro_f1": 0.7995604473511636,
+  "validation": {
+    "all_fields_except_part_identical": true,
+    "hand_assignments_preserved": true,
+    "simultaneous_finger_conflicts": {
+      "continuous": 0,
+      "20hz": 0,
+      "40hz": 0
+    }
+  },
+  "counts_by_finger": {
+    "0": 118,
+    "1": 180,
+    "2": 120,
+    "3": 75,
+    "4": 75,
+    "5": 142,
+    "6": 145,
+    "7": 113,
+    "8": 51,
+    "9": 71
+  },
+  "selection": {
+    "max_original_coverage": 0.65,
+    "min_alternative_samples": 3,
+    "min_alternative_mean": 0.65,
+    "min_discounted_gain": 0.12,
+    "same_pitch_discount": 0.1,
+    "nearby_pitch_discount": 0.2,
+    "nearby_semitones": 4,
+    "keep_same_hand": true,
+    "freeze_well_held_notes": true
+  },
+  "inputs": {
+    "/data/projects/pianist/results/exper009/config.json": "9676a0f858164ecbad359e7b0523ca30df5f5db8373d3dd2012afb97f2fd8347",
+    "/data/projects/pianist/results/exper009/summary.json": "91e45d2d0340e25a3448a4a4d6398815f65b282cd039dd284106f11701e46dcb",
+    "/data/projects/pianist/results/exper009/video_best/midi_comparison/comparison.json": "83179de51785105413337fa409416d4cbb6709e1b1def3555ee0a9d530e66eee",
+    "/data/projects/pianist/results/exper009/video_best/midi_comparison/key_comparison.npz": "ccf0f90dc63af836bfb4e4d9519682c1cbb9750726943df07146b5fe0c9107d2",
+    "/data/projects/pianist/results/exper009/best.pt": "86eeab003cbbf1d36e652fbf3c5b3abcd28b6bff0deec044adab066ce1f94dce",
+    "/data/projects/pianist/results/exper009/video_best/replay_data/audio_substeps.npz": "bbbca287fcf150e5101b91f6e506610fa30b32ca83782c43cb0bcdffe936c01d"
+  },
+  "limitations": [
+    "Observed key activation is not finger-contact attribution or proof of unreachability.",
+    "Evidence was collected with yaw=0.15rad and the old ranges, not yaw=30deg.",
+    "Alternative-finger scores use other notes in the replay and three best-checkpoint evaluation episodes; no counterfactual physical validation.",
+    "Evaluation onset misses are reported separately and are not equated to missing hold time.",
+    "Pitch, velocity, time, instrument, metadata and sustain are unchanged. No retraining was launched."
+  ],
+  "dt": 0.05,
+  "proto_file": "prelude-bwv-847_fingered.proto",
   "instrument_to_hand": {
     "0": "right",
     "1": "left"
   },
-  "note_count": 1090,
-  "all_note_attributes_preserved": false,
-  "dt": 0.05,
-  "trim_origin_seconds": 0.0,
+  "trim_origin_seconds": 0,
   "trimmed_note_count": 1090,
   "trajectory_frames": 1581,
-  "simultaneous_finger_conflicts": 0,
-  "counts_by_finger": {
-    "0": 128,
-    "1": 169,
-    "2": 109,
-    "3": 75,
-    "4": 87,
-    "5": 147,
-    "6": 144,
-    "7": 109,
-    "8": 48,
-    "9": 74
-  },
-  "costs": {
-    "right": 1332.908741537237,
-    "left": 2225.489253055786
-  },
-  "limitations": "Candidate only. Hand split inferred from supplied tracks. Offsets/costs are engineering heuristics, not calibrated TsenseI IK or expert fingering. No claim of collision-free reachability.",
-  "original_source_sha256": "9e29d5b640d875bcfa93824cc963a4d9419ce2139cfd4e786148d45127e602d8",
-  "original_source_path": "/home/hj/下载/prelude-bwv-847.mid",
-  "proto_file": "prelude-bwv-847_fingered.proto",
-  "duration_seconds": 79.0,
-  "timing_normalization": "../timing_normalization.json",
-  "score_validation": {
-    "20": {
-      "valid": true,
-      "covered_notes": 1090,
-      "source_notes": 1090,
-      "error_counts": {},
-      "first_errors": []
-    },
-    "40": {
-      "valid": true,
-      "covered_notes": 1090,
-      "source_notes": 1090,
-      "error_counts": {},
-      "first_errors": []
-    }
-  },
-  "exact_time_finger_conflicts": 0,
-  "release_gap_repair": {
-    "schema": "physics_release_gap_v1",
-    "physics_dt_s": 0.005,
-    "adjusted_note_count": 5,
-    "adjusted_notes": [
-      {
-        "note_index": 454,
-        "pitch": 57,
-        "key": 36,
-        "start_time": 28.375,
-        "old_end_time": 28.5,
-        "new_end_time": 28.495,
-        "release_gap_to_next_physical_sample_s": 0.005
-      },
-      {
-        "note_index": 457,
-        "pitch": 57,
-        "key": 36,
-        "start_time": 28.5,
-        "old_end_time": 28.625,
-        "new_end_time": 28.62,
-        "release_gap_to_next_physical_sample_s": 0.005
-      },
-      {
-        "note_index": 470,
-        "pitch": 57,
-        "key": 36,
-        "start_time": 29.375,
-        "old_end_time": 29.5,
-        "new_end_time": 29.495,
-        "release_gap_to_next_physical_sample_s": 0.005
-      },
-      {
-        "note_index": 473,
-        "pitch": 57,
-        "key": 36,
-        "start_time": 29.5,
-        "old_end_time": 29.625,
-        "new_end_time": 29.62,
-        "release_gap_to_next_physical_sample_s": 0.005
-      },
-      {
-        "note_index": 960,
-        "pitch": 63,
-        "key": 42,
-        "start_time": 61.5,
-        "old_end_time": 61.59375,
-        "new_end_time": 61.58875,
-        "release_gap_to_next_physical_sample_s": 0.005
-      }
-    ],
-    "original_candidate_proto_sha256": "bc8a027f4666af72fc09d2027b42e27c346ecb55c7ae811f43a8de91c15384b6",
-    "reason": "Exact physical coverage requires at least one post-step release sample between repeated same-key events; note starts, pitches, instruments, parts and velocities are unchanged."
-  }
+  "revision_all_fields_except_fingering_preserved": true,
+  "validation_tests": "3 offline unit tests passed; current strict_v1 score loader passed at 20/40 Hz",
+  "active_score_path": "/data/projects/pianist/training_mjlab/inputs/prelude_bwv847/candidate_fingering/prelude-bwv-847_fingered.proto"
 }

@@ -107,7 +107,7 @@ def main():
     if args.audio:
         from tsensei_v3_2_pianist.preview_audio import PianoSynth, events_from_states, write_midi
         events = events_from_states(q, model.jnt_range[key_joints], pedal,
-                                   bundle.manifest['physics_dt'], bundle.manifest['key_threshold'])
+                                   bundle.manifest['physics_dt'], bundle.manifest['key_activation_fraction'])
         (args.output/'audio_events.json').write_text(json.dumps(events, indent=2)+'\n')
         write_midi(args.output/'played.mid', events)
         synth = PianoSynth()

@@ -49,23 +49,18 @@ class FingeringHighlight:
         return '\n'.join(lines)
 
     @staticmethod
-    def _geom(scene, kind, size, pos, mat, color, label=''):
+    def _geom(scene, kind, size, pos, mat, color):
         if scene.ngeom >= scene.maxgeom:
             raise RuntimeError('Viewer scene has no room for fingering annotations')
         geom = scene.geoms[scene.ngeom]
         mujoco.mjv_initGeom(geom, kind, size, pos, mat, color)
-        geom.label = label
+        geom.label = ''
         scene.ngeom += 1
 
     def append(self, scene, data, fingers):
         assigned = self.assignments(fingers)
         active = self.keys.active(data)
         identity = np.eye(3).ravel()
-        # Small floating fingertip labels leave the physical endpoint sites intact.
-        for finger, site in enumerate(self.tip_ids):
-            self._geom(scene, mujoco.mjtGeom.mjGEOM_SPHERE, [.0035, 0, 0],
-                       data.site_xpos[site] + [0, 0, .006], identity,
-                       FINGER_COLORS[finger % 5], finger_label(finger))
         for key in np.flatnonzero(assigned.any(axis=0)):
             fingers_here = np.flatnonzero(assigned[:, key])
             geom = self.keys.geom_ids[key]
@@ -74,12 +69,8 @@ class FingeringHighlight:
             # One clear key color when unambiguous. Multiple assignments retain
             # individual markers instead of silently picking one finger.
             if not active[key] and len(fingers_here) == 1:
+                if self.keys.color_mesh(scene, key, FINGER_COLORS[fingers_here[0] % 5]):
+                    continue
                 self._geom(scene, mujoco.mjtGeom.mjGEOM_BOX, size + .00002,
                            data.geom_xpos[geom], rotation.ravel(),
                            FINGER_COLORS[fingers_here[0] % 5])
-            for j, finger in enumerate(fingers_here):
-                offset = [.65 * size[0] - .009 * j, 0, size[2] + .007]
-                pos = data.geom_xpos[geom] + rotation @ offset
-                self._geom(scene, mujoco.mjtGeom.mjGEOM_SPHERE, [.0035, 0, 0],
-                           pos, identity, FINGER_COLORS[finger % 5],
-                           f'{finger_label(finger)} {note_name(key)}')

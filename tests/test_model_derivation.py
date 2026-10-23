@@ -45,21 +45,33 @@ class ModelDerivationTest(unittest.TestCase):
                 original = joint.find(relation).get('link')
                 self.assertEqual(actual.find(relation).get('link'), mapping.get(original, original))
             if joint.get('type') == 'revolute':
-                self.assertEqual(actual.find('axis').attrib, joint.find('axis').attrib)
-                self.assertEqual(actual.find('limit').attrib, joint.find('limit').attrib)
+                if name.endswith('thumb_rotaback_joint2'):
+                    np.testing.assert_array_equal(np.fromstring(actual.find('axis').get('xyz'),sep=' '),
+                                                  -np.fromstring(joint.find('axis').get('xyz'),sep=' '))
+                    self.assertEqual(float(actual.find('limit').get('lower')), -float(joint.find('limit').get('upper')))
+                    self.assertEqual(float(actual.find('limit').get('upper')), -float(joint.find('limit').get('lower')))
+                else:
+                    self.assertEqual(actual.find('axis').attrib, joint.find('axis').attrib)
+                    self.assertEqual(actual.find('limit').attrib, joint.find('limit').attrib)
         self.assertEqual(len(normalized.findall("joint[@type='revolute']")), 20)
 
-    def test_right_axial_vector_reflection_and_inertial_mass(self):
-        left = ET.parse(prepare.ASSETS / 'urdf/TsenseI_left.urdf').getroot()
-        right = ET.parse(prepare.ASSETS / 'urdf/TsenseI_right.urdf').getroot()
-        for joint in left.findall("joint[@type='revolute']"):
-            other = right.find(f"joint[@name='{prepare.right_name(joint.get('name'))}']")
-            axis = np.fromstring(joint.find('axis').get('xyz'), sep=' ')
-            mirrored = np.fromstring(other.find('axis').get('xyz'), sep=' ')
-            np.testing.assert_allclose(mirrored, -prepare.REFLECTION @ axis, atol=1e-15)
-        for link in left.findall('link'):
-            other = right.find(f"link[@name='{prepare.right_name(link.get('name'))}']")
-            self.assertEqual(link.find('inertial/mass').attrib, other.find('inertial/mass').attrib)
+    def test_both_hands_preserve_supplied_axes_and_inertial_mass(self):
+        for side in ('left', 'right'):
+            active = ET.parse(prepare.ASSETS / f'urdf/TsenseI_{side}.urdf').getroot()
+            source = ET.parse(prepare.ASSETS / 'source/latest_project/urdf' /
+                              f'TsenseI_hand_{side}_v3_2_withid.urdf').getroot()
+            for joint in source.findall("joint[@type='revolute']"):
+                actual = active.find(f"joint[@name='{joint.get('name')}']")
+                if joint.get('name').endswith('thumb_rotaback_joint2'):
+                    np.testing.assert_array_equal(np.fromstring(actual.find('axis').get('xyz'),sep=' '),
+                                                  -np.fromstring(joint.find('axis').get('xyz'),sep=' '))
+                    self.assertEqual(float(actual.find('limit').get('upper')), 1.74)
+                else:
+                    self.assertEqual(actual.find('axis').attrib, joint.find('axis').attrib)
+                    self.assertEqual(actual.find('limit').attrib, joint.find('limit').attrib)
+            for link in source.findall('link'):
+                actual = active.find(f"link[@name='{link.get('name')}']")
+                self.assertEqual(actual.find('inertial/mass').attrib, link.find('inertial/mass').attrib)
 
     def test_compiled_mesh_units_are_hand_sized(self):
         for side in ('left', 'right'):

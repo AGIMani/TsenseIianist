@@ -2,7 +2,7 @@
 
 ## 用户决定与实现
 
-用户要求新增取消Wrist_Yaw的训练，并确认保持当前训练场景各自的初始角度。当前冻结包`contact_stable_h12_20hz200hz_20260924/scene`左右Yaw均为+0.25 rad（约14.3°），取manifest.qpos而非后来编辑的源默认值。
+用户要求新增取消Palm_Base_Yaw的训练，并确认保持当前训练场景各自的初始角度。当前冻结包`contact_stable_h12_20hz200hz_20260924/scene`左右Yaw均为+0.25 rad（约14.3°），取manifest.qpos而非后来编辑的源默认值。
 
 - 新增`--disable-wrist-yaw`，本版要求同时`--disable-wrist-tz`；不加时保留旧49/51动作行为。
 - 在51通道顺序中删除R/L TZ、R/L Yaw（零基22、24、47、49），Actor/Critic/replay为47维，踏板最后；目标熵按现行规则为−23.5。物理nq/nv=134、nu=46，TZ和Yaw关节及驱动器实际移除，没有隐藏可运动Yaw或每步坐标投影。

@@ -4,7 +4,7 @@ def press_action(bundle, sides=('R', 'L')):
     names = bundle.manifest['action_names']
     action = bundle.neutral_action.copy()
     for side in sides:
-        wrist = names.index(side+'_Wrist_TZ')
+        wrist = names.index(side+'_Palm_Base_Tz')
         finger = names.index(side+'_Mid_MCP')
         action[wrist] = max(-.025, bundle.low[wrist])
         action[finger] = min(action[finger]+.1, bundle.high[finger])
@@ -25,8 +25,8 @@ def scenarios(bundle):
         name = f'{side}_Index_MCP'
         idx = names.index(name)
         yield f'{side}_finger', np.tile(target({name: min(neutral[idx]+.15, bundle.high[idx])}), (10, 1))
-    for suffix, value in [('TX', .012), ('TY', .008), ('TZ', -.005), ('Pitch', .10), ('Yaw', .15)]:
-        yield f'wrist_{suffix}', np.tile(target({f'{s}_Wrist_{suffix}': value for s in ('R', 'L')}), (10, 1))
+    for suffix, value in [('Tx', .012), ('Ty', .008), ('Tz', -.005), ('Pitch', .10), ('Yaw', .15)]:
+        yield f'palm_base_{suffix}', np.tile(target({f'{s}_Palm_Base_{suffix}': value for s in ('R', 'L')}), (10, 1))
     # Actual hand actuation against unmodified piano keys: no forced key qpos.
     press = press_action(bundle)
     yield 'press_release', np.concatenate((np.tile(press, (12, 1)), np.tile(neutral, (20, 1))))

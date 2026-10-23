@@ -75,13 +75,13 @@ def main():
                 with scene.scope():
                     for side in ('R', 'L'):
                         for suffix in ('Yaw', 'Pitch'):
-                            act = model.actuator(f'{side}_Wrist_{suffix}').id
+                            act = model.actuator(f'{side}_Palm_Base_{suffix}').id
                             adr = model.jnt_qposadr[model.actuator_trnid[act, 0]]
                             scene.data.qpos[0, int(adr)] = 0.
                     scene.sim.forward()
                     baseline = scene.data.xmat[0, roots].cpu().numpy().reshape(2, 3, 3).copy()
                     for side in ('R', 'L'):
-                        act = model.actuator(f'{side}_Wrist_{axis}').id
+                        act = model.actuator(f'{side}_Palm_Base_{axis}').id
                         adr = model.jnt_qposadr[model.actuator_trnid[act, 0]]
                         scene.data.qpos[0, int(adr)] = angle
                     scene.sim.forward()

@@ -45,7 +45,7 @@ class ArmCoreTests(unittest.TestCase):
     def setUpClass(cls):
         torch.set_num_threads(1)
 
-    def test_stationary_reference_brakes_without_repeated_overshoot(self):
+    def test_reference_uses_current_step_limits_without_goal_braking(self):
         f, poses = core(worlds=2)
         targets = {}
         for side, a in f.sides.items():
@@ -54,21 +54,25 @@ class ArmCoreTests(unittest.TestCase):
             goal[1, :4] -= .15
             p, r, *_ = f.fk(a, goal)
             targets[side] = (p, r)
-        history = []
-        for k in range(350):
-            f.step(targets)
-            history.append(f.sides['left']['q'].clone())
+        feasible = {}
         for side, a in f.sides.items():
-            self.assertLess(float(a['v'].abs().max()), 1e-6)
-            self.assertLess(float(f.last[side]['position_error'].max()), 1e-6)
-            self.assertLess(float(f.last[side]['orientation_error'].max()), 1e-5)
-        self.assertLess(float((torch.stack(history[-100:])-history[-1]).abs().max()), 1e-6)
+            feasible[side] = (a['q'].clone(), *f.bounds(a))
+        f.step(targets)
+        for side, a in f.sides.items():
+            raw = f.last[side]['requested_q']
+            q0, low, high = feasible[side]
+            # With no remaining-distance braking, the issued q follows the
+            # current-step feasible box directly.
+            expected = f._coupled_segment(q0, raw.clamp(low, high))
+            torch.testing.assert_close(a['q'], expected, atol=1e-12, rtol=0)
+            self.assertGreater(float(a['v'].abs().max()), 0.)
 
     def test_explicit_angles_and_units_and_source_validation(self):
         p = argparse.ArgumentParser(); add_arguments(p)
         self.assertIsNone(from_args(p.parse_args([])))
-        with self.assertRaisesRegex(ValueError, '无法开启机械臂训练'):
-            from_args(p.parse_args(['--arms']))
+        defaults = from_args(p.parse_args(['--arms']))
+        np.testing.assert_allclose(defaults['initial_q_rad']['right'], np.deg2rad([-84.27055, -68.29417, 61.39675, -89.05803, -64.834334, 27.92905, -7.30834]))
+        self.assertEqual(defaults['controller'], 'wuji_cartesian_v1')
         o = options()
         np.testing.assert_allclose(o['initial_q_rad']['left'], np.deg2rad(ANGLES))
         self.assertAlmostEqual(o['joint_limits']['left'][0]['velocity'], np.pi)
@@ -145,12 +149,9 @@ class ArmCoreTests(unittest.TestCase):
             bad[:, 5] = np.deg2rad(60.)
             bad[:, 6] = np.deg2rad(90.)
             targets[side] = f.fk(a, bad)[:2]
-        for _ in range(120):
-            f.step(targets)
-            for a in f.sides.values():
-                self.assertTrue(torch.all(f._coupling_valid(a['q'])))
-                self.assertTrue(torch.all(a['v'].abs() <= a['vmax'] + 1e-8))
-                self.assertTrue(torch.all(a['acceleration'].abs() <= a['amax'] + 1e-7))
+        with self.assertRaisesRegex(RuntimeError, 'hard-limit verification failed'):
+            for _ in range(120):
+                f.step(targets)
 
     def test_penalty_is_one_max_budget_and_failed_step_is_atomic(self):
         f, poses = core(worlds=3)
@@ -200,18 +201,29 @@ class ArmCoreTests(unittest.TestCase):
         torch.testing.assert_close(values['arm_motion_limit_penalty'], torch.tensor([0., -2.5, -5.]))
         torch.testing.assert_close(values['joint_motion_limit_penalty'], torch.full((3,), -5.))
 
-    def test_training_config_preserves_action_options_and_enables_only_arm_term(self):
+    def test_training_config_preserves_action_options_and_enables_only_arm_terms(self):
         from tsensei_v3_2_pianist.rl_torch.train import parser, effective_config
         common = ['--no-arms', '--disable-wrist-tz', '--disable-wrist-yaw', '--preparation-time', '1',
                   '--preparation-mode', 'policy_v1', '--finger-coupling', '--no-coupling-reduce-observation']
         baseline = effective_config(parser().parse_args(common))
-        enabled = effective_config(parser().parse_args(common + FLAGS))
+        arm_flags = ['--arms', '--disable-wrist-yaw', '--action-profile', 'wuji_cartesian_v1'] + FLAGS[1:]
+        arm_common = ['--disable-wrist-yaw', '--preparation-time', '1',
+                      '--preparation-mode', 'policy_v1', '--finger-coupling',
+                      '--no-coupling-reduce-observation']
+        enabled = effective_config(parser().parse_args(arm_common + arm_flags))
         self.assertEqual(enabled['finger_coupling'], baseline['finger_coupling'])
         self.assertIsNone(baseline['arm_follow'])
+        self.assertIsNotNone(enabled['arm_follow'])
         for name in baseline['reward_config']['terms']:
-            if name != 'arm_motion_limit_penalty':
+            if name not in ('arm_motion_limit_penalty', 'arm_tracking_error_penalty'):
                 self.assertEqual(enabled['reward_config']['terms'][name], baseline['reward_config']['terms'][name])
         self.assertTrue(enabled['reward_config']['terms']['arm_motion_limit_penalty']['enabled'])
+        self.assertTrue(enabled['reward_config']['terms']['arm_tracking_error_penalty']['enabled'])
+
+    def test_arms_and_no_arms_are_explicitly_mutually_exclusive(self):
+        from tsensei_v3_2_pianist.rl_torch.train import parser, effective_config
+        with self.assertRaisesRegex(ValueError, '--arms and --no-arms'):
+            effective_config(parser().parse_args(['--no-arms', *FLAGS]))
 
 
 class ArmNativeSceneTests(unittest.TestCase):
@@ -222,12 +234,12 @@ class ArmNativeSceneTests(unittest.TestCase):
             drive_profile='shadow_v1', exact_note_timing=True))
 
     def bundle(self, arms=True):
-        return SceneBundle(self.scene, disable_wrist_tz=True, disable_wrist_yaw=True,
+        return SceneBundle(self.scene, disable_wrist_tz=False, disable_wrist_yaw=True,
                            preparation=PREP, arm_follow=options() if arms else None)
 
     def test_native_assembly_is_rigid_and_finger_key_inputs_preserved(self):
         original = self.bundle(False); b = self.bundle()
-        self.assertEqual((original.model.nq, original.model.nu), (134, 46))
+        self.assertEqual((original.model.nq, original.model.nu), (136, 48))
         self.assertEqual((b.model.nq, b.model.nu), (128, 40))
         self.assertEqual(len(b.policy_action_indices), 46)
         self.assertEqual(len(b.active_action_indices), 40)
@@ -236,8 +248,16 @@ class ArmNativeSceneTests(unittest.TestCase):
         self.assertIn('actual_rigid_initial', b.preparation)
         old, new = original.model, b.model
         reference, d = original.reset_cpu(), b.reset_cpu()
+        # Cartesian zero is the installed reference after removing the
+        # hand-scene slide offsets; compare the native hand geometry at that
+        # pose with the rigid-arm conversion.
         for side in ('right', 'left'):
-            for axis in ('tx', 'ty', 'pitch'):
+            for axis in ('tx', 'ty', 'tz'):
+                joint = reference.model.joint(f'{side}_/forearm_{axis}')
+                reference.qpos[reference.model.jnt_qposadr[joint.id]] = 0.
+        mujoco.mj_forward(reference.model, reference)
+        for side in ('right', 'left'):
+            for axis in ('tx', 'ty', 'tz', 'pitch'):
                 self.assertEqual(mujoco.mj_name2id(new, mujoco.mjtObj.mjOBJ_JOINT,
                     f'{side}_/forearm_{axis}'), -1)
             hand = new.body(f'{side}_/base_link')
@@ -255,17 +275,27 @@ class ArmNativeSceneTests(unittest.TestCase):
             ('actuator', old.nu, ('actuator_gainprm', 'actuator_biasprm', 'actuator_ctrlrange', 'actuator_forcerange'))):
             for i in range(count):
                 name = getattr(old, kind)(i).name
-                if not name or (kind == 'actuator' and '_Wrist_' in name):
+                if not name or (kind == 'actuator' and '_Palm_Base_' in name):
                     continue
                 try: ni = getattr(new, kind)(name).id
                 except KeyError: continue  # obsolete empty preparation wrappers
                 for field in fields:
                     np.testing.assert_array_equal(getattr(new, field)[ni], getattr(old, field)[i])
-        for i in range(old.ngeom):
-            name = old.geom(i).name
-            if name:
-                np.testing.assert_allclose(d.geom(name).xpos, reference.geom(name).xpos, atol=2e-12, rtol=0)
-                np.testing.assert_allclose(d.geom(name).xmat, reference.geom(name).xmat, atol=2e-12, rtol=0)
+        # The approved connector changes the world placement of the hand root;
+        # verify the hand geometry in its own root frame instead of comparing
+        # the old virtual-wrist world translation.
+        for side in ('right', 'left'):
+            old_root = reference.body(f'{side}_/base_link')
+            new_root = d.body(f'{side}_/base_link')
+            for i in range(old.ngeom):
+                name = old.geom(i).name or ''
+                if not name.startswith(side + '/'): continue
+                old_local = old_root.xmat.reshape(3, 3).T @ (reference.geom(name).xpos - old_root.xpos)
+                new_local = new_root.xmat.reshape(3, 3).T @ (d.geom(name).xpos - new_root.xpos)
+                np.testing.assert_allclose(new_local, old_local, atol=2e-12, rtol=0)
+                old_local_r = old_root.xmat.reshape(3, 3).T @ reference.geom(name).xmat.reshape(3, 3)
+                new_local_r = new_root.xmat.reshape(3, 3).T @ d.geom(name).xmat.reshape(3, 3)
+                np.testing.assert_allclose(new_local_r, old_local_r, atol=2e-12, rtol=0)
 
     def test_unachievable_command_has_request_error_but_zero_attachment_error(self):
         b = self.bundle(); d = b.reset_cpu()
@@ -274,7 +304,8 @@ class ArmNativeSceneTests(unittest.TestCase):
         start = f.requests(demand, torch.zeros(1))
         for side, a in f.sides.items():
             p, r, *_ = f.fk(a, a['q'])
-            torch.testing.assert_close(start[side][0], p, atol=1e-12, rtol=0)
+            expected_p = p.clone(); expected_p[:, 2] += PREP['lift']
+            torch.testing.assert_close(start[side][0], expected_p, atol=1e-12, rtol=0)
             torch.testing.assert_close(start[side][1], r, atol=1e-12, rtol=0)
         demand[:, [20, 45]] += .2
         for k in range(20):
@@ -297,30 +328,13 @@ class ArmNativeSceneTests(unittest.TestCase):
         self.assertGreater(float(f.last['left']['position_error'][0]), .02)
         self.assertGreater(float(f.excess[0]), 0.)
 
-    def test_clearance_fk_uses_full_actual_rigid_hand_frame(self):
+    def test_clearance_guard_rejects_convex_arm_geometry(self):
         from tsensei_v3_2_pianist.mjlab_env.finger_clearance import FingerClearanceGuard
         from tsensei_v3_2_pianist.mjlab_env.arm_options import ROOT
-        b = self.bundle(); d = b.reset_cpu()
-        guard = FingerClearanceGuard(b, device='cpu', options=json.loads(
-            (ROOT/'configs/finger_clearance/control_disabled_20260927.json').read_text()))
-        f = SceneArmFollower(b, num_envs=1, device='cpu')
-        for a in f.sides.values(): a['q'][:, :3] += torch.tensor([.08, -.03, .05])
-        f.publish_numpy(d.mocap_pos, d.mocap_quat); mujoco.mj_forward(b.model, d)
-        support = guard.support(torch.tensor(d.mocap_pos)[None].float(),
-            torch.tensor(d.xpos)[None].float(), torch.tensor(d.xmat)[None].float())
-        physical = guard.physical_qpos(torch.tensor(d.qpos)[None].float())
-        endpoints, *_ = guard.fk(physical, support)
-        for index, group in enumerate(guard.groups):
-            for j, geom in enumerate(group['geoms']):
-                p = d.geom_xpos[geom]; axis = d.geom_xmat[geom].reshape(3, 3)[:, 2]
-                h = b.model.geom_size[geom, 1]
-                np.testing.assert_allclose(endpoints[0, index, j].numpy(),
-                    np.stack([p-axis*h, p+axis*h]), atol=2e-7, rtol=0)
-        projected, metrics = guard.filter(physical, actual_qpos=torch.tensor(d.qpos)[None].float(),
-            mocap_pos=torch.tensor(d.mocap_pos)[None].float(), support=support,
-            assigned_keys=torch.zeros(1, 10, 88))
-        torch.testing.assert_close(projected, physical, atol=0, rtol=0)
-        self.assertTrue(torch.isfinite(metrics['finger_actual_deficit_m']).all())
+        b = self.bundle()
+        options = json.loads((ROOT/'configs/finger_clearance/control_disabled_20260927.json').read_text())
+        with self.assertRaisesRegex(ValueError, 'capsule collision geometry'):
+            FingerClearanceGuard(b, device='cpu', options=options)
 
     def test_rigid_root_contacts_are_not_filtered_as_world_weld(self):
         from tsensei_v3_2_pianist.mjlab_env.self_collision import collision_weld_ids
@@ -344,6 +358,39 @@ class ArmNativeSceneTests(unittest.TestCase):
         mujoco.mj_step(m, d)
         self.assertTrue(np.isfinite(d.qpos).all() and np.isfinite(d.qvel).all())
 
+    def test_arm_collision_query_is_separate_and_covers_conflict_scopes(self):
+        b = self.bundle(); query = b.arm_collision_query_model
+        self.assertIsNotNone(query)
+        self.assertEqual((query.nq, query.ngeom), (b.model.nq, b.model.ngeom))
+        self.assertTrue(b.arm_collision_query_pairs)
+        categories = {row[2] for row in b.arm_collision_query_pairs}
+        self.assertEqual(categories, {'arm_arm', 'arm_hand', 'arm_piano'})
+        # The active force model remains reaction-free for kinematic arm meshes.
+        for gid in range(b.model.ngeom):
+            name = b.model.geom(gid).name or ''
+            if name.startswith(('arm_follow_', 'arm_connector_')):
+                self.assertEqual((int(b.model.geom_contype[gid]), int(b.model.geom_conaffinity[gid])), (0, 0))
+                self.assertEqual((int(query.geom_contype[gid]), int(query.geom_conaffinity[gid])), (1, 1))
+        # Fixed Link7/flange/connector-to-own-hand mount contacts are excluded.
+        for first, second, category in b.arm_collision_query_pairs:
+            if category != 'arm_hand':
+                continue
+            body_a = query.body(int(query.geom_bodyid[query.geom(first).id])).name or ''
+            body_b = query.body(int(query.geom_bodyid[query.geom(second).id])).name or ''
+            if body_a.startswith('arm_follow_right_') or body_a.startswith('arm_connector_right_'):
+                self.assertFalse(body_b.startswith('right_/') and any(
+                    token in body_a for token in ('Link7_', 'arm_flange_', 'arm_connector_')))
+
+    def test_finger_coupling_accepts_rigid_arm_bundle(self):
+        from tsensei_v3_2_pianist.mjlab_env.action_mapping import physical_bounds
+        from tsensei_v3_2_pianist.mjlab_env.finger_coupling import FingerCoupler
+        b = self.bundle()
+        low, high = physical_bounds('wuji_cartesian_v1', b.manifest['action_names'], b.low, b.high,
+                                    range_scales=b.manifest.get('action_range_scales'))
+        g = FingerCoupler(b, device='cpu', options=dict(schema=1, mode='distal_60deg_v1'),
+                          physical_low=low, physical_high=high)
+        self.assertFalse(any(g.reference_diagnostics['coupling_infeasible']))
+
     def gpu_env(self, arm_options=None):
         from tsensei_v3_2_pianist.mjlab_env.task import PianoTaskEnv
         from tsensei_v3_2_pianist.mjlab_env.reward_config import canonical as reward_canonical
@@ -352,14 +399,17 @@ class ArmNativeSceneTests(unittest.TestCase):
         reward['terms']['arm_motion_limit_penalty']['enabled'] = arm_options is not False
         controls = dict(schema=1, mode='target_clip_slew_v1', joint_state_limits='hard_v1', channels={})
         for side in ('R', 'L'):
-            for axis in ('TX', 'TY'):
-                controls['channels'][f'{side}_Wrist_{axis}'] = dict(max_velocity=.99, max_acceleration=1.99)
-            controls['channels'][f'{side}_Wrist_Pitch'] = dict(max_velocity=3.1416, max_acceleration=15.708)
+            for axis in ('Tx', 'Ty'):
+                controls['channels'][f'{side}_Palm_Base_{axis}'] = dict(max_velocity=.99, max_acceleration=1.99)
+            if arm_options is False:
+                controls['channels'][f'{side}_Palm_Base_Pitch'] = dict(max_velocity=3.1416, max_acceleration=15.708)
         return PianoTaskEnv(self.scene, self.task, num_envs=2, preparation=PREP,
-            disable_wrist_tz=True, disable_wrist_yaw=True, action_profile='direct_joint_v1',
+            disable_wrist_tz=False, disable_wrist_yaw=True, action_profile='wuji_cartesian_v1',
             finger_coupling=dict(schema=1, mode='distal_angle_range_v1', reduce_observation=False),
             arm_follow=(options() if arm_options is None else arm_options or None), reward_config=reward, physics_graph=True, collision_diagnostics=True,
-            finger_clearance=json.loads((ROOT/'configs/finger_clearance/control_disabled_20260927.json').read_text()),
+            # Convex-hull links do not support the retired capsule envelope;
+            # keep both arm and no-arm paths explicitly disabled.
+            finger_clearance=None,
             control_limits=controls)
 
     @unittest.skipUnless(os.environ.get('SLURM_JOB_ID') and os.environ.get('TSENSEI_ARM_GPU_TEST') == '1',
@@ -369,13 +419,16 @@ class ArmNativeSceneTests(unittest.TestCase):
         obs = env.reset()
         self.assertEqual(env.action_size, 31)
         self.assertEqual((env.scene.model.nq, env.scene.model.nu), (128, 40))
-        self.assertIsNotNone(env.scene.finger_clearance_guard)
-        self.assertIsNotNone(env.scene.key_contact_diagnostics)
+        self.assertIsNone(env.scene.finger_clearance_guard)
+        self.assertIsNone(env.scene.key_contact_diagnostics)
         action = env.scene.policy_action(env.scene.last_applied_physical_action)
         result = env.step(action)
         self.assertTrue(torch.isfinite(result.observation).all())
         self.assertEqual(obs.shape[-1], env.observation_size)
         self.assertIn('arm_motion_limit_penalty', result.info['reward_weighted_terms'])
+        self.assertIn('coupling_substep_actual_error_deg_max', result.info)
+        self.assertTrue(torch.isfinite(result.info['coupling_substep_actual_error_deg_max']).all())
+        self.assertIn('arm_collision_substeps', result.info)
         from tsensei_v3_2_pianist.rl_torch.sac import SAC, SACConfig
         from tsensei_v3_2_pianist.rl_torch.replay import Transition
         learner = SAC(env.observation_size, env.action_size,
@@ -434,15 +487,7 @@ class ArmNativeSceneTests(unittest.TestCase):
             result = env.step(action)
             self.assertTrue(torch.isfinite(result.observation).all())
             self.assertNotIn('arm_motion_limit_penalty', result.info['reward_weighted_terms'])
-        keys = env.logic.fingers[env.logic.index]
-        with scene.scope():
-            request = scene.last_applied_physical_action.clone()
-            expected, expected_metrics = scene.finger_clearance_guard.filter(request,
-                actual_qpos=scene.data.qpos[:], mocap_pos=scene.data.mocap_pos[:], assigned_keys=keys)
-            actual, metrics = scene._filter_finger_targets(request, keys)
-            torch.testing.assert_close(actual, expected, atol=1e-6, rtol=0)
-            for key, values in expected_metrics.items():
-                torch.testing.assert_close(metrics[key], values, atol=1e-6, rtol=0)
+        self.assertIsNone(scene.finger_clearance_guard)
 
     @unittest.skipUnless(os.environ.get('SLURM_JOB_ID') and os.environ.get('TSENSEI_ARM_GPU_TEST') == '1',
                          'Rigid contact regression requires explicit Slurm validation')
@@ -468,6 +513,129 @@ class ArmNativeSceneTests(unittest.TestCase):
             self.assertTrue(torch.all(env.snapshot()['palm_collision']))
             s.sim.step(); s.sim.forward()
             self.assertTrue(torch.isfinite(s.data.qpos[:]).all())
+
+    @unittest.skipUnless(os.environ.get('SLURM_JOB_ID') and os.environ.get('TSENSEI_ARM_GPU_TEST') == '1',
+                         'Arm query regression requires explicit Slurm validation')
+    def test_gpu_arm_joint_limit_cached_forward_matches_eager(self):
+        import warp as wp
+        env = self.gpu_env(); s = env.scene
+        self.assertIsNotNone(s.joint_limiter)
+        row = s.joint_limiter.contract['joints'][0]
+        with s.scope():
+            # Restore the same solver inputs before each branch so warm starts
+            # cannot make a second forward appear equivalent by coincidence.
+            fields = ('qpos', 'qvel', 'qacc_warmstart', 'ctrl', 'mocap_pos', 'mocap_quat')
+            initial = {name: getattr(s.data, name)[:].clone() for name in fields}
+            for bound, speed in ((row['float32_min']-.01, -1.),
+                                 (row['float32_max']+.01, 1.)):
+                snapshots = []
+                for cached in (False, True):
+                    for name, value in initial.items():
+                        getattr(s.data, name)[:] = value
+                    s.data.qpos[:, row['qpos_address']] = bound
+                    s.data.qvel[:, row['dof_address']] = speed
+                    s.joint_limiter.counts.zero_()
+                    s._enforce_joint_limits(use_cached_forward=cached)
+                    d = s.sim.wp_data
+                    state = {name: wp.to_torch(getattr(d, name)).clone() for name in
+                             ('qpos', 'qvel', 'xpos', 'geom_xpos', 'qacc',
+                              'qfrc_constraint', 'nefc', 'overflow')}
+                    state['limit_counts'] = wp.to_torch(s.joint_limiter.counts).clone()
+                    n = int(wp.to_torch(d.nacon)[0])
+                    # Contact/constraint insertion order may vary across GPU
+                    # launches; compare the same physical rows after sorting.
+                    contacts = np.column_stack((d.contact.worldid.numpy()[:n],
+                        d.contact.geom.numpy()[:n], d.contact.dist.numpy()[:n],
+                        d.contact.pos.numpy()[:n]))
+                    contacts = np.asarray(sorted(map(tuple, contacts))).reshape(n, 7)
+                    constraints = []
+                    for world, count in enumerate(state['nefc'].tolist()):
+                        values = np.column_stack([wp.to_torch(getattr(d.efc, name))[
+                            world, :count].cpu().numpy() for name in
+                            ('type', 'pos', 'margin', 'vel', 'aref', 'force')])
+                        constraints.append(np.asarray(sorted(map(tuple, values))).reshape(count, 6))
+                    snapshots.append((state, contacts, constraints))
+                    self.assertTrue(torch.all(state['limit_counts'].sum(-1) > 0))
+                    self.assertTrue(torch.all(state['qvel'][:, row['dof_address']] == 0))
+                eager, cached = snapshots
+                for name in eager[0]:
+                    exact = name in ('qpos', 'qvel', 'xpos', 'geom_xpos', 'nefc', 'overflow', 'limit_counts')
+                    torch.testing.assert_close(cached[0][name], eager[0][name],
+                                               atol=0 if exact else 1e-5,
+                                               rtol=0 if exact else 1e-5)
+                np.testing.assert_allclose(cached[1], eager[1], atol=1e-6, rtol=1e-6)
+                for actual, reference in zip(cached[2], eager[2]):
+                    np.testing.assert_allclose(actual, reference, atol=1e-5, rtol=1e-5)
+
+    @unittest.skipUnless(os.environ.get('SLURM_JOB_ID') and os.environ.get('TSENSEI_ARM_GPU_TEST') == '1',
+                         'Arm query regression requires explicit Slurm validation')
+    def test_gpu_arm_query_detects_arm_piano_conflict_without_force_contacts(self):
+        env = self.gpu_env(); s = env.scene
+        query = s.bundle.arm_collision_query_model
+        first, second, category = next(row for row in s.bundle.arm_collision_query_pairs
+                                       if row[2] == 'arm_piano')
+        self.assertEqual(category, 'arm_piano')
+        aid = s.model.geom(first).id; pid = s.model.geom(second).id
+        body = int(s.model.geom_bodyid[aid]); mocap = int(s.model.body_mocapid[body])
+        self.assertGreaterEqual(mocap, 0)
+        with s.scope():
+            # Put the arm geom center exactly on the piano geom center in the
+            # main model; only the query model should report the overlap.
+            target = s.data.geom_xpos[:, pid].clone()
+            local = s.tensor(s.model.geom_pos[aid])
+            s.data.mocap_pos[:, mocap] = target - local
+            s.data.mocap_quat[:, mocap] = s.tensor([1., 0., 0., 0.])
+            s.sim.forward()
+            tracker = s.arm_collision_tracker
+            import warp as wp
+            original_graph = s.physics_graph
+            physical = tuple(value.clone() for value in
+                             (s.data.qpos[:], s.data.qvel[:], s.data.ctrl[:]))
+            expected = []
+            # The first capture must not add a second sample. Subsequent
+            # replays must see live geometry and preserve all pair counters.
+            for use_graph in (False, True):
+                s.physics_graph = use_graph
+                tracker.clear()
+                for sample in range(3):
+                    offset = s.tensor([0., 0., .4 if sample == 1 else 0.])
+                    s.data.mocap_pos[:, mocap] = target - local + offset
+                    s.sim.forward()
+                    s._query_and_sample_arm_collision()
+                    snapshot = tuple(value.clone() for value in (
+                        tracker.seen, tracker.pair_substep_seen,
+                        tracker.pair_substep_totals,
+                        wp.to_torch(s.arm_collision_data.nacon),
+                        wp.to_torch(s.arm_collision_data.overflow)))
+                    if not use_graph:
+                        expected.append(snapshot)
+                    else:
+                        for actual, reference in zip(snapshot, expected[sample]):
+                            torch.testing.assert_close(actual, reference, atol=0, rtol=0)
+                    self.assertTrue(torch.all(tracker.count_substeps('arm_piano') > 0))
+                if use_graph and s.sim.use_cuda_graph:
+                    self.assertIsNotNone(s._arm_collision_graph)
+            s.physics_graph = original_graph
+            if s.sim.use_cuda_graph:
+                old_graph = s._arm_collision_graph
+                s.sim.create_graph()
+                tracker.clear()
+                s._query_and_sample_arm_collision()
+                self.assertIsNot(s._arm_collision_graph, old_graph)
+                for field in ('geom_xpos', 'geom_xmat', 'xpos', 'xquat', 'xmat'):
+                    self.assertIs(getattr(s.arm_collision_data, field), getattr(s.sim.wp_data, field))
+                for actual, reference in zip((tracker.seen, tracker.pair_substep_seen,
+                                              tracker.pair_substep_totals,
+                                              wp.to_torch(s.arm_collision_data.nacon),
+                                              wp.to_torch(s.arm_collision_data.overflow)), expected[0]):
+                    torch.testing.assert_close(actual, reference, atol=0, rtol=0)
+            for actual, reference in zip((s.data.qpos[:], s.data.qvel[:], s.data.ctrl[:]), physical):
+                torch.testing.assert_close(actual, reference, atol=0, rtol=0)
+            # Main force contacts still contain no arm geometry because the
+            # active model keeps arm meshes collision-disabled.
+            n = int(s.data.nacon[0])
+            geom = s.data.contact.geom[:n].cpu().numpy()
+            self.assertFalse(any(int(a) == aid or int(b) == aid for a, b in geom))
 
     @unittest.skipUnless(os.environ.get('SLURM_JOB_ID') and os.environ.get('TSENSEI_ARM_LONG_TEST') == '1',
                          'Long physical trajectory only inside explicit Slurm validation')

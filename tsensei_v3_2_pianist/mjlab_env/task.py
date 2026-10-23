@@ -8,11 +8,11 @@ from .scene import PianoScene
 from .task_bundle import TaskBundle
 from .task_logic import MusicTaskLogic
 from .reward_config import canonical, contact_options
-from .rewards import RewardManager, gesture_protection_mask
+from .rewards import RewardManager, gesture_protection_mask, ArmTrackingErrorAccumulator
 from .performance_options import get as performance_options
-from .anticipation import future_fingering, anticipation_fields
+from .anticipation import anticipation_fields
 from ..forearm_collision import task_collision_groups
-from ..fingering_targets import target_position, options_from_manifest, THUMB_GLOBAL_INDICES
+from ..fingering_targets import target_position, key_reference, options_from_manifest
 
 
 class PianoTaskEnv:
@@ -34,14 +34,17 @@ class PianoTaskEnv:
                                     finger_coupling=finger_coupling,
                                     arm_follow=arm_follow,
                                     **contact_options(self.reward_config))
-        if self.reward_config['terms']['arm_motion_limit_penalty']['enabled'] and arm_follow is None:
-            raise ValueError('Arm motion penalty requires --arms and explicit initial angles')
+        for name in ('arm_motion_limit_penalty', 'arm_tracking_error_penalty'):
+            if self.reward_config['terms'][name]['enabled'] and arm_follow is None:
+                raise ValueError(f'{name} requires --arms and explicit initial angles')
         self.bundle = b = TaskBundle(task_directory,s.bundle)
         self.preparation_steps = b.preparation_steps
         self.release_tail_steps = b.release_tail_steps
         self.music_end_step = b.music_end_step
         self.collision_diagnostics=collision_diagnostics
         self.device, self.num_envs = s.device,num_envs
+        self.arm_tracking = (ArmTrackingErrorAccumulator(num_envs=num_envs, device=device)
+                             if getattr(s, 'arm_follower', None) is not None else None)
         self.logic = MusicTaskLogic(b,num_envs=num_envs,device=device,max_episode_steps=max_episode_steps)
         self.exact_score = None
         self.note_timing_contract = None
@@ -56,7 +59,10 @@ class PianoTaskEnv:
                 anticipation_horizon=max(self.performance['anticipatory_fingering_time'],
                     self.performance.get('upcoming_press_permission_time', 0.)), device=device)
             self.note_timing_contract = self.exact_score.contract
-            # Original MIDI drives key reward and exact diagnostics; policy goals retain the control grid.
+            # Current observations are point samples of the exact score;
+            # future onsets remain in their own fields, never simultaneous goals.
+            self.logic.observation_goal = self.exact_score.goal
+            self.logic.observation_fingers = self.exact_score.fingers
             decimation = self.exact_score.decimation
             sample_steps = torch.arange(1, self.logic.length * decimation + 1, device=device)
             music_start = max(self.preparation_steps, round(b.manifest['contract']['environment'].get(
@@ -74,9 +80,8 @@ class PianoTaskEnv:
             torch.tensor(self.coupling_observation_contract['retained_base_indices'], device=device))
         self.future_assignments = self.future_seconds = None
         if self.performance['anticipatory_fingering_time'] > 0:
-            self.future_assignments, self.future_seconds = future_fingering(
-                self.logic.fingers, b.manifest['control_dt'],
-                self.performance['anticipatory_fingering_time'])
+            self.future_assignments = self.exact_score.future
+            self.future_seconds = self.exact_score.future_seconds
         if s.control_limiter is not None:
             if (any(row['max_velocity'] is not None for row in s.control_limits['channels'].values())
                     and not any(field['path']=='action' for field in
@@ -93,7 +98,7 @@ class PianoTaskEnv:
                 manager=self.reward_manager
                 manager.gesture_pose={name:float(manager.neutral[i])
                                       for i,name in enumerate(manager.actions)
-                                      if '_Wrist_' not in name}
+                                      if '_Palm_Base_' not in name}
         if self.performance.get('upcoming_press_permission_time', 0.):
             options = s.finger_clearance_options
             if (s.finger_clearance_guard is None or options['active_command_mode'] != 'active_contact_v1'
@@ -103,26 +108,19 @@ class PianoTaskEnv:
         self.gesture_protected_fingers = None
         if self.reward_manager is not None and self.reward_manager.gesture_active:
             self.gesture_protected_fingers=gesture_protection_mask(
-                self.logic.fingers,self.reward_manager.gesture_lookahead_steps)
+                torch.as_tensor(b.fingers, device=device), self.reward_manager.gesture_lookahead_steps)
         m = b.manifest
         self.tip_ids = torch.as_tensor(s.bundle.ids(mujoco.mjtObj.mjOBJ_SITE,m['fingertip_sites']),device=device)
         self.key_geoms = torch.as_tensor(s.bundle.ids(mujoco.mjtObj.mjOBJ_GEOM,m['key_geoms']),device=device)
-        self.key_offsets = torch.zeros((88,3),device=device)
-        self.key_offsets[:,0] = .35*s.tensor(s.model.geom_size[self.key_geoms.cpu().numpy(),0])
-        self.key_offsets[:,2] = .5*s.tensor(s.model.geom_size[self.key_geoms.cpu().numpy(),2])
-        self.finger_key_offsets = None
-        if 'fingering_target' in m:
-            thumb_target = options_from_manifest(m['fingering_target'], m.get('task_profile', 'tsensei_v1'))
-            offsets = np.empty((10, 88, 3), dtype=np.float32)
-            for finger in range(10):
-                for key, geom_id in enumerate(self.key_geoms.cpu().numpy()):
-                    offsets[finger, key] = target_position(
-                        np.zeros(3), s.model.geom_size[geom_id], s.model.geom(geom_id).name,
-                        thumb=finger in THUMB_GLOBAL_INDICES,
-                        task_profile=m.get('task_profile', 'tsensei_v1'),
-                        thumb_target=thumb_target,
-                    )
-            self.finger_key_offsets = s.tensor(offsets)
+        options_from_manifest(m.get('fingering_target'), m.get('task_profile', 'tsensei_v1'))
+        references = [key_reference(s.model, gid) for gid in self.key_geoms.cpu().numpy()]
+        self.key_site_ids = torch.as_tensor([r[0] for r in references], device=device)
+        half_sizes = np.array([r[1] for r in references])
+        offsets = np.array([target_position(np.zeros(3), size,
+                            s.model.geom(gid).name, task_profile=m.get('task_profile', 'tsensei_v1'))
+                            for gid, size in zip(self.key_geoms.cpu().numpy(), half_sizes)], dtype=np.float32)
+        self.key_offsets = s.tensor(offsets)
+        self.finger_key_offsets = s.tensor(np.repeat(offsets[None], 10, axis=0))
         self.hand_qadr = []
         self.hand_present = []
         self.hand_fixed = []
@@ -162,18 +160,18 @@ class PianoTaskEnv:
                 radii[gid]=max(0,float(np.min(-equations[:,3])))
             self.forearm_inner_radius=s.tensor(radii)
         self.contact_slots = torch.arange(s.sim.wp_data.naconmax,device=device)
-        self.rest_key_top_z = (s.data.geom_xpos[0,self.key_geoms,2]
-            + s.tensor(s.model.geom_size[self.key_geoms.cpu().numpy(),2])).clone()
-        self.key_half_heights = s.tensor(s.model.geom_size[self.key_geoms.cpu().numpy(),2])
-        if self.reward_config['terms']['key_press_reward']['enabled'] and self.exact_score is None:
-            raise ValueError('Current key reward requires --exact-note-timing and original score events')
+        self.rest_key_top_z = (s.data.site_xpos[0,self.key_site_ids,2]
+            + s.tensor(half_sizes[:,2])).clone()
+        if self.exact_score is None:
+            raise ValueError('Current key/fingering rewards require exact_note_timing and original score events')
         # Base diagnostics compute the same key formula even when its weight is
         # disabled, so history must not disappear with the reward switch.
         pairs = self.forearm_pairs
         if pairs is None:
             pairs = ((self.palms[0][:,None] & self.palms[1][None,:])
                      | (self.palms[1][:,None] & self.palms[0][None,:]))
-        s.configure_reward_sampling(pairs, collision_margin=m['collision_margin'])
+        s.configure_reward_sampling(pairs, collision_margin=m['collision_margin'],
+            tip_ids=self.tip_ids.cpu().numpy(), key_site_ids=self.key_site_ids.cpu().numpy(), key_offsets=offsets)
         self.reset()
 
     @property
@@ -203,9 +201,9 @@ class PianoTaskEnv:
 
     def _key_targets(self):
         d = self.scene.data
-        return (d.geom_xpos[:,None,self.key_geoms]+self.finger_key_offsets[None]
+        return (d.site_xpos[:,None,self.key_site_ids]+self.finger_key_offsets[None]
                 if self.finger_key_offsets is not None else
-                d.geom_xpos[:,self.key_geoms]+self.key_offsets)
+                d.site_xpos[:,self.key_site_ids]+self.key_offsets)
 
     def _anticipation(self):
         index = self.logic.index.clamp_max(self.logic.length-1)
@@ -253,22 +251,34 @@ class PianoTaskEnv:
             distance=(d.geom_xpos[:,first]-d.geom_xpos[:,second]).norm(dim=-1)
             radius=self.forearm_inner_radius[first]+self.forearm_inner_radius[second]
             collisions+=(distance < radius-1e-7).any(-1).long()
+        arm_collision_any = (s.arm_collision_tracker.count_control_substeps() > 0
+                             if s.arm_collision_tracker is not None
+                             else torch.zeros(self.num_envs, device=self.device, dtype=torch.bool))
+        palm_collision_substeps = None
+        if getattr(s, 'reward_sampling', None) is not None:
+            palm_collision_substeps = s.reward_sampling.palm_collision_substeps.clone()
+            # Detection-only arm contacts are sampled at the same physical
+            # cadence.  Count a control substep once even if several arm pairs
+            # are touching during that substep.
+            if s.arm_collision_tracker is not None:
+                palm_collision_substeps = torch.minimum(
+                    palm_collision_substeps + s.arm_collision_tracker.count_control_substeps(),
+                    torch.full_like(palm_collision_substeps, s.decimation))
         result = {'right_qpos' :d.qpos[:,self.hand_qadr[0]]*self.hand_present[0]+self.hand_fixed[0],'left_qpos':d.qpos[:,self.hand_qadr[1]]*self.hand_present[1]+self.hand_fixed[1],
                 'key_state':keys/s.key_limits[:,1],
-                'key_activation':(keys-s.key_limits[:,1]).abs()<=s.bundle.manifest['key_threshold'],
+                'key_activation':keys>=s.key_limits[:,1]*s.bundle.manifest['key_activation_fraction'],
                 'sustain':s.sustain[:,None],
                 'fingertips':d.site_xpos[:,self.tip_ids],
                 'key_targets':self._key_targets(),
                 # Composer legacy_step refreshes velocity/positions with mj_step1,
                 # while force remains from the final integrated substep.
                 'power':(s.last_step_actuator_force[:,s.action_ids]*d.actuator_velocity[:,s.action_ids]).abs().sum(-1),
-                'palm_collision':collisions>0}
-        if self.performance['staged_fingering_reward']:
-            normals = d.geom_xmat[:,self.key_geoms].reshape(self.num_envs,88,3,3)[...,2]
-            surface = d.geom_xpos[:,self.key_geoms] + normals*self.key_half_heights[None,:,None]
-            xy_delta = result['fingertips'][:,:,None,:2] - surface[:,None,:,:2]
-            result['key_surface_height'] = (surface[:,None,:,2]
-                - (xy_delta*normals[:,None,:,:2]).sum(-1)/normals[:,None,:,2].clamp_min(.1))
+                # Arm conflicts are detection-only and share the forearm
+                # reward signal without entering the force solver.
+                'palm_collision':(collisions>0) | arm_collision_any,
+                'arm_collision_any':arm_collision_any}
+        if palm_collision_substeps is not None:
+            result['palm_collision_substeps'] = palm_collision_substeps
         if self.future_assignments is not None:
             result.update(self._anticipation()[0])
         sampling = getattr(s, 'reward_sampling', None)
@@ -276,11 +286,14 @@ class PianoTaskEnv:
             history = sampling.key_state_history
             activation = sampling.key_activation_history
             result.update(key_state_history=history, key_activation_history=activation,
+                          fingertip_history=sampling.fingertip_history,
+                          key_target_history=sampling.key_target_history,
                           key_activation_any=activation.any(1), power_mean=sampling.power_mean,
-                          palm_collision_any=sampling.palm_collision_any)
+                          palm_collision_any=sampling.palm_collision_any | arm_collision_any)
         if self.exact_score is not None and endpoint:
             index = self.logic.index.clamp_max(self.logic.length - 1)
             result['exact_goal_history'] = self.exact_score.goal_history[index]
+            result['exact_finger_key_history'] = self.exact_score.finger_key_history[index]
         if self.reward_manager is not None:
             power = s.last_step_actuator_force[:,s.action_ids]*d.actuator_velocity[:,s.action_ids]
             if s.disable_wrist_tz:
@@ -299,6 +312,11 @@ class PianoTaskEnv:
             result.update(s.finger_clearance_metrics)
         if getattr(s, 'arm_follower', None) is not None:
             result['arm_motion_excess'] = s.arm_follower.excess.float()
+            result.update(self.arm_tracking.snapshot())
+        if s.arm_collision_tracker is not None:
+            result['arm_collision_substeps'] = s.arm_collision_tracker.count_substeps()
+            for category in s.arm_collision_tracker.CATEGORIES:
+                result[f'{category}_collision_substeps'] = s.arm_collision_tracker.count_substeps(category)
         return result
 
     def _update_timing_clearance(self):
@@ -308,22 +326,37 @@ class PianoTaskEnv:
         if not window:
             return
         index = self.logic.index.clamp_max(self.logic.length - 1)
-        end_keys = self.logic.fingers[index]
+        end_keys = self.exact_score.fingers[index]
         with s.scope():
             # Geometry and current fingering use the action's control frame.
             requested = s.finger_clearance_metrics['finger_requested_deficit_m']
             permitted = guard.upcoming_request_metrics(s.last_applied_physical_action,
-                s.last_requested_clearance_support, self.logic.fingers[index],
+                s.last_requested_clearance_support, self.exact_score.fingers[index],
                 self.future_assignments[index], self.future_seconds[index], window, requested)
             s.finger_clearance_metrics.update(permitted)
             s.finger_clearance_metrics['finger_clearance_deficit_m'] = guard.reward_deficit(
                 {'finger_clearance_deficit_m': s.finger_clearance_metrics['finger_actual_deficit_m']},
                 permitted['finger_reward_requested_deficit_m'], end_keys)
 
+    def _sample_arm_tracking(self, scene):
+        follower = scene.arm_follower
+        # Same preparation-time convention as the controller, but the policy
+        # request is deliberately read BEFORE TCP target/IK limiting. Using
+        # follower.last.target_position here would conceal requested-target lag.
+        times = (scene.control_steps * scene.decimation + self.arm_tracking.sample_count + 1) * follower.dt
+        requested = follower.requests(scene.last_requested_physical_action, times)
+        sides = ('right', 'left')
+        self.arm_tracking.sample(
+            torch.stack([requested[side][0] for side in sides], dim=1),
+            torch.stack([scene.data.xpos[:, follower.wrists[side]['body_id']] for side in sides], dim=1),
+            torch.stack([follower.last[side]['target_position'] for side in sides], dim=1))
+
     def reset(self, env_ids=None):
         ids=self.scene.env_ids(env_ids)
         if ids.numel()==0:return self._with_preparation(self.logic.observation())
         self.scene.reset(ids)
+        if self.arm_tracking is not None:
+            self.arm_tracking.reset(ids)
         if self.reward_manager is not None:
             self.reward_manager.reset(ids)
         return self._with_preparation(self.logic.reset(ids,self.snapshot()))
@@ -333,9 +366,14 @@ class PianoTaskEnv:
         if self.logic.done.any():
             raise RuntimeError('Reset completed env_ids before stepping; consume the final transition first')
         action=self.scene.tensor(action)
+        if self.arm_tracking is not None:
+            self.arm_tracking.begin_control()
         # PianoScene validates shape, finite values and normalized bounds before mutation.
-        self.scene.step(action,assigned_keys=(None if self.scene.finger_clearance_guard is None else
-            self.logic.fingers[self.logic.index.clamp_max(self.logic.length-1)]))
+        self.scene.step(action,substep_callback=(self._sample_arm_tracking if self.arm_tracking is not None else None),
+            assigned_keys=(None if self.scene.finger_clearance_guard is None else
+            self.exact_score.fingers[self.logic.index.clamp_max(self.logic.length-1)]))
+        if self.arm_tracking is not None and self.arm_tracking.sample_count != self.scene.decimation:
+            raise RuntimeError('Arm tracking requires exactly one sample per physical substep')
         if self.scene.data.overflow[:].any():
             raise RuntimeError('Physics contact/constraint capacity overflow; abort rollout')
         physical=(self.scene.physical_action(action) if not self.scene.has_action_transform else
@@ -351,12 +389,20 @@ class PianoTaskEnv:
         if getattr(self.scene, 'arm_follower', None) is not None:
             follower = self.scene.arm_follower
             result.info['arm_motion_excess'] = follower.excess.float().clone()
+            result.info.update({name: value.clone() for name, value in self.arm_tracking.snapshot().items()})
             for side, a in follower.sides.items():
                 result.info[f'arm_{side}_q_rad'] = a['q'].clone()
                 result.info[f'arm_{side}_velocity_rad_s'] = a['v'].clone()
                 result.info[f'arm_{side}_acceleration_rad_s2'] = a['acceleration'].clone()
                 for name, value in follower.last.get(side, {}).items():
                     result.info[f'arm_{side}_{name}'] = value.clone()
+        if self.scene.arm_collision_tracker is not None:
+            tracker = self.scene.arm_collision_tracker
+            result.info['arm_collision_substeps'] = tracker.count_substeps().clone()
+            result.info['arm_collision_pairs'] = tracker.count().clone()
+            for category in tracker.CATEGORIES:
+                result.info[f'{category}_collision_substeps'] = (
+                    tracker.count_substeps(category).clone())
         if 'key_activation_history' in snapshot:
             active = snapshot['key_activation_history']
             goal = snapshot.get('exact_goal_history', result.info['goal_applied'][:,None,:])[:, :, :88].bool()
@@ -370,6 +416,7 @@ class PianoTaskEnv:
         if self.exact_score is not None:
             result.info['goal_at_control_start'] = self.exact_score.goal[result.info['score_index']].clone()
             result.info['goal_substeps'] = snapshot['exact_goal_history'].clone()
+            result.info['finger_keys_substeps'] = snapshot['exact_finger_key_history'].clone()
             phase = self.exact_substep_phase[result.info['score_index']]
             sample_values = torch.stack((torch.ones_like(wrong.any(-1), dtype=torch.int64),
                 wrong.any(-1).long(), wrong.sum(-1), (active & goal).sum(-1),

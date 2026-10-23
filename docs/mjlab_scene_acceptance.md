@@ -65,7 +65,7 @@ training_mjlab/.venv/bin/python preview/scripts/preview_mjlab.py \
 ```
 
 - 初始姿态应与原预览一致；按 **Space** 开始／暂停，**R** 恢复冻结初值。
-- 在右侧 Control 修改 `R/L_Index_MCP`，检查对应食指响应；修改 `R/L_Wrist_TX/TY/TZ`，检查整手位移。
+- 在右侧 Control 修改 `R/L_Index_MCP`，检查对应食指响应；修改 `R/L_Palm_Base_Tx/TY/TZ`，检查整手位移。
 - 两手 yaw 给相同符号应同向，pitch 给相同符号应反向。局部轴复合旋转不能仅凭屏幕左右判断，先复位并单独改变一个角。
 - 原预览的姿态保存仍在原脚本中使用；本脚本用于验证冻结模型的 GPU 行为。
 

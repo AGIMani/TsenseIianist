@@ -20,7 +20,7 @@ audit=module('clearance_audit','audit_checkpoint_trajectories.py')
 
 class ClearanceProbeToolsTest(unittest.TestCase):
     def test_baseline_preserves_old_options_and_candidate_drops_old_x_ranges(self):
-        parent={'control_limits':{'channels':{'L_Wrist_TX':{'min':-.1,'max':.2}}},
+        parent={'control_limits':{'channels':{'L_Palm_Base_Tx':{'min':-.1,'max':.2}}},
                 'reward_config':{'terms':{'old':True}},'preparation':{'mode':'policy_v1'}}
         baseline=probe.variant_options(parent)
         self.assertEqual(baseline['control_limits'],parent['control_limits'])
@@ -29,7 +29,7 @@ class ClearanceProbeToolsTest(unittest.TestCase):
         self.assertIsNone(candidate['control_limits'])
         self.assertEqual(candidate['finger_clearance'],{'schema':1})
         self.assertEqual(candidate['reward_config'],{'terms':{'new':True}})
-        self.assertEqual(parent['control_limits']['channels']['L_Wrist_TX']['min'],-.1)
+        self.assertEqual(parent['control_limits']['channels']['L_Palm_Base_Tx']['min'],-.1)
         self.assertTrue(baseline['collision_diagnostics'])
         args=probe.parser().parse_args(['--checkpoint','best.pt','--output','out'])
         self.assertEqual(args.repeats,3)
@@ -57,7 +57,7 @@ class ClearanceProbeToolsTest(unittest.TestCase):
                 'finger_projection_mask':np.array([[True,False],[True,True]]),
                 'requested_physical_action':np.array([[.1,.3],[.2,.4]]),
                 'applied_physical_action':np.array([[.05,.3],[.1,.2]])}
-        result=audit.diagnostic_summary(values,frames=2,physical_action_names=['R_Wrist_TX','R_Thumb_PIP'])
+        result=audit.diagnostic_summary(values,frames=2,physical_action_names=['R_Palm_Base_Tx','R_Thumb_PIP'])
         self.assertEqual(result['fields']['finger_actual_deficit_m']['above_1um_frames'],1)
         self.assertEqual(result['fields']['finger_requested_deficit_m']['above_1um_frames'],2)
         self.assertEqual(result['fields']['finger_projection_mask']['channel_frame_fraction'],.75)

@@ -1,0 +1,109 @@
+{
+  "method": "dynamic programming over hand assignments with a soft finger-order preference; sustained-note constraints and posture/shift costs",
+  "source_sha256": "d331952a784bcee15735ae6d6c787cddddf06c00a2283384c3073d9bb4f30ef5",
+  "proto_sha256": "be5b424d18fe823bf4a066de6954660f9cc546974bbf53b25b01132ff024cf6c",
+  "instrument_to_hand": {
+    "0": "right",
+    "1": "left"
+  },
+  "note_count": 1090,
+  "all_note_attributes_preserved": false,
+  "dt": 0.05,
+  "trim_origin_seconds": 0.0,
+  "trimmed_note_count": 1090,
+  "trajectory_frames": 1581,
+  "simultaneous_finger_conflicts": 0,
+  "counts_by_finger": {
+    "0": 128,
+    "1": 169,
+    "2": 109,
+    "3": 75,
+    "4": 87,
+    "5": 147,
+    "6": 144,
+    "7": 109,
+    "8": 48,
+    "9": 74
+  },
+  "costs": {
+    "right": 1332.908741537237,
+    "left": 2225.489253055786
+  },
+  "limitations": "Candidate only. Hand split inferred from supplied tracks. Offsets/costs are engineering heuristics, not calibrated TsenseI IK or expert fingering. No claim of collision-free reachability.",
+  "original_source_sha256": "9e29d5b640d875bcfa93824cc963a4d9419ce2139cfd4e786148d45127e602d8",
+  "original_source_path": "/home/hj/下载/prelude-bwv-847.mid",
+  "proto_file": "prelude-bwv-847_fingered.proto",
+  "duration_seconds": 79.0,
+  "timing_normalization": "../timing_normalization.json",
+  "score_validation": {
+    "20": {
+      "valid": true,
+      "covered_notes": 1090,
+      "source_notes": 1090,
+      "error_counts": {},
+      "first_errors": []
+    },
+    "40": {
+      "valid": true,
+      "covered_notes": 1090,
+      "source_notes": 1090,
+      "error_counts": {},
+      "first_errors": []
+    }
+  },
+  "exact_time_finger_conflicts": 0,
+  "release_gap_repair": {
+    "schema": "physics_release_gap_v1",
+    "physics_dt_s": 0.005,
+    "adjusted_note_count": 5,
+    "adjusted_notes": [
+      {
+        "note_index": 454,
+        "pitch": 57,
+        "key": 36,
+        "start_time": 28.375,
+        "old_end_time": 28.5,
+        "new_end_time": 28.495,
+        "release_gap_to_next_physical_sample_s": 0.005
+      },
+      {
+        "note_index": 457,
+        "pitch": 57,
+        "key": 36,
+        "start_time": 28.5,
+        "old_end_time": 28.625,
+        "new_end_time": 28.62,
+        "release_gap_to_next_physical_sample_s": 0.005
+      },
+      {
+        "note_index": 470,
+        "pitch": 57,
+        "key": 36,
+        "start_time": 29.375,
+        "old_end_time": 29.5,
+        "new_end_time": 29.495,
+        "release_gap_to_next_physical_sample_s": 0.005
+      },
+      {
+        "note_index": 473,
+        "pitch": 57,
+        "key": 36,
+        "start_time": 29.5,
+        "old_end_time": 29.625,
+        "new_end_time": 29.62,
+        "release_gap_to_next_physical_sample_s": 0.005
+      },
+      {
+        "note_index": 960,
+        "pitch": 63,
+        "key": 42,
+        "start_time": 61.5,
+        "old_end_time": 61.59375,
+        "new_end_time": 61.58875,
+        "release_gap_to_next_physical_sample_s": 0.005
+      }
+    ],
+    "original_candidate_proto_sha256": "bc8a027f4666af72fc09d2027b42e27c346ecb55c7ae811f43a8de91c15384b6",
+    "reason": "Exact physical coverage requires at least one post-step release sample between repeated same-key events; note starts, pitches, instruments, parts and velocities are unchanged."
+  }
+}

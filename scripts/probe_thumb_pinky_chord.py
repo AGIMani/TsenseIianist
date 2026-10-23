@@ -32,15 +32,11 @@ def main():
     from tsensei_v3_2_pianist.mjlab_env.without_arms import without_arms
     from tsensei_v3_2_pianist.mjlab_env.bundle import SceneBundle
     from tsensei_v3_2_pianist.mjlab_env.finger_clearance import FingerClearanceGuard
-    from tsensei_v3_2_pianist.fingering_targets import target_position
+    from tsensei_v3_2_pianist.fingering_targets import target_position, target_for_key, key_reference
     torch.set_num_threads(1)
     saved = json.loads(args.run_config.read_text())
     old_recipe = saved['source_runtime']
     fields = {**old_recipe['pose'], **old_recipe['model'], **old_recipe['environment']}
-    thumb = fields.pop('thumb_target', None)
-    if thumb:
-        fields.update(thumb_target_mode=thumb['mode'], thumb_white_target_distance=thumb['white_distance'],
-                      thumb_black_target_distance=thumb['black_distance'])
     prep = old_recipe.get('preparation') or {}
     recipe = make_recipe(**fields, preparation_time=prep.get('duration', 0),
         preparation_lift=prep.get('lift', .02), preparation_mode=prep.get('mode', 'fixed_v1'))
@@ -89,10 +85,9 @@ def main():
     task_manifest = json.loads((task/'task.json').read_text())
     key_geoms = np.array([m.geom(name).id for name in task_manifest['key_geoms']])
     tip_ids = [m.site(task_manifest['fingertip_sites'][finger]).id for finger, _ in target_pairs]
-    rest_key_centers = data.geom_xpos[key_geoms].copy()
-    rest_reward_targets = [target_position(rest_key_centers[key], m.geom_size[key_geoms[key]],
-        m.geom(key_geoms[key]).name, thumb=finger in (0, 5), task_profile=fields['task_profile'],
-        thumb_target=recipe['environment']['thumb_target'])
+    key_refs = [key_reference(m, g) for g in key_geoms]
+    rest_key_centers = data.site_xpos[[ref[0] for ref in key_refs]].copy()
+    rest_reward_targets = [target_for_key(m, data, key_geoms[key], thumb=finger in (0, 5), task_profile=fields['task_profile'])
         for finger, key in target_pairs]
     left_geoms = [geom for group in g.groups[5:] for geom in group['geoms']]
     active_terminals = {group['geoms'][-1] for group in groups}
@@ -102,7 +97,7 @@ def main():
     key_min = g.key_min_xy.numpy();key_max = g.key_max_xy.numpy()
     key_tops = g.key_top_z.numpy() if hasattr(g, 'key_top_z') else None
     if key_tops is None:
-        key_tops = rest_key_centers[:, 2] + m.geom_size[key_geoms, 2]
+        key_tops = rest_key_centers[:, 2] + np.array([ref[1][2] for ref in key_refs])
     # This is a feasibility boundary, not a simulated press: explicitly set the
     # two desired key angles to their full-press limits, leave every other key at rest.
     for _, key in target_pairs:
@@ -112,9 +107,10 @@ def main():
     planes = []
     for finger, key in target_pairs:
         geom = key_geoms[key]
-        normal = data.geom_xmat[geom].reshape(3, 3)[:, 2].copy()
-        center = data.geom_xpos[geom].copy()
-        planes.append((normal, float(center@normal + m.geom_size[geom, 2])))
+        site, size = key_refs[key]
+        normal = data.site_xmat[site].reshape(3, 3)[:, 2].copy()
+        center = data.site_xpos[site].copy()
+        planes.append((normal, float(center@normal + size[2])))
     def capsule(geom):
         axis = data.geom_xmat[geom].reshape(3, 3)[:, 2]
         radius, half = m.geom_size[geom, :2]
@@ -166,10 +162,8 @@ def main():
         for index, ((finger, key), group, target, plane) in enumerate(zip(target_pairs, groups, rest_reward_targets, planes)):
             ends, radius = capsule(group['geoms'][-1]);normal, height = plane
             low=ends.min(0)-radius;high=ends.max(0)+radius
-            current_target = target_position(data.geom_xpos[key_geoms[key]], m.geom_size[key_geoms[key]],
-                m.geom(key_geoms[key]).name, thumb=finger in (0,5), task_profile=fields['task_profile'],
-                thumb_target=recipe['environment']['thumb_target'])
-            bottom_height = height - 2*m.geom_size[key_geoms[key], 2]
+            current_target = target_for_key(m, data, key_geoms[key], thumb=finger in (0,5), task_profile=fields['task_profile'])
+            bottom_height = height - 2*key_refs[key][1][2]
             bottom_clearance = min(float((capsule(geom)[0]@normal).min()-capsule(geom)[1]-bottom_height)
                                    for geom in group['geoms'])
             fingers.append(dict(finger=group['name'], midi=key+21,

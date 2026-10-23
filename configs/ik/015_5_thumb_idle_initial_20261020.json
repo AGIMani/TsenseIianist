@@ -1,0 +1,15 @@
+{
+  "joints_rad": {
+    "right_/right_hand_thumb_rota_block_joint": 1.13,
+    "right_/right_hand_thumb_rotaback_joint2": 0.4,
+    "right_/right_hand_thumb_MCP_joint": 0.25,
+    "right_/right_hand_thumb_PIP_joint": 0.35,
+    "left_/left_hand_thumb_rota_block_joint": 1.13,
+    "left_/left_hand_thumb_rotaback_joint2": 0.4,
+    "left_/left_hand_thumb_MCP_joint": 0.25,
+    "left_/left_hand_thumb_PIP_joint": 0.35
+  },
+  "reference": "configs/poses/initial_20260926.json",
+  "reference_sha256": "00e6ee8a6b916138935fa7c8efc1722cec125a95b809f6c60111ac2a7d91d33c",
+  "scope": "User requested inactive-thumb reference; no collision-free claim without dynamic validation"
+}

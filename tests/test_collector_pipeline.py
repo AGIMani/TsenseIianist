@@ -4,7 +4,7 @@ import threading
 import pytest
 import torch
 
-from tsensei_v3_2_pianist.rl_torch.collector_pipeline import OneBatchPipeline, execution_layout
+from tsensei_v3_2_pianist.rl_torch.collector_pipeline import MultiBatchPipeline, OneBatchPipeline, execution_layout
 from tsensei_v3_2_pianist.rl_torch.train import effective_config, parser, updates_this_step
 
 
@@ -200,6 +200,57 @@ def test_commit_failure_prevents_learning_on_uncommitted_batch():
             pipe.step(1)
     assert not learned
     assert pipe.failed and pipe.closed
+
+
+def test_multi_collector_pipeline_preserves_slice_order_and_update_barrier():
+    replay = []
+    learned = []
+    collected = []
+
+    def collect(step, version, index):
+        collected.append((step, index, version))
+        return f'{step}:{index}'
+
+    def update(step):
+        assert replay == list(range(1, step + 1))
+        learned.append(step)
+
+    def commit(batch):
+        assert batch == [f'{len(replay) + 1}:0', f'{len(replay) + 1}:1', f'{len(replay) + 1}:2']
+        replay.append(len(replay) + 1)
+
+    with MultiBatchPipeline(collector_count=3,
+                            collector_devices=['cuda:0', 'cuda:1', 'cuda:2'],
+                            snapshot=lambda: tuple(0 for _ in range(3)), collect=collect,
+                            update=update, commit=commit,
+                            learner_version=lambda: len(learned)) as pipe:
+        pipe.step(1)
+        pipe.step(2)
+        assert pipe.pending == 2
+        assert pipe.updated_through_step == 1
+        pipe.flush()
+
+    assert replay == learned == [1, 2]
+    assert sorted(collected) == [(1, 0, (0, 0, 0)), (1, 1, (0, 0, 0)), (1, 2, (0, 0, 0)),
+                                 (2, 0, (0, 0, 0)), (2, 1, (0, 0, 0)), (2, 2, (0, 0, 0))]
+    state = pipe.state()
+    assert state['collector_count'] == 3
+    assert state['collector_devices'] == ['cuda:0', 'cuda:1', 'cuda:2']
+    assert state['max_actor_lag_at_collection_end_updates'] == 1
+
+
+def test_multi_collector_layout_requires_pipeline_and_distinct_learner():
+    layout = execution_layout('cuda:0', 'cuda:3', True,
+                               collector_devices='cuda:0,cuda:1,cuda:2')
+    assert layout['mode'] == 'multi_vector_pipeline_v1'
+    assert layout['collector_count'] == 3
+    assert layout['collector_devices'] == ['cuda:0', 'cuda:1', 'cuda:2']
+    with pytest.raises(ValueError, match='require --collector-pipeline'):
+        execution_layout('cuda:0', 'cuda:3', False,
+                         collector_devices='cuda:0,cuda:1,cuda:2')
+    with pytest.raises(ValueError, match='distinct learner'):
+        execution_layout('cuda:0', 'cuda:1', True,
+                         collector_devices='cuda:0,cuda:1,cuda:2')
 
 
 @pytest.mark.skipif(torch.cuda.device_count() < 2, reason='Requires two actual CUDA devices')

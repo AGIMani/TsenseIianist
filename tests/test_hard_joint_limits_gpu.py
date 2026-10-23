@@ -33,10 +33,21 @@ class HardJointLimitsGPU(unittest.TestCase):
         s.reset(); check()
         s.configure_reward_sampling(np.zeros((s.model.ngeom,s.model.ngeom), dtype=bool))
         neutral = s.policy_action(s.bundle.neutral_action).expand(2,-1).clone()
+        # Regression path used by the failed multi-collector prefill: the
+        # outer control graph is disabled, but MJLab still owns its cached
+        # step/forward graphs.  Hard limits must refresh geometry through that
+        # cached forward graph rather than allocating eager collision buffers.
+        s.physics_graph = False
+        s.step(neutral, substep_callback=check)
+        check()
+        s.physics_graph = True
+        s.reset(); check()
         s.step(neutral, substep_callback=check)
         q_eager = s.data.qpos[:].clone()
         s.reset(); s.step(neutral); check()
-        self.assertIsNotNone(s.control_graph)
+        # Finger coupling intentionally keeps the outer control graph disabled;
+        # MJLab's per-substep step/forward graphs remain active underneath.
+        self.assertIsNone(s.control_graph)
         torch.testing.assert_close(q_eager, s.data.qpos[:], atol=1e-5, rtol=1e-5)
         # Force genuine violations before integration; the callback must never see them.
         with s.scope():

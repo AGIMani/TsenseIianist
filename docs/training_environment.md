@@ -1,6 +1,6 @@
 # 当前环境与配置来源
 
-当前工作区仅维护一套机械臂实现：`controller=rigid_wrist_command`。活动配置为 [current_arm_training_20261011.json](../configs/preview/current_arm_training_20261011.json)，奖励配置为 [default_20261006.json](../configs/rewards/default_20261006.json)。旧实验和说明集中在 [deprecated/](../deprecated/README.md)，不作为默认值来源。
+当前工作区仅维护一套机械臂实现：`controller=wuji_cartesian_v1`。活动预览配置为 [current_arm_training_20261011.json](../configs/preview/current_arm_training_20261011.json)，奖励配置为 [default_20261006.json](../configs/rewards/default_20261006.json)。训练默认无臂，最终参数和固定源码归档以 [all_use_this_train.sh](../all_use_this_train.sh) 及本轮完整config为准。旧实验和说明集中在 [deprecated/](../deprecated/README.md)，不作为默认值来源。
 
 ## 构建流程
 
@@ -10,9 +10,9 @@
 
 ```mermaid
 flowchart LR
-    A[策略腕请求] --> B[20Hz目标限制与制动]
+    A[策略腕请求] --> B[20Hz目标限速]
     B --> C[200Hz连续IK]
-    C --> D[SDK速度加速度与URDF位置限制]
+    C --> D[当前步SDK速度加速度与URDF位置限制]
     D --> E[Link7及完整刚性装配]
     E --> F[实际手根位姿]
     G[策略手指动作] --> H[手指与琴键物理]
@@ -21,7 +21,7 @@ flowchart LR
     D --> I
 ```
 
-IK同时执行 CCS696 的 `1.025×|J6|+|J7|≤110.5°` 约束。过快或不可达时允许腕请求与实际 FK 位姿有误差；不允许装配脱离或突破硬限掩盖误差。新增臂观察包含双侧 q/v、IK 参考与位姿误差；策略没有增加直接控制14个臂关节的动作。
+IK同时执行 CCS696 的 `1.025×|J6|+|J7|≤110.5°` 约束。执行轨迹只应用当前步的速度、加速度、位置和耦合硬限，不根据到目标的剩余距离提前刹停。过快或不可达时允许腕请求与实际 FK 位姿有误差；不允许装配脱离或突破硬限掩盖误差。新增臂观察包含双侧 q/v、IK 参考与位姿误差；策略没有增加直接控制14个臂关节的动作。
 
 机械臂采用运动学执行，没有臂力矩动力学、臂碰撞、连接件惯性和反作用力模拟。目标差分硬限不能解释为手指真实 qvel/qacc 保证；控制测试也不能替代实机动力学验收。
 
@@ -38,14 +38,14 @@ IK同时执行 CCS696 的 `1.025×|J6|+|J7|≤110.5°` 约束。过快或不可�
 
 ## 当前与弃用内容
 
-机械臂不再有 schema1/2/3 选择。humanoid 奖励只维护闲指目标 L1 公式，`coefficient=-0.1`、`reference=scene_reset`、`lookahead_steps=20`；同手碰撞只有封顶的 `substep_sum` 累计算法。参数详见 [唯一奖励总表](reward_defaults_20261006.md)。
+机械臂不再有 schema1/2/3 选择。humanoid 奖励只维护闲指目标 L1 公式，当前用户选择为 `coefficient=-0.02`、`reference=scene_reset`、`lookahead_steps=20`；同手碰撞只有封顶的 `substep_sum` 累计算法。按键只维护正确键连续Gaussian键程与原谱物理子步算法，实际激活用于错键计数及F1，旧50%激活混合合同拒绝。全部参数和公式统一维护在 [唯一奖励总表](reward_defaults_20261006.md)。
 
-扫描仍发现其他功能拥有多个可选实现：准备段固定/策略控制、手指固定耦合角/角度范围、几何控制的主动指许可、基础按键/指法公式和独立驱动/碰撞配置。这些不是机械臂 schema 或 humanoid 的历史版本；本轮保留其独立功能边界，不把关闭某功能等同于弃用其实现。以后替换具体算法时直接删除被替代实现，不再增加递增模式。
+其他独立可选功能包括准备段固定/策略控制、手指固定耦合角/角度范围、几何控制的主动指许可、指法评分和驱动/碰撞配置。当前手指耦合可与 `wuji_cartesian_v1` 机械臂跟随器同时启用；耦合不增加机械臂动作维度，观察中保留机械臂 q/v、参考和位姿误差。组合模式要求显式双侧初始角，并在 GPU 训练前完成动作／观察／IK 合同验收。这些不是机械臂 schema 或 humanoid 的历史版本，也不表示仍保留旧按键混合算法。以后替换具体算法时直接删除被替代实现，不再增加递增模式。
 
 活动配置包含 `source_runtime.schema`、控制限幅/耦合等合同格式字段。格式字段与可切换算法是不同概念，不能把所有剩余 schema 都宣称为已删除。
 
 ## 训练入口与验证边界
 
-设计上唯一训练入口仍为根目录 `all_use_this_train.sh`，所有 GPU 训练、推理、验收和渲染均经 `scripts/hpc/submit.sh` 进入 Slurm。当前工作区没有该根入口及固定训练归档；旧 `train_coupled_*` 和 `run.sh` 已移入 `deprecated/legacy_entries/`。本轮仅更新活动源码、配置与文档，没有提交训练、迁移旧 checkpoint 或宣称训练归档已生效。
+唯一训练入口为根目录 [all_use_this_train.sh](../all_use_this_train.sh)，所有 GPU 训练、推理、验收和渲染均经 `scripts/hpc/submit.sh` 进入 Slurm。入口及其固定源码归档现已存在，并由入口校验SHA；旧 `train_coupled_*` 和 `run.sh` 已移入 `deprecated/legacy_entries/`。2026-10-15修复已同步活动源码和新归档，本轮没有启动新训练或迁移旧 checkpoint；验收证据与仍需验证的限制见 [训练一致性修复](training_consistency_20261015.md)。
 
 每次开始训练必须打印最终完整奖励配置。算法修改通过验收后，需要形成当前源码归档并同步入口校验值；源码和依赖指纹用于保证本轮环境一致，不为已弃用方案提供兼容转换。

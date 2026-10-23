@@ -22,6 +22,19 @@ from mujoco_utils import types
 from tsensei_v3_2_pianist.models.piano import piano_constants as consts
 
 
+def black_key_vertices():
+    """Eight body-local vertices; body/hinge and upper-face center stay fixed."""
+    rear = -consts.BLACK_KEY_LENGTH / 2
+    front = rear + consts.BLACK_KEY_BOTTOM_LENGTH
+    top_front = consts.BLACK_KEY_LENGTH / 2
+    bottom_y, top_y = consts.BLACK_KEY_WIDTH / 2, consts.BLACK_KEY_TOP_WIDTH / 2
+    z = consts.BLACK_KEY_HEIGHT / 2
+    return [(rear, -bottom_y, -z), (front, -bottom_y, -z),
+            (front, bottom_y, -z), (rear, bottom_y, -z),
+            (rear, -top_y, z), (top_front, -top_y, z),
+            (top_front, top_y, z), (rear, top_y, z)]
+
+
 def build(add_actuators: bool = False) -> types.MjcfRootElement:
     """Programatically build a piano MJCF.
 
@@ -80,15 +93,25 @@ def build(add_actuators: bool = False) -> types.MjcfRootElement:
     if add_actuators:
         white_default.general.ctrlrange = [0, consts.WHITE_KEY_JOINT_MAX_ANGLE]
 
+    # One convex mesh serves both actual contact and rendering (no box proxy).
+    black_mesh = root.asset.add("mesh", name="black_key_tapered",
+        vertex=[value for vertex in black_key_vertices() for value in vertex],
+        face=[0, 2, 1, 0, 3, 2, 4, 5, 6, 4, 6, 7,
+              0, 1, 5, 0, 5, 4, 1, 2, 6, 1, 6, 5,
+              2, 3, 7, 2, 7, 6, 3, 0, 4, 3, 4, 7])
+
     # Black key defaults.
     black_default = root.default.add("default", dclass="black_key")
     black_default.geom.material = "black"
-    black_default.geom.size = [
+    black_default.geom.type = "mesh"
+    black_default.geom.mesh = black_mesh
+    # Invisible reference box: fixed upper-face center/length, independent of
+    # MuJoCo's mesh principal-axis recentering. Used for targets, never contact.
+    black_default.site.size = [
         consts.BLACK_KEY_LENGTH / 2,
-        consts.BLACK_KEY_WIDTH / 2,
+        consts.BLACK_KEY_TOP_WIDTH / 2,
         consts.BLACK_KEY_HEIGHT / 2,
     ]
-    black_default.site.size = black_default.geom.size
     black_default.geom.mass = consts.BLACK_KEY_MASS
     black_default.joint.pos = [-consts.BLACK_KEY_LENGTH / 2, 0, 0]
     black_default.joint.damping = consts.BLACK_JOINT_DAMPING
@@ -102,6 +125,8 @@ def build(add_actuators: bool = False) -> types.MjcfRootElement:
     # Add base.
     base_body = root.worldbody.add("body", name="base", pos=consts.BASE_POS)
     base_body.add("geom", type="box", size=consts.BASE_SIZE, rgba=consts.BASE_COLOR)
+    base_body.add("inertial", pos=[0, 0, 0], mass=consts.BASE_MASS,
+                  diaginertia=consts.BASE_DIAGINERTIA)
 
     WHITE_KEY_INDICES = [
         0,
@@ -246,9 +271,10 @@ def build(add_actuators: bool = False) -> types.MjcfRootElement:
     ]
 
     # Place the lone black key on the far left.
-    y_coord = consts.WHITE_KEY_WIDTH + 0.5 * (
-        -consts.PIANO_LENGTH + consts.SPACING_BETWEEN_WHITE_KEYS
-    )
+    # A#0 continues the preceding F-G-A-B seven-part pattern.
+    y_coord = (-consts.PIANO_LENGTH / 2
+               - consts.SPACING_BETWEEN_WHITE_KEYS / 2
+               + (1 + 1 / 7) * consts.WHITE_KEY_PITCH)
     bodies.append(
         {
             "name": f"black_key_{BLACK_TRIPLET_KEY_INDICES[0]}",
@@ -288,10 +314,9 @@ def build(add_actuators: bool = False) -> types.MjcfRootElement:
     for twin_index in TWIN_INDICES:
         for j in range(2):
             y_coord = (
-                -consts.PIANO_LENGTH * 0.5
-                + (j + 1) * (consts.WHITE_KEY_WIDTH + consts.SPACING_BETWEEN_WHITE_KEYS)
-                + twin_index
-                * (consts.WHITE_KEY_WIDTH + consts.SPACING_BETWEEN_WHITE_KEYS)
+                -consts.PIANO_LENGTH / 2
+                - consts.SPACING_BETWEEN_WHITE_KEYS / 2
+                + (twin_index + (0.9, 2.1)[j]) * consts.WHITE_KEY_PITCH
             )
             bodies.append(
                 {
@@ -337,10 +362,9 @@ def build(add_actuators: bool = False) -> types.MjcfRootElement:
     for triplet_index in TRIPLET_INDICES:
         for j in range(3):
             y_coord = (
-                -consts.PIANO_LENGTH * 0.5
-                + (j + 1) * (consts.WHITE_KEY_WIDTH + consts.SPACING_BETWEEN_WHITE_KEYS)
-                + triplet_index
-                * (consts.WHITE_KEY_WIDTH + consts.SPACING_BETWEEN_WHITE_KEYS)
+                -consts.PIANO_LENGTH / 2
+                - consts.SPACING_BETWEEN_WHITE_KEYS / 2
+                + (triplet_index + (6 / 7, 2, 22 / 7)[j]) * consts.WHITE_KEY_PITCH
             )
             bodies.append(
                 {
@@ -393,6 +417,9 @@ def build(add_actuators: bool = False) -> types.MjcfRootElement:
     # Now create the corresponding MJCF elements and add them to the root.
     for i in range(len(bodies)):
         body = root.worldbody.add("body", **bodies[i])
+        if bodies[i]["name"].startswith("black_key_"):
+            body.add("inertial", pos=[0, 0, 0], mass=consts.BLACK_KEY_MASS,
+                     diaginertia=consts.BLACK_KEY_DIAGINERTIA)
         body.add("geom", **geoms[i])
         body.add("joint", **joints[i])
         body.add("site", **sites[i])

@@ -1,0 +1,528 @@
+{
+  "status": "PROPOSAL_ONLY_NOT_AUTHORIZED_FOR_TRAINING",
+  "changes": [
+    {
+      "index": 6,
+      "pitch": 60,
+      "finger": 7,
+      "original_end": 1.0039,
+      "proposed_end": 0.999899999,
+      "shortening_ms": 4.000000999999975,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 7,
+      "pitch": 64,
+      "finger": 5,
+      "original_end": 1.0039,
+      "proposed_end": 0.999899999,
+      "shortening_ms": 4.000000999999975,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 9,
+      "pitch": 60,
+      "finger": 7,
+      "original_end": 1.25145,
+      "proposed_end": 1.249899999,
+      "shortening_ms": 1.550001000000023,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 10,
+      "pitch": 64,
+      "finger": 5,
+      "original_end": 1.25145,
+      "proposed_end": 1.249899999,
+      "shortening_ms": 1.550001000000023,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 18,
+      "pitch": 60,
+      "finger": 7,
+      "original_end": 2.0039000000000002,
+      "proposed_end": 1.999899999,
+      "shortening_ms": 4.000001000000308,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 19,
+      "pitch": 64,
+      "finger": 5,
+      "original_end": 2.0039000000000002,
+      "proposed_end": 1.999899999,
+      "shortening_ms": 4.000001000000308,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 21,
+      "pitch": 60,
+      "finger": 7,
+      "original_end": 2.2515,
+      "proposed_end": 2.249899999,
+      "shortening_ms": 1.6000009999999065,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 22,
+      "pitch": 64,
+      "finger": 5,
+      "original_end": 2.2515,
+      "proposed_end": 2.249899999,
+      "shortening_ms": 1.6000009999999065,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 44,
+      "pitch": 60,
+      "finger": 7,
+      "original_end": 4.003950000000001,
+      "proposed_end": 3.999899999,
+      "shortening_ms": 4.050001000000414,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 45,
+      "pitch": 64,
+      "finger": 5,
+      "original_end": 4.003950000000001,
+      "proposed_end": 3.999899999,
+      "shortening_ms": 4.050001000000414,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 47,
+      "pitch": 60,
+      "finger": 7,
+      "original_end": 4.2515,
+      "proposed_end": 4.249899999,
+      "shortening_ms": 1.6000009999999065,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 48,
+      "pitch": 64,
+      "finger": 5,
+      "original_end": 4.2515,
+      "proposed_end": 4.249899999,
+      "shortening_ms": 1.6000009999999065,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 57,
+      "pitch": 59,
+      "finger": 6,
+      "original_end": 5.003950000000001,
+      "proposed_end": 4.999899999,
+      "shortening_ms": 4.050001000000414,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 58,
+      "pitch": 64,
+      "finger": 5,
+      "original_end": 5.003950000000001,
+      "proposed_end": 4.999899999,
+      "shortening_ms": 4.050001000000414,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 59,
+      "pitch": 81,
+      "finger": 2,
+      "original_end": 5.003950000000001,
+      "proposed_end": 4.954899999,
+      "shortening_ms": 49.05000100000034,
+      "reasons": [
+        "20Hz finger conflict"
+      ]
+    },
+    {
+      "index": 61,
+      "pitch": 59,
+      "finger": 6,
+      "original_end": 5.2515,
+      "proposed_end": 5.249899999,
+      "shortening_ms": 1.6000009999999065,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 62,
+      "pitch": 64,
+      "finger": 5,
+      "original_end": 5.2515,
+      "proposed_end": 5.249899999,
+      "shortening_ms": 1.6000009999999065,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 73,
+      "pitch": 59,
+      "finger": 6,
+      "original_end": 6.003950000000001,
+      "proposed_end": 5.999899999,
+      "shortening_ms": 4.050001000000414,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 74,
+      "pitch": 64,
+      "finger": 5,
+      "original_end": 6.003950000000001,
+      "proposed_end": 5.999899999,
+      "shortening_ms": 4.050001000000414,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 77,
+      "pitch": 59,
+      "finger": 6,
+      "original_end": 6.2515,
+      "proposed_end": 6.249899999,
+      "shortening_ms": 1.6000009999999065,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 78,
+      "pitch": 64,
+      "finger": 5,
+      "original_end": 6.2515,
+      "proposed_end": 6.249899999,
+      "shortening_ms": 1.6000009999999065,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 119,
+      "pitch": 67,
+      "finger": 0,
+      "original_end": 9.9893,
+      "proposed_end": 9.954899999,
+      "shortening_ms": 34.40000099999985,
+      "reasons": [
+        "20Hz finger conflict"
+      ]
+    },
+    {
+      "index": 125,
+      "pitch": 76,
+      "finger": 2,
+      "original_end": 10.7545,
+      "proposed_end": 10.749899999,
+      "shortening_ms": 4.60000100000002,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 126,
+      "pitch": 79,
+      "finger": 4,
+      "original_end": 10.7545,
+      "proposed_end": 10.749899999,
+      "shortening_ms": 4.60000100000002,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 147,
+      "pitch": 72,
+      "finger": 2,
+      "original_end": 12.9893,
+      "proposed_end": 12.954899999,
+      "shortening_ms": 34.40000099999985,
+      "reasons": [
+        "20Hz finger conflict"
+      ]
+    },
+    {
+      "index": 157,
+      "pitch": 71,
+      "finger": 2,
+      "original_end": 14.004000000000001,
+      "proposed_end": 13.954899999,
+      "shortening_ms": 49.100001000001114,
+      "reasons": [
+        "20Hz finger conflict"
+      ]
+    },
+    {
+      "index": 158,
+      "pitch": 64,
+      "finger": 0,
+      "original_end": 13.9893,
+      "proposed_end": 13.954899999,
+      "shortening_ms": 34.40000099999985,
+      "reasons": [
+        "20Hz finger conflict"
+      ]
+    },
+    {
+      "index": 167,
+      "pitch": 72,
+      "finger": 2,
+      "original_end": 14.9893,
+      "proposed_end": 14.954899999,
+      "shortening_ms": 34.40000099999985,
+      "reasons": [
+        "20Hz finger conflict"
+      ]
+    },
+    {
+      "index": 177,
+      "pitch": 71,
+      "finger": 2,
+      "original_end": 16.004,
+      "proposed_end": 15.999899999,
+      "shortening_ms": 4.1000010000011855,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 184,
+      "pitch": 60,
+      "finger": 7,
+      "original_end": 17.004,
+      "proposed_end": 16.999899999,
+      "shortening_ms": 4.1000010000011855,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 185,
+      "pitch": 64,
+      "finger": 5,
+      "original_end": 17.004,
+      "proposed_end": 16.999899999,
+      "shortening_ms": 4.1000010000011855,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 187,
+      "pitch": 60,
+      "finger": 7,
+      "original_end": 17.2516,
+      "proposed_end": 17.249899999,
+      "shortening_ms": 1.7000009999996735,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 188,
+      "pitch": 64,
+      "finger": 5,
+      "original_end": 17.2516,
+      "proposed_end": 17.249899999,
+      "shortening_ms": 1.7000009999996735,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 196,
+      "pitch": 60,
+      "finger": 7,
+      "original_end": 18.004,
+      "proposed_end": 17.999899999,
+      "shortening_ms": 4.1000010000011855,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 197,
+      "pitch": 64,
+      "finger": 5,
+      "original_end": 18.004,
+      "proposed_end": 17.999899999,
+      "shortening_ms": 4.1000010000011855,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 199,
+      "pitch": 60,
+      "finger": 7,
+      "original_end": 18.2516,
+      "proposed_end": 18.249899999,
+      "shortening_ms": 1.7000009999996735,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 200,
+      "pitch": 64,
+      "finger": 5,
+      "original_end": 18.2516,
+      "proposed_end": 18.249899999,
+      "shortening_ms": 1.7000009999996735,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 222,
+      "pitch": 57,
+      "finger": 7,
+      "original_end": 20.004,
+      "proposed_end": 19.999899999,
+      "shortening_ms": 4.1000010000011855,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 223,
+      "pitch": 63,
+      "finger": 5,
+      "original_end": 20.004,
+      "proposed_end": 19.999899999,
+      "shortening_ms": 4.1000010000011855,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 225,
+      "pitch": 57,
+      "finger": 7,
+      "original_end": 20.2516,
+      "proposed_end": 20.249899999,
+      "shortening_ms": 1.7000009999996735,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 226,
+      "pitch": 63,
+      "finger": 5,
+      "original_end": 20.2516,
+      "proposed_end": 20.249899999,
+      "shortening_ms": 1.7000009999996735,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 249,
+      "pitch": 59,
+      "finger": 5,
+      "original_end": 22.4996,
+      "proposed_end": 22.454899999000002,
+      "shortening_ms": 44.700000999998935,
+      "reasons": [
+        "20Hz finger conflict"
+      ]
+    },
+    {
+      "index": 250,
+      "pitch": 52,
+      "finger": 8,
+      "original_end": 22.7589,
+      "proposed_end": 22.754899999,
+      "shortening_ms": 4.000001000001419,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 251,
+      "pitch": 57,
+      "finger": 5,
+      "original_end": 22.7589,
+      "proposed_end": 22.754899999,
+      "shortening_ms": 4.000001000001419,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 253,
+      "pitch": 52,
+      "finger": 8,
+      "original_end": 23.030900000000003,
+      "proposed_end": 23.029899999,
+      "shortening_ms": 1.0000010000013049,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 256,
+      "pitch": 52,
+      "finger": 8,
+      "original_end": 23.321,
+      "proposed_end": 23.319899999,
+      "shortening_ms": 1.1000010000010718,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    },
+    {
+      "index": 257,
+      "pitch": 56,
+      "finger": 6,
+      "original_end": 23.321,
+      "proposed_end": 23.319899999,
+      "shortening_ms": 1.1000010000010718,
+      "reasons": [
+        "200Hz repeated key release"
+      ]
+    }
+  ],
+  "changed_notes": 47,
+  "maximum_shortening_ms": 49.100001000001114,
+  "preserved": "All pitches, onsets, fingering and velocities unchanged; only listed note ends proposed",
+  "control_hz": 20,
+  "physics_hz": 200,
+  "strict_validation_passed": true
+}

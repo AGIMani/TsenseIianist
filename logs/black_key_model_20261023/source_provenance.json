@@ -1,0 +1,149 @@
+{
+  "parent": "/home/houj/projects/pianist_exper034_20261022/logs/replay_labels_removed_20261023/source_replay_key_colors_v1.tar.gz",
+  "parent_sha256": "cc965e669d495bc59f5166411927c381c5330542e41890f342e8cf64170d0849",
+  "archive": "source_black_key_shape_v1.tar.gz",
+  "sha256": "1951eb00657ad1a82a8bc7092f6274dcf4607f26746cc4dfa4d936f89761dd84",
+  "changed_members": {
+    "AGENTS.md": {
+      "before": "0c75ffc2f4915579de46b91b956a8aba15d64ca2b1856c2d4559566427bb4e7b",
+      "after": "d9cc3015202dac4a9fa61e5f683c40b7c398a09b2bf253ec4edcb8ff35707e6e"
+    },
+    "README.md": {
+      "before": "cd9b37e61cef1692bd56b3f010f8aa190871d30691a92cd300486a020789bcb4",
+      "after": "566c01d3990a474fd4a12999b8cd915a601ff1a69076e12d259f0131482bfe1e"
+    },
+    "docs/black_key_shape_20261023.md": {
+      "before": null,
+      "after": "b34554e09abb3ddc7302e77ddb9415c8a1251a589ddbb27eb77bafaece8a820a"
+    },
+    "docs/change_log.md": {
+      "before": "2a44acc2293748a77347fef05c677733c56abb1906dfc5eacddf3845c29e5df1",
+      "after": "03b21f856e8e9e189ccf865d2b3ee3b6b24fafd1f8e7b44abc18a657c596d152"
+    },
+    "docs/piano_layout_1224_20261022.md": {
+      "before": "78b69153253d4edb8f9d52c3c38348c158457884b4aff135f21da1f10c6df67c",
+      "after": "89ba70368003fa4b4dbe7213fa15dba52a141eccf06dc11f6a071bb952733d61"
+    },
+    "docs/reward_defaults_20261006.md": {
+      "before": "829e7d9f1c921d7f46edf91465e93ed2be9b5bb9b1c459642c11ee566d4cb802",
+      "after": "319730cc2356bb43ad485dd1b9b1e1632006dd8163adffbac36dc99b32d82045"
+    },
+    "launch_piano_preview.sh": {
+      "before": null,
+      "after": "7dc00e1ac88810addcee74fe367c0f0a0baf4e8b1748e177f287102b57f405fe"
+    },
+    "preview/scripts/draw_fingering_reward_targets.py": {
+      "before": "412f70720f630d79a30eed82d39d312a7061830d843a532d63746426a25a3cd3",
+      "after": "901f0055ade7f9c04b2d9280cf5bad3b82156ac3af20e85723b0468466945f64"
+    },
+    "scripts/fingering_pose_worker.py": {
+      "before": null,
+      "after": "c3bfdd1cdf360cea487523859e27a9b87cdfab2d1e3fc16bfba8f3320245fddb"
+    },
+    "scripts/fit_turkish_fingering.py": {
+      "before": null,
+      "after": "0b34f78c47372143a8c73ee0421471c40e5c0eee370405d885dd3a22b8067457"
+    },
+    "scripts/hpc/run_turkish_march_kinematic.py": {
+      "before": "5dc5da23245ad61bc70d2193603ae0e0dac75ec48e13c2f77a110acc544d4a8b",
+      "after": "96a8a4928b1b61dd6e6579aac16499cb52b1871b50b5b6d9a620f5a3f5ff1f03"
+    },
+    "scripts/hpc/run_turkish_march_physical.py": {
+      "before": "333d9fc9efec44f168fa82ac780f19b5853bc05768be91fcccf887d7d1582968",
+      "after": "b4ae7810e36d127a193ddfb19a4356f24f9c8263598b5866d23b2a9b1a877721"
+    },
+    "scripts/probe_thumb_pinky_chord.py": {
+      "before": "ab8d399058ada038fa7dbaa22289d5371c0d0ca0ccce9d4698e6874cbcfecbce",
+      "after": "2daf66b375abf640fe179d2659be24665c325082a0e508243ecb45348be4b067"
+    },
+    "scripts/replay_key_highlight.py": {
+      "before": "873b1f6af554b0cf8a92673696c205ead4ed80fb07379b76ef56cd7ee73c360a",
+      "after": "ea4e98fccc03d6a29d5e6f487f008fc5af2f9add869f113274212a502f650884"
+    },
+    "scripts/view_static_piano.py": {
+      "before": null,
+      "after": "f42a463e0302d79135d80d822ca250b956e1206f82fa8ca910bfb9c177325a3a"
+    },
+    "tests/test_black_key_shape.py": {
+      "before": null,
+      "after": "99e09419aec61532014746c291af21ca79222cf7710011af858ae7e315ef07f7"
+    },
+    "tests/test_composer_exact_fingering.py": {
+      "before": "86315d93fdcd57d735132f7f35e7fd24a6b87e04c3f37f9e0355a245da9501ff",
+      "after": "78b6c6685a7f0cfce9875e137c3014864f568bde622d9fd8385a530dc05621f2"
+    },
+    "tests/test_key_reference_sampling.py": {
+      "before": null,
+      "after": "51312c628172beec7f0357a279ff67fcd0f0031fde8afe4e5434312cab5efc78"
+    },
+    "tests/test_piano_contact_and_color.py": {
+      "before": "83a971a5921b00af069b407c2766d9cfe986e3a4ffee12ef3828ec9af40214b7",
+      "after": "12b3234999f74174049f15683179d9db1b0f6a4a57415301c06e2cd0ba435f32"
+    },
+    "tests/test_piano_layout_1224.py": {
+      "before": "a62501f5111aedc93c1e39b1e773f7106639a2397cd87d4459068cc4a641473e",
+      "after": "e4b4c79c172f551224f0a1e2488983b1c6d8b9bf186e84fdb9256a0b0dc55b70"
+    },
+    "tests/test_source_runtime.py": {
+      "before": "e512a3c63e11edaa65974778b985dda6bca67b64155f1701582a9dda4b1e8173",
+      "after": "4aff7c2e85264b5df0ba1b510f9ece63eb7c6849cc661094ab5860172130e624"
+    },
+    "tests/test_substep_scene_integration.py": {
+      "before": "52772db8e142c194661d34f84b88fe8533ed65abf52f188e809ceb2cfb5bc4f5",
+      "after": "114a3fc2bc063154e634ed1d01b4b25ce73f8e3534087125589be121d26dc019"
+    },
+    "tsensei_v3_2_pianist/fingering_targets.py": {
+      "before": "b76e61edc088ccae8ef9726abec18a0c395282318c391bc52d389e8c3f30b8da",
+      "after": "80ba69f21af81ce1e26ae70de1540e6529d84d5752adaf1047880a6b6826a877"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/diagnostics.py": {
+      "before": "fd327ad9b7452469711ec31df34b68c5894157399c697257dde71d6ce1b54094",
+      "after": "2c63e0430bef5e04248535cc1e6aa7bbd1ec244f7324e31babc3db12d79bac6c"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/finger_clearance.py": {
+      "before": "42c23fffaea94690a725b49e639b28cde1f8863113a7fec60ce9b94177c2898e",
+      "after": "d602d9cbd6b5c5c3067b0477d8222daee86290eff4074b9956d116dab1ab273f"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/scene.py": {
+      "before": "13771bc2d15c99f75d22affe720bbc8ca3c623383082a38c844a734199b2d00b",
+      "after": "332bac70822397553ade95b10335ea61a040e9a9be5fd82b54181f93840ca9a6"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/substep_rewards.py": {
+      "before": "60716cd480d8a938957ac40e220c23f808d3d73d282711de6c8f331de3330db1",
+      "after": "7588774346df5d18552a526def7e6789d721ad060798aaf5f3c86ed4360ef9d6"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/task.py": {
+      "before": "e6145959f0509d409e061de33b0633e7e19f850acbf99918bcca36348edd752d",
+      "after": "d5c35ebe3e4c619664ab6a3954bcd22ad99c84671160d8bf1c1dda39378ee8e9"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/task_bundle.py": {
+      "before": "4805a030412a45f1290b5ca78799f4e7e795ffbdca9f39b11c4f768351279703",
+      "after": "59fcdb180730e0592d25794b5e69735b0d53a1a1321d15c85db33002b4ac4815"
+    },
+    "tsensei_v3_2_pianist/models/piano/piano_constants.py": {
+      "before": "99b0dadd0b65f74c1f61c4a879a55d734cc572933d44f27b8dfdb56d482e9a68",
+      "after": "08402b2f689490a146f5c3ec9010c2e8ee86895d7d645f5d39ecec333df3a509"
+    },
+    "tsensei_v3_2_pianist/models/piano/piano_mjcf.py": {
+      "before": "8d03620215a9564a67169ebabb0d8d3c508c461ac68508bf9a47e48d1acf4a27",
+      "after": "3824809f6fe01d17c9d3a3ae4db58fb5411f6fe9242fa4f5fee37832296d645b"
+    },
+    "tsensei_v3_2_pianist/preview_fingering.py": {
+      "before": "f2c46ff78e1f5f118e3c2067ce2527ed0bb0aae848c612a0ca39933f2dc8ec67",
+      "after": "19c46b94101d1f520bf1ede053d40ef469a1494e252fc1db629d2496d20a9665"
+    },
+    "tsensei_v3_2_pianist/preview_keys.py": {
+      "before": "7c7a744a352e31f13ac5c7dc59b90eea6cf348437fd90121003d011d9f10680a",
+      "after": "d2d15e297d6055c77fc565f1614de6538ef34b7579b6fc9e73d1d91ba5c81277"
+    },
+    "tsensei_v3_2_pianist/suite/tasks/piano_with_tsensei_hands.py": {
+      "before": "ddf52dca98dc1bd0d0d26fd008be04b7cc77e1a8a4e6edc6c4a129faebc62206",
+      "after": "3ef20e223f343bc74ab78767536c8ed07d77af5c705721832be6a19449c8115f"
+    }
+  },
+  "no_training": true,
+  "validation": "validation/",
+  "remote_root": "/home/houj/projects/pianist_black_key_20261023",
+  "geometry": "upper10x90_bottom12x95_height18_rear_aligned",
+  "unchanged": "all key body/hinge positions, dynamics parameters and fingering reference targets"
+}

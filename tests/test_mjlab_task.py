@@ -7,7 +7,7 @@ try:
 except ImportError:
     raise unittest.SkipTest('Torch task tests require training_mjlab/.venv')
 from tsensei_v3_2_pianist.mjlab_env.task_logic import (
-    MusicTaskLogic, gaussian_tolerance, binary_metrics, fingering_distances,
+    MusicTaskLogic, gaussian_tolerance, binary_metrics, fingering_substep_reward,
 )
 from tsensei_v3_2_pianist.mjlab_env.task_bundle import (
     RESET_ACTION_SEMANTICS, _replace_initial_action_observation,
@@ -41,7 +41,10 @@ def fixture(frames=1, *, history=True, forearm=True):
 def snapshot(n=2):
     key=torch.zeros(n,88);key[:,[10,20]]=1
     activation=key.bool()
-    return {'key_state_history':key[:,None,:].expand(-1,10,-1),
+    keys=torch.full((n,10,10),-1,dtype=torch.long);keys[:,:,1]=10;keys[:,:,6]=20
+    return {'fingertip_history':torch.zeros(n,10,10,3),
+            'key_target_history':torch.zeros(n,10,88,3),
+            'exact_finger_key_history':keys, 'key_state_history':key[:,None,:].expand(-1,10,-1),
             'key_activation_history':activation[:,None,:].expand(-1,10,-1),
             'right_qpos':torch.zeros(n,25),'left_qpos':torch.ones(n,25)*.2,
             'key_state':key,'key_activation':activation,'sustain':torch.zeros(n,1),
@@ -76,10 +79,11 @@ class MusicRulesTest(unittest.TestCase):
         targets = torch.zeros(1, 10, 88, 3)
         targets[:, 0, 10, 0] = .02
         targets[:, 1, 10, 0] = .35
-        s['key_targets'] = targets
-        distances = fingering_distances(s)
-        self.assertAlmostEqual(distances[0, 0, 10].item(), .02, places=7)
-        self.assertAlmostEqual(distances[0, 1, 10].item(), .35, places=7)
+        s['key_target_history'] = targets
+        reward = fingering_substep_reward(s, .01)
+        self.assertLess(reward.item(), 1.)
+        s['fingertips'].fill_(100.) # endpoint cannot substitute for history
+        torch.testing.assert_close(fingering_substep_reward(s,.01), reward)
 
     def test_known_rewards_and_wrong_keys_do_not_terminate(self):
         task=MusicTaskLogic(fixture(),num_envs=2,device='cpu')
@@ -93,6 +97,7 @@ class MusicRulesTest(unittest.TestCase):
         self.assertEqual(task.index.tolist(),[1,1])
         # Frame1 is silent; no assigned fingers must produce zero, not NaN.
         s['key_state'].zero_();s['key_activation'].zero_()
+        s['exact_finger_key_history'].fill_(-1)
         result=task.advance(torch.zeros(2,51),s)
         self.assertEqual(result.info['reward_terms']['fingering_reward'].tolist(),[0,0])
         torch.testing.assert_close(result.info['reward_terms']['key_press_reward'],torch.full((2,),.4))

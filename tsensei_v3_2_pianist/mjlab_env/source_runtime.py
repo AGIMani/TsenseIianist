@@ -38,16 +38,13 @@ def dependency_versions():
     return result
 
 
-def make_recipe(*, height=.10, ty=.04, yaw=.15, control_hz=20., physics_hz=200.,
+def make_recipe(*, height=.10, ty=.04, yaw=0.5235987755982988, control_hz=20., physics_hz=200.,
                 midi='TwinkleTwinkleRousseau', lookahead=None, frame_stack=1,
                 initial_buffer_time=1., release_tail_time=0., score_validation='legacy', gravity_compensation=True,
                 action_reward_observation=True, disable_forearm_reward=False,
                 task_profile='tsensei_v1', collision_profile='convex_hull_v1',
                 drive_profile='legacy_v1', preparation_time=0., preparation_lift=.02,
-                preparation_mode='fixed_v1', thumb_target_mode='profile',
-                thumb_white_target_distance=None, thumb_black_target_distance=None,
-                thumb_target=None, exact_note_timing=False, wrist_pitch_range_scale=1.):
-    from ..fingering_targets import thumb_target_options, validate_thumb_target
+                preparation_mode='fixed_v1', exact_note_timing=True, wrist_pitch_range_scale=1.):
     from ..score_validation import validate_mode, release_tail_steps
     validate_mode(score_validation)
     if (isinstance(wrist_pitch_range_scale, bool) or not math.isfinite(wrist_pitch_range_scale)
@@ -55,14 +52,6 @@ def make_recipe(*, height=.10, ty=.04, yaw=.15, control_hz=20., physics_hz=200.,
         raise ValueError('wrist_pitch_range_scale must be finite and in (0,1]')
     if type(exact_note_timing) is not bool:
         raise ValueError('exact_note_timing must be true/false')
-    if thumb_target is not None:
-        if (thumb_target_mode != 'profile' or thumb_white_target_distance is not None
-                or thumb_black_target_distance is not None):
-            raise ValueError('Canonical thumb_target cannot also specify flat thumb target options')
-        thumb_target = validate_thumb_target(thumb_target)
-    else:
-        thumb_target = thumb_target_options(thumb_target_mode, thumb_white_target_distance,
-                                            thumb_black_target_distance)
     if preparation_mode not in ('fixed_v1', 'policy_v1'):
         raise ValueError('Unknown preparation mode')
     if (not math.isfinite(preparation_time) or not math.isfinite(preparation_lift)
@@ -76,7 +65,7 @@ def make_recipe(*, height=.10, ty=.04, yaw=.15, control_hz=20., physics_hz=200.,
         raise ValueError('Unknown drive profile')
     if not all(math.isfinite(v) for v in (height,ty,yaw,control_hz,physics_hz,initial_buffer_time)):
         raise ValueError('Pose, frequency and buffer values must be finite')
-    if height <= 0 or not -.05 <= ty <= .15 or not -.25 <= yaw <= .25:
+    if height <= 0 or not -.05 <= ty <= .15 or not -math.pi/6 <= yaw <= math.pi/6:
         raise ValueError('Invalid mounting height or wrist initial position')
     if control_hz <= 0 or physics_hz < control_hz or not math.isclose(physics_hz/control_hz, round(physics_hz/control_hz)):
         raise ValueError('Physics frequency must be an integer multiple of control frequency')
@@ -108,7 +97,6 @@ def make_recipe(*, height=.10, ty=.04, yaw=.15, control_hz=20., physics_hz=200.,
                     gravity_compensation=gravity_compensation,
                     action_reward_observation=action_reward_observation,
                     disable_forearm_reward=disable_forearm_reward,task_profile=task_profile,
-                    thumb_target=thumb_target,
                     **({'exact_note_timing': True} if exact_note_timing else {})),
                 external_score=score,source_sha256=source_files(),versions=dependency_versions())
 
@@ -152,6 +140,8 @@ def _compile(config, output):
     from .bundle import export_scene
     from .task_bundle import export_task
     recipe=json.loads(config.read_text()); e=recipe['environment']
+    if any(k.startswith('thumb_target') or k.startswith('thumb_white') or k.startswith('thumb_black') for k in e):
+        raise ValueError('Removed thumb target options; use current all-finger geometry')
     midi=e['midi']
     if recipe['external_score']:
         import base64
@@ -173,7 +163,7 @@ def _compile(config, output):
     if scale != 1:
         path = output/'scene/manifest.json'
         manifest = json.loads(path.read_text())
-        manifest['action_range_scales'] = {name: scale for name in ('R_Wrist_Pitch','L_Wrist_Pitch')}
+        manifest['action_range_scales'] = {name: scale for name in ('R_Palm_Base_Pitch','L_Palm_Base_Pitch')}
         path.write_text(json.dumps(manifest, indent=2)+'\n')
     preparation = recipe.get('preparation') or {}
     preparation_buffer = preparation.get('duration', 0.) if preparation.get('mode') == 'policy_v1' else 0.
@@ -183,7 +173,7 @@ def _compile(config, output):
                 action_reward_observation=e['action_reward_observation'],
                 disable_forearm_reward=e['disable_forearm_reward'],
                 task_profile=e.get('task_profile','tsensei_v1'),
-                thumb_target=e.get('thumb_target'),build_reference=False,
+                build_reference=False,
                 exact_note_timing=e.get('exact_note_timing', False))
     if recipe['external_score']:
         # Avoid temporary absolute filenames in the reproducible task checksum.

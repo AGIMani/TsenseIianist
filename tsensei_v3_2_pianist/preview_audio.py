@@ -11,6 +11,7 @@ import struct
 import wave
 
 import numpy as np
+from .key_activation import key_active
 
 ROOT = Path(__file__).resolve().parents[1]
 RUNTIME = ROOT/'training_mjlab/audio_runtime/root'
@@ -32,7 +33,7 @@ def events_from_states(key_qpos, limits, sustain, dt, threshold, velocity=127):
         raise ValueError('Expected [substeps,88] key positions and [substeps] sustain')
     if not np.isfinite(key_qpos).all() or not np.isfinite(sustain).all() or dt <= 0 or not 1 <= velocity <= 127:
         raise ValueError('Invalid piano recording')
-    active = np.abs(np.clip(key_qpos, limits[:,0], limits[:,1])-limits[:,1]) <= threshold
+    active = key_active(key_qpos, limits, threshold)
     previous = np.zeros(88, dtype=bool)
     pedal = False
     events = []

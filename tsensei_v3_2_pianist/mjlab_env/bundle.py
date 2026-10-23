@@ -33,7 +33,7 @@ def export_scene(output, *, gravity_compensation=True, control_timestep=.05, phy
     # Composer belongs only to the export side; the MJLab loader needs no dm_control.
     from dm_control import mjcf
     from tsensei_v3_2_pianist import suite
-    from tsensei_v3_2_pianist.models.piano.piano import _KEY_THRESHOLD
+    from tsensei_v3_2_pianist.models.piano.piano import _KEY_ACTIVATION_FRACTION
     from tsensei_v3_2_pianist.models.hands import tsensei_hand_constants as hand_consts
     import tsensei_v3_2_pianist as package
 
@@ -88,7 +88,7 @@ def export_scene(output, *, gravity_compensation=True, control_timestep=.05, phy
             "action_min": spec.minimum.tolist(), "action_max": spec.maximum.tolist(),
             "neutral_action": d.ctrl[action_ids].tolist() + [0.0],
             "piano_joints": [j.full_identifier for j in env.task.piano.joints],
-            "key_threshold": float(_KEY_THRESHOLD), "hands": hands,
+            "key_activation_fraction": float(_KEY_ACTIVATION_FRACTION), "hands": hands,
             "source_pose": {
                 "right_position": hand_consts.RIGHT_POSITION,
                 "left_position": hand_consts.LEFT_POSITION,
@@ -100,7 +100,7 @@ def export_scene(output, *, gravity_compensation=True, control_timestep=.05, phy
             "source_hashes": {},
             "limitations": ["V32-02 virtual wrist", "V32-04/05 provisional drive limits",
                             "V32-06 collision exclusions", "V32-07 provisional fingertips",
-                            "V32-10 mirrored right hand"],
+                            "V32-10 supplied right hand; manufacturer provenance unverified"],
         }
         root = Path(package.__file__).parent
         for pattern in ("assets/**/*", "models/**/*.py", "suite/**/*.py"):
@@ -151,6 +151,10 @@ class SceneBundle:
         self.preparation = self.preparation_trace = None
         self.directory = Path(directory).resolve()
         self.manifest = json.loads((self.directory / "manifest.json").read_text())
+        from ..key_activation import validate_fraction
+        if 'key_threshold' in self.manifest or 'key_activation_fraction' not in self.manifest:
+            raise ValueError('Old key activation scene is unsupported; rebuild for normalized fraction 1.0')
+        validate_fraction(self.manifest['key_activation_fraction'])
         if self.manifest["schema_version"] != 1:
             raise ValueError("Unsupported scene schema")
         for name, expected in self.manifest["files"].items():
@@ -159,8 +163,9 @@ class SceneBundle:
                 raise ValueError(f"Scene asset missing or modified: {name}")
         if disable_wrist_tz and 'm6' in self.manifest:
             raise ValueError('--disable-wrist-tz requires a hand-only scene; use --no-arms')
-        if disable_wrist_yaw and not disable_wrist_tz:
-            raise ValueError('--disable-wrist-yaw currently requires --disable-wrist-tz (47-action layout)')
+        # Cartesian arm mode keeps the three translation joints and removes
+        # only the two orientation joints.  Hand-only legacy scenes may still
+        # request TZ removal explicitly.
         self.disable_wrist_tz = disable_wrist_tz
         self.fixed_joint_values = {}
         if disable_wrist_tz:
@@ -176,7 +181,7 @@ class SceneBundle:
                       if n not in self.fixed_joint_values]
         actuator_keep = [i for i, n in enumerate(self.manifest['actuator_names'])
                          if n not in [self.manifest['action_names'][i] for i in removed_actions]]
-        if disable_wrist_tz or self.preparation_options is not None:
+        if disable_wrist_tz or disable_wrist_yaw or self.preparation_options is not None:
             # Exclude joints BEFORE compiling: no hidden TZ dynamics or projection.
             import xml.etree.ElementTree as ET
             xml = ET.parse(self.directory / 'scene.xml').getroot()
@@ -195,7 +200,8 @@ class SceneBundle:
                     combined = np.empty(4); mujoco.mju_mulQuat(combined, initial, rotation)
                     body.set('quat', ' '.join(map(str, combined)))
                     matrix = np.empty(9); mujoco.mju_quat2Mat(matrix, rotation)
-                    # All wrist joints share a body; preserve earlier TX/TY/Pitch
+                    # All wrist joints share a body; preserve the remaining
+                    # translation axes
                     # axes when baking the final yaw into its rest orientation.
                     for joint in joints:
                         if joint is not yaw:
@@ -220,6 +226,10 @@ class SceneBundle:
         else:
             self.model = mujoco.MjModel.from_xml_path(str(self.directory / "scene.xml"))
         self.self_collision_query_model = None
+        # Optional rigid-arm augmentation installs a separate detection-only
+        # model here.  It is deliberately kept out of the force solver.
+        self.arm_collision_query_model = None
+        self.arm_collision_query_pairs = None
         if self_collision_detection_only or hand_collision_detection_only:
             if 'm6' in self.manifest:
                 raise ValueError('Detection-only self contacts currently require --no-arms')
@@ -313,4 +323,4 @@ class SceneBundle:
     def key_activation(self, qpos):
         limits = self.model.jnt_range[self.key_ids]
         state = np.clip(np.asarray(qpos)[..., self.key_qadr], limits[:, 0], limits[:, 1])
-        return np.abs(state - limits[:, 1]) <= self.manifest["key_threshold"]
+        return state >= limits[:, 1] * self.manifest["key_activation_fraction"]

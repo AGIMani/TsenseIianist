@@ -6,7 +6,7 @@
 - 琴键最大行程由物理关节限位产生反力，手—键碰撞与限位一起阻挡下压。控制目标仍可继续向下调，实际位置受接触和执行器力限约束；其他手指关节也可能弯曲或滑动，不能理解为把整只手固定住。
 - 支持一个 MJLab Simulation 内的 1／16／64 个世界，每个世界有独立的 qpos、qvel、ctrl、时间、踏板和控制步计数，可只 reset 指定世界。
 
-腕部范围按用户确认设为 **Wrist_TZ = −0.025～0 m**，在 `tsensei_v3_2_pianist/models/hands/tsensei_hand_constants.py::FOREARM_DOFS["forearm_tz"]` 修改；左右执行器、预览 Control 和新导出动作范围同步。初始安装位置和初始关节角未改变。
+腕部范围按用户确认设为 **Palm_Base_Tz = −0.025～0 m**，在 `tsensei_v3_2_pianist/models/hands/tsensei_hand_constants.py::FOREARM_DOFS["forearm_tz"]` 修改；左右执行器、预览 Control 和新导出动作范围同步。初始安装位置和初始关节角未改变。
 
 ## 接触实现与范围
 
@@ -40,9 +40,9 @@ training_mjlab/.venv/bin/python preview/scripts/preview_mjlab.py --paused
 
 手动检查：
 
-1. 按 Space 开始仿真；将左右 Wrist_TZ 从 0 调到 -0.025 m。腕部只能下压 25 mm，仅靠此动作可能尚未将键按到底。
+1. 按 Space 开始仿真；将左右 Palm_Base_Tz 从 0 调到 -0.025 m。腕部只能下压 25 mm，仅靠此动作可能尚未将键按到底。
 2. 将左右 Mid_MCP 从初始 0.25 调到 0.35 rad；实际激活的键变绿。持续保持目标时，中指对应键到达最大行程，接触反力阻止中指达到控制目标。不要把滑块目标当作实际角度。
-3. 将 Wrist_TZ 调回 0、Mid_MCP 调回 0.25，手抬起、琴键回弹，绿色消失。
+3. 将 Palm_Base_Tz 调回 0、Mid_MCP 调回 0.25，手抬起、琴键回弹，绿色消失。
 
 原预览也可使用 `.venv/bin/python preview/scripts/preview_pose.py` 验收相同规则，保留 S 保存和坐标轴等功能。旧导出模型不会因源代码改变自动更新；另存新姿态后请重新导出到新目录，并用 `--scene` 指定。
 
@@ -61,7 +61,7 @@ MUJOCO_GL=egl training_mjlab/.venv/bin/python scripts/validate_mjlab_batch.py --
 并行验收覆盖：
 
 - 相邻世界分别不按／只按右手／只按左手／双手同时按，踏板值也不同；检查每个世界的激活与踏板。
-- 连续 1.5 s 施加 Wrist_TZ=-0.025 m、中指 MCP=初始值+0.1 rad，确认中指对应琴键到达限位（角度距上限 <0.001 rad），中指实际角度低于目标 >0.05 rad。
+- 连续 1.5 s 施加 Palm_Base_Tz=-0.025 m、中指 MCP=初始值+0.1 rad，确认中指对应琴键到达限位（角度距上限 <0.001 rad），中指实际角度低于目标 >0.05 rad。
 - 对施压阶段**每个物理子步**采集溢出位、接触／约束峰值和接触深度：溢出位全 0；手—键最大数值穿透 <0.5 mm；琴键前端最大超行程 <0.1 mm。前端误差采用键长×角度超限的保守换算，未裁剪原始 qpos。
 - 同动作组激活琴键集合相同，滑动关节差 <0.05 mm、铰链差 <0.002 rad；GPU 接触浮点归约可能产生微小差异，不要求轨迹逐位相等。
 - 各动作组 CPU 参考对照：最大滑动误差 <2 mm、铰链角误差 <0.05 rad。

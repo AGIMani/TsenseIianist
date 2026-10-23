@@ -58,7 +58,7 @@ def test_cpu_hand_press_and_release_with_frozen_model(exported):
     d = bundle.reset_cpu()
     d.ctrl[:] = bundle.reset_ctrl
     # Move the right index over the keybed from the frozen TY=0, Yaw=.25 pose.
-    for name, value in [('R_Wrist_TY', .04), ('R_Index_MCP', 1.2),
+    for name, value in [('R_Palm_Base_Ty', .04), ('R_Index_MCP', 1.2),
                         ('R_Index_PIP', .3), ('R_Index_DIP', 0.)]:
         d.ctrl[bundle.model.actuator(name).id] = value
     activated = set()

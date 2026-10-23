@@ -22,7 +22,7 @@ def test_current_and_twentieth_future_frame_exempt_but_twenty_first_does_not():
     assert not protected[22].any()  # No wrap to the score's opening notes.
     result, _ = evaluate_posture(torch.ones(2, 51), score[[0, 22]],
         snapshot=dict(gesture_protected_fingers=protected[[0, 22]]))
-    torch.testing.assert_close(result, torch.tensor([-2.8, -4.]))
+    torch.testing.assert_close(result, torch.tensor([-2.45, -3.6]))
 
 
 def test_preparation_rest_and_local_reset_use_each_world_score_index():
@@ -37,7 +37,7 @@ def test_preparation_rest_and_local_reset_use_each_world_score_index():
     indices = torch.tensor([26, 47])
     before, manager = evaluate_posture(torch.ones(2, 51), score[indices],
         snapshot=dict(gesture_protected_fingers=protected[indices]))
-    torch.testing.assert_close(before, torch.tensor([-3.6, -4.]))
+    torch.testing.assert_close(before, torch.tensor([-3.25, -3.6]))
     indices[0] = 0
     manager.reset(torch.tensor([0]))
     after = manager({}, torch.ones(2, 51),
@@ -71,9 +71,31 @@ def test_future_protection_does_not_depend_on_anticipatory_observation_or_reward
     mask = gesture_protection_mask(score, 20)[[0]]
     for seconds in (0., .15):
         cfg = deepcopy(only(GESTURE))
-        cfg['performance'] = dict(anticipatory_fingering_time=seconds,
-                                  anticipatory_fingering_reward=False)
+        cfg['performance'] = dict(anticipatory_fingering_time=seconds)
         result, manager = evaluate_posture(torch.ones(1, 51), cfg=cfg,
             snapshot=dict(gesture_protected_fingers=mask, anticipatory_mask=~mask))
         assert manager.gesture_lookahead_steps == 20
         assert result.item() == 0.
+
+
+@pytest.mark.parametrize('side', ['R', 'L'])
+@pytest.mark.parametrize('finger', ['Index', 'Mid', 'Ring', 'Pinky'])
+def test_each_swing_has_half_the_mcp_penalty(side, finger):
+    scene = scene_fixture()
+    manager = RewardManager(only(GESTURE), scene, {}, num_envs=2, device='cpu')
+    action = torch.zeros(2, 51)
+    action[0, manager.actions.index(f'{side}_{finger}_SW')] = .2
+    action[1, manager.actions.index(f'{side}_{finger}_MCP')] = .2
+    reward, _ = evaluate_posture(action)
+    torch.testing.assert_close(reward, torch.tensor([-.01, -.02]))
+
+
+@pytest.mark.parametrize('value', [None, True, -.1, float('inf')])
+def test_swing_scale_must_be_explicit_finite_nonnegative(value):
+    cfg = only(GESTURE)
+    if value is None:
+        del cfg['terms'][GESTURE]['params']['swing_scale']
+    else:
+        cfg['terms'][GESTURE]['params']['swing_scale'] = value
+    with pytest.raises(ValueError):
+        validate(cfg)

@@ -1,6 +1,7 @@
 """On-device, every-substep acceptance metrics (optional, not training overhead)."""
 import numpy as np
 import torch
+from ..fingering_targets import key_reference
 
 
 class PhysicsAudit:
@@ -20,7 +21,7 @@ class PhysicsAudit:
         for j in scene.bundle.key_ids:
             geoms = np.flatnonzero(m.geom_bodyid == m.jnt_bodyid[j])
             g = next(g for g in geoms if 'key_geom_' in names[g])
-            levers.append(2*m.geom_size[g, 0])
+            levers.append(2*key_reference(m, g)[1][0])
         self.levers = scene.tensor(levers)
 
     def __call__(self, scene):

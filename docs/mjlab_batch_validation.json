@@ -1,6 +1,6 @@
 {
   "date": "2026-09-17",
-  "scope": "V3.2 activation color, contact stops, Wrist_TZ [-0.025, 0] m, batched MJLab physics; no RL training",
+  "scope": "V3.2 activation color, contact stops, Palm_Base_Tz [-0.025, 0] m, batched MJLab physics; no RL training",
   "manifest_sha256": "2a7b6f761fbe5c4658c6f71c15f10c50ae1d4ea44426160a7741bad45a27f395",
   "physics_dt": 0.0005,
   "control_dt": 0.05,
@@ -108,11 +108,11 @@
           "max_hinge_error_rad": 1.7170302764046852e-06,
           "exporter_mujoco_version": "3.13.0"
         },
-        "wrist_TX_R_Wrist_TX_responds": {
+        "wrist_TX_R_Palm_Base_Tx_responds": {
           "passed": true,
           "signed_displacement": 0.011938365176320076
         },
-        "wrist_TX_L_Wrist_TX_responds": {
+        "wrist_TX_L_Palm_Base_Tx_responds": {
           "passed": true,
           "signed_displacement": 0.011938361451029778
         },
@@ -129,11 +129,11 @@
           "max_hinge_error_rad": 1.7883242162675117e-06,
           "exporter_mujoco_version": "3.13.0"
         },
-        "wrist_TY_R_Wrist_TY_responds": {
+        "wrist_TY_R_Palm_Base_Ty_responds": {
           "passed": true,
           "signed_displacement": 0.007958939298987389
         },
-        "wrist_TY_L_Wrist_TY_responds": {
+        "wrist_TY_L_Palm_Base_Ty_responds": {
           "passed": true,
           "signed_displacement": 0.007958939298987389
         },
@@ -150,11 +150,11 @@
           "max_hinge_error_rad": 1.8457932045023995e-06,
           "exporter_mujoco_version": "3.13.0"
         },
-        "wrist_TZ_R_Wrist_TZ_responds": {
+        "wrist_TZ_R_Palm_Base_Tz_responds": {
           "passed": true,
           "signed_displacement": 0.006680932827293873
         },
-        "wrist_TZ_L_Wrist_TZ_responds": {
+        "wrist_TZ_L_Palm_Base_Tz_responds": {
           "passed": true,
           "signed_displacement": 0.006680932827293873
         },
@@ -171,11 +171,11 @@
           "max_hinge_error_rad": 1.8586670473830225e-06,
           "exporter_mujoco_version": "3.13.0"
         },
-        "wrist_Pitch_R_Wrist_Pitch_responds": {
+        "wrist_Pitch_R_Palm_Base_Pitch_responds": {
           "passed": true,
           "signed_displacement": 0.09997779130935669
         },
-        "wrist_Pitch_L_Wrist_Pitch_responds": {
+        "wrist_Pitch_L_Palm_Base_Pitch_responds": {
           "passed": true,
           "signed_displacement": 0.09997779875993729
         },
@@ -192,11 +192,11 @@
           "max_hinge_error_rad": 1.934423114802186e-06,
           "exporter_mujoco_version": "3.13.0"
         },
-        "wrist_Yaw_R_Wrist_Yaw_responds": {
+        "wrist_Yaw_R_Palm_Base_Yaw_responds": {
           "passed": true,
           "signed_displacement": 0.1495486944913864
         },
-        "wrist_Yaw_L_Wrist_Yaw_responds": {
+        "wrist_Yaw_L_Palm_Base_Yaw_responds": {
           "passed": true,
           "signed_displacement": 0.1495486944913864
         },

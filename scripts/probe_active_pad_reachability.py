@@ -23,7 +23,12 @@ def main():
     RealGeometryTests.setUpClass()
     b = RealGeometryTests.bundle;g = RealGeometryTests.guard;m = b.model
     cases = []
-    for finger, key in ((0, 51), (0, 52), (1, 52), (4, 52), (5, 39), (5, 40), (6, 40), (9, 40)):
+    # Probe one representative white/black key pair for every finger.  The
+    # two hands use mirrored key locations so this covers all ten chains under
+    # the current pose and action limits.
+    for finger, key in ((0, 51), (0, 52), (1, 52), (2, 53), (3, 53),
+                        (4, 52), (5, 39), (5, 40), (6, 40), (7, 41),
+                        (8, 41), (9, 40)):
         group = g.groups[finger];joints = group['chain'];qadr = m.jnt_qposadr[joints]
         data = b.reset_cpu();data.qpos[:] = b.origin_qpos
         data.mocap_pos[:] = b.origin_mocap_pos;data.mocap_quat[:] = b.origin_mocap_quat

@@ -99,7 +99,7 @@ def test_paused_arm_preview_consumes_slider_and_mouse_target(monkeypatch):
         physics = environment.physics
         arms.bind(physics, (environment.task.right_hand, environment.task.left_hand))
         aid = next(i for i in range(physics.model.nu)
-                   if physics.model.ptr.actuator(i).name.endswith('R_Wrist_TX'))
+                   if physics.model.ptr.actuator(i).name.endswith('R_Palm_Base_Tx'))
         jid = physics.model.ptr.actuator_trnid[aid, 0]
         qadr = physics.model.ptr.jnt_qposadr[jid]
         initial_time = physics.data.time

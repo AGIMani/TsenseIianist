@@ -8,7 +8,7 @@ class ActualKeyAudioTest(unittest.TestCase):
     def events(self, states, pedal=None):
         q = np.asarray(states,dtype=float)
         return events_from_states(q,np.tile([0.,1.],(88,1)),
-                                  np.zeros(len(q)) if pedal is None else pedal,.0005,.01)
+                                  np.zeros(len(q)) if pedal is None else pedal,.0005,1.)
 
     def test_held_key_is_not_retriggered_and_repress_is(self):
         q = np.zeros((6,88));q[1:3,39]=1;q[4,39]=1

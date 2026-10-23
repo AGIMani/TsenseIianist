@@ -1,0 +1,318 @@
+{
+  "status": "candidate_pending_physical_validation",
+  "source_sha256": "f15e83b71ec1a151c9271c19a750b12f237143c070d96ac297626e400673f5dd",
+  "output_sha256": "ed312459982c0b7d96b322c2cc4cb0e089d04a8c05406f54892cc229e986e12f",
+  "geometry_sha256": "f4842e1ca063ce6d96027df316c4d6e0eac9ad7d38432a795ffe99b0203c3df7",
+  "runner_sha256": "495bc50f718be79a72750ef792c8c6d9b701cae8b2fc7b5783f60a87b49bacca",
+  "control_dt": 0.05,
+  "release_guard_s": 0.05,
+  "release_guard_kind": "planner assumption, not measured",
+  "note_count": 2544,
+  "changes": [
+    {
+      "note_index": 702,
+      "pitch": 80,
+      "start_s": 64.875,
+      "end_s": 64.99270833333333,
+      "old_finger": 2,
+      "new_finger": 3
+    },
+    {
+      "note_index": 762,
+      "pitch": 80,
+      "start_s": 68.875,
+      "end_s": 68.99270833333333,
+      "old_finger": 2,
+      "new_finger": 3
+    },
+    {
+      "note_index": 814,
+      "pitch": 80,
+      "start_s": 72.875,
+      "end_s": 72.99270833333333,
+      "old_finger": 2,
+      "new_finger": 3
+    },
+    {
+      "note_index": 874,
+      "pitch": 80,
+      "start_s": 76.875,
+      "end_s": 76.99270833333333,
+      "old_finger": 2,
+      "new_finger": 3
+    },
+    {
+      "note_index": 923,
+      "pitch": 73,
+      "start_s": 80.75,
+      "end_s": 80.86770833333333,
+      "old_finger": 2,
+      "new_finger": 3
+    },
+    {
+      "note_index": 980,
+      "pitch": 73,
+      "start_s": 84.75,
+      "end_s": 84.86770833333333,
+      "old_finger": 2,
+      "new_finger": 3
+    },
+    {
+      "note_index": 1031,
+      "pitch": 80,
+      "start_s": 88.875,
+      "end_s": 88.99270833333333,
+      "old_finger": 2,
+      "new_finger": 3
+    },
+    {
+      "note_index": 1139,
+      "pitch": 73,
+      "start_s": 96.75,
+      "end_s": 96.86770833333333,
+      "old_finger": 2,
+      "new_finger": 3
+    },
+    {
+      "note_index": 1196,
+      "pitch": 73,
+      "start_s": 100.75,
+      "end_s": 100.86770833333333,
+      "old_finger": 2,
+      "new_finger": 3
+    },
+    {
+      "note_index": 1247,
+      "pitch": 80,
+      "start_s": 104.875,
+      "end_s": 104.99270833333333,
+      "old_finger": 2,
+      "new_finger": 3
+    },
+    {
+      "note_index": 1294,
+      "pitch": 54,
+      "start_s": 108.0,
+      "end_s": 108.23645833333333,
+      "old_finger": 7,
+      "new_finger": 8
+    }
+  ],
+  "minimum_changed_notes": 11,
+  "before": [
+    {
+      "note_indices": [
+        699,
+        702
+      ],
+      "pitches": [
+        81,
+        80
+      ],
+      "fingers": [
+        1,
+        2
+      ],
+      "start_s": 64.875,
+      "gap_s": 0.007291666666674246,
+      "control_grid_overlap": true,
+      "same_finger_conflict": false,
+      "index_middle_reverse": true
+    },
+    {
+      "note_indices": [
+        759,
+        762
+      ],
+      "pitches": [
+        81,
+        80
+      ],
+      "fingers": [
+        1,
+        2
+      ],
+      "start_s": 68.875,
+      "gap_s": 0.007291666666674246,
+      "control_grid_overlap": true,
+      "same_finger_conflict": false,
+      "index_middle_reverse": true
+    },
+    {
+      "note_indices": [
+        811,
+        814
+      ],
+      "pitches": [
+        81,
+        80
+      ],
+      "fingers": [
+        1,
+        2
+      ],
+      "start_s": 72.875,
+      "gap_s": 0.007291666666674246,
+      "control_grid_overlap": true,
+      "same_finger_conflict": false,
+      "index_middle_reverse": true
+    },
+    {
+      "note_indices": [
+        871,
+        874
+      ],
+      "pitches": [
+        81,
+        80
+      ],
+      "fingers": [
+        1,
+        2
+      ],
+      "start_s": 76.875,
+      "gap_s": 0.007291666666674246,
+      "control_grid_overlap": true,
+      "same_finger_conflict": false,
+      "index_middle_reverse": true
+    },
+    {
+      "note_indices": [
+        923,
+        926
+      ],
+      "pitches": [
+        73,
+        74
+      ],
+      "fingers": [
+        2,
+        1
+      ],
+      "start_s": 80.875,
+      "gap_s": 0.007291666666674246,
+      "control_grid_overlap": true,
+      "same_finger_conflict": false,
+      "index_middle_reverse": true
+    },
+    {
+      "note_indices": [
+        980,
+        983
+      ],
+      "pitches": [
+        73,
+        74
+      ],
+      "fingers": [
+        2,
+        1
+      ],
+      "start_s": 84.875,
+      "gap_s": 0.007291666666674246,
+      "control_grid_overlap": true,
+      "same_finger_conflict": false,
+      "index_middle_reverse": true
+    },
+    {
+      "note_indices": [
+        1028,
+        1031
+      ],
+      "pitches": [
+        81,
+        80
+      ],
+      "fingers": [
+        1,
+        2
+      ],
+      "start_s": 88.875,
+      "gap_s": 0.007291666666674246,
+      "control_grid_overlap": true,
+      "same_finger_conflict": false,
+      "index_middle_reverse": true
+    },
+    {
+      "note_indices": [
+        1139,
+        1142
+      ],
+      "pitches": [
+        73,
+        74
+      ],
+      "fingers": [
+        2,
+        1
+      ],
+      "start_s": 96.875,
+      "gap_s": 0.007291666666674246,
+      "control_grid_overlap": true,
+      "same_finger_conflict": false,
+      "index_middle_reverse": true
+    },
+    {
+      "note_indices": [
+        1196,
+        1199
+      ],
+      "pitches": [
+        73,
+        74
+      ],
+      "fingers": [
+        2,
+        1
+      ],
+      "start_s": 100.875,
+      "gap_s": 0.007291666666674246,
+      "control_grid_overlap": true,
+      "same_finger_conflict": false,
+      "index_middle_reverse": true
+    },
+    {
+      "note_indices": [
+        1244,
+        1247
+      ],
+      "pitches": [
+        81,
+        80
+      ],
+      "fingers": [
+        1,
+        2
+      ],
+      "start_s": 104.875,
+      "gap_s": 0.007291666666674246,
+      "control_grid_overlap": true,
+      "same_finger_conflict": false,
+      "index_middle_reverse": true
+    },
+    {
+      "note_indices": [
+        1294,
+        1298
+      ],
+      "pitches": [
+        54,
+        53
+      ],
+      "fingers": [
+        7,
+        6
+      ],
+      "start_s": 108.25,
+      "gap_s": 0.013541666666668561,
+      "control_grid_overlap": false,
+      "same_finger_conflict": false,
+      "index_middle_reverse": true
+    }
+  ],
+  "after": [],
+  "all_other_sequence_fields_preserved": true,
+  "physical_collisions_verified": false,
+  "physical_f1": null,
+  "limitations": "Symbolic index/middle ordering only. Other finger pairs, idle fingers, actual timing, reachability and physical contact need A3.2 dynamics."
+}

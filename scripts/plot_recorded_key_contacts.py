@@ -24,7 +24,7 @@ def main():
             ax.set_xlim(lo,hi);ax.grid(alpha=.2)
             for interval in report['contact_categories']['key_underside']['intervals']:
                 ax.axvspan(interval['start'],interval['end'],color='#a64343',alpha=.12)
-        for row,name in enumerate(('L_Wrist_Pitch','L_Thumb_Rot2')):
+        for row,name in enumerate(('L_Palm_Base_Pitch','L_Thumb_Rot2')):
             j=joints[name]
             axes[row,col].plot(t,ph['ctrl'][:,j['actuator_id']],lw=1,label='Actuator target')
             axes[row,col].plot(t,ph['qpos'][:,j['qpos_adr']],lw=1.2,label='Actual position')

@@ -109,7 +109,7 @@ class ShadowTaskProfileChecks(unittest.TestCase):
           <position joint="finger"/><position joint="pitch"/></actuator></mujoco>''')
         scene = SimpleNamespace(model=model, device='cpu',
             bundle=SimpleNamespace(active_action_indices=[0, 1, 2, 3], action_ids=[0, 1, 2, 3],
-                manifest={'action_names': ['R_Wrist_TX', 'R_Wrist_TY', 'R_Index_MCP', 'R_Wrist_Pitch'],
+                manifest={'action_names': ['R_Palm_Base_Tx', 'R_Palm_Base_Ty', 'R_Index_MCP', 'R_Palm_Base_Pitch'],
                           'control_dt': .05}),
             data=SimpleNamespace(ctrl=torch.tensor([[.1, .2, .3, .4]]), qvel=torch.zeros(1, 4)))
         metrics = MotionMetrics(scene)

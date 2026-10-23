@@ -43,10 +43,14 @@ class ScoreValidationTests(unittest.TestCase):
         self.assertFalse(report['valid'])
         self.assertEqual(report['covered_notes'], 1)
 
-    def test_same_finger_cannot_play_two_keys(self):
+    def test_same_finger_multiple_keys_are_diagnostic_only(self):
         seq = NS(notes=[note(0, .05), note(0, .05, 62)])
-        report = audit_note_coverage(seq, [[target(), target(62)]], .05)
-        self.assertIn('finger_conflict', [item['kind'] for item in report['errors']])
+        frames = [[target(), target(62)]]
+        report = require_note_coverage(seq, frames, .05)
+        self.assertTrue(report['valid'])
+        self.assertEqual(report['errors'], [])
+        self.assertIn('finger_conflict', [item['kind'] for item in report['warnings']])
+        self.assertEqual(len(frames[0]), 2)
 
     def test_distinct_fingers_can_play_chord(self):
         seq = NS(notes=[note(0, .05), note(0, .05, 62, 1)])

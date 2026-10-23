@@ -1,0 +1,193 @@
+{
+  "20": {
+    "valid": false,
+    "counts": {
+      "finger_conflict": 7
+    },
+    "first_errors": [
+      {
+        "kind": "finger_conflict",
+        "frame": 99,
+        "message": "frame 99: finger 2 assigned keys [np.int64(79), np.int64(81)]"
+      },
+      {
+        "kind": "finger_conflict",
+        "frame": 199,
+        "message": "frame 199: finger 0 assigned keys [np.int64(67), np.int64(72)]"
+      },
+      {
+        "kind": "finger_conflict",
+        "frame": 259,
+        "message": "frame 259: finger 2 assigned keys [np.int64(72), np.int64(77)]"
+      },
+      {
+        "kind": "finger_conflict",
+        "frame": 279,
+        "message": "frame 279: finger 0 assigned keys [np.int64(64), np.int64(69)]"
+      },
+      {
+        "kind": "finger_conflict",
+        "frame": 279,
+        "message": "frame 279: finger 2 assigned keys [np.int64(71), np.int64(72)]"
+      },
+      {
+        "kind": "finger_conflict",
+        "frame": 299,
+        "message": "frame 299: finger 2 assigned keys [np.int64(72), np.int64(77)]"
+      },
+      {
+        "kind": "finger_conflict",
+        "frame": 449,
+        "message": "frame 449: finger 5 assigned keys [np.int64(57), np.int64(59)]"
+      }
+    ]
+  },
+  "40": {
+    "valid": false,
+    "counts": {
+      "finger_conflict": 7
+    },
+    "first_errors": [
+      {
+        "kind": "finger_conflict",
+        "frame": 199,
+        "message": "frame 199: finger 2 assigned keys [np.int64(79), np.int64(81)]"
+      },
+      {
+        "kind": "finger_conflict",
+        "frame": 399,
+        "message": "frame 399: finger 0 assigned keys [np.int64(67), np.int64(72)]"
+      },
+      {
+        "kind": "finger_conflict",
+        "frame": 519,
+        "message": "frame 519: finger 2 assigned keys [np.int64(72), np.int64(77)]"
+      },
+      {
+        "kind": "finger_conflict",
+        "frame": 559,
+        "message": "frame 559: finger 0 assigned keys [np.int64(64), np.int64(69)]"
+      },
+      {
+        "kind": "finger_conflict",
+        "frame": 559,
+        "message": "frame 559: finger 2 assigned keys [np.int64(71), np.int64(72)]"
+      },
+      {
+        "kind": "finger_conflict",
+        "frame": 599,
+        "message": "frame 599: finger 2 assigned keys [np.int64(72), np.int64(77)]"
+      },
+      {
+        "kind": "finger_conflict",
+        "frame": 899,
+        "message": "frame 899: finger 5 assigned keys [np.int64(57), np.int64(59)]"
+      }
+    ]
+  },
+  "100": {
+    "valid": false,
+    "counts": {
+      "finger_conflict": 3
+    },
+    "first_errors": [
+      {
+        "kind": "finger_conflict",
+        "frame": 499,
+        "message": "frame 499: finger 2 assigned keys [np.int64(79), np.int64(81)]"
+      },
+      {
+        "kind": "finger_conflict",
+        "frame": 1399,
+        "message": "frame 1399: finger 2 assigned keys [np.int64(71), np.int64(72)]"
+      },
+      {
+        "kind": "finger_conflict",
+        "frame": 2249,
+        "message": "frame 2249: finger 5 assigned keys [np.int64(57), np.int64(59)]"
+      }
+    ]
+  },
+  "200": {
+    "valid": false,
+    "counts": {
+      "finger_conflict": 2
+    },
+    "first_errors": [
+      {
+        "kind": "finger_conflict",
+        "frame": 999,
+        "message": "frame 999: finger 2 assigned keys [np.int64(79), np.int64(81)]"
+      },
+      {
+        "kind": "finger_conflict",
+        "frame": 2799,
+        "message": "frame 2799: finger 2 assigned keys [np.int64(71), np.int64(72)]"
+      }
+    ]
+  },
+  "400": {
+    "valid": false,
+    "counts": {
+      "finger_conflict": 2
+    },
+    "first_errors": [
+      {
+        "kind": "finger_conflict",
+        "frame": 1999,
+        "message": "frame 1999: finger 2 assigned keys [np.int64(79), np.int64(81)]"
+      },
+      {
+        "kind": "finger_conflict",
+        "frame": 5599,
+        "message": "frame 5599: finger 2 assigned keys [np.int64(71), np.int64(72)]"
+      }
+    ]
+  },
+  "500": {
+    "valid": false,
+    "counts": {
+      "finger_conflict": 3
+    },
+    "first_errors": [
+      {
+        "kind": "finger_conflict",
+        "frame": 2499,
+        "message": "frame 2499: finger 2 assigned keys [np.int64(79), np.int64(81)]"
+      },
+      {
+        "kind": "finger_conflict",
+        "frame": 6999,
+        "message": "frame 6999: finger 2 assigned keys [np.int64(71), np.int64(72)]"
+      },
+      {
+        "kind": "finger_conflict",
+        "frame": 11247,
+        "message": "frame 11247: finger 5 assigned keys [np.int64(57), np.int64(59)]"
+      }
+    ]
+  },
+  "1000": {
+    "valid": false,
+    "counts": {
+      "finger_conflict": 2
+    },
+    "first_errors": [
+      {
+        "kind": "finger_conflict",
+        "frame": 4999,
+        "message": "frame 4999: finger 2 assigned keys [np.int64(79), np.int64(81)]"
+      },
+      {
+        "kind": "finger_conflict",
+        "frame": 13999,
+        "message": "frame 13999: finger 2 assigned keys [np.int64(71), np.int64(72)]"
+      }
+    ]
+  },
+  "2000": {
+    "valid": true,
+    "counts": {},
+    "first_errors": []
+  }
+}

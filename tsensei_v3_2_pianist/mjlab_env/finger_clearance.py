@@ -186,21 +186,29 @@ class FingerClearanceGuard:
         mujoco.mj_forward(model, origin)
         min_xy = [];max_xy = [];pressed_center = [];pressed_normal = [];rest_top = [];rest_bottom = []
         for key, geom in enumerate(keys):
-            if model.geom_type[geom] != mujoco.mjtGeom.mjGEOM_BOX:
-                raise ValueError('Piano top-plane contract requires box keys')
-            rotation = origin.geom_xmat[geom].reshape(3, 3)
+            from ..fingering_targets import key_reference
+            site, half_size = key_reference(model, geom)
+            rotation = origin.site_xmat[site].reshape(3, 3)
             if not np.allclose(rotation[:, 2], [0, 0, 1], atol=1e-7):
                 raise ValueError('Rest piano keys must share the world-Z normal')
-            extent = np.abs(rotation)@model.geom_size[geom]
-            min_xy.append(origin.geom_xpos[geom, :2]-extent[:2]);max_xy.append(origin.geom_xpos[geom, :2]+extent[:2])
-            rest_top.append(float(origin.geom_xpos[geom, 2]+extent[2]))
-            rest_bottom.append(float(origin.geom_xpos[geom, 2]-extent[2]))
+            extent = np.abs(rotation)@half_size
+            lower = origin.site_xpos[site, :2]-extent[:2]
+            upper = origin.site_xpos[site, :2]+extent[:2]
+            if 'black_key_geom_' in model.geom(geom).name:
+                # Conservative outer footprint of the sloped sides and front.
+                from ..models.piano import piano_constants as pc
+                lower[1] -= (pc.BLACK_KEY_WIDTH-pc.BLACK_KEY_TOP_WIDTH)/2
+                upper[1] += (pc.BLACK_KEY_WIDTH-pc.BLACK_KEY_TOP_WIDTH)/2
+                upper[0] += pc.BLACK_KEY_BOTTOM_LENGTH-pc.BLACK_KEY_LENGTH
+            min_xy.append(lower);max_xy.append(upper)
+            rest_top.append(float(origin.site_xpos[site, 2]+extent[2]))
+            rest_bottom.append(float(origin.site_xpos[site, 2]-extent[2]))
             native = bundle.reset_cpu();native.qpos[:] = bundle.origin_qpos
             jid = int(bundle.key_ids[key]);native.qpos[model.jnt_qposadr[jid]] = model.jnt_range[jid, 1]
             mujoco.mj_forward(model, native)
-            pressed_center.append(native.geom_xpos[geom].copy());pressed_normal.append(native.geom_xmat[geom].reshape(3, 3)[:, 2].copy())
+            pressed_center.append(native.site_xpos[site].copy());pressed_normal.append(native.site_xmat[site].reshape(3, 3)[:, 2].copy())
         self.key_min_xy = self.tensor(min_xy);self.key_max_xy = self.tensor(max_xy)
-        self.key_top = self.tensor(rest_top);self.key_half_z = self.tensor(model.geom_size[keys, 2])
+        self.key_top = self.tensor(rest_top);self.key_half_z = self.tensor([key_reference(model, g)[1][2] for g in keys])
         self.key_bottom = self.tensor(rest_bottom);self.lowest_bottom = float(np.min(rest_bottom))
         self.pressed_center = self.tensor(pressed_center);self.pressed_normal = self.tensor(pressed_normal)
         black = np.asarray(['black' in model.geom(g).name for g in keys])
@@ -221,7 +229,9 @@ class FingerClearanceGuard:
         self.low = self.tensor(low);self.high = self.tensor(high);self.origin_angles = self.tensor(origin_angles)
         safe_angles = self._safe_angles(model, origin, np.asarray(origin_angles), np.asarray(low), np.asarray(high))
         self.safe_angles = self.tensor(safe_angles)
-        self.wrist_indices = self.integer([[20, 21, 23], [45, 46, 48]]) if self.rigid_arm else self.chain_indices[[0, 5], :3]
+        # Cartesian arm policy exposes TX/TY/TZ; Pitch/Yaw are fixed during
+        # bundle compilation and are absent from the 47-action policy.
+        self.wrist_indices = self.integer([[20, 21, 22], [45, 46, 47]]) if self.rigid_arm else self.chain_indices[[0, 5], :3]
         self.wrist_low = self.tensor(bundle.low)[self.wrist_indices]
         self.wrist_high = self.tensor(bundle.high)[self.wrist_indices]
         self.contract = dict(schema=1, mode=MODE, options=deepcopy(self.options),

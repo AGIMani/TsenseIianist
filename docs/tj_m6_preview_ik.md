@@ -19,7 +19,7 @@ cd /home/houjue/pianist_v2/tsensei_v3_2_pianist
 .venv/bin/python preview/scripts/preview_pose.py --paused --no-contact-controls
 ```
 
-1. 在右侧 Control 面板拖动 `R_Wrist_*`／`L_Wrist_*`，双手与机械臂随动。暂停时可直接摆放手腕，不推进钢琴物理；恢复运行后按原驱动器和物理运动。手指滑块仍在运行物理时驱动手指。
+1. 在右侧 Control 面板拖动 `R_Palm_Base_*`／`L_Palm_Base_*`，双手与机械臂随动。暂停时可直接摆放手腕，不推进钢琴物理；恢复运行后按原驱动器和物理运动。手指滑块仍在运行物理时驱动手指。
 2. 也可双击腕部的**绿色球**选中，再按 `Ctrl＋鼠标右键拖动` 平移，`Ctrl＋鼠标左键拖动` 旋转；`Ctrl＋Shift＋右键` 改为水平面平移。绿色球可能被手腕遮挡，可转动视角后选中。鼠标操作依据 [MuJoCo 官方说明](https://mujoco.readthedocs.io/en/stable/programming/samples.html#mouse)。
 3. 绿色球通过局部 IK 转换成已有的五个手腕控制量。超出范围或不支持的 Roll 旋转会投影到当前允许范围，不新增手腕自由度。
 4. `Space` 暂停／继续，`R` 恢复打开时状态，`F` 恢复全琴＋双臂视角（MuJoCo 原生 F 也可能切换接触力显示）。

@@ -1,0 +1,27 @@
+{
+  "host": "volc-a32",
+  "remote_root": "/home/houj/projects/pianist_fingering_editor_9299ab01_ac5321ff",
+  "source_sha256": "9299ab01d69563092b65cd4d91b09429ae99aa501cedbb797b9956bd098fece8",
+  "worker_sha256": "ac5321ffe79fa0b53dfface940fca18af349e032030865e866a74f1587ff1670",
+  "python": "/home/houj/projects/pianist_fingering_editor_9299ab01_ac5321ff/training_mjlab/.venv/bin/python",
+  "created_at": 1792689087.1375515,
+  "preflight": {
+    "host": "TenseiNode1",
+    "remote": "/home/houj/projects/pianist_fingering_editor_9299ab01_ac5321ff",
+    "available_kib": 1840193720,
+    "archive_sha": "9299ab01d69563092b65cd4d91b09429ae99aa501cedbb797b9956bd098fece8"
+  },
+  "command": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "ConnectTimeout=10",
+    "volc-a32",
+    "/home/houj/projects/pianist_model_replace_20261020/training_mjlab/.venv/bin/python -c '\nimport hashlib,json,os,pathlib,shutil,sys,tarfile\np=json.loads(sys.argv[1]); base=pathlib.Path(p['\"'\"'base'\"'\"']); dest=pathlib.Path(p['\"'\"'remote'\"'\"'])\narchive=base/'\"'\"'logs/model_replace_20261020/source_supplied_hand_v6.tar.gz'\"'\"'\nassert archive.is_file(), archive\nassert hashlib.file_digest(archive.open('\"'\"'rb'\"'\"'),'\"'\"'sha256'\"'\"').hexdigest()==p['\"'\"'archive_sha'\"'\"']\navailable=int(next(l.split()[1] for l in pathlib.Path('\"'\"'/proc/meminfo'\"'\"').read_text().splitlines() if l.startswith('\"'\"'MemAvailable:'\"'\"')))\nassert available>8*1024*1024, '\"'\"'Remote requires 8 GiB available memory'\"'\"'\nassert shutil.disk_usage(dest.parent).free>3*1024**3, '\"'\"'Remote requires 3 GiB free disk'\"'\"'\nfor role in ['\"'\"'training'\"'\"','\"'\"'training_mjlab'\"'\"']:\n    assert (base/role/'\"'\"'.venv/bin/python'\"'\"').is_file(), role\nif not dest.exists():\n    dest.mkdir()\n    with tarfile.open(archive) as tf: tf.extractall(dest,filter='\"'\"'data'\"'\"')\n    (dest/'\"'\"'EDITOR_SOURCE_SHA256'\"'\"').write_text(p['\"'\"'archive_sha'\"'\"']+'\"'\"'\\n'\"'\"')\nelse:\n    assert (dest/'\"'\"'EDITOR_SOURCE_SHA256'\"'\"').read_text().strip()==p['\"'\"'archive_sha'\"'\"']\nfor role in ['\"'\"'training'\"'\"','\"'\"'training_mjlab'\"'\"']:\n    (dest/role).mkdir(exist_ok=True)\n    env=dest/role/'\"'\"'.venv'\"'\"'\n    if not env.exists(): env.symlink_to((base/role/'\"'\"'.venv'\"'\"').resolve(),target_is_directory=True)\nprint(json.dumps(dict(host=os.uname().nodename,remote=str(dest),available_kib=available,archive_sha=p['\"'\"'archive_sha'\"'\"'])))\n' '{\"base\": \"/home/houj/projects/pianist_model_replace_20261020\", \"remote\": \"/home/houj/projects/pianist_fingering_editor_9299ab01_ac5321ff\", \"archive_sha\": \"9299ab01d69563092b65cd4d91b09429ae99aa501cedbb797b9956bd098fece8\", \"worker_sha\": \"ac5321ffe79fa0b53dfface940fca18af349e032030865e866a74f1587ff1670\"}'"
+  ],
+  "exit_code": 0,
+  "gpu": false,
+  "local_archive_present": false,
+  "preview_scope": "Frozen supplied_hand_v6 editor; not the current training runtime"
+}

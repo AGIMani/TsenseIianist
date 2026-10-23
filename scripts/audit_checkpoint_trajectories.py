@@ -53,7 +53,7 @@ def diagnostic_summary(values, *, frames, physical_action_names):
         summary['requested_applied_difference']=dict(any_frames=int((delta>1e-7).any(-1).sum()),
             per_channel=[dict(name=name,max_absolute_delta=float(delta[:,i].max()),
                 changed_frames=int((delta[:,i]>1e-7).sum()),
-                unit='m'if '_Wrist_T' in name else'pedal'if name=='sustain'else'rad')
+                unit='m'if '_Palm_Base_T' in name else'pedal'if name=='sustain'else'rad')
                 for i,name in enumerate(physical_action_names)],
             scope='Combined ordinary target limits and finger geometry correction; not physical motion')
     return summary
@@ -122,10 +122,10 @@ def worker(a, *, prepared_probe=None):
     action_names=[b.manifest['action_names'][i] for i in b.active_action_indices]
     groups={key:np.array([i for i,name in enumerate(action_names) if predicate(name)],dtype=int)
             for key,predicate in {
-                'wrist_tx':lambda n:n.endswith('_Wrist_TX'),
-                'wrist_ty':lambda n:n.endswith('_Wrist_TY'),
-                'wrist_pitch':lambda n:n.endswith('_Wrist_Pitch'),
-                'finger':lambda n:'_Wrist_' not in n}.items()}
+                'wrist_tx':lambda n:n.endswith('_Palm_Base_Tx'),
+                'wrist_ty':lambda n:n.endswith('_Palm_Base_Ty'),
+                'wrist_pitch':lambda n:n.endswith('_Palm_Base_Pitch'),
+                'finger':lambda n:'_Palm_Base_' not in n}.items()}
     geom_names=[m.geom(i).name or f'geom#{i}' for i in range(m.ngeom)]
     geom_bodies=np.array(m.geom_bodyid)
     body_names=[m.body(i).name or f'body#{i}' for i in range(m.nbody)]
@@ -245,9 +245,9 @@ def worker(a, *, prepared_probe=None):
                                                  physical_action_names=b.manifest['action_names'])
         physical={key:np.asarray(value) for key,value in physical.items()}
         contact_array=np.asarray(contacts,dtype=float).reshape(-1,3)
-        key_limits=s.key_limits.cpu().numpy();threshold=b.manifest['key_threshold']
+        key_limits=s.key_limits.cpu().numpy();threshold=b.manifest['key_activation_fraction']
         key_qpos=physical['qpos'][:,b.key_qadr]
-        active=np.abs(np.clip(key_qpos,key_limits[:,0],key_limits[:,1])-key_limits[:,1])<=threshold
+        active=np.clip(key_qpos,key_limits[:,0],key_limits[:,1])>=key_limits[:,1]*threshold
         target=np.repeat(controls['goals'][:,:88].astype(bool),decimation,axis=0)
         assert np.array_equal(active[decimation-1::decimation],controls['actual'])
         events=events_from_states(key_qpos,key_limits,physical['sustain'],pdt,threshold)
@@ -312,7 +312,7 @@ def worker(a, *, prepared_probe=None):
                 returned_state_time_seconds=(np.arange(len(controls['actions']))+1)*dt)
         (directory/'control_diagnostics.json').write_text(json.dumps(clearance_diagnostics,indent=2)+'\n')
         np.savez_compressed(directory/'physics_200hz.npz',**physical,contacts=contact_array,key_activation=active,
-                            key_limits=key_limits,key_threshold=threshold,physics_dt=pdt)
+                            key_limits=key_limits,key_activation_fraction=threshold,physics_dt=pdt)
         if a.extended:
             np.savez_compressed(directory/'contact_geometry.npz',contacts=np.asarray(contact_geometry).reshape(-1,17),
                                 columns=np.array(['tick','geom0','geom1','distance','position_x','position_y','position_z',

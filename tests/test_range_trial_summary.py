@@ -51,9 +51,9 @@ class RangeSummaryTests(unittest.TestCase):
         self.assertTrue(result['warnings'])
 
     def test_completed_csv_and_full_controller_preserved(self):
-        controls = {'schema':1,'mode':'target_clip_slew_v1','channels':{'R_Wrist_TX':{'max_velocity':.4}}}
+        controls = {'schema':1,'mode':'target_clip_slew_v1','channels':{'R_Palm_Base_Tx':{'max_velocity':.4}}}
         self.config['control_limits'] = controls
-        self.config['control_limits_contract'] = {'channels':{'R_Wrist_TX':{'index':20,'max_velocity':.4}}}
+        self.config['control_limits_contract'] = {'channels':{'R_Palm_Base_Tx':{'index':20,'max_velocity':.4}}}
         (self.run/'config.json').write_text(json.dumps(self.config))
         (self.run/'summary.json').write_text(json.dumps(dict(status='completed',vector_steps=512,
             transitions=262144,updates_this_run=30000,elapsed_s=120.)))

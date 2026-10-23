@@ -50,7 +50,7 @@ def shifted_targets(ctrl, channels, *, onset, release, lead, donor_onset=None,
 
 
 def key_active(qpos, limits, threshold):
-    return np.abs(np.clip(qpos, limits[:, 0], limits[:, 1]) - limits[:, 1]) <= threshold
+    return np.clip(qpos, limits[:, 0], limits[:, 1]) >= limits[:, 1] * threshold
 
 
 def activation_events(mask, initial, times):
@@ -116,7 +116,7 @@ def prepare(args):
     if np.any(np.diff(rollout['policy_time']) <= 0):
         raise ValueError('Recording time must be strictly increasing')
     times = (np.arange(len(trace['qpos']))+1)*pdt-prefix_seconds
-    original_active = key_active(audio['key_qpos'], audio['key_limits'], audio['key_threshold'])
+    original_active = key_active(audio['key_qpos'], audio['key_limits'], audio['key_activation_fraction'])
     for i, note in enumerate(notes):
         note['note_index'] = i+1
         interval = (times >= note['start_time']) & (times < note['end_time'])
@@ -237,7 +237,7 @@ def main():
         saved.xfrc_applied[:] = 0
         initial_state = np.empty(mujoco.mj_stateSize(m, spec))
         mujoco.mj_getState(m, saved, initial_state, spec)
-        initial_active = key_active(saved.qpos[key_qpos], audio['key_limits'], audio['key_threshold'])
+        initial_active = key_active(saved.qpos[key_qpos], audio['key_limits'], audio['key_activation_fraction'])
         saved_initial_key_qpos = saved.qpos[key_qpos].copy()
 
         def simulate(commands):
@@ -256,7 +256,7 @@ def main():
                 d.mocap_quat[:] = trace['mocap_quat'][tick]
                 mujoco.mj_step(m, d)
                 positions[j] = d.qpos
-                active[j] = key_active(d.qpos[key_qpos],audio['key_limits'],audio['key_threshold'])
+                active[j] = key_active(d.qpos[key_qpos],audio['key_limits'],audio['key_activation_fraction'])
                 for ci in range(d.ncon):
                     c = d.contact[ci]
                     if c.dist > 1e-6 or c.efc_address < 0:

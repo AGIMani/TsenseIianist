@@ -60,14 +60,36 @@ def main():
         assert original_events.ndim == 2 and original_events.shape[1] == 3
         assert np.isfinite(original_events).all() and (original_events[:, 1] > original_events[:, 0]).all()
         (output/'reference_provenance.json').write_text(json.dumps(provenance, indent=2)+'\n')
-        (output/'original.mid').write_bytes(source.read_bytes())
         raw = None
+        if provenance.get('reference_kind') == 'registered_note_sequence':
+            raw = source.read_bytes()
+            embedded = config['source_runtime']['external_score']
+            assert raw == base64.b64decode(embedded['base64'])
+            assert sha(source) == embedded['sha256']
+            seq = music_pb2.NoteSequence.FromString(raw)
+            assert np.array_equal(original_events, [[n.start_time,n.end_time,n.pitch] for n in seq.notes])
+            (output/'original_score.proto').write_bytes(raw)
+        else:
+            (output/'original.mid').write_bytes(source.read_bytes())
     else:
         original_events, raw = verify_embedded_midi(config, args.original_midi, output)
         provenance = dict(midi_sha256=sha(args.original_midi), original_note_attributes_verified=True)
     offset = float(report['music_start_policy_seconds']) + float(report['preparation_prefix_seconds'])
-    reference = [[s+offset, e+offset, int(p)] for s, e, p in original_events]
+    reference, trim_origin = align_external_events(original_events, raw, offset)
+    provenance = dict(provenance, source_trim_origin_seconds=trim_origin,
+                      timeline='Source onset/end minus source trim origin plus music/preparation offset')
     plot_comparison(args, output, config_path, report_path, report, exported, reference, offset, raw, provenance)
+
+
+def align_external_events(events, raw, offset):
+    # Source runtime trims leading silence before creating its score. Keep the
+    # unmodified source bytes for provenance and apply the same time origin.
+    origin = 0.
+    if raw is not None:
+        sequence = music_pb2.NoteSequence.FromString(raw)
+        origin = float(sequence.notes[0].start_time)
+    return [[float(s)-origin+offset, float(e)-origin+offset, int(p)]
+            for s, e, p in events], origin
 
 
 def verify_embedded_midi(config, midi_path, output):
@@ -88,9 +110,9 @@ def verify_embedded_midi(config, midi_path, output):
 def plot_comparison(args, output, config_path, report_path, report, exported, reference, offset, raw, provenance):
     audio_path = args.recording/'audio_substeps.npz'
     with np.load(audio_path, allow_pickle=False) as data:
-        q = data['key_qpos']; limits = data['key_limits']; threshold = float(data['key_threshold'])
+        q = data['key_qpos']; limits = data['key_limits']; threshold = float(data['key_activation_fraction'])
         dt = float(data['physics_dt'])
-        actual = np.abs(np.clip(q, limits[:, 0], limits[:, 1])-limits[:, 1]) <= threshold
+        actual = np.clip(q, limits[:, 0], limits[:, 1]) >= limits[:, 1] * threshold
     time = np.arange(1, len(actual)+1)*dt
     end = float(time[-1])
     assert np.isclose(end, exported['recorded_duration'], atol=1e-7)
@@ -113,7 +135,8 @@ def plot_comparison(args, output, config_path, report_path, report, exported, re
     draw(axes[0], reference, '#2563eb')
     draw(axes[1], event_sets['correct'], '#159f73'); draw(axes[1], event_sets['extra'], '#ea6d24')
     draw(axes[2], event_sets['missing'], '#617fe5'); draw(axes[2], event_sets['extra'], '#ea6d24')
-    for ax, title in zip(axes, ('Original MIDI (unquantized note times)', 'Actual keys (physical activation threshold)', 'Timing errors vs original MIDI')):
+    reference_label = 'Registered score' if provenance.get('reference_kind') == 'registered_note_sequence' else 'Original MIDI'
+    for ax, title in zip(axes, (reference_label+' (unquantized note times)', 'Actual keys (physical activation threshold)', 'Timing errors vs '+reference_label)):
         ax.set_title(title, loc='left'); ax.set_ylabel('MIDI pitch')
         ax.set_ylim(min(pitches)-2, max(pitches)+2); ax.set_xlim(0, end)
         ax.axvspan(0, offset, color='#d5dae1', alpha=.4)
@@ -124,7 +147,7 @@ def plot_comparison(args, output, config_path, report_path, report, exported, re
     axes[-1].set_xlabel('Original replay time (seconds), including preparation')
     f1 = 2*tp/max(2*tp+fp+fn, 1)
     fig.suptitle(f'{args.label} | same single replay | {1/dt:g} Hz actual keys | original MIDI offset +{offset:g} s\n'
-                 f'Physical-sample micro-F1 = {f1:.4f} | video 1x, no crop; final display hold excluded', fontsize=13)
+                 f'Physical-sample micro-F1 = {f1:.4f} | source leading silence {provenance.get("source_trim_origin_seconds",0):g} s removed | video 1x, no crop', fontsize=13)
     fig.tight_layout(rect=(0, 0, 1, .94))
     fig.savefig(output/'piano_roll_comparison.png', dpi=160)
     plt.close(fig)
@@ -135,7 +158,7 @@ def plot_comparison(args, output, config_path, report_path, report, exported, re
                     sample_hz=1/dt, samples=len(time), duration_seconds=end, music_offset_seconds=offset,
                     actual_source='Recorded physical key positions with model limits and activation threshold; no policy rerun',
                     sample_time='Post-physics-step: (i+1)*dt; intervals use sample-and-hold to next sample',
-                    interval_resolution_seconds=dt, key_threshold=threshold,
+                    interval_resolution_seconds=dt, key_activation_fraction=threshold,
                     final_sample_active_keys=int(actual[-1].sum()),
                     terminal_interval_note='Any final active key is right-censored at recording end, not a measured release',
                     physical_sample_micro_f1=f1, tp=tp, fp=fp, fn=fn,
