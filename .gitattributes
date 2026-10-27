@@ -24,3 +24,5 @@ logs/ending_source_20261025/source_ending_return_v1.tar.gz filter=lfs diff=lfs m
 logs/coordinate_names_20261025/source_world_pose_names_v1.tar.gz filter=lfs diff=lfs merge=lfs -text
 logs/pitch_range_20261026/source_pitch_symmetric_v1.tar.gz filter=lfs diff=lfs merge=lfs -text
 logs/key_hold_lateral_20261026/source_key_hold_lateral_v1.tar.gz filter=lfs diff=lfs merge=lfs -text
+# All future frozen source archives use LFS; ignore rules still select releases.
+logs/**/source_*.tar.gz filter=lfs diff=lfs merge=lfs -text

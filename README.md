@@ -210,3 +210,12 @@ exper039仅恢复10/8mm键程；exper040仅恢复旧手指驱动，重力补偿�
 结束段不进入SAC经验或原曲奖励，512环境学习预算与done/reset不变。录像、实际声音、交互回放与原谱对比图包含同一段物理数据，原谱和指法不改，回程目标为空。`ending.json/npz`记录实际轨迹、手指残差、关节超限、误触及验收；失败仍保留政策阶段和回程数据。只支持当前无臂、固定TZ/Yaw的first_note_v1，显式关闭用`--ending-time 0`；关闭准备段时也需显式关闭结束段。原始手指参考可能不是物理接触平衡，不用qpos投影伪造逐关节完全相同。
 
 2026-10-26文档整理：已从`docs/`清理12份无活动引用的旧训练/视频报告；[删除清单与原路径](deprecated/docs/cleanup_20261026/manifest.json)、[可恢复压缩备份](deprecated/docs/cleanup_20261026/removed_documents.tar.gz)。当前说明和实验产物保留，备份不作为默认配置来源。
+
+### 冻结源码的 Git 发布检查
+
+每次更新 `all_use_this_train.sh` 中的固定归档后，运行
+`python3 scripts/check_release_tracking.py --register`，再 `git add -A`，然后运行
+`python3 scripts/check_release_tracking.py --ref INDEX`。注册仅放行入口指定的归档和
+SHA 文件；发布来源及验收记录按需显式添加，不放行候选归档、检查点或整个 logs。
+所有 `logs/**/source_*.tar.gz` 自动使用 Git LFS。GitHub 每次 push/PR 会核验
+提交中的入口、归档 LFS 指针与 SHA 文件一致；检查无需下载大归档或运行仿真。
