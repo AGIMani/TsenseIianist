@@ -1,0 +1,112 @@
+{
+  "only_changed_parameter": "thumb_penalty_per_onset: 0 -> 200",
+  "note_count": 2544,
+  "original_midi_sha256": "83707e4f40347d0a51402349a8ef8af7cf59c357656b50432591b3e8fceb88eb",
+  "geometry_sha256": "7a6b38af0dce0f4fe451eda133c2771d80d3044914328e7a3524192d8573a04c",
+  "planner_sha256": "28d09e0e6b1ac56c6afa492e606b6b5e80369fba2cb714daf5e8126b2391ccbe",
+  "all_baseline_output_hashes_verified": true,
+  "original_midi_note_attributes_verified": true,
+  "all_sequence_fields_except_part_identical": true,
+  "changed_fingering_notes": 809,
+  "chosen_report_unchanged": true,
+  "exit_code": 0,
+  "rows": [
+    {
+      "variant": "baseline_thumb_cost0",
+      "thumb_notes": 767,
+      "thumb_fraction": 0.3014937106918239,
+      "counts_by_finger": {
+        "0": 460,
+        "1": 146,
+        "2": 137,
+        "3": 318,
+        "4": 399,
+        "5": 307,
+        "6": 217,
+        "7": 129,
+        "8": 248,
+        "9": 183
+      },
+      "hands": {
+        "right": {
+          "notes": 1460,
+          "exact_events": 2323,
+          "maximum_active_notes": 4,
+          "maximum_dp_states": 100,
+          "thumb_notes": 460,
+          "max_target_residual_m": 0.04620251174320602,
+          "mean_event_target_residual_m": 0.002625409376453614,
+          "max_vertical_residual_m": 0.002837583829439487,
+          "z_fallback_finger_events": 0,
+          "onsets_without_candidate_within_tolerance": 99,
+          "onsets_without_candidate_within_10mm": 17,
+          "max_anchor_transition_speed_m_s": 48.15766403667187
+        },
+        "left": {
+          "notes": 1084,
+          "exact_events": 1622,
+          "maximum_active_notes": 4,
+          "maximum_dp_states": 100,
+          "thumb_notes": 307,
+          "max_target_residual_m": 0.025537384678205273,
+          "mean_event_target_residual_m": 0.0017600352262509406,
+          "max_vertical_residual_m": 0.0028375838294394558,
+          "z_fallback_finger_events": 0,
+          "onsets_without_candidate_within_tolerance": 5,
+          "onsets_without_candidate_within_10mm": 1,
+          "max_anchor_transition_speed_m_s": 7.2997647784865025
+        }
+      },
+      "planning_seconds": 8.047097783070058
+    },
+    {
+      "variant": "chosen_thumb_cost200",
+      "thumb_notes": 235,
+      "thumb_fraction": 0.09237421383647798,
+      "counts_by_finger": {
+        "0": 181,
+        "1": 198,
+        "2": 212,
+        "3": 411,
+        "4": 458,
+        "5": 54,
+        "6": 240,
+        "7": 378,
+        "8": 305,
+        "9": 107
+      },
+      "hands": {
+        "right": {
+          "notes": 1460,
+          "exact_events": 2323,
+          "maximum_active_notes": 4,
+          "maximum_dp_states": 100,
+          "thumb_notes": 181,
+          "max_target_residual_m": 0.04620251174320602,
+          "mean_event_target_residual_m": 0.002548316036587275,
+          "max_vertical_residual_m": 0.002837583829439487,
+          "z_fallback_finger_events": 0,
+          "onsets_without_candidate_within_tolerance": 99,
+          "onsets_without_candidate_within_10mm": 17,
+          "max_anchor_transition_speed_m_s": 48.15766403667187
+        },
+        "left": {
+          "notes": 1084,
+          "exact_events": 1622,
+          "maximum_active_notes": 4,
+          "maximum_dp_states": 100,
+          "thumb_notes": 54,
+          "max_target_residual_m": 0.018579346273031684,
+          "mean_event_target_residual_m": 0.0016517151330616329,
+          "max_vertical_residual_m": 0.002837583829439487,
+          "z_fallback_finger_events": 0,
+          "onsets_without_candidate_within_tolerance": 5,
+          "onsets_without_candidate_within_10mm": 1,
+          "max_anchor_transition_speed_m_s": 7.607321691276828
+        }
+      },
+      "planning_seconds": 7.984330201055855
+    }
+  ],
+  "limitations": "Finite candidates include history-dependent continuity anchors; penalty changes may change that retained graph. This is a matched-settings algorithm baseline, not proof of a global continuous optimum or physical quality improvement."
+}

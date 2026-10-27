@@ -24,6 +24,13 @@ import traceback
 
 def allocation_environment(environ):
     """Reject login nodes before importing libraries that may initialize CUDA."""
+    if environ.get("TSENSEI_JOB_BACKEND") == "process":
+        import socket
+        if (socket.gethostname() != "FC500T-K" or not str(environ.get("PIANIST_PROCESS_JOB_ID", "")).isdigit()
+                or environ.get("CUDA_VISIBLE_DEVICES") != "0"):
+            raise RuntimeError("Invalid authorized node4 process job")
+        return {"backend": "process", "job_id": environ["PIANIST_PROCESS_JOB_ID"],
+                "hostname": socket.gethostname(), "CUDA_VISIBLE_DEVICES": "0"}
     names = ("SLURM_JOB_ID", "SLURM_JOB_NODELIST", "SLURM_JOB_NUM_NODES",
              "SLURM_JOB_GPUS", "SLURM_STEP_GPUS", "SLURM_GPUS_ON_NODE",
              "SLURM_CPUS_PER_TASK", "CUDA_VISIBLE_DEVICES")

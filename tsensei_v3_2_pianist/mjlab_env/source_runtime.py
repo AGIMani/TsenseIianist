@@ -1,4 +1,6 @@
-"""Rebuild MJLab inputs from source and a JSON recipe; no persistent scene cache.
+"""2026-10-25: virtual forearm joint names are now palm_base_*; physical axes unchanged.
+
+Rebuild MJLab inputs from source and a JSON recipe; no persistent scene cache.
 
 Composer and Torch live in separate local Python environments. A temporary
 compiler workspace bridges them and is deleted on exit. Checkpoints retain
@@ -38,13 +40,20 @@ def dependency_versions():
     return result
 
 
-def make_recipe(*, height=.10, ty=.04, yaw=0.5235987755982988, control_hz=20., physics_hz=200.,
+def make_recipe(*, world_x=.14, right_world_y=.15, left_world_y=-.15, world_z=.10,
+                palm_base_yaw=0.5235987755982988, control_hz=20., physics_hz=200.,
                 midi='TwinkleTwinkleRousseau', lookahead=None, frame_stack=1,
                 initial_buffer_time=1., release_tail_time=0., score_validation='legacy', gravity_compensation=True,
                 action_reward_observation=True, disable_forearm_reward=False,
                 task_profile='tsensei_v1', collision_profile='convex_hull_v1',
                 drive_profile='legacy_v1', preparation_time=0., preparation_lift=.02,
-                preparation_mode='fixed_v1', exact_note_timing=True, wrist_pitch_range_scale=1.):
+                preparation_mode='fixed_v1', ending_time=0., exact_note_timing=True, wrist_pitch_range_scale=1.):
+    from .preparation import options as preparation_options
+    from ..initial_world_pose import validate as validate_pose, WORLD_POSE_CONTRACT
+    pose = validate_pose(dict(world_x=world_x, right_world_y=right_world_y,
+                             left_world_y=left_world_y, world_z=world_z, palm_base_yaw=palm_base_yaw))
+    if not math.isfinite(ending_time) or ending_time < 0 or (ending_time and not preparation_time):
+        raise ValueError('Ending requires preparation and a finite nonnegative duration')
     from ..score_validation import validate_mode, release_tail_steps
     validate_mode(score_validation)
     if (isinstance(wrist_pitch_range_scale, bool) or not math.isfinite(wrist_pitch_range_scale)
@@ -52,7 +61,9 @@ def make_recipe(*, height=.10, ty=.04, yaw=0.5235987755982988, control_hz=20., p
         raise ValueError('wrist_pitch_range_scale must be finite and in (0,1]')
     if type(exact_note_timing) is not bool:
         raise ValueError('exact_note_timing must be true/false')
-    if preparation_mode not in ('fixed_v1', 'policy_v1'):
+    if preparation_mode == 'first_note_v1' and preparation_time and not exact_note_timing:
+        raise ValueError('First-note preparation requires exact original score events')
+    if preparation_mode not in ('fixed_v1', 'policy_v1', 'first_note_v1'):
         raise ValueError('Unknown preparation mode')
     if (not math.isfinite(preparation_time) or not math.isfinite(preparation_lift)
             or preparation_time < 0 or preparation_lift < 0):
@@ -63,10 +74,8 @@ def make_recipe(*, height=.10, ty=.04, yaw=0.5235987755982988, control_hz=20., p
         raise ValueError('Unknown collision profile')
     if drive_profile not in ('legacy_v1','shadow_v1'):
         raise ValueError('Unknown drive profile')
-    if not all(math.isfinite(v) for v in (height,ty,yaw,control_hz,physics_hz,initial_buffer_time)):
+    if not all(math.isfinite(v) for v in (control_hz,physics_hz,initial_buffer_time)):
         raise ValueError('Pose, frequency and buffer values must be finite')
-    if height <= 0 or not -.05 <= ty <= .15 or not -math.pi/6 <= yaw <= math.pi/6:
-        raise ValueError('Invalid mounting height or wrist initial position')
     if control_hz <= 0 or physics_hz < control_hz or not math.isclose(physics_hz/control_hz, round(physics_hz/control_hz)):
         raise ValueError('Physics frequency must be an integer multiple of control frequency')
     release_tail_steps(release_tail_time, 1 / control_hz)
@@ -83,12 +92,12 @@ def make_recipe(*, height=.10, ty=.04, yaw=0.5235987755982988, control_hz=20., p
     score = ({'name':path.name,'suffix':path.suffix,'sha256':digest(path),
               'base64':base64.b64encode(path.read_bytes()).decode()} if path.is_file() else None)
     return dict(schema=1, method='source_config_v1',
-                pose=dict(height=height,ty=ty,yaw=yaw),
+                pose=pose, pose_contract=WORLD_POSE_CONTRACT,
                 model=dict(collision_profile=collision_profile,drive_profile=drive_profile,
                            **({'wrist_pitch_range_scale': wrist_pitch_range_scale}
                               if wrist_pitch_range_scale != 1 else {})),
-                preparation=(dict(duration=preparation_time,lift=preparation_lift,trajectory='quintic_v1',
-                                  **({'mode': preparation_mode} if preparation_mode != 'fixed_v1' else {}))
+                preparation=(preparation_options(dict(duration=preparation_time,lift=preparation_lift,trajectory='quintic_v1',ending_duration=ending_time,
+                                  **({'mode': preparation_mode} if preparation_mode != 'fixed_v1' else {})))
                              if preparation_time else None),
                 environment=dict(midi=str(midi) if score is None else score['name'],
                     control_hz=control_hz,physics_hz=physics_hz,lookahead=lookahead,
@@ -103,8 +112,12 @@ def make_recipe(*, height=.10, ty=.04, yaw=0.5235987755982988, control_hz=20., p
 
 def build(recipe):
     """Return temporary scene/task paths, verifying exact source and dependencies."""
+    from ..initial_world_pose import validate as validate_pose, WORLD_POSE_CONTRACT
     if recipe.get('schema') != 1 or recipe.get('method') != 'source_config_v1':
         raise ValueError('Unsupported source reconstruction config')
+    if recipe.get('pose_contract') != WORLD_POSE_CONTRACT:
+        raise ValueError('Initial world pose contract differs; use the matching source archive for old recipes')
+    validate_pose(recipe.get('pose'))
     current = source_files()
     if current != recipe['source_sha256']:
         different = sorted(k for k in current.keys() | recipe['source_sha256'].keys()
@@ -155,9 +168,9 @@ def _compile(config, output):
         raise ValueError('Invalid saved wrist Pitch range scale')
     if scale != 1:
         from ..models.hands import tsensei_hand_constants as hand_consts
-        dof = list(hand_consts.FOREARM_DOFS['forearm_pitch'])
+        dof = list(hand_consts.PALM_BASE_DOFS['palm_base_pitch'])
         dof[2] = tuple(value * scale for value in dof[2])
-        hand_consts.FOREARM_DOFS['forearm_pitch'] = tuple(dof)
+        hand_consts.PALM_BASE_DOFS['palm_base_pitch'] = tuple(dof)
     export_scene(output/'scene',gravity_compensation=e['gravity_compensation'],
                  control_timestep=1/e['control_hz'],physics_timestep=1/e['physics_hz'],build_reference=False)
     if scale != 1:
@@ -175,6 +188,22 @@ def _compile(config, output):
                 task_profile=e.get('task_profile','tsensei_v1'),
                 build_reference=False,
                 exact_note_timing=e.get('exact_note_timing', False))
+    if preparation.get('mode') == 'first_note_v1':
+        import numpy as np
+        from .first_note_preparation import first_notes
+        with np.load(output/'task/score.npz', allow_pickle=False) as score:
+            notes = first_notes(score['exact_note_events'])
+        task_path = output/'task/task.json'
+        task_manifest = json.loads(task_path.read_text())
+        scene_path = output/'scene/manifest.json'
+        scene_manifest = json.loads(scene_path.read_text())
+        scene_manifest['first_note_preparation'] = dict(
+            notes=notes, key_geoms=task_manifest['key_geoms'], task_profile=e['task_profile'],
+            score_sha256=digest(output/'task/score.npz'), source_score=recipe['external_score']['sha256'] if recipe['external_score'] else e['midi'],
+            time_origin='original score plus explicit initial buffer; preparation is a separate prefix')
+        scene_path.write_text(json.dumps(scene_manifest, indent=2)+'\n')
+        task_manifest['scene_manifest_sha256'] = digest(scene_path)
+        task_path.write_text(json.dumps(task_manifest, indent=2)+'\n')
     if recipe['external_score']:
         # Avoid temporary absolute filenames in the reproducible task checksum.
         p=output/'task/task.json';m=json.loads(p.read_text())

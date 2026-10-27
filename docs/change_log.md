@@ -1,4 +1,147 @@
+## 2026-10-26：土耳其进行曲装饰音和弦化与8小节分段
+
+- **要求/依据**：用户要求把当前训练指法曲分段并保存music/data；用户确认只处理倚音、颤音等装饰音，对段长无指定，采用每8个含弱起小节约8秒。核对exper044/submission.json源SHA66563e8b…及当前a32_repeat_static_guarded指法、original.mid、audit_fingering_repeats.py的原tick小节和既有手指顺序合同。原MIDI无装饰音标签，按逐音审查确认的5处短音串固定索引处理，不泛化合并普通分解和弦或快速旋律。
+- **修改**：新增scripts/split_turkish_march_practice.py及tsensei_v3_2_pianist/music/data/turkish_march_8bars_chords_20261026。31.375/47.375/159.375/175.375/205.375秒装饰音串的不同音高对齐后接主音原始起止，重复音高合一；2544事件变2539，源索引完整追溯。保留主音指法，最少改指使既有非拇指顺序约束成立：最后一处A5 part4→2，其他保留音指法不变。223小节拆28份，首份7.5秒、常规8秒、末份6.974秒；无跨段持续音，无截断。每份及整曲均有proto/MIDI/CSV，原件、manifest、改动记录、validation和SHA256SUMS一起保留。
+- **验证**：本机只做轻量乐谱分析；29份proto读回和MIDI/CSV原tick逐音匹配通过，28段重组与改编整曲一致（时间容差1e-10秒），未编辑音符逐字段不变，原2544来源全部覆盖；实际时序同指冲突和20Hz控制网格同指冲突均0，非拇指顺序冲突0，文件SHA校验通过。参考fingering_editor_data.py独立protobuf加载，不构建模型、不运行物理。
+- **边界**：这是按用户要求制作的练习改编，不再是原始MIDI；5处来源和规则明确列出，未声称覆盖谱面所有可能的装饰标记。最后一处新和弦指法仅通过符号约束，未验证A3.2可达性/碰撞。未改默认训练入口、奖励、冻结归档、历史checkpoint或提交新训练。
+
+## 2026-10-26：按用户要求中断exper044
+
+- 用户明确要求停止当前训练；核对results/exper044/submission.json后取消Slurm10194，远端确认CANCELLED。保留源码、检查点与日志，不重启训练；现有后台回传流程继续处理已有best.pt及诊断，产物未验收前不标记完成。取消时最后已记录进度与检查点清单见results/exper044/cancellation.json。
+
+## 2026-10-26：取消exper043并启动无臂exper044
+
+- **要求/执行**：用户要求结束此前带臂训练并改用无臂训练。Slurm10192已取消；保留exper043日志/config及来源，后台回传已校验诊断。取消时初始评估未完成，无best.pt，因此无法导出该轮回放；取消原因见results/exper043/cancellation.json，不记训练成功。
+- **新轮配置**：检查本地及远端实验/待运行登记后预留exper044；统一入口all_use_this_train.sh仅覆盖输出路径，使用当前默认无臂direct_joint_v1、首音准备2秒、曲尾回程2秒、新持键横移罚及其他默认奖励。保留512环境、22402向量步、20/1000Hz、batch1024、0.25更新/经验和双卡分工，不延用上一轮仅为带臂关闭准备/回程及Pitch的覆盖。
+- **源码/验证**：采用当前默认a3668ebb939292e08e93e5627d5b9c5d14243242e759ddb379c8e7d2c5808e88归档及已有Slurm10141验收；独立远端pianist_exper044_20261026部署，仅复用依赖环境。训练作业10194已获双A100运行，自动回传PID2427626。完整config、奖励打印、自动导出回传进程及实时状态见results/exper044/submission.json、sync_status.json与logs/exper044_20261026。未修改算法或默认参数，不用exper043臂初始化覆盖归档。
+- **交付**：继续使用本地后台watch_training_transfer.py；训练终态后在Slurm导出本轮best.pt有声无臂交互回放、同次物理按键/原谱对比图及数据，完成SHA和音视频验收后才标记完整回传。训练尚未完成，暂无回放成绩。
+
+## 2026-10-26 清理无活动引用的旧文档
+
+- **范围/参考**：按用户要求清理旧文档，核对AGENTS、README、docs及维护中的脚本/测试/配置文字引用和Git修改状态，仅删除12份未修改且无活动引用的历史独立报告，涵盖2026-09-20至2026-10-01的小星星旧训练、续训、阶段视频与旧净空短测分析。完整文件名、标题、大小与SHA见`deprecated/docs/cleanup_20261026/manifest.json`。
+- **执行**：删除前将原始文件按原路径存入`deprecated/docs/cleanup_20261026/removed_documents.tar.gz`，逐文件解包读取并核对SHA后再删除docs中的原文件；清单记录压缩包SHA。既有源码归档、实验、checkpoint、录制依赖、当前模型/奖励/坐标说明及未提交文档修改均保留。
+- **验证/限制**：备份12个成员全部匹配原字节；检查删除清单、活动引用及diff空白检查。仅文档清理，不运行模型、仿真或训练，也不重写任何冻结源码。备份用于追溯和恢复，不作为当前配置来源；本次只清理选定的12份，没有将所有带日期文件视作过期。
+
+## 2026-10-26：exper043双M6训练部署与初始化修复
+
+- **用户要求**：用当前统一入口在空闲远端双卡训练，下一编号exper043；用户明确选择本轮关闭首音准备和曲尾回程，结束自动导出best.pt原生双臂有声交互回放及同次实际按键/原谱对比图后回传。检查本地及volc-a32/H100/node4结果与Slurm登记，预留043，无覆盖。
+- **初角/参数**：从项目已确认的current_arm_training_20261011.json只读取双侧7角并显式传入；不读取旧模型/动作/奖励配置。保留当前土耳其进行曲、20/1000Hz、512环境、22402向量步、batch1024、0.25更新/经验、双卡分工及所有当前奖励；机械臂两项罚由现有--arms合同开启。本轮显式preparation-time=0、ending-time=0。刚性臂结构移除Pitch，因此仅在本轮末尾将两个Pitch目标限速参数设0，避免默认无臂参数对已删除通道报错；SDK/URDF硬限保留。
+- **问题/修改**：参考scene.py、bundle.reset_cpu、arm_scene刚性mocap装配及已安装MJLab Simulation初始化。新增仅带臂使用的InitializedArmSimulation，以完整解析reset状态初始化再上传Warp，避免默认姿态生成虚假重叠接触。未改依赖环境源码、nconmax/njmax、碰撞过滤、模型、驱动、奖励或学习预算。
+- **验证/源码**：初次10185暴露结构删除Pitch参数冲突；修正本轮覆盖后10186八项通过，含带臂步进/reset及新横移奖励、无臂准备/回程相关采样回归。512环境验收10188单项通过（0:0）。训练10192已分配双A100运行，完整config与启动奖励已回读核对；脱离会话后台PID234716存活且首次真实查询RUNNING。训练尚未完成，导出等待训练终态。最终状态、提交作业、运行配置和自动回传进程记录见results/exper043/submission.json与logs/exper043_20261026/validation.json。独立源码归档SHA77375b947df78cf5559355940232e8e8394cc52f8c6e78133716fa590f751b30，基于默认a3668ebb归档只叠加scene.py和测试；通用默认入口指向不变，本轮显式传源码路径/SHA。
+- **边界**：此修复适配当前MJLab单模型初始化接口，升级依赖须重测。运行验收不等于完整曲目收敛/无碰撞/硬件标定；关闭准备与回程仅本轮授权。后台回传依赖本地电脑、后台进程和SSH持续可用，不依赖Codex应用保持打开；未验收全部产物不创建TRANSFER_COMPLETE。
+
+## 2026-10-26：按住琴键时实际掌根横移惩罚
+
+- **要求/参考**：用户批准按侧实际激活键接触门控、0.01/0.10m/s、独立−0.5预算；参考当前统一入口/默认JSON、reward_config/RewardManager、scene/substep采样、A3.2世界坐标说明及arm_scene刚性mocap装配。外部项目sliding_reward只作设计比较，不导入运行时。
+- **修改**：新增key_hold_lateral_motion_penalty和独立只读Warp采集器；实际100%激活+dist≤0按侧去重，世界Y掌根原点实际速度按双手max/子步mean计分。无臂用Jacobian×qvel；刚性臂用实际mocap掌根子步位移/dt、控制步起点重置参考。无硬限位的Euler路径补当前位姿主模型碰撞查询；不增加物理积分/约束求解，不改变碰撞过滤。新项默认JSON开启、模板关闭，缺项旧JSON严格拒绝。新增按侧触键子步数/保持时峰值速度诊断。原闲指系数−.008及其他当前数值、原谱、驱动、512环境与学习预算保留；旧默认测试中的−.02断言同步既有−.008。
+- **验证/发布**：公式13项RED→GREEN；远端独立部署volc-a32:/data/shared/houj/pianist_key_hold_20261026。Slurm10137因独立目录未链接用户CUDA工具链停止，补依赖后10138运行，发现Warp索引元组赋值编译限制及旧23项计数断言；修复并补真实接触、mocap装配与当前A3.2验证。最终Slurm10141完成（0:0）：74项测试、114子检查通过，2项归档外层入口检查跳过并由本地真实入口拦截验收补充；35条Torch弃用警告。远端实际运行归档与回传归档SHA一致（a3668ebb939292e08e93e5627d5b9c5d14243242e759ddb379c8e7d2c5808e88），统一入口已切换。完整命令、结果、完整入口配置和文件清单见logs/key_hold_lateral_20261026/validation.json；所有训练参数保持本轮修改前原值。
+- **限制/TODO**：0.01/0.10m/s为工程初值，未做长期训练调参或硬件标定；100%阈值前的半压键、离键与指尖局部滑动不在此项范围；刚性臂使用子步区间平均实际速度。Slurm10139的完整臂环境测试在MJLab默认零mocap初始化时触发1474>1024接触容量溢出（尚未进入新奖励），本轮不更改容量或臂初始化；改用真实M6装配的正确reset状态和SceneArmFollower验证新采集器，不能称完整臂训练验收通过。未启动训练、不改已有实验/检查点，不宣称物理安全或吞吐提速。冻结仅叠加明确文件，旧归档保留用于已提交实验追溯。
+
+## 2026-10-26：双侧Pitch扩展为对称±0.5rad
+
+- **要求/参考**：用户指定Pitch范围−0.5～0.5rad。核对当前统一入口、faf4f5d0坐标命名父归档、hand constants、direct_joint_v1/wuji_cartesian_v1动作合同、scene映射和首音/结束段。
+- **修改**：模型与双侧动作物理范围同步；direct策略0/1/2对应−0.5/0/+0.5rad。初值仍0，range-scale=1；带臂Pitch仍结构固定，不新增动作。驱动、目标运动限制、物理频率、奖励、原谱及学习预算不变；原始物理轨迹/残差仍完整保留。
+- **验证**：新增tests/test_pitch_symmetric_range.py，纯配置检查先失败再通过；实际模型/执行器范围、零初值、端点及中点双向映射、负目标下的限速、首音准备和真实曲尾回程在volc-a32经Slurm验证。命令、作业ID、退出状态、结果与源码SHA见logs/pitch_range_20261026/validation.json及同目录日志，以实测记录为准。
+- **发布/限制**：只在当前冻结父归档上叠加本次明确文件，保留坐标命名、手模型、准备/结束段与导出修复；默认入口更新归档和强校验。未启动训练，旧实验/checkpoint不迁移；位置目标范围不保证真实物理状态绝不越界。
+
+## 2026-10-25 初始位置统一世界XYZ、虚拟掌根命名
+
+- **问题/参考**：用户要求不再追加含糊height/ty，并统一forearm与palm_base。参考唯一入口、initial_world_pose、hand constants/entity、source_runtime/bundle/arm_scene、drive配置、规划/预览/导出脚本与外部坐标关系清单。旧ty=.02为滑轨值，等价初始世界X=.16，不能原数值换标签。
+- **修改**：位置CLI改world-x/right-world-y/left-world-y/world-z（米），当前右(.16,.15,.09)、左(.16,-.15,.09)；yaw明确命名palm-base-yaw（关节rad）。保持原安装XY并换算内部滑轨，五轴关节和构造/分类前缀改palm_base，控制通道、范围和驱动不变。recipe增加明确world pose合同，旧CLI在申请GPU前拒绝，旧recipe使用原匹配归档。带臂固定基座反算采用请求的初始world位置，不再因移除滑轨而丢掉Ty偏移；Cartesian位移语义不变。
+- **其余同义项**：显示与保存字段明确palm_base；新导出palm_base_world_poses附参考系/单位/旋转表示。通用准备轨迹工具区分当前名与历史录制名，混名拒绝；两个日期补偿/固定归档研究工具保留。wrist功能类参数不冒充世界XYZ；URDF内部、arm内部、法兰/连接件/钢琴后支撑块不合并，奖励合同不改。
+- **验证/来源**：新增位置换算、非法/旧参数提前拒绝、真实入口提交拦截及录制解码RED→GREEN；47项本地纯检查通过，未本地加载或编译MuJoCo。真实无臂/带臂默认及非默认世界位置、结构/驱动/原参考等价性在volc-a32独立/data目录验证，完整命令、PID、退出状态、计数和SHA记录于logs/coordinate_names_20261025/validation.json。新归档从f974父归档显式overlay生成并审计；统一入口以最终归档/SHA为准，旧档/旧实验保持。未训练。
+- **实测补充**：远端4组默认/自定义无臂与带臂实际XYZ通过；首轮38通过，唯一失败为旧组件数[22,22]预期，父/候选均实测[100,100]，仅修测试后单例通过。每模式457物理模型数组逐位相同、68元数据检查通过，当前默认495/495在2e-12内；辅助保留TZ/Yaw完整模型的派生qLDiagInv/qacc分别差3.64e-12/7.16e-11，未放宽容差或宣称所有辅助数组通过。新归档SHA faf4f5d04e7d7a7d940dc9ee46a7711ad7b1c16930f14d43fabc26894dc815a2，本机回传强校验及唯一入口提交拦截通过。
+- **限制/TODO**：当前动态无臂Tx/Ty轴仍为世界+Y/−X，带臂动作仍为世界XYZ位移，不把二者假称同轴；旧current_arm_training_20261011.json已是过时合同，不能作为新默认预览。首音准备的既有动态/接触限制未因更名消除。
+
+## 2026-10-25：指法预览SSH握手失败的诊断与有限重试
+
+- **问题/参考**：用户截图会话 `logs/fingering_editor/session_1792923880911587161.log` 显示SSH握手被远端重置（`kex_exchange_identification: read: Connection reset by peer`），exit=255；模型求解尚未启动，不能解释为OOM或proto损坏。实际参考连接配置 `configs/fingering_editor/remote.json`、`scripts/fingering_editor.py` 与远端固定v6 worker；随后同一别名SSH连接正常，未确定此次连接重置的网络/服务端深层原因。
+- **修改**：启动阶段仅对exit=255且带临时网络诊断的失败最多尝试3次，等待1/2秒，后台显示进度；认证与主机密钥错误优先拒绝重试。EOF错误附本次连接有界stderr，退出/取消回收进程和管道，失败后停止姿态播放并清除ready状态。保持现有文件编辑、512MiB界面上限和远端求解方式；不关闭用户现有窗口，以免丢失未保存修改。相关说明明确编辑器固定v6预览与当前训练版本不同。
+- **验证**：新增真实本地子进程/管道回归，覆盖两次握手失败后恢复、持续失败上限、认证/密钥/模型失败、取消和播放停用，连同原数据/显示安全检查共21项轻量测试。实际远端主机TenseiNode1，worker SHA `ac5321ffe79fa0b53dfface940fca18af349e032030865e866a74f1587ff1670`、源SHA `9299ab01d69563092b65cd4d91b09429ae99aa501cedbb797b9956bd098fece8` 与配置一致；READY PID2754442及示例0.4s单音姿态通过，误差0.788mm、物理键位置不变，退出后确认worker已结束。512MiB scope中本地连接验收峰值26030080字节、OOM计数0；命令/PID/诊断见会话日志和 `logs/fingering_editor/ssh_recovery_20261025.json`。
+- **范围/TODO**：未运行训练、策略、物理积分或本地模型构建，未修改奖励和训练归档；永久网络故障仍会明确失败。已打开窗口需保存修改后重新启动以加载补丁，未声称已热更新用户窗口；本地内存数值仅为本次连接验收，不是完整渲染压力测试。
+
+## 2026-10-25 外部坐标关系清单
+
+- 按用户要求省略手URDF及臂内部关节链，依据当前统一入口与活动源码列出世界/钢琴、后支撑块、安装基准、滑轨动作基底、掌根、琴键/reference site、附属几何、显示相机/屏幕和临时接触系；另列显式带臂及离线实机标定链。清单维护于 `docs/external_coordinate_frames_20261025.md`。
+- 核对W与P当前重合，而`piano/base`是偏移`(-.127,0,.020)m`的后支撑块；核对目标是reference site世界位置加固定世界轴偏移。说明参考点、origin/reset/准备末态、动作向量与别名不额外构成空间坐标系。
+- 可选M6以活动arm_follow/arm_scene/preview_connector配置为准；列出base→Link7→项目法兰→结构连接件/掌根的固定/动态关系。特别注明wuji_cartesian_v1的TX/TY/TZ是世界XYZ位移，与默认无臂滑轨语义不同；实机SDK法兰/手眼/工具标定不能据此推定。
+- 验证仅源文件、已有记录和小矩阵，独立审计包含当前f974归档相关源码一致性；未加载模型、仿真、训练或更改任何坐标/入口参数。旧文档引用但本机已缺失的实机结果不用于填造当前数值。
+
+## 2026-10-25 世界坐标与掌根动作轴交互示意
+
+- 后续按用户要求增加forearm_tx/ty/tz与Palm_Base_Tx/Ty/Tz两栏对照及同轴重合显示，三组世界正方向分别为+Y/−X/+Z。明确前者是关节名、后者是对应执行器/控制通道名；位置目标不保证等于实际关节位置。Tz仅用空心虚线表示定义方向，当前仍从模型与策略中移除。736px/320px浏览器布局、三轴高亮和重合模式通过，记录 `logs/palm_coordinates_20261025/translation_aliases_validation.json`。
+- 按用户要求绘制世界X/Y/Z、固定滑轨Tx/Ty及掌根本体局部轴；明确Tx与Palm_Base_Tx是同一个关节量。纯SVG几何展示，不加载MuJoCo、不积分或启动训练。
+- 基于当前安装矩阵及独立审查确认的关系：世界X=.18−Ty、世界Y=±.15+Tx、Z=.09；本体局部轴按A·Rx(右Pitch/左−Pitch)·Ry(−15°)计算，滑轨轴不随本体旋转。来源为当前冻结f974的hand constants、bundle的Yaw烘焙补偿、direct_joint_v1范围和已录制ty020端点。
+- 页面支持左右手、准备前/完成实录端点、自由调整Tx/Ty/Pitch和斜视/俯视；拖动立即改标几何示意。原实录2551帧来源和四端点数值保留，未将自由调整冒充实际物理轨迹。
+- 浏览器验证Tx改变世界Y、Ty反向改变世界X、左右完成端点吻合，窄屏320px及边界位置标签无重叠；独立只读公式/状态审查通过。验证及页面SHA见 `logs/palm_coordinates_20261025/validation.json`。不改训练动作、模型或奖励。
+
+## 2026-10-25 土耳其进行曲全曲指法、自由度与初始Ty
+
+- **范围/参考**：按用户要求覆盖原MIDI全部2544音、222.474秒和223个含弱起小节，复核A3.2独立左右关节链、当前MJB、原谱tick、指尖任务点、有限键顶与原生接触。主要参考 `all_use_this_train.sh`、`plan_model_fingering.py`、`plan_piano_ik.py`、`piano_fullscore_contact_bank.py`、`first_note_preparation.py` 与同次实际录制。所有模型/FK/物理在volc-a32，未启动训练。
+- **指派/排程**：新增严格重复审计，最终312拇指音（12.26%）候选改69音，原谱非part字段全部保持。短于50ms的同指复用165→162，无新增短复用/持键重叠；严格重复不一致69→50。全曲1357起音静态通过989→1010，保留原989成功；新增21中14是原指派的搜索恢复，7涉及换指。只复用指派/几何，不复用实际物理状态。唯一入口改为 `a32_repeat_static_guarded_20261025` 外部谱文件。
+- **路径与动态**：修复 `joint_seed_at` 的浮点ULP边界错帧，真正提前1ns仍读旧帧；保留前一IK全指初值的实验降低实际按键F1，已拒绝。完成305、v5、最终312三次从曲首至曲尾连续积分。最终实际100%键程F1=.1455738164（基线.1394169292），TP/FP/FN=47867/56198/505700；同手/跨手受力接触样本116772/881，比基线增加368/160。验收不通过，不能称解决漏键、按压不足或碰撞。连续控制执行DP参考和原任务点IK，未直接执行静态bank；保留当前hard_v1机器人状态投影，键不投影。
+- **自由度**：六种Pitch/TZ变体、16代表组合、匹配预算反事实及七组3秒实际hold完成。扩大Pitch的成功解可由旧范围得到；TZ在局部改善接触，但七组都未达100%激活，宽和弦反而退步。因此保留Pitch0～0.5rad、TZ关闭、MCP0～1.4rad、SW±.35rad和耦合10～80°，不改驱动/奖励。
+- **初始Ty**：根据用户确认的退向演奏者方向，用当前first_note_v1源8ed0d50…做五档真实准备对照。实际Ty+1mm映射世界X−1mm。直接设双侧 `--ty .02`（原.04），仅初始qpos/ctrl变化，19类模型数组及范围不变。右/左准备路径缩短9.88%/19.21%；末态误差几乎相同。首50ms瞬态、左Pitch微小越界和两对持续掌壳—小指SW接触不变；后者不计同手奖励但物理存在。未以旧Ty整曲录像冒充新初态验证，独立短准备包绑定真实305谱源及相同首音证据。
+- **交付/验证**：完整回放、逐小节/重复段分析、同次实际按键对比图/数据/声音、模型/来源/SHA及单独Ty准备回放见 `docs/turkish_fullscore_20261025.md`。交互谱面显示完整指派与腕Tx/Ty/Pitch并明确为几何规划；自碰撞工具支持远端实时几何查询、手指滑条和计分/排除接触着色。包装时间格使用声明物理dt，避免长录制浮点中位数累积漂移。最终测试、回传与本机受限MJB显示验收以该报告和results内validation记录为准。
+- **说明收口**：独立审查重算223小节统计与总计一致，修正入口旧305注释和闲指旧−.02说明为既有−.008，未改奖励JSON/总表数值。保留并发曲尾任务发布的f974归档和ending-time=2；Y与整曲各自录制源仍为8ed/1d4，最新入口另行截获核验。
+- **未解决**：347起音仍无严格静态见证；右手八度段快速拇指复用、宽四和弦、键程不足及实际碰撞尚存。未证明凸包局部差异就是完整外观网格误罚。没有变更奖励算法或训练源码归档；保留其他任务的首音/曲尾变更、既有实验和未采纳候选。
+
+## 2026-10-25 曲尾回原始手位
+
+- 用户确认目标为准备段开始前的原始初始姿态。参考 `first_note_preparation.py`、`bundle.py` 原始状态保存、`render_mjlab_checkpoint.py`、`capture_archive_render.py`、`export_score_annotations.py`、`package_interactive_replay.py`。
+- 新增 `mjlab_env/ending.py`：以真实末帧qpos/qvel/ctrl/暖启动为起点，腕保持目标时先松指，再五次曲线回原始目标并稳定。按现有驱动/碰撞继续原生物理，不重置、不投影实际轨迹。末帧到位失败保留完整物理与音频数据，明确失败状态。
+- `--ending-time` 经源码recipe和训练config冻结；完整演奏导出结束后执行，不修改训练episode/replay/reward/budget。结束段录制、声音、视频、空目标标注、交互包及源SHA清单同步延长，对比图标明结束段。
+- 到位验收检查手根5mm/腕角.01rad、静止与松键；每指残差、实际耦合角误差和所有物理关节超限单独保留。Slurm10041首测手根误差约0.002mm、无误触，但小指物理静态偏差约0.054rad；远端额外2秒稳定仍存在。因此不宣称物理手指姿态与瞬时reset逐数值一致，不放大力矩或修改碰撞掩盖；原始指参考作为持续目标。
+- 验证：轻量规划/配置/时间轴与导出回归91项及8子测试通过；Slurm10044实际完整导出/交互包通过（未训练两音fixture），远端GPU/完整导出最终验收记录维护于 `logs/ending_source_20261025/validation.json`。初次集成测试的TorchArray比较与双Python环境fixture问题已针对性修正。当前任务不启动训练，不把未训练短曲fixture当作演奏成绩。
+- TODO：原始手指参考与真实接触平衡间残差仍存在，保留诊断；整首新训练checkpoint的曲尾表现须由该轮完整回放验收。冻结源码继承已发布首音悬停归档，旧实验和原谱未改。
+
 # 当前变更日志
+
+## 2026-10-25：首音上方平滑准备、真实终态交接与视频
+
+- **批准与参考**：用户确认停在键面上方、原谱起音再按下，并批准独立准备后开始策略学习及默认归档更新。核对统一入口、原谱exact事件、source_runtime/bundle/scene/task、指尖/琴键reference site、FingerCoupler、驱动/限速合同及preparation_frames。exper042已导出结果不重新解释为新准备。
+- **实现**：新增first_note_v1，逐手首音/首和弦独立scratch IK、12mm悬停目标、连续加速度起步与五次平滑主运动、0.5s稳定。每个子步走原驱动物理积分，保留qpos/qvel/ctrl/真实琴键/接触/耦合；没有把IK姿态写进实际状态。无音符手不改变参考目标。不可达/触键/非有限/终态误差或速度过大/耦合无解/终态需GPU投影明确失败，失败记录持久化。
+- **训练合同**：SceneBundle缓存真实准备终态；局部reset不推进其他环境；控制目标与限速历史从实际终态开始。准备不进入奖励或SAC replay、不占用学习步数；原谱/指法、20Hz/1000Hz、512环境、batch1024、每经验.25更新和现有预算不变；闲指L1保持原始参考。当前只支持无臂、固定TZ/Yaw、direct_joint_v1和显式耦合，其他组合明确拒绝。奖励总表直接替换过时policy_v1默认说明。
+- **物理证据**：volc-a32独立目录`/home/houj/projects/pianist_first_note_20261025`，CPU录制`results/prepare_final`，实际2.55s/2550个1000Hz物理步。首音右/左末端误差0.244/0.122mm；全程触键0、手键接触0、实际耦合超限0；终态最大关节速度.01230。左腕0.010～0.021s出现最大8.3268e−5rad（.00477°）真实回弹，全部保留在joint_excursions和原始NPZ；physical_hard_limits_satisfied=false。valid只表示悬停及交接，不代表全程物理硬限安全。早期失败探针也保留，未靠裁剪让其通过。
+- **验收与导出**：Slurm10037 A100单卡，8 tests/8 subtests通过，GPU状态与CPU终态一致、单环境reset隔离、曲长4455步且准备学习帧0。Slurm10038对同次CPU物理录制加载MJB渲染，51帧/20fps/1280×720、48kHz双声道，ffmpeg全解码成功；无触键故音轨静音。视频、同轨迹原谱/真实按键PNG、数组、原谱、MJB和来源散列回传`results/first_note_preparation_20261025/`，本片无checkpoint/策略，F1不适用。独立静态复核的5项与缺失NumPy导入均已修复。
+- **冻结与限制**：新归档从exper038固定归档保留原成员，仅叠加明确准备源码/文档、当前默认原谱及exper042已验证的原始物理导出修复（MJB优先、同录制采样/SHA、位置超限披露不拒绝或裁剪），来源清单见`docs/first_note_source_lineage_20261025.json`，最终SHA见统一入口及同目录.sha256。原归档/历史实验不改，未启动新训练。旧`test_music_metric_does_not_gain_credit_from_quiet_preparation`的music_only_f1缺失在未修改父源码也失败，非此次回归；最终冻结归档Slurm10040通过99 tests/21 subtests（另1项父源码已知失败排除），源码SHA `8ed0d50da6d7ab9c71112a98af72bc37dc2913c17d30d020a24ca4e71fa121a3`；归档及媒体回传SHA一致，来源与验收见随交付保存的validation.json。完整曲目演奏/碰撞质量及带臂准备尚未验收。
+
+## 2026-10-24～25：土耳其换指/接触路径改进与可拖动自碰撞检查（未训练）
+
+- **需求与实际参考**：用户继续优化原土耳其进行曲的快速换键、按压不足、宽四和弦、碰撞和TZ0～30mm，并明确不训练；追加要求拖动手指观察同手奖励，确认显示状态/扣分而非无真值F1。参考原MIDI、当前统一入口/exper038冻结归档、原生接触/按键记录、`mjlab_env/self_collision.py`、`substep_rewards.py`、当前耦合与模型、离线规划器和既有MJB回放工具。完整证据在 `logs/turkish_refinement_20261024/`、`logs/self_collision_audit_20261025/`。
+- **指法与默认入口**：DP增加原谱精确松键间隔软成本，最近用指历史参与状态合并；增加可选逐音固定约束，7处宽四和弦28音采用静态可达的一拇方案，再重算邻音。新候选 `a32_contact_refined_20261024/` 拇指305/2544（11.99%，右221/左84），非part字段/序列元数据全等、占指冲突0，前20秒同指<50ms复用107→0，全曲1127→165；不把软成本当硬件时限。统一脚本只切外部proto并保持预算、20/1000Hz及TZ关闭。真实脚本已执行到拦截的submit调用，归档/最终参数核验通过，未提交作业。
+- **接触与路径工具**：修复有界耦合IK、闲指单向净空、小指MCP/SW命名停车、固定腕与差分步长；添加有限实际网格/键顶接触目标、原生顶面/同指/指掌/跨手诊断。弃用本模型上`mj_geomDistance`假零作为接触证明。静态库21节点48/48接触、两类宽和弦各4/4，不代表节点满足速度/动力学。独立审查修正早期SW/DIP误索引，早期错误轴标签探针保留且排除于最终成功证据。完整曲尾报告改为实际记录末样本，另存请求时长；包内保留规划源码/进程、原谱/trace/音频/PNG/SHA。
+- **TZ**：独立冻结源变体验证正向0～30mm整手抬升；当前无需TZ就有两类宽和弦静态接触，动态收益未证实。发现49维TZ/Yaw布局推断歧义与TZ未标定驱动/目标硬限缺口，保持training_compatible=false、默认关闭，未把变体或研究工具写入训练归档。详细记录 `tz_decision.md` 与合同审计。
+- **自碰撞测试与预览**：新增 `scripts/self_collision_metrics.py`、远端 `scripts/hpc/self_collision_probe.py`、本地 `scripts/self_collision_preview.py` 和受限启动器；现有 `launch_piano_preview.sh --self-collision`进入检查。远端每次校验1570源码/资产、MJB/recipe/manifest、耦合10～80/diagnostic散列及奖励合同；30独立控制，16从动不开放。JSONL逐姿态记录后回传，本机只做kinematics显示，未作物理积分/接触求解。可拖动滑条、切换外观/凸包、红显计分/黄显排除接触；单子步与保持整控制步估计明确分开。
+- **自碰撞结论**：253静态样本（150单指MCP、30四指同步、72侧摆、1初态）。180个屈曲样本全无计分；12个侧摆样本碰邻指、最多2body对/3.818mm。单指内部与指掌接触排除符合当前定义。首次邻指接触仅4.53e−8m穿透也计数，1对持续50子步即−5，零容差对边缘接触敏感。局部凸包与外观表面差.96～1.57mm，未证明完整网格互不相交，不能宣称已确认误罚；未改奖励/几何/默认配置。
+- **验证**：71项数学、文件、音频/打包、协议测试通过，独立DP复核30项通过且4组无约束结果与旧源码逐值相同。本机MuJoCo检查成功处理零罚→1对/.1子步/5整步→复位，最新312帧、约1368MiB峰值、OOM事件0；仍使用2300M/3G/禁swap/至少4GiB内存保护。本轮所有模型构建/扫描/仿真在volc-a32 CPU执行。
+- **交付与局限**：最终305指法重新录制前20秒（PID2490330/退出0），与中间302方案相同，F1 .226454（旧.142053），跨手791→115但同手8019→13460恶化；加大碰撞权重又降低正确按压，不宣称全部问题已解决。原曲回放与宽和弦独立诊断保存于 `results/turkish_march_refinement_20261025/`，含实际按键音频、同轨迹PNG/数组、原MIDI/MJB/源码散列。宽和弦诊断四键末200ms全激活，诊断F1 .699166不能与原曲比较；额外准备/保持、拇指Rot饱和、未激活邻键侧向接触仍在，未测试松键/下一音。完整原速无碰撞/100%按压与硬件验收未通过。没有启动训练、没有修改现有实验。
+- **交付验收**：原曲/诊断包31/65文件SHA全匹配，全部状态、标注、音频边沿和对比数组一致；本机NVIDIA渲染、48kHz双声道音频、3秒播放检查通过（152/146帧，OOM0），记录`delivery_validation.json`。独立文档复核修正scratch参考文件位置及宽和弦“无手部接触”的过宽表述，明确探针只统计>1e−8N的受力同手/跨手接触。
+
+## 2026-10-24：原始土耳其进行曲当前A3.2少拇指规划与默认入口
+
+- **需求与参考**：用户取消修改旧指法，要求从 `/home/hj/下载/turkish-march-advanced.mid` 新生成适合当前手型、少用但保留拇指的指法，设为默认并提供可交互规划检查。参照当前入口/exper038冻结归档、`exact_score.py`、实际URDF与滑轨轴、当前coupling/key_reference/finger_resistance，以及用户列出的六个开源项目方法（详见候选README）；没有复制其算法代码或引入依赖。
+- **修改**：新增 `scripts/plan_model_fingering.py`，通过实际模型指尖采样和精确音符事件DP保持持键占用，联合共同腕位姿/残差/移动/拇指软成本；数据写入 `training_mjlab/inputs/turkish_march_advanced/a32_thumb_sparse_20261024/`。2544音符只改part，拇指由同设置零惩罚基线767音降至235音（右181、左54，9.24%）。统一入口切换proto、沿用本曲已批准1000Hz并把回放池提高至300万容纳2,280,960条整曲预填充；20Hz/512环境/batch1024/每条可学习经验.25更新与现有源归档SHA保持。全曲预填充由1585增至4455步，因此总向量步19532→22402，补足2870步后维持2,297,216次优化更新，未减少真实学习预算。
+- **预览工具**：更新 `scripts/hpc/plan_piano_ik.py` 为当前几何/耦合/阻力/目标硬限合同，保留真实实体键状态；修复耦合IK忽略固定腕参考、末帧FK刷新，支持实际几何样本作为scratch种子。新增 `scripts/package_planned_replay.py`，逐物理样本校验原谱、qpos激活、声音、PNG并保存MJB/版本/SHA；没有checkpoint，不冒充训练结果。模型编译/静态IK/录制全部在volc-a32新独立目录单线程CPU执行，没有本机仿真或GPU作业。
+- **文档**：同步唯一奖励总表当前1000Hz/50子步均值、跨手−.01/子步且封顶−.5、同手−.1/对/子步且封顶−5；修正总表旧说明中实际激活95%的残留，运行时100%阈值未改。同步README/曲目说明与设计执行记录。新规划工具未写入训练归档；不宣称工作区算法自动生效。
+- **验证**：40项针对性轻量测试通过；独立审查重建3945个anchor的真实轴/共同Pitch/限位/残差，最大重建差8.67e-19m；独立原MIDI2544音符与proto非part字段核对、真实同指重叠检查通过；200Hz缺重复键松键采样而1000Hz通过，最短音30样本。实际执行统一脚本、拦截最终submit只读捕获参数及SHA校验，通过且未提交训练。静态IK241次多seed复核退出0、32.75CPU秒。
+- **实际交付**：20秒1000Hz物理录制完成，micro-F1=.1420525177，同手/跨手接触样本8019/791；27个包内文件回传SHA一致，48kHz双声道20秒WAV可解码，同次原谱对比PNG已检查。MuJoCo3.11.0 MJB本机NVIDIA RTX3050受保护渲染通过，3秒交互检查102帧、零内存限制/OOM事件。交付目录 `results/turkish_march_planning_20261024`，交互窗口已启动（默认暂停）；完整结果依然是失败性能预览。
+- **未解决项**：离散节点不满足可执行速度约束；右17/左1个起音事件没有10mm内几何候选，右最难四和弦连续局部优化仍24.58mm。3秒物理probe固定腕后meanIK从.393m降至.0227m，但micro-F1仅.02417，换键卡滞/未达100%键程/碰撞仍在；先抬指对照F1=0。20秒交付保留真实失败现象，不能称该指法/路径已通过物理演奏或安全验收。本次未训练。
+
+## 2026-10-24：exper042真实超限录制导出恢复
+
+- **问题与参考**：训练9266已完成；导出9435因 `joint_motion_plots.py` 对真实录制调用 `require_bounded`，在样本1477、列3中止。原MJB右腕Yaw上限0.2617993877991494rad，XML舍入为0.261799rad；录制最大0.2617993652820587rad，6个点超过XML舍入界限，但未超过原MJB上限。参考本轮summary/config、9435冻结导出源码及原始recording、`export_video_job.py`、`export_videos.py`、`watch_training_transfer.py`、`finalize_training_video.py`。用户明确要求保留真实物理轨迹，不裁剪超限。
+- **修改**：手／腕及原生臂统一优先读取同次MJB、在录制环境渲染，报告记录模型格式/SHA，避免XML限位精度损失；手／腕绘图显式采用 `recorded_physics`，保存原始位置并精确核对CSV回读；报告和位置图逐关节给出模型限位、超限样本数、首次/末次时间及上下越界幅度，存在超限时首页显著提示。派生有界轨迹仍严格拒绝超限，非有限数据和元数据错误仍拒绝。复用录制时额外冻结物理时间元数据和实际触键/音频来源SHA。回传器支持独立 `export_project`，更新导出状态和等待状态，原训练路径/检查点/源码归档不变。
+- **恢复方式**：以9435导出快照为基底，在远端新目录部署仅导出补丁；复用9435同次录制，新输出目录保留原失败目录；Slurm导出后由原后台watcher完成对比图、交互包及回传校验。命令、来源、散列、测试和作业记录存于 `logs/exper042_export_recovery_20261024`；实际完成状态见该轮 `submission.json` / `sync_status.json`。
+- **验证**：远端78项回归测试、本地2项不加载模型的回传路径测试及语法/空白检查通过；新Slurm导出10035完成（0:0，2分27秒），同次录制恢复486条指法诊断且未重跑策略。完整原录制256文件SHA不变；200Hz、24.3秒、4861状态的最终CSV/NPZ逐时间/位置精确相等，交互轨迹/声音/实际触键数据SHA一致；原MJB限位下无位置超限。原始轨迹SHA `289d91d16a3579e79633d7bd5eed34d86d3ec63ecd9d759d704dedbca78c85ef`；独立导出器归档 `cd940b0e8fc4536955fedcdafd9cccd2380cc06e78922e1975f1b08b5d09e413`。回放单回合200Hz micro-F1=0.9095694847200535，远端音视频/同次对比/交互验收通过。
+- **回传与范围**：后台PID56049恢复且持有锁，首次真实查询2026-10-24 19:36:05（UTC+8）；训练作业仍9266，export_project只切换导出恢复部署。输出为 `results/exper042/video_best_recovered_20261024`，原9435失败目录保留。2026-10-24 19:47:25（UTC+8）631个文件本地SHA及音视频解码终验通过，sync_status=completed、export_state=validated，创建TRANSFER_COMPLETE后watcher正常退出。视频预览/对比图人工查看正常；完整一致性审计见 `results/exper042/export_recovery_20261024/README.md`。未修改训练物理、奖励、模型、默认归档或checkpoint；本次位置审计不构成动力学/接触/硬件安全验收。
+
+## 2026-10-23：新增可选单卡训练入口，保留双卡脚本
+
+- **需求与参考**：用户明确要求单独新建单卡脚本且不修改原双卡脚本；参考 `all_use_this_train.sh`、`scripts/hpc/submit.sh` 与 `scripts/hpc/job.sbatch` 的现有单卡支持。
+- **修改**：新增 `all_use_this_train_single_gpu.sh`，动态复用统一入口的全部默认参数、冻结归档及SHA校验，只覆盖Slurm卡数、采样/学习设备与流水开关；末尾强制单卡设备避免用户参数误指向第二张卡。支持原入口提交选项与训练参数，提供 `--print-script` 只读展开；结构不匹配时拒绝运行。README新增使用方法，训练与奖励算法/参数未修改。
+- **验证**：包装器及展开脚本 `bash -n` 通过；静态断言确认申请1卡、无cuda:1学习器且末尾强制单卡配置。双卡入口修改前后SHA256均为 `033d4489eb5b210b143358ad563024ddda5be6eb66352faa9abee59f2abe4cac`。未提交训练、未运行本地物理/GPU测试、未修改冻结源码。
+- **TODO**：单卡实际显存与吞吐待Slurm内验收；正式提交仍需实验编号、完整奖励打印及自动导出回传配置，本次未启动后台回传。
 
 ## 2026-10-23：指法连接配置移出logs并增加下一组斜线预告
 
@@ -1508,3 +1651,182 @@
 - 提交前检查差异空白、当前训练归档SHA与大文件LFS状态；本任务只做版本保存与推送，没有启动训练、物理仿真或GPU验证，已有验收结论以各专题记录为准。
 - 用户后续明确deprecated不提交远程：停止首次推送，将deprecated/从Git索引移除并加入忽略规则，文件完整保留本机；既有Git历史不改写。当前活动训练归档继续通过LFS提交。
 - GitHub首次完整推送被拒：未推送历史含186MiB非LFS历史归档。建立仅本地备份分支codex/local-backup-before-publish-20261023保留原提交，将未发布改动合并成当前快照再推送，避免deprecated进入新增远程历史；不强推、不改远程已有历史。
+
+## 2026-10-23：检查用户编辑的015-5 v5指法，发现快速同指换键后未提交训练
+
+- 用户要求检查results/exper034/input_sources/015-5_fingered_repaired_v5_edited_edited.proto，无明显问题才训练。参考scripts/fingering_editor_data.py、exact_score.py、统一训练入口、exper034完整config及当前黑键冻结模型；原谱SHA8412a53c11678f63021d7d93bfa003c2f7702bfffd26cbbfaf6fc59c88c8b29d。269音、约24.0521秒，与v2音高/时值完全相同，53音指法不同；同指重叠、同键重叠及同时按键指序反转均0，原谱200Hz采样覆盖检查通过、每音至少12采样。
+- 发现25处相邻不同键复用同指、松键至下一起音小于50ms，其中9处约0.5ms：例如7.2515→7.2520秒G5→F♯5、7.49955→7.50005秒F♯5→E5均右中指；12.0040→12.0045秒B4/D5→A4/C5分别复用右食指/中指。没有原谱重叠并不代表动态换键充裕；这会迫使提前松键或延迟下一音。保留用户原文件，没有修改指法或时值，没有申请实验编号或提交训练。
+- 远端volc-a32/TenseiNode1当前黑键静态MJB上，对结尾左拇指/无名指八度、左食/中指增四度及右拇/中指五度进行单进程CPU乐观静态关节空间检查，目标点残差均近零、关节/动作界及10～80°角度界内。此筛查没有执行真实耦合分配算法、接触或动态换键，不证明物理演奏可行。过程与结果回传logs/fingering_review_20261023，包含命令、退出0、模型/来源SHA和实际报告；未在本机加载模型/仿真，未运行CUDA。
+- TODO：建议先调整快速同指换键处的指法，保持用户原始音高和时值；未经用户授权未自动改谱。用户进度消息中的0.5ms处数误写12，最终复核为9处，以JSON报告及最终回复为准。
+
+## 2026-10-23：授权修复015-5前后音同指换键并提交exper035
+
+- 用户明确要求结合上一键/下一键修复快速同指换键，音高时值不变，检查后直接训练。参考v5编辑谱、上一轮symbolic_review、exact_score.py、当前黑键MJB、exper034相同关节/动作/耦合界及统一入口。远端单线程整数规划全局处理相邻和保持音：50ms内不同键禁同指、同时音保持指序，对释放后非拇指反向过渡加代价，优先少改；既有拇指及左手固定。仅22个右手音note.part改变，全部其他protobuf字段字节一致，25处快速同指换键降为0，无重叠同指/同键或同时指序反转。
+- 独立原谱事件及200Hz覆盖检查通过，每音至少12采样；21个受影响指组在volc-a32进行单进程CPU静态关节空间筛查，最大残差3.754mm。该筛查仅关节/动作/10～80°角度约束，没有精确跟随器分配、接触/动态保证，实际表现待训练回放。脚本/日志/退出/模型SHA见logs/fingering_revision_20261023；未本机加载模型或仿真。新谱SHA00abcaf2b9ce20471d257011f5c6dab850e20d8769b1d25d23f68fae30d25590，原谱完整保留。
+- 核对本地/远端编号及队列后预留exper035；独立远端/home/houj/projects/pianist_exper035_20261023由本地当前固定归档1951eb00657ad1a82a8bc7092f6274dcf4607f26746cc4dfa4d936f89761dd84部署，远端同SHA副本复制，当前统一入口同步校验，仅复用用户依赖。MuJoCo learner3.11.0/Composer3.13.0、Torch2.10.0+cu128、导出工具及ffmpeg路径核验。冻结源码/奖励算法未修改。
+- all_use_this_train.sh末尾仅覆盖新谱及输出，Slurm9162；双卡512环境、19532向量步/10000384经验、20/200Hz、batch1024、0.25更新比、TF32学习器、从头无臂。提交成功，当前PENDING/Priority，不冒称已开始学习或已有本轮F1；启动代码会打印最终完整奖励。
+- 后台回传PID795180脱离终端，首次真实查询PENDING、锁及进程已核验；配置best.pt终态Slurm导出→有声无标签交互回放/同次原谱PNG与数组→回传/SHA/音视频验收。submission及exper035/README记录路径、预算和导出要求。TODO：等待调度、实际config/奖励启动日志与最终训练及回放验收；本机和SSH需保持可用。
+
+## 2026-10-23：按用户要求中断exper035
+
+- 用户要求中断当前训练；核对results/exper035/submission.json及Slurm9162，作业尚在PENDING。执行scancel 9162，sacct确认CANCELLED by 1007，squeue已无该作业。
+- 训练尚未开始，无本轮checkpoint或回放；停止经命令行身份核验的本地回传进程795180，保存cancellation.json并更新submission/sync_status，保留修订指法及部署/提交记录。未删除文件，未重提训练。
+
+## 2026-10-23：逐关节PD/拟合阻力迁移（GPU验收待完成）
+
+- 用户指定AGIMani/a3-hand-pd-sim的resistance-model参数，并明确选择默认补偿全部有效重力，保留T0、b、kg|G|摩擦。参考提交e91ea8870dd5431e88cc4e565813bbaf4a1597a1的baseline_right.json和resistance_right_20j_20261020.json；参数写入项目assets/finger_resistance.json，未运行或导入外部源码。小指按功能映射旧名；当前模型/关节限位/腕驱动/20Hz控制和200Hz Euler保持。
+- 修改TsenseiHand驱动生成、drive_settings配置和校验、Composer子步回调、PianoScene/Warp子步阈值更新及GPU图重捕获；重力补偿在电机限矩外，Kd在PD限矩内，b在限矩外。动态摩擦按每环境当前姿态计算，不共享阈值。当前合同仅接受完整重力补偿；裸mj_step离线调用须显式调用Resistance.update。
+- CPU在volc-a32独立/home/houj/projects/resistance_drive_20261023完成：40轴参数核对、Jacobian独立重力矩对照、40子步无警告；驱动5项回归通过；CPU Warp两环境逐轴摩擦对照通过。首次回归因旧armature断言失败，按本轮指定新参数更新后通过。GPU验收Slurm9173待资源；未启动训练。
+- 默认训练归档目前尚未切换。后台发布必须先确认GPU验收作业COMPLETED和passed产物，再冻结父归档加本轮明确覆盖文件，回传/校验SHA并修改入口。详见logs/resistance_drive_20261023/status.json与release.log；失败保留原入口。TODO：当前新几何上未进行硬件标定或完整曲目训练，不宣称拟合参数最优或更快。
+
+## 2026-10-23：H100继续训练exper036并新增GPU占用查询
+
+- 用户要求在H100继续训练并提供每卡空闲/占用用户脚本。核对原exper035已取消且无checkpoint、两端目录/已登记任务编号及SSH主机Slurm，预留exper036；H100/Tsensei2初始6/8卡分配，卡6/7空闲，A100全部占用。
+- 参考all_use_this_train.sh、scripts/hpc/submit.sh/job.sbatch、probe_gpus.py、原submission和H100既有依赖。本地当前冻结黑键归档传至独立/home/houj/projects/pianist_exper036_20261023，SHA1951eb00657ad1a82a8bc7092f6274dcf4607f26746cc4dfa4d936f89761dd84校验；原修订proto SHA00abcaf2b9ce20471d257011f5c6dab850e20d8769b1d25d23f68fae30d25590校验。仅复用H100用户依赖（Torch2.10.0+cu128、learner MuJoCo3.11.0、Composer3.13.0、Warp1.17.0、用户CUDA12.8/EGL/音频），未用远端旧项目源码或未发布阻力修改替代冻结包。
+- 唯一入口显式归档/SHA及新谱/输出参数提交Slurm2172初次获得双H10080GB卡6/7；分配内基础CUDA Graph/peer/Warp检查通过，但FingerCoupler初始化因读取梯形黑键mesh主轴而拒绝共同琴面，作业FAILED，未开始学习。诊断已回传并校验，无best.pt，未伪造回放完成。保持原双卡角色及10000384经验预算，修复后从头重提。命令、SHA、提交/部署记录在results/exper036及logs/h100_resume_20261023。
+- 脱离终端回传PID916490已实际查询RUNNING，沿用60秒轮询、best.pt Slurm导出、有声无悬浮标签交互回放、同次原谱PNG/数组及SHA/解码验收链；不创建应用定时任务。旧exper035取消记录保留。
+- 新增scripts/hpc/gpu_status.py及根gpu_status.sh：并发只读SSH查询scontrol nodes/jobs，以GRES IDX映射每卡用户/作业/状态，数组作业显示完整ID；支持--hosts、--json，显示排队数。分配明细缺失或DOWN/DRAIN等节点明确未知/不可调度，未分配不保证立即获得Slurm资源；不以低GPU利用率判断空闲，不执行CUDA工作。README同步。tests/test_gpu_status.py四项通过（包括修正ArrayJobId误拆分问题），两台主机实查通过；TODO：未验多节点压缩Nodes表达式，该情况缺映射会标未知。
+
+- 同轮启动修复：finger_coupling.py沿用key_reference取得琴键reference site，以site_xmat的Z轴求琴面法向；不改角度范围、耦合求解算法、奖励、驱动或物理频率。新增test_mesh_key_coupling_plane.py覆盖真实88键和梯形mesh主轴与reference轴不同的回归。仅从已冻结父包覆盖该文件及测试重新打包，未混入工作区未发布阻力变更。新归档和Slurm验收/重提状态见logs/mesh_coupling_plane_20261023和results/exper037。
+
+- 修复归档SHA3503e0f46e9322df1ee856015655c1dc5df4c0d328442775bc1505421ec86c64，H100 Slurm2173 COMPLETED/0:0、专项1 passed；重新登记exper037并提交2174（避免覆盖失败实验），后台回传PID1337427首次查询RUNNING。使用同一已核验部署下独立输出及匹配修复归档；仅启动bug修复，未改变原谱或训练预算。
+
+## 2026-10-23：白键标称行程12mm、黑键10mm
+
+- 用户要求将白/黑键行程从10/8mm改为12/10mm。参考piano_constants.py、piano_mjcf.py、key_activation.py及当前统一入口冻结归档；只改标称行程常数，关节上限与可选自驱动ctrlrange随atan(d/L)自动更新，白键约4.574°、黑键约6.340°。100%角行程激活、95%连续奖励满分门槛保持；几何/铰链/原点/质量/弹簧阻尼不改。标称行程沿用原模型atan定义，并非任意表面点的精确竖直位移。
+- 更新实际激活边界测试的白/黑键上限来源及README、AGENTS、形状说明、奖励总表当前值。volc-a32独立目录/home/houj/projects/pianist_key_travel_20261023从统一入口当前父归档1951eb00657ad1a82a8bc7092f6274dcf4607f26746cc4dfa4d936f89761dd84部署，仅覆盖本轮行程相关文件；未混入其他任务尚未发布的手指阻力驱动修改。
+- 远端CPU核验88键关节上限、可选执行器范围、95%/不足100%/100%/超行程实际激活，20步有限状态且警告0；相关几何/激活回归6 passed、5项环境/历史基线条件跳过，结果见logs/key_travel_20261023/validation。生成独立钢琴XML/MJB供核验；新源码归档SHA `fa7ccc62cb9f256bfd00679068e4093d409c88e6a5ae9628dd655f34de281131` 已校验并更新唯一入口路径/SHA；MuJoCo3.11独立XML加载/88限位/20步验证亦通过。旧训练、导出包及静态回放MJB保留原行程快照，不替换历史录制依赖；未启动训练。TODO：未做新行程完整演奏/GPU性能或硬件标定。
+
+
+## 2026-10-23：合并发布已验收手指参数与12/10mm键程
+
+- 修复此前GPU9173已通过但因共享文档变化导致发布停止、入口仍用旧手指参数的问题。以当前键程归档fa7ccc62…1131为基底，仅叠加已验收手指归档ea1a0c73…7d19中的8份运行时文件与2份测试；不混入工作区其他未冻结算法改动。源参数来自AGIMani resistance-model提交e91ea887。
+- 保留白/黑键12/10mm键程，使用逐轴Kp=2、Kd/力矩限幅、armature=.0001及b/T0/kg摩擦；默认完整重力补偿。新包与入口SHA、合并来源和验证证据见logs/resistance_key_travel_20261023；未提交训练。
+- 既有验证：CPU40轴/重力矩独立对照、5项驱动回归及两环境Warp对照；Slurm9173 GPU验收COMPLETED/0:0。合并包另做远端CPU完整场景参数/新键程及40子步检查，具体退出状态以该目录日志为准。TODO：未对新系数进行当前硬件标定或完整训练性能评估。
+
+## 2026-10-23：exper038按exper035指法在H100提交
+
+- 用户要求复用exper035指法开启一轮H100训练。核对015-5_fingered_v6_transition_repaired.proto SHA256=00abcaf2b9ce20471d257011f5c6dab850e20d8769b1d25d23f68fae30d25590；逐字复制输入，保留原曲时值/指法。预留exper038，远端h100/Tsensei2独立部署/home/houj/projects/pianist_exper038_20261023，仅复用依赖环境。
+- 当前新手指驱动/拟合摩擦/完整重力补偿与12/10mm键程归档漏带exper037已验收的黑键mesh参考平面修复。本轮以已冻结3503e0f4…6c64为基底叠加a4b20ecd…b08b中的明确文件，保留指法/奖励/512环境/双卡/19532步预算。冻结包source_current_drive_travel_coupling_v1.tar.gz，SHA=1d4a67f15c796a849387ccc967c4960f4ee12d0b18bde2ff81f27a591c23d560，来源在logs/exper038_source_20261023。
+- 统一入口显式选本轮归档和exper035谱：H100初始化验收2182；训练2183依赖afterok:2182且kill-on-invalid-dep。GPU全被占用，提交时验收PENDING/Priority、训练PENDING/Dependency，不宣称已开始采样或已完成训练。
+- scripts/watch_training_transfer.py后台进程已启动，transfer.log已有首次真实PENDING查询；submission.json登记best.pt、完整曲目有声交互回放、无悬浮标签、实际触键高亮、同次200Hz实际按键与原谱对比PNG、来源/SHA及Slurm导出要求。当前输出/results/exper038经/home/hj/pianist软链仍可访问；本地实际路径/data/projects/pianist/results/exper038。完成前不创建TRANSFER_COMPLETE。
+- 验证/后续状态见results/exper038/{submission.json,sync_status.json,transfer.log}。TODO：排队中，最终训练/F1/导出及交付验收尚未产生。
+
+- exper038最终配置核对补充：本地当前奖励JSON闲指coefficient已为−0.008，按用户当前工作区数值同步远端活动JSON（训练仍排队），八指SW等效−0.004；冻结副本input_sources/reward_config.json与SHA写入launch_provenance.json。奖励总表当前行同步，此数值由统一入口外部JSON覆盖归档内−0.02，不改变算法或其他奖励。
+
+- 本轮完整归档已回传并校验上述SHA通过，统一入口及AGENTS的默认归档已同步为exper038_source版本；没有改变训练预算。
+
+### exper038切换A100（用户后续要求）
+
+- 参考results/exper038/submission.json、launch_command.txt及统一入口；H100待运行验收2182/训练2183已取消（sacct确认CANCELLED），原记录保存在h100_before_a100_migration。
+- volc-a32/TenseiNode1新独立部署/home/houj/projects/pianist_exper038_20261023，复用用户依赖环境；源码1d4a67f…d560、指法00abcaf…5590、奖励362b1dcc…5541的SHA逐项验证保持一致。512环境、双卡分工、19532步与全部训练参数不变。
+- 经scripts/hpc/submit.sh提交单卡初始化验收9231，经all_use_this_train.sh提交双卡训练9232，afterok:9231且kill-on-invalid-dep。首查9231 RUNNING，GPU探针确认A100-SXM4-80GB；9232等待依赖。
+- 更新本轮submission/provenance/README，重启后台回传进程3023774，保留best.pt自动Slurm导出、同次回放/原谱对比和SHA验收要求；未修改运行算法或重新冻结源码。TODO：训练及导出尚未完成，实时状态以Slurm和sync_status.json为准。
+
+## 2026-10-23：node4 SSH免密登录与延迟排查
+
+- 用户报告node4每次要求密码且连接慢；参考本机~/.ssh/config、现有公钥、SSH详细握手日志及远端~/.ssh/authorized_keys。确认100.86.254.51已恢复TCP22，现有本机公钥未获远端授权；node4别名未配置且known_hosts只记录IP。
+- 备份两端配置，在远端houjue账号authorized_keys追加本机现有Ed25519公钥，保留其他条目；本机为node4及其Tailscale IP配置正确用户、固定IdentityFile/IdentitiesOnly、关闭该主机GSSAPI并启用连接保活。未修改sshd服务或训练环境；密码和私钥不写入项目。
+- 验证BatchMode免密成功，远端hostname=FC500T-K、user=houjue；连续完整命令连接0.464/0.275秒，交互shell启动0.288秒、登录shell0.278秒。Tailscale直连采样5–7ms，远端24逻辑CPU，vmstat采样约73%空闲、无当时换页活动。TODO：当前未复现用户所述持续卡顿，以上短测不代表文件传输吞吐或长期网络稳定性。
+
+### node4打字回显延迟补查
+
+- 用户明确慢的是打字回显；前次登录耗时不能代替交互延迟。30包ping到node4为3.678/40.389/258.015ms（min/avg/max），无丢包；另次本地网关35包1.312/2.296/5.916ms，无丢包，不能据此将端到端抖动归因Wi-Fi。远端vmstat约70%CPU空闲，无即时换页。
+- 通过SSH PTY raw/cat逐字节回显各35次：默认median/p95/max=23.5/26.3/26.9ms；IPQoS=none为16.8/19.4/21.0ms；仅ObscureKeystrokeTiming=no为6.1/9.6/10.2ms。顺序短测受网络变化影响，不代表长期保证。
+- 备份本机SSH配置，仅node4/IP主机段设置ObscureKeystrokeTiming no，以取消按键时序混淆延迟（不关闭传输加密）；未更改全局选项、QoS、服务端或网络。新连接生效。TODO：真实用户终端体验待确认，端到端间歇抖动尚未定位。
+
+## 2026-10-23：exper039/040单变量对照与node4显式例外
+
+- 用户要求保持exper038运行，新增仅恢复旧键程和仅恢复旧手指驱动两组对照；后指定node4单卡脚本并明确批准无Slurm后台训练/导出例外。exper039为10/8mm键程，其余物理同exper038；exper040保留12/10mm，只恢复exper037的Kp=1、被动阻尼.05、armature=.0002、固定摩擦.01、全手指±.6Nm及旧驱动运行逻辑，重力补偿保持开启。仅在两轮独立归档中恢复旧驱动，不改变活动默认或exper038。
+- 参考exper038归档1d4a67f…d560、exper037归档3503e0f4…6c64、完整config、统一入口和input_sources/reward_config.json。指法SHA00abcaf…5590、奖励SHA362b1dcc…5541、闲指−.008、512环境、19532步、每经验.25次更新及种子保持。单卡按用户要求使用cuda:0采样/学习、关闭流水；因此和exper038的吞吐并非同硬件/同并行方案对比。
+- 修改scripts/hpc/{submit.sh,job.sbatch,probe_gpus.py}，新增process_backend.py：默认仍Slurm；显式process后端仅匹配项目授权，真实PID/状态记录、依赖等待、GPU文件锁、外部GPU进程占用等待及超时。preview/scripts/export_video_job.py识别本轮node4进程身份；watch_training_transfer.py兼容查询进程状态及自动后台导出，其余回放/原谱对比/回传校验合同保持。
+- 源码在volc-a32远端CPU打包/审计，只有明确物理文件及共用执行基础设施差异；node4独立用户环境复用已验收依赖副本，不导入旧工程。tests/test_process_backend.py三项CPU生命周期/授权测试通过；脚本语法和watcher远端代码编译通过。补充验证：四项Slurm命令生成回归用标准库直接调用通过（本机无pytest）；默认Slurm参数未改变。node4音频SoundFont/FluidSynth加载通过。
+
+- 两轮本地/远端归档SHA一致：exper039 node4_v2=69fd5971c43fa6b7a9b9d8bea1b6973510d399d43b597bd86c74ba3210149a3d；exper040 node4_v2=471810850c24e101516e59d8fc36b7aa9a2e1a8213fb02d792457843a6324ebe。模型差异与共用node4基础设施文件清单见各归档node4_provenance.json；物理差异不混入默认训练归档。
+- node4最终任务：exper039验收1792751957698086722 COMPLETED/0:0（3项外层测试通过，包含Composer环境驱动/激活测试与GPU耦合）；训练1792751958351208008 RUNNING，已采集200向量步，仍在486步经验预填充，尚无梯度更新。exper040验收1792751959275537453依赖exper039终态，训练1792751959953187630依赖本轮验收成功。早期验收测试误用MJLab环境导入Composer，已改为相应独立环境执行；失败/取消记录保留attempt1/attempt2_validation_environment，无训练数据被覆盖。
+- 两轮后台回传进程1985769/1987385已确认存活，日志有首次真实状态查询；后台采用真实process状态，不伪造Slurm。完成后自动导出best.pt有声交互回放及同次200Hz原谱按键对比、回传校验。源码/输入和依赖已独立部署到/home/houjue/projects/pianist_exper039_20261023与pianist_exper040_20261023；依赖副本位于pianist_controls_runtime_20261023。
+- exper039启动完整config与exper038逐项比较：完整reward_config一致，CLI差异仅路径、learner_device cuda:1→cuda:0和collector_pipeline true→false；启动日志已打印完整最终奖励。证据在logs/exper039_040_controls_20261023/config_comparison.json。exper038作业9232仍RUNNING。TODO：两组最终F1、训练完成及自动导出/交付验收尚未产生；exper040完整config须在实际启动后再核验。
+
+## 2026-10-23：exper038指法修订、高度0.080与Yaw可控对照exper041/042
+
+- 用户要求基于exper038结果继续修订指法，并明确对照组双手Yaw范围0°～15°、初值0°。使用exper038 best.pt（SHA da1441fc…26c1c）同次200Hz回放，物理采样micro-F1=0.903047；该指标不混同训练评估F1。参考scripts/repair_recorded_fingering.py、exper038完整config/score_coverage及video_best/midi_comparison与interactive_replay。
+- 在隔离logs/exper041_042_revision_20261023中运行远端CPU分析：修正旧分析工具的黑键参考（使用reference site）及60～80°硬编码（使用本轮10～80°配置），锁定原回放覆盖≥90%的指法。269音符改7处（右6左1）；所有part之外protobuf字段逐字段/序列化验证一致，左右手不变，无同指同时冲突或50ms内异键复用，静态最优筛选不是物理可达性保证；初始高度调整后的实际效果由新训练评估。新谱SHA65d09f2a…d7d6b，CSV和逐音符分析见对应output。
+- exper041沿用exper038冻结源码，仅末尾覆盖新谱及height=.080，Yaw固定15°；验收9261/训练9263。exper042相同谱/高度，独立归档仅增加--enable-wrist-yaw覆盖、双侧模型与动作范围0..pi/12、默认Yaw0及预检/说明；Yaw原驱动300/10/±5沿用，现有腕旋转目标运动惩罚包含Yaw，不新增Yaw速度/加速度硬限。归档SHA7c628206…cef8fa，验收9264/训练9266。都经统一入口提交双卡A100，从头训练，512环境/19532步/约1000万经验/奖励/新驱动/12和10mm键程不变。现有exper039/040未改动，默认归档入口未替换。
+- 两组完整指法和冻结配置独立保存，训练afterok验收；后台回传进程已启动并记录首次真实PENDING查询，要求best.pt有声交互回放、同次原谱对比和SHA验收。验收验证新高度/严格指法、固定或可控Yaw的模型/动作/reset合同、31或33维耦合动作及两环境20步有限状态。验收9261/9264均COMPLETED/0:0，各1项GPU预检通过；随后9263 RUNNING、9266 PENDING/Resources，结果以本轮日志为准。TODO：新训练尚未完成；exper042同时改变Yaw可控性与初始角，不能声称纯单因素可控性对照。
+
+## 2026-10-23：exper038右臂阻尼IK与15°/90mm准备段轨迹导出
+
+- 用户要求按先调整角度2秒、再移位2秒导出exper038右臂＋右手轨迹，并确认保留本轮原始手根高度90mm、原速演奏允许少量误差。参考exper038 best.pt（da1441fc…26c1c）、完整config、冻结归档1d4a67f…d560及同次200Hz physics_trace（69a2c2c4…6ec04）；配置/归档/checkpoint逐项匹配。上传模板right_arm_200Hz(10).csv与right_hand_500Hz(9).csv只取格式及t=0姿态，未混用旧实验的演奏数据。
+- 在volc-a32独立目录/home/houj/projects/pianist_exper038_20261023/logs/exper038_arm_export_20261023运行CPU提取/IK/分析，PID2874938，最终退出0；本机仅编辑、轻量文件检查、图片查看和回传打包。复用用户SDK数据及当前M6 URDF/右侧四孔连接件，固定法兰—手根变换、按已确认七初角和法兰[201.802,157.225,100.007]mm反算一次基座。原始记录手根起点[140,150,90]mm，15°已包含在训练姿态中，不再次叠加Yaw，保留原始Pitch及XYZ轨迹；t=4解算法兰约[161.620,145.995,70.230]mm。
+- logs/exper038_arm_export_20261023/{prepare,kinematics,plan_fixed_time,smooth_prep,finalize,package_delivery}.py实现阻尼IK参考＋固定时长C2样条约束规划，SDK/URDF位置交集、关节速度180°/s、J1/J2加速度450°/s²其余900°/s²、J6/J7耦合110.5°硬限。首次较松QP数值容差出现边界证书失败，保留诊断并加入位置/耦合内侧数值裕量、收紧容差；最终六轮每轮QP达到60秒预算而非宣称最优收敛，但独立连续硬限证书全部通过。没有放宽物理限值或更改时长。
+- 前4秒单独jerk正则平滑，保持0/2/4秒静止边界及4秒后臂q/v/a不变；准备段最大jerk61405.8→189.6°/s³、最大加速度357.3→37.1°/s²。演奏段位置误差max/RMS/P95=2.011/.158/.268mm，旋转误差max1.176°；准备段位置max.000566mm是运动学数值误差，不能解释为硬件精度。连续速度最大152.87°/s，J6/J7耦合上界87.157°，全部速度/加速度/位置硬限通过。
+- 交付results/exper038/right_arm_trajectory_yaw15_z90_20261023及同名ZIP：右臂200Hz共5661行、右手500Hz共14151行，总28.3秒（准备4＋原记录24.3），手指由同次200Hz实际q/v插值至500Hz；保留模板表头及rad/rad/s/rad/s²单位。含姿态追踪CSV、可复核样条NPZ、误差/关节/准备段平滑PNG、README、来源SHA、生成源码/输入与执行日志。远端产物逐文件SHA回传核验、CSV逐值回读/有限性/时轴、200Hz有限差分、连续导数控制点界和ZIP CRC均通过，图已查看。
+- 未更改训练源码、奖励或归档；本次是无臂训练录制的离线臂运动学重定向，不是新增带臂物理触键回放。TODO：尚未做该轨迹的带臂碰撞、力矩和实际触键物理验收，也未执行硬件，不复用源回放F1冒充新臂效果。
+
+## 2026-10-23：exper038双臂双手同步轨迹与完整有声交互回放
+
+- 用户要求补齐左侧、左右同步、Yaw15°/手根Z90mm、先转向2秒再移位2秒，并交付完整双臂双手有声MuJoCo回放。发现平台左侧相机标定与T_definition轴约定不一致后询问成对初始条件；用户提供截图codex-clipboard-a80540bf-6e98-4c85-a9e2-0a2e3afe2a39.png。采用截图双臂七角及法兰坐标，右初角也更新，不能沿用上一版右臂初始关节。左右基座朝向采用文档轴约定，法兰/角度配对反算一次固定基座；截图注明离线值，未视为实测标定。
+- 初角左[91.9102,-52.5772,-75.3233,-100.9099,53.9998,18.2173,1.9625]°、右[-88.1537,-79.2456,73.2608,-100.8491,-82.7812,17.3242,13.3840]°；初始法兰左[201.792,-302.188,99.993]mm、右[201.802,157.225,100.007]mm。沿用当前A3.2独立左右手、SDK/URDF及四孔刚性连接件，手根由法兰和固定装配推算，明确不同于截图forearm点。t=4手根目标左[140,-150,90]mm、右[140,150,90]mm；保留原记录Pitch/XY/Z，无重复叠加15°。
+- 新增隔离logs/exper038_dual_arm_export_20261023，双侧prepare/kinematics/plan_fixed_time/smooth_prep/finalize及build_scene/build_motion/viewer/package_delivery。所有模型构建和IK在volc-a32远端CPU执行，左/右PID2943107/2943108最终退出0；双侧SDK速度/加速度、SDK与URDF位置交集、J6/J7耦合硬限的连续样条证书通过。QP保留60秒预算状态、不声称最优。准备段jerk正则保持4秒后轨迹不变；演奏段最大位置误差左3.570mm/右2.033mm，RMS左.256mm/右.167mm，最大姿态误差左2.763°/右1.178°，左侧峰值位于28.20秒曲尾停止段。
+- 生成四份同步CSV：双臂200Hz各5661行/22列，双手500Hz各14151行/61列，总长28.3秒，保留原24.3秒演奏速度和指法。手指500Hz由同次200Hz实际q/v插值，初始手指从上传左右CSV首帧平滑衔接；不是原生500Hz物理采样。
+- 场景使用exper038 best.pt da1441fc…26c1c、冻结源码1d4a67f…d560及同次trace69a2c2c4…6ec04；双手根分别刚性安装在SDK臂链/法兰/连接件上，完整5661帧装配位姿最大绝对误差2.89e-15。保留原琴键关节范围的完整精度，避免XML序列化舍入改变100%激活阈值；琴键状态与源200Hz记录逐帧一致。声音加4秒静音并统一28.3秒；同次实际按键/原始精确MIDI对比PNG和事件/数组随包交付，源录制micro-F1=.9030470914，不称为新双臂物理结果。
+- 按已有本地录制回放例外，用已保存MJB在本机NVIDIA RTX3050/OpenGL、ffplay及MemoryHigh2300M/MemoryMax3G/SwapMax0独立scope完成31秒完整播放（1286帧，到28.3秒终点），音频解码播放成功，memory.events全部0。初始总览被臂遮挡，调整正面俯视相机后做5秒定向验收并查看截图，完整双臂/双手可见；轨迹数据未变，motion.npz散列保持一致。无本机模型编译或物理仿真，也未占用训练GPU或绕过Slurm导出MP4。
+- 最终目录results/exper038/dual_arm_hand_yaw15_z90_20261023及同名ZIP，含四CSV、左右报告/误差图/样条、原始截图/生成源码/日志、交互启动脚本、model.mjb/motion.npz/音频/同次按键对比。ZIP首次遇到归档资产1970年时间戳，改用strict_timestamps=False解决，仅容器日期钳制，不改文件数据；远端ZIP CRC通过，全部文件逐SHA回传校验。旧右侧单独导出保留。
+- 本次未修改训练、奖励或冻结源码；交付为离线IK运动学回放，保留原同次物理琴键/声音，不是重新推进双臂物理触键。TODO：真实触键、碰撞/力矩和硬件跟踪仍未验收，曲尾与快速段IK误差对真实触键的影响未知。
+
+## 2026-10-23：双臂回放移到平台目录后的启动环境查找修复
+
+- 用户在/home/hj/TsenseIianist_platform/trajectory/hj/1023/dual_arm_hand_yaw15_z90_20261023启动时提示设置PIANIST_REPLAY_PYTHON；原脚本只搜索父级目录，移动导出目录后无法定位项目环境。修改该目录interactive_replay/launch_local.sh及generation副本、logs/exper038_dual_arm_export_20261023/launch_local.sh，在父级查找后增加$HOME/pianist和/data/projects/pianist环境候选，自动候选通过包元数据验证MuJoCo版本，保留显式环境变量优先。同步README/打包源码、交付清单与ZIP。原results下解压目录已被移动，不重新复制大型模型。
+- bash语法检查通过；直接从用户平台路径运行--check-seconds 1成功，自动定位/home/hj/pianist/training_mjlab/.venv/bin/python，NVIDIA RTX3050渲染39帧，保存姿态与音频解码检查通过、memory.events全部0。保留4GiB可用内存门槛、2300M/3G/零swap的systemd scope、MuJoCo版本检查及MJB-only加载，无模型编译或物理步进。轨迹、模型及声音未修改。
+
+## 2026-10-23：exper038双臂腕部相撞定位与原自由度内避碰修复
+
+- 用户指出上一版双臂回放相撞并要求修复。原规划只校验位置/速度/加速度/耦合硬限，没有双臂避碰约束；明确承认遗漏，不将既有硬限验收解释为无碰撞。参考平台1023/dual_arm_hand_yaw15_z90_20261023完整录制、原双侧SDK/URDF/连接件、同次轨迹，新增logs/exper038_dual_arm_collision_fix_20261023诊断脚本及报告。
+- volc-a32原项目独立目录CPU加载同次MJB，200Hz扫描全部5661帧，MuJoCo凸包距离筛选非相邻臂连杆对；另将python-fcl 0.7.0.11安装在该诊断目录deps内，用原始STL三角形BVH独立核实，未更改环境/模型/训练。首次远端下载缓慢改为本地下载cp312 wheel并同步、远端隔离安装。实际跨臂Link7相交885帧，区间4.495–5.035、13.580–14.150、15.560–15.920、17.505–18.100、19.380–21.085、21.340–21.380、22.040–22.260、27.475–27.830秒；跨臂Link5/6也相交。同侧Link5/7的凸包重叠经三角网格核查为误报，全轨迹0个交叉帧，不将其算成实际自碰撞。
+- 14秒左右末端Link7三角网格真实相交；它与手刚性连接，保留原手位姿时无法只靠7轴冗余肘姿消除。固定Z/朝向、两手等量反向XY移动的方向网格搜索，在严重时刻估算每手需43–45mm才能使Link7凸包留5mm间隙；这是保守局部几何估计，非全局最优、非已解算可执行轨迹，明显超过用户此前允许的些许误差。随后用户明确选择避碰优先、允许调整演奏段手根路径，并要求手根自由度和原来一致；据此开展下面的独立修复，保留原版。
+- 本机按已有MJB例外在受限scope保存14.01秒碰撞截图，未编译或推进物理；远端三种几何诊断及全时轴三角网格检查正常完成，结果/脚本/依赖与执行来源保存。后续修复与验收如下。
+
+- 核对results/exper038/config.json：手根可动Tx/Ty/Pitch，Yaw固定15°、TZ已结构移除且高度90mm。修复仅对演奏段Ty施加两侧等量反向C2平滑偏移，目标横向间隔至少240mm；Tx、完整朝向矩阵（含原Pitch）和Z目标逐帧不变。前4秒臂q/v/a与原导出逐值相同，手指CSV不变。最终单手最大目标偏移68.686mm；这改变触键位置，不声称保留原物理演奏效果。
+- 新增prepare_avoidance.py、双侧plan_fixed_time.py、finalize_avoidance.py：平滑间距约束＋阻尼IK参考＋固定28.3秒联合时间基准的C2关节样条规划，冻结准备段，完整SDK/URDF位置、速度、加速度与J6/J7耦合证书及CSV差分均通过。QP保留solved inaccurate/迭代预算状态，按独立证书验收，不声称最优。左右最大IK位置误差7.201/2.644mm，RMS.469/.295mm；最大朝向误差1.671/.913°、Z误差.069/.217mm；固定15°/90mm是目标合同，实际FK有上述误差。
+- validate_collision.py在volc-a32对双臂/刚性连接件196对几何进行5661个200Hz帧及帧间自适应检查，共8326次姿态评估；利用样条速度控制点界、固定SDK链杠杆长度及0.1mm数值余量，连续网格间距保守下界5.000344mm通过。粗包围球/AABB提供保守距离下界，低于10mm时用FCL三角网格精化；采样间距下界10.001mm，不冒充精确最近表面距离。原MuJoCo较大查询范围在明确分离的部分mesh对返回0，保留诊断，改用上述几何距离检验；未放宽碰撞验收。
+- 同侧非相邻原始STL三角网格全200Hz帧相交0次，臂/连接件对另一侧手碰撞组件检查0次；连续证书范围为跨侧机械臂/连接件，不扩大到硬件或全场景物理。verify_geometry_bounds.py独立确认28个臂/连接件几何的包围半径有效、编译网格与原STL世界包围盒差异≤2.4e-9m，能检出原14秒真实相撞；修复轨迹SDK/URDF末端匹配误差低于.004mm/.001°。
+- build_replay.py保留原model.mjb和刚性装配，用新双臂CSV生成完整回放，5661帧双手位姿误差<3.1e-15。声音、键运动及对比图明确标为原exper038同次物理录制的REFERENCE，非修复轨迹实际触键；原micro-F1=.903047只属源录制，修复轨迹无新物理F1。原源码/训练/奖励没有修改。
+- 本机受限MJB回放31秒通过：1275帧、到28.3秒终点、NVIDIA RTX3050、音频解码通过、memory.events全0；另在14秒验看腕部已分开截图。新包dual_arm_hand_yaw15_z90_collision_fixed_20261023包含四份同步CSV、误差/避碰图、样条与几何证书、生成来源、完整有声交互回放和源录制对比图。最终回传校验和原启动路径切换记录见该任务delivery_validation.json。TODO：未重新做该修复轨迹的物理触键、力矩或硬件跟踪验收。
+
+- 最终82个交付文件SHA全部通过，377MiB ZIP远端CRC与本地SHA通过（ff30d3e3…de24da）。平台原目录及原ZIP已分别保留为*_before_collision_fix，原路径链接至修复版，原启动命令和四CSV入口均指向新结果；未删除旧轨迹。最终交付和回放验收状态complete，记录于logs/exper038_dual_arm_collision_fix_20261023/delivery_validation.json。
+
+## 2026-10-23：exper038双臂碰撞修复，触键位置优先
+
+- 用户反馈双臂相撞，授权优先保持触键并局部调整高度/姿态。原导出仅独立双侧IK、未包含跨臂避碰；远端原CAD三角网格复核确认演奏交叉时Link5～7/连接件发生真实相交。原20Hz凸包粗查最大穿透约80mm；同侧Link5/Link7凸包填充腕部凹槽产生误报，原CAD无此自相交，未通过缩小模型或删除CAD检查消除问题。
+- 新增logs/exper038_collision_repair_20261023，参考上一版双侧kinematics、SDK/URDF与安装输入、exper038 best.pt da1441fc…26c1c、归档1d4a67f…d560、同次trace69a2c2c4…6ec04。联合14关节C2样条规划，原谱精确起止时间及指法用于优先跟踪原录制指尖；弱化手根姿态偏好、加入跨臂/连接件距离约束及非负松弛、保留SDK/URDF位置/速度/加速度和J6/J7硬限。前4秒、初角、固定基座与连接件装配、24.3秒原演奏速度、所有手指CSV逐字节不变。
+- 初期候选未通过验收并保留诊断；发现MuJoCo native CCD在部分对返回0距离但非零见证线段，导致不可靠梯度，规划改用libccd距离、见证线段归一化，独立FCL 0.7.0.11原CAD复核。依赖仅安装在远端本任务deps，模型与物理训练设置未改。QP按每轮60秒预算执行，未声称最优收敛；仅接受独立硬限和几何验收通过的候选。
+- 全部模型/规划/碰撞分析在volc-a32:/home/houj/projects/pianist_exper038_20261023/logs/exper038_collision_repair_20261023单线程CPU执行，命令/PID/SHA/失败候选与日志保留。最终连续样条硬限通过：最大关节速度150.862°/s，J1/J2加速度不超过445.503°/s²、其余不超过891.002°/s²，耦合最大91.667°。200Hz双臂/连接件最小间隙8.238mm，1000Hz密集采样8.485mm；不同查询截断的距离算法有小幅数值差异，取较小值汇报。原CAD逐200Hz共88837对检查无相交（含非相邻臂内零件）；臂—手/琴体无相交。几何碰撞结论限定为注明频率采样，硬限为连续样条证书。
+- 当前指法对应指尖相对原录制误差：左RMS/P95/max=.208/.370/2.565mm，右=.282/.511/2.887mm。演奏段实际手根高度左69.09～115.06mm、右81.33～103.12mm；最大朝向偏移左22.59°、右13.82°，原15°/90mm只在准备段结束保持，不再声称演奏全段固定。
+- 输出平台trajectory/hj/1023/dual_arm_hand_collision_repaired_20261023，保留旧目录，双臂200Hz/双手500Hz共四CSV、误差/间隙图、数组和有声交互回放。67个初始文件回传逐SHA通过；本机仅按保存MJB回放例外，匹配MuJoCo3.11.0、NVIDIA RTX3050、ffplay，2300M/3G/零swap scope完整31秒/1276帧播放至28.3秒，声音解码及保存姿态检查通过，memory.events全0；查看14秒原重碰撞位置截图确认腕部可见间隙。
+- 本次仅修复离线机械臂轨迹并做几何检查；声音/琴键/原谱对比仍来自原同次物理录制，源F1=.903047不作为新轨迹物理触键F1。TODO：尚未重新动力学触键、力矩或实机跟踪验证。未修改训练入口、奖励、归档或正在运行实验。
+- 补充同次最终候选双手间200Hz凸组件检查，无相交；原近距离报告初值10mm已按2mm查询截断修正为≥2mm采样下界，无扩大间隙结论。新增平台目录交付清单/本地播放日志和results/exper038下同名指向；最终文件清单随本轮更新。
+
+
+## 2026-10-24 原始URDF材质静态预览（侧会话）
+
+- 用户要求预览原色URDF。新增独立logs/raw_urdf_colors_20261024，直接读取用户A3.2原包双侧URDF及734个可视零件，保留origin/scale和11种RGBA；仅以零关节角静态展示并平移两侧根部便于查看。未修改源URDF、训练源码、主线程轨迹或preview_pose。
+- volc-a32独立目录CPU编译MuJoCo3.11.0，PID1099453退出0，所有编译geom的RGBA与原文一致；回传后736个源文件及MJB SHA核验通过。本机受限scope加载保存MJB、NVIDIA RTX3050显示通过，截图已检查，physics_steps=0。此预览不提供物理/关节交互，也不表示原preview_pose报错已修复。启动和来源见该目录README.md、preview/preview.json。
+
+
+## 2026-10-26 本地 model.mjb 内容去重
+
+- 用户授权不影响回放的去重：扫描 /data/projects 下44个实体 model.mjb，SHA256分组并逐字节比较，仅合并完全相同内容。15组共38个路径，替换22份独立副本为只读硬链接；包含平台trajectory中的一组，原路径全部保留。实际文件系统释放约 14.94 GiB。
+- 参考 scripts/interactive_recorded_replay.py、scripts/package_interactive_replay.py 及平台viewer.py，回放按原路径只读加载。合并后15组SHA256复验通过，38个路径的inode/大小/只读权限检查通过；未运行模型加载或全量回放。训练、轨迹、音频、配置与Git对象未改。
+- 为防止覆盖共享内容，去掉共享模型写权限；今后重新导出必须先独立复制或原子替换目标，不能直接chmod后原地写入。原元数据/哈希/路径清单：/home/hj/文档/ChatGPT/Jetson Thor/model-mjb-dedup-20261026.json；操作与解除共享说明同目录 model-mjb-dedup-notes-20261026.txt。
+
+
+## 2026-10-26 其他大文件安全去重
+
+- 用户继续授权不影响项目使用的去重。扫描/data/projects中>=8MiB非model.mjb文件1606个（排除.git和符号链接），发现130组内容重复。筛选导出回放kinematic_scene内静态OBJ/STL及平台原本只读CSV/ZIP，22组85个路径，合并63份副本，实测释放1050869760字节。
+- 逐字节比较后原子替换为只读硬链接，全部22组SHA256复验与85个路径/inode/权限校验通过；保留全部原路径。未启动完整项目/回放。依据平台a3_linux/combined.py的save覆盖写入行为，保留导入CSV/NPZ、检查点、可编辑源资产与依赖环境独立。
+- 操作清单、原元数据和未处理重复项见 /home/hj/文档/ChatGPT/Jetson Thor/other-files-dedup-20261026.json 及同目录other-files-dedup-notes-20261026.txt。共享静态资源需更新时先独立复制或原子替换，禁止直接加写权限后覆盖。
+
+## 2026-10-27 当前项目提交至远程仓库
+
+- 用户要求提交当前项目代码；按现有 Git 忽略规则纳入工作区源码、配置、测试、文档及发布归档，保留既有删除记录。参考 all_use_this_train.sh、.gitignore 与 .gitattributes，补充当前 key_hold_lateral 冻结归档及来源/验收记录的白名单与 Git LFS 属性，避免远程缺少统一入口依赖。
+- 本次只调整版本控制与提交记录，不修改训练算法或重新打包归档；执行归档 SHA 校验、暂存内容检查和远程提交一致性核验，不运行物理仿真或训练。运行时验证仍以原发布记录为准。

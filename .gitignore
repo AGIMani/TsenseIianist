@@ -94,3 +94,79 @@ outputs/
 
 # Historical material stays local; do not publish deprecated artifacts.
 /deprecated/
+
+# Verified black-key coupling plane startup fix.
+!/logs/mesh_coupling_plane_20261023/
+/logs/mesh_coupling_plane_20261023/*
+!/logs/mesh_coupling_plane_20261023/source_mesh_coupling_plane_v1.tar.gz
+!/logs/mesh_coupling_plane_20261023/source_mesh_coupling_plane_v1.tar.gz.sha256
+!/logs/mesh_coupling_plane_20261023/source_provenance.json
+!/logs/mesh_coupling_plane_20261023/build.py
+!/logs/mesh_coupling_plane_20261023/validation.json
+
+# Current 12/10 mm key-travel frozen source and audit records.
+!/logs/key_travel_20261023/
+/logs/key_travel_20261023/*
+!/logs/key_travel_20261023/source_key_travel_12_10_v1.tar.gz
+!/logs/key_travel_20261023/source_key_travel_12_10_v1.tar.gz.sha256
+!/logs/key_travel_20261023/source_key_travel_12_10_v1.tar.gz.manifest.json
+!/logs/key_travel_20261023/source_provenance.json
+!/logs/key_travel_20261023/validation_commands.txt
+!/logs/key_travel_20261023/validate.py
+!/logs/key_travel_20261023/prepare.py
+!/logs/key_travel_20261023/freeze.py
+!/logs/key_travel_20261023/change_log_entry.txt
+!/logs/key_travel_20261023/release_validation.json
+!/logs/key_travel_20261023/validation/
+/logs/key_travel_20261023/validation/*
+!/logs/key_travel_20261023/validation/*.json
+!/logs/key_travel_20261023/validation/*.log
+!/logs/key_travel_20261023/validation/*.exit
+
+# Verified first-note physical preparation source and release evidence.
+!/logs/first_note_source_20261025/
+/logs/first_note_source_20261025/*
+!/logs/first_note_source_20261025/source_first_note_hover_export_v1.tar.gz
+!/logs/first_note_source_20261025/source_first_note_hover_export_v1.tar.gz.sha256
+!/logs/first_note_source_20261025/validation.json
+!/logs/first_note_source_20261025/build_archive.py
+
+# Verified original-pose ending source and release evidence.
+!/logs/ending_source_20261025/
+/logs/ending_source_20261025/*
+!/logs/ending_source_20261025/source_ending_return_v1.tar.gz
+!/logs/ending_source_20261025/source_ending_return_v1.tar.gz.sha256
+!/logs/ending_source_20261025/validation.json
+!/logs/ending_source_20261025/build_archive.py
+!/logs/ending_source_20261025/test_current_default_gpu.py
+
+# Current world-coordinate pose / palm-base joint-name source release.
+!/logs/coordinate_names_20261025/
+/logs/coordinate_names_20261025/*
+!/logs/coordinate_names_20261025/source_world_pose_names_v1.tar.gz
+!/logs/coordinate_names_20261025/source_world_pose_names_v1.tar.gz.sha256
+!/logs/coordinate_names_20261025/source_lineage.json
+!/logs/coordinate_names_20261025/source_audit.json
+!/logs/coordinate_names_20261025/build_archive.py
+!/logs/coordinate_names_20261025/validation.json
+
+!/logs/pitch_range_20261026/
+/logs/pitch_range_20261026/*
+!/logs/pitch_range_20261026/source_pitch_symmetric_v1.tar.gz
+!/logs/pitch_range_20261026/source_pitch_symmetric_v1.tar.gz.sha256
+!/logs/pitch_range_20261026/build_archive.py
+!/logs/pitch_range_20261026/validation.json
+!/logs/pitch_range_20261026/source_lineage.json
+!/logs/pitch_range_20261026/source_audit.json
+!/logs/pitch_range_20261026/overlay_manifest.json
+
+# Active key-hold lateral training release and provenance.
+!/logs/key_hold_lateral_20261026/
+/logs/key_hold_lateral_20261026/*
+!/logs/key_hold_lateral_20261026/source_key_hold_lateral_v1.tar.gz
+!/logs/key_hold_lateral_20261026/source_key_hold_lateral_v1.tar.gz.sha256
+!/logs/key_hold_lateral_20261026/build_archive.py
+!/logs/key_hold_lateral_20261026/overlay_manifest.json
+!/logs/key_hold_lateral_20261026/source_audit.json
+!/logs/key_hold_lateral_20261026/source_lineage.json
+!/logs/key_hold_lateral_20261026/validation.json

@@ -1,0 +1,10 @@
+{
+  "archive": "/data/projects/pianist/logs/key_travel_20261023/source_key_travel_12_10_v1.tar.gz",
+  "sha256": "fa7ccc62cb9f256bfd00679068e4093d409c88e6a5ae9628dd655f34de281131",
+  "verified": true,
+  "model_checks": "88 joint and actuator ranges, activation boundary, 20 steps finite/no physics warnings",
+  "regression": "6 passed, 5 skipped",
+  "runtime311": "88 joint ranges and 20 steps passed",
+  "training_started": false,
+  "existing_replays_changed": false
+}

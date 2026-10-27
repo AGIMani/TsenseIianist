@@ -1,0 +1,14 @@
+{
+  "host": "h100",
+  "remote_project": "/home/houj/projects/pianist_exper036_20261023",
+  "slurm_job_id": 2173,
+  "state": "COMPLETED",
+  "exit_code": "0:0",
+  "tests": "tests/test_mesh_key_coupling_plane.py",
+  "result": "1 passed in 29.67s",
+  "source_sha256": "3503e0f46e9322df1ee856015655c1dc5df4c0d328442775bc1505421ec86c64",
+  "training_job_id": 2174,
+  "training_experiment": "exper037",
+  "parent_sha256": "1951eb00657ad1a82a8bc7092f6274dcf4607f26746cc4dfa4d936f89761dd84",
+  "replica_build": "Same deterministic build on volc-a32 returned identical SHA; used for faster local transfer"
+}

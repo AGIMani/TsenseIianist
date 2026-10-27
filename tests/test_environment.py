@@ -35,7 +35,7 @@ def test_reset_pose_and_world_axes(env):
     np.testing.assert_allclose(r * (1,-1,1), l, atol=1e-8)
     for hand in (env.task.right_hand, env.task.left_hand):
         physics = env.physics
-        for name, expected_axis in [("forearm_tx",(0,1,0)),("forearm_ty",(-1,0,0)),("forearm_tz",(0,0,1))]:
+        for name, expected_axis in [("palm_base_tx",(0,1,0)),("palm_base_ty",(-1,0,0)),("palm_base_tz",(0,0,1))]:
             joint = hand.mjcf_model.find("joint", name)
             before = physics.bind(hand.root_body).xpos.copy()
             physics.bind(joint).qpos = physics.bind(joint).qpos[0] + .001
@@ -46,14 +46,14 @@ def test_reset_pose_and_world_axes(env):
             physics.forward()
 
 
-@pytest.mark.parametrize('joint_name', ['forearm_yaw', 'forearm_pitch'])
+@pytest.mark.parametrize('joint_name', ['palm_base_yaw', 'palm_base_pitch'])
 @pytest.mark.parametrize('angle', [-.1, .1])
 def test_wrist_yaw_same_direction_and_pitch_opposite(env, joint_name, angle):
     env.reset()
     physics = env.physics
     hands = (env.task.right_hand, env.task.left_hand)
     for hand in hands:
-        for name in ('forearm_pitch', 'forearm_yaw'):
+        for name in ('palm_base_pitch', 'palm_base_yaw'):
             physics.bind(hand.mjcf_model.find('joint', name)).qpos = 0
     physics.forward()
     initial = [physics.bind(hand.root_body).xmat.reshape(3, 3).copy() for hand in hands]
@@ -63,7 +63,7 @@ def test_wrist_yaw_same_direction_and_pitch_opposite(env, joint_name, angle):
     rotations = [physics.bind(hand.root_body).xmat.reshape(3, 3) @ before.T
                  for hand, before in zip(hands, initial)]
     assert np.linalg.norm(rotations[0] - np.eye(3)) > .1
-    expected_left = rotations[0] if joint_name == 'forearm_yaw' else rotations[0].T
+    expected_left = rotations[0] if joint_name == 'palm_base_yaw' else rotations[0].T
     np.testing.assert_allclose(rotations[1], expected_left, atol=1e-12)
 
 
@@ -136,8 +136,8 @@ def test_unfingered_midi_and_randomized_reset():
     try:
         environment.reset()
         for hand in (environment.task.right_hand, environment.task.left_hand):
-            joint = hand.mjcf_model.find("joint", "forearm_tx")
-            actuator = hand.actuator_for_joint("forearm_tx")
+            joint = hand.mjcf_model.find("joint", "palm_base_tx")
+            actuator = hand.actuator_for_joint("palm_base_tx")
             np.testing.assert_allclose(environment.physics.bind(joint).qpos, environment.physics.bind(actuator).ctrl)
         step = environment.step(np.r_[environment.task.right_hand.neutral_control,
                                       environment.task.left_hand.neutral_control, 0.])

@@ -173,6 +173,7 @@ def main():
     key_contact_fields = key_contact_tracker.COLUMNS if key_contact_tracker is not None else ()
     trajectory.update({key: [] for key in key_contact_fields})
     frames = 0
+    ending_contract, ending_trace = None, None
     try:
         with mujoco.Renderer(model, height=720, width=1280, max_geom=4000) as renderer:
             graphics = current_gl_info()
@@ -186,7 +187,8 @@ def main():
                     draw = ImageDraw.Draw(img)
                     draw.rectangle((0,0,1280,100), fill=(18,23,32))
                     draw.text((20,10), 'V3.2 | preparing to play', font=title, fill='white')
-                    draw.text((20,48), f't={data.time:.2f}/{preparation_seconds:.2f}s | raised initial -> origin | score paused', font=font, fill='white')
+                    label = ('first-note hover' if preparation_timing['mode'] == 'first_note_v1' else 'raised initial -> origin')
+                    draw.text((20,48), f't={data.time:.2f}/{preparation_seconds:.2f}s | {label} | score paused', font=font, fill='white')
                     draw.text((20,75), 'Returning smoothly to the saved starting pose', font=font, fill=(180,230,195))
                     encoder.stdin.write(np.asarray(img).tobytes())
                     frames += 1
@@ -254,6 +256,53 @@ def main():
                 if index == env.logic.length//3:
                     img.save(args.output/'preview.png')
                 if result.done[0].item():
+                    ending_time = (env.scene.bundle.preparation_options or {}).get('ending_duration', 0.)
+                    if ending_time:
+                        from tsensei_v3_2_pianist.mjlab_env.ending import generate as generate_ending
+                        from tsensei_v3_2_pianist.mjlab_env.first_note_preparation import PreparationFailure
+                        data.qacc_warmstart[:] = env.scene.data.qacc_warmstart[0].detach().cpu().numpy()
+                        data.time = (index+1)*dt
+                        try:
+                            ending_contract, ending_trace = generate_ending(env.scene.bundle, data,
+                                env.scene.bundle.preparation['control_context'], ending_time)
+                        except PreparationFailure as error:
+                            np.savez_compressed(args.output/'ending.npz', **error.trace)
+                            (args.output/'ending.json').write_text(json.dumps(error.contract,indent=2)+'\n')
+                            np.savez_compressed(args.output/'rollout.npz',**trajectory)
+                            failure_metadata=torch.load(args.checkpoint,map_location='cpu',weights_only=True)['metadata']
+                            failure_report=dict(complete=False,error=str(error),ending=error.contract,
+                                ending_seconds=float(error.trace['time'][-1]),
+                                checkpoint_sha256=sha256(args.checkpoint),task_sha256=sha256(args.task/'task.json'),
+                                source_runtime=failure_metadata.get('source_runtime'),fps=fps,
+                                preparation_prefix_seconds=preparation_seconds,
+                                music_start_policy_seconds=preparation_timing['music_start_policy_seconds'],
+                                phase_metrics={},failure_scope='Ending failed; raw same-run policy and tail retained')
+                            (args.output/'report.json').write_text(json.dumps(failure_report,indent=2)+'\n')
+                            if audio_synth is not None:
+                                prep_q,prep_pedal=audio_prefix(env.scene.bundle,env.scene.key_qadr.cpu().numpy())
+                                fail_q=np.concatenate((prep_q,audio_keys[:recorded_substeps].cpu().numpy(),
+                                    error.trace['qpos'][1:,env.scene.key_qadr.cpu().numpy()]))
+                                fail_pedal=np.concatenate((prep_pedal,audio_pedal[:recorded_substeps].cpu().numpy(),
+                                    np.zeros(len(error.trace['time'])-1)))
+                                np.savez_compressed(args.output/'audio_substeps.npz',key_qpos=fail_q,sustain=fail_pedal,
+                                    physics_dt=float(model.opt.timestep),key_limits=env.scene.key_limits.cpu().numpy(),
+                                    key_activation_fraction=env.scene.bundle.manifest['key_activation_fraction'])
+                                audio_synth.close()
+                            raise
+                        np.savez_compressed(args.output/'ending.npz', **ending_trace)
+                        (args.output/'ending.json').write_text(json.dumps(ending_contract,indent=2)+'\n')
+                        for trace_index in frame_indices(ending_trace, dt, include_endpoint=True)[1:]:
+                            tail_data = preparation_snapshot(model, ending_trace, trace_index)
+                            renderer.update_scene(tail_data,camera=camera)
+                            keys.color_render_scene(renderer.scene,tail_data)
+                            tail_img=Image.fromarray(renderer.render())
+                            tail_draw=ImageDraw.Draw(tail_img)
+                            tail_draw.rectangle((0,0,1280,100),fill=(18,23,32))
+                            tail_draw.text((20,10),'V3.2 | returning to original starting pose',font=title,fill='white')
+                            tail_draw.text((20,48),f'Ending {tail_data.time:.2f}/{ending_contract["duration"]:.2f}s | actual physics',font=font,fill='white')
+                            frame=np.asarray(tail_img).tobytes()
+                            encoder.stdin.write(frame)
+                            frames += 1
                     for _ in range(hold_frames):
                         encoder.stdin.write(frame)
                         frames += 1
@@ -278,6 +327,10 @@ def main():
             preparation_substeps = len(prep_q)
             q = np.concatenate((prep_q, q), axis=0)
             pedal = np.concatenate((prep_pedal, pedal))
+            ending_substeps = 0 if ending_trace is None else len(ending_trace['time'])-1
+            if ending_trace is not None:
+                q = np.concatenate((q,ending_trace['qpos'][1:,env.scene.key_qadr.cpu().numpy()]))
+                pedal = np.concatenate((pedal,np.zeros(ending_substeps)))
             physics_dt = env.scene.bundle.manifest['physics_dt']
             events = events_from_states(q,env.scene.key_limits.cpu().numpy(),pedal,physics_dt,
                                        env.scene.bundle.manifest['key_activation_fraction'])
@@ -286,6 +339,7 @@ def main():
             audio_report = audio_synth.render(events,frames/fps,args.output/'played.wav')
             audio_report.update(physics_dt=physics_dt,recorded_substeps=len(q),
                                 policy_recorded_substeps=recorded_substeps,
+                                ending_recorded_substeps=ending_substeps,
                                 preparation_recorded_substeps=preparation_substeps,
                                 preparation_prefix_substeps=preparation_substeps,
                                 policy_preparation_recorded_substeps=min(recorded_substeps, round(
@@ -371,6 +425,9 @@ def main():
               'logged_metrics_match': None if logged is None else all(np.isclose(v,logged['eval'][k],rtol=1e-5,atol=1e-6) for k,v in metrics.items()),
               'graphics': graphics, 'fps': fps, 'video_frames': frames, 'video_seconds': frames/fps,
               'final_hold_seconds': hold_frames/fps, 'initial_frame_seconds': dt,
+              'ending': ending_contract,
+              'ending_seconds': 0. if ending_contract is None else ending_contract['duration'],
+              'ending_start_policy_seconds': len(trajectory['actions'])*dt,
               'preparation_seconds': preparation_seconds,
               'preparation_prefix_seconds': preparation_seconds,
               'policy_time_offset_seconds': preparation_seconds,

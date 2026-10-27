@@ -1,0 +1,116 @@
+{
+  "overlays": {
+    "AGENTS.md": {
+      "parent_sha256": "9a0cc34c06127ef1ee8f0611f198a8b537c2673af08ed213124243c02e445534",
+      "sha256": "12dc33bf88d3cd5f9a77fc58d68812237808a6232529df18876d43c59c9a06d8"
+    },
+    "README.md": {
+      "parent_sha256": "f09c83136aecdfe279be6a4462d49bd6ff20678811c2966c13e7c41aa5ac8cd1",
+      "sha256": "1b7334e97e8296b3ae34fff3d0ff38bf2d362d74a8145efeed6ce871f6c527a8"
+    },
+    "docs/change_log.md": {
+      "parent_sha256": "28e53dfccca4042169bf38ee5a9916b1f03f8ccf5836fd140f56ecf191b7a197",
+      "sha256": "16334fdda7d69bfb86398704167698ecf7f97910f0e5c08935b75eca8fb9f744"
+    },
+    "docs/reward_defaults_20261006.md": {
+      "parent_sha256": "448b8b8a1bc30efc29aa48a516aed883714af53fc03e207dca02be46603c16f0",
+      "sha256": "e6903fa4f839be66fd9393017daf109ff5d320677b45ab139f6f5a5acf3afabf"
+    },
+    "docs/superpowers/plans/2026-10-25-first-note-preparation.md": {
+      "parent_sha256": null,
+      "sha256": "eae80c571510e01dd481b6f21de1ae43ba9456610342d845b3da81c714cbb8cc"
+    },
+    "docs/superpowers/specs/2026-10-25-first-note-preparation-design.md": {
+      "parent_sha256": null,
+      "sha256": "94aa054772ae78ed1ccefebdc7ded77d1a9e609cf0526e9617052f01e1ca536e"
+    },
+    "preview/scripts/export_video_job.py": {
+      "parent_sha256": "a17f1f24add483a220a58f62f400be8abf15b7151fb133578146d720cfd1aebc",
+      "sha256": "30f8d002d5de61e723ea0fee6a81a314c3c91036ac2bd3bd1129360f5520cb0b"
+    },
+    "preview/scripts/joint_motion_plots.py": {
+      "parent_sha256": "de6135ba3c32f22dc80c23df9d1fa54762c6249ea7b8a87b19d985cb9f6740d5",
+      "sha256": "d61b7a9e816f12f80d483f85805a719f7b6f3d34e6b8e8f55791073380885e41"
+    },
+    "preview/scripts/render_first_note.py": {
+      "parent_sha256": null,
+      "sha256": "a0f9b29df56cbce844577c448e0761ef2fe7113e65c826352552016282095c8f"
+    },
+    "preview/scripts/render_mjlab_checkpoint.py": {
+      "parent_sha256": "cef21341179bbea6ffe9e6aff3c5d97cd355e5b1278a74e33b280d2602a90fec",
+      "sha256": "48b09fd25414d07a5585ca16a7fac899d40eebb283c71bdec3fad016c55cf7b5"
+    },
+    "scripts/export_videos.py": {
+      "parent_sha256": "da29ff210c23e45dd4467086b3a0476b8a3c22d3287ef02016a36fa90b67c9d6",
+      "sha256": "9a49a4f938f2e411d14ef9c1968ce81f346ffab613cadc86374a833f1c0726e8"
+    },
+    "scripts/hpc/job.sbatch": {
+      "parent_sha256": "a62bf091a45616e14bb8a7b2001712dbc330bca13e4862ce168c228f500bd6b3",
+      "sha256": "91aae412d8d35a5254f507a6c800b3eb526c1dd2f58fc8a2371c6e6bc04a2447"
+    },
+    "scripts/hpc/prepare_first_note.py": {
+      "parent_sha256": null,
+      "sha256": "2e45b9a6396c3069f185145c0d98b4d7b32eaf5b88c48bc71337d5d4da599ce7"
+    },
+    "scripts/hpc/submit.sh": {
+      "parent_sha256": "1d560c4c640d4a3d351ed1a90dbeb7908a5ab3c00a4153a08a73145bdbd0e1bf",
+      "sha256": "d114fff760c4e8502884ed7c7ded4cf91afbd21db84631290f0e3ad569ab4bae"
+    },
+    "scripts/train_from_source.py": {
+      "parent_sha256": "d190a6e70eb9560d1cbdcb46c2cb609b6c532bc12ea9fbcdff25a1e1bdbca5b5",
+      "sha256": "e6bc1f4f058628fda557f4a501afa8a75ec48496817de3192610c1a67a3a07ce"
+    },
+    "tests/test_first_note_gpu.py": {
+      "parent_sha256": null,
+      "sha256": "ac40dfc036a33504aaabe79211dcb78f65efa5a896bf614b391b4e133a756243"
+    },
+    "tests/test_first_note_preparation.py": {
+      "parent_sha256": null,
+      "sha256": "afb496b7025f8d3fd147a50d3d2e9f17cfbebcf4327dc26c886812b941d671c0"
+    },
+    "tests/test_joint_motion_plots.py": {
+      "parent_sha256": "2c96d212b0fdb6705d0e54505494b9f94dde042313d48100f820ca4830fd57a8",
+      "sha256": "8477bb8a827d5571808eac0123d263936eb99c6bac665e3d121a4ec4bccab32c"
+    },
+    "tests/test_video_export.py": {
+      "parent_sha256": "924f1f2d622a5f458a943bb1ee0f3614bfd21910be0a0a2c9acca08dbc6b2e3a",
+      "sha256": "1f5cd9646c0ef64710889823c2b5c7beda87714e33cc0fdb0cb711afd6dc1dbe"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_contact_refined_20261024/turkish-march-advanced_fingered.proto": {
+      "parent_sha256": null,
+      "sha256": "c79239172a8f1a0a1b8e7b13d58b5f9364d4671b8f3d823de758138e0f34fce8"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/bundle.py": {
+      "parent_sha256": "023a632a9cecc60d6a9309a494ea19f3f117e2e24b6ff7f17bd11be330b24fdd",
+      "sha256": "97f0a44c090615b9f4ca017eb4d9102516c2eaa9e886c9ebe0cae84aa3e53e1a"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/first_note_preparation.py": {
+      "parent_sha256": null,
+      "sha256": "879df2e11a0eef08fc1b7ee1d556e34f4d4f3b3a1ad9c0cd581c7fb212d1b70f"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/preparation.py": {
+      "parent_sha256": "bd7433b6af39eaf35c445929a8426b9d960ebfed233e499f45f799067c26a63d",
+      "sha256": "9749a287d3c9fef6f49c43529189b0db5602a4b5f0c76b0756832fc0aa6a42ff"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/scene.py": {
+      "parent_sha256": "2d2106b0b9dfcad59ead8db5069b90dc2e658f60378acd4124a5f676ccf74cb0",
+      "sha256": "c0ff48324fa33d68cdf4d57701d6cb8665bd2e207a7259af34ad47e6dda03f24"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/source_runtime.py": {
+      "parent_sha256": "bfd70ddd24b3c74e8837827143268f0420eea692bd7386bf26bb3eeaec9d694f",
+      "sha256": "4395732c7abd9538a1a295f48efb81bf972b98a700ea93e04417283cfe2731fa"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/task.py": {
+      "parent_sha256": "d5c35ebe3e4c619664ab6a3954bcd22ad99c84671160d8bf1c1dda39378ee8e9",
+      "sha256": "eeaa6f3c69e57841c18ba0deceddd7bf1b7db6db7c1c8c03d8631ba4573efc33"
+    },
+    "tsensei_v3_2_pianist/rl_torch/train.py": {
+      "parent_sha256": "b7f7ce7663e64056e9e4797dbbc46a93b58f12d264d88f12a444b9ea67a72c52",
+      "sha256": "4d5f543897019a78e1b33037c37c6d459d11353943d80a1b8f04349286f6c682"
+    }
+  },
+  "parent_archive": "/home/houj/projects/pianist_exper038_20261023/logs/exper038_source_20261023/source_current_drive_travel_coupling_v1.tar.gz",
+  "parent_sha256": "1d4a67f15c796a849387ccc967c4960f4ee12d0b18bde2ff81f27a591c23d560",
+  "physical_trace": "No actual state clipping; transient excursions disclosed separately from hover acceptance",
+  "rule": "Original pinned parent membership retained, only enumerated preparation sources/docs, validated raw-physics export fixes and current default score added; no outputs or environments"
+}

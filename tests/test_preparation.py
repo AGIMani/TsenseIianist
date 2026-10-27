@@ -44,7 +44,7 @@ def write_fixture(directory):
                  ('pitch','hinge','0 1 0',-.2,.2,0),
                  ('yaw','hinge','0 0 1',-.25,.25,.15)]
         for suffix, kind, axis, low, high, value in wrist:
-            name = side+'_/forearm_'+suffix
+            name = side+'_/palm_base_'+suffix
             ET.SubElement(body, 'joint', name=name, type=kind, axis=axis,
                           limited='true', range=f'{low} {high}', damping='1')
             joint_targets[name] = value
@@ -58,7 +58,7 @@ def write_fixture(directory):
                 ET.SubElement(child,'site',name=side+f'_/tip_{index//4}',size='.001')
             joint_targets[name] = .1
         control_joints = [side+f'_/finger_{index}' for index in range(20)]
-        control_joints += [side+'_/forearm_'+w[0] for w in wrist]
+        control_joints += [side+'_/palm_base_'+w[0] for w in wrist]
         finger_names = [f'{code}_Thumb_{joint}' for joint in ('Rot','Rot2','MCP','PIP')]
         finger_names += [f'{code}_{finger}_{joint}'
                          for finger in ('Index','Mid','Ring','Pinky')
@@ -126,7 +126,7 @@ class PreparationChecks(unittest.TestCase):
         self.assertEqual(len(bundle.active_action_indices)+1, 47)
         self.assertIsNone(old.preparation)
         for side in ('right', 'left'):
-            self.assertEqual(mujoco.mj_name2id(model,mujoco.mjtObj.mjOBJ_JOINT,side+'_/forearm_tz'), -1)
+            self.assertEqual(mujoco.mj_name2id(model,mujoco.mjtObj.mjOBJ_JOINT,side+'_/palm_base_tz'), -1)
             origin = bundle.preparation['origin']['hands'][side]['position']
             initial = bundle.preparation['initial']['hands'][side]['position']
             np.testing.assert_allclose(np.array(initial)-origin, [0,0,.02], atol=1e-15)
@@ -153,12 +153,12 @@ class PreparationChecks(unittest.TestCase):
             write_fixture(directory)
             path = directory/'manifest.json'
             manifest = json.loads(path.read_text())
-            index = manifest['joint_names'].index('right_/forearm_tx')
+            index = manifest['joint_names'].index('right_/palm_base_tx')
             manifest['qvel'][index] = .1
             path.write_text(json.dumps(manifest))
             bundle = SceneBundle(directory, disable_wrist_tz=True, disable_wrist_yaw=True,
                                  preparation=PREPARATION)
-            qadr = bundle.model.joint('right_/forearm_tx').qposadr[0]
+            qadr = bundle.model.joint('right_/palm_base_tx').qposadr[0]
             self.assertGreater(abs(bundle.reset_qpos[qadr]-bundle.origin_qpos[qadr]),1e-5)
             self.assertGreater(abs(bundle.reset_qvel[qadr]),1e-5)
             np.testing.assert_array_equal(bundle.reset_qpos,bundle.preparation_trace['qpos'][-1])

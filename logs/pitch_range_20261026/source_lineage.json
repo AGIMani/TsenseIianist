@@ -1,0 +1,235 @@
+{
+  "overlays": {
+    "AGENTS.md": {
+      "parent_sha256": "73c1028ff62aac04ddad306e119987120867a35887a6d817c0407cbbb78d7398",
+      "sha256": "f9b1bc07f42b465c389f0a74baed1eebc59994601ceb9a2f3f525e9fe641bf69"
+    },
+    "README.md": {
+      "parent_sha256": "f28d45c536da0d7fbceae93af14372e60e4d310d2b88f8a5aedef05b2dc66351",
+      "sha256": "949406b4320b988d1d7602f9fcacd849ac17ed0acf7582d4312b2cdd2f9d1434"
+    },
+    "configs/actions/direct_joint_v1.json": {
+      "parent_sha256": "ab37f0129221a77bed3e3c32eb6514351d791875fe643d1c222ceafa8259439d",
+      "sha256": "4864769f1a2abc4cb1b90d9880a023da577680a94195b5aa744b97a699498d10"
+    },
+    "configs/actions/wuji_cartesian_v1.json": {
+      "parent_sha256": "1fd32437ee2926bff7e0e6934753d03e9e000e5237aee97de7a0e0886d4129b2",
+      "sha256": "771eabb49a0abf1badb9489399e42ee9f56807afe1597441341e337e36e5200d"
+    },
+    "docs/change_log.md": {
+      "parent_sha256": "d9c51a49467620d2b9ab41e8a832707d7ebfcd67ddd9399cdde2f2451fdbdb2e",
+      "sha256": "abe9ae0d3e5ca6ac98e759259af36537be35a41ff079199c16d40137fe4eaf8a"
+    },
+    "docs/reward_defaults_20261006.md": {
+      "parent_sha256": "99586390b14d39c17c2484fe061a33628eed7c3416b438896a65223c0dc32f39",
+      "sha256": "4a2cc06bee3634eb48c3ad1c2b6df505f7c2c11bbf65ac7670694d66bdb43253"
+    },
+    "tests/test_pitch_symmetric_range.py": {
+      "parent_sha256": null,
+      "sha256": "65ec0090a0bcd0397815c7bd082e54227e4ac034e144fc6bdcf31b601ee043fd"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/README.md": {
+      "parent_sha256": null,
+      "sha256": "a23b6360d49a88ddf5f9fd6263bc860a480d809b5d768b13b9d015e195862155"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/SHA256SUMS": {
+      "parent_sha256": null,
+      "sha256": "9073d34640058713d723e90a52e38b76f299bc1e3a2d82d71ad424f3f3a61ea8"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/candidate_wrist_anchors.json": {
+      "parent_sha256": null,
+      "sha256": "503d22cac6bae419b6fb089c06f3fb86158e937f039b2ab9cacb76ebeec994c7"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/fingering.csv": {
+      "parent_sha256": null,
+      "sha256": "3982adf446ffcf42334191bdce6731a0203d02d19e404121de880c4bc4eff801"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/fixed_fingering.json": {
+      "parent_sha256": null,
+      "sha256": "c6d8436293eedf30a7901743a6af1c13d6d8587cf9f86f482fe7116b30ea55df"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/audit_fingering_repeats.py": {
+      "parent_sha256": null,
+      "sha256": "f9395f05698723ecc4d5b1f13aaca431d835a156375f42eca8097f12b2a4e6f4"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/audit_fingering_repeats_initial.py": {
+      "parent_sha256": null,
+      "sha256": "c9f9bde3e62471df9081c3b99b58e0f2bc821390de1d816f24be4e4709fa4c84"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/baseline_fingering.csv": {
+      "parent_sha256": null,
+      "sha256": "f2ea9b59224305150eb55cf3dd1045dd4c9606eca6dc635479c03330c1b5be1b"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/baseline_fixed_fingering.json": {
+      "parent_sha256": null,
+      "sha256": "5a024791be573287671230f8119feec6245b098cc83b8363b599cb965ffec09b"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/baseline_repetition_audit.json": {
+      "parent_sha256": null,
+      "sha256": "f766ae8f65352c0ba4f0243b4324c158bee7ef36cbeabbd1df4cb16196e2f3e9"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/baseline_report.json": {
+      "parent_sha256": null,
+      "sha256": "2eb72149382042a4c2ac442c9c20e42b07946a47f8f0d31bf16da84e29f9f593"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/guard_selected_reach.py": {
+      "parent_sha256": null,
+      "sha256": "e1446f7b1cb256484d736cfebf1e858b0dbba9471beb51dc411422aa0f6121f2"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/initial_repeat_proposal.json": {
+      "parent_sha256": null,
+      "sha256": "213eda6f2eca6733dc36723c6f7b63761249f6d791975a36a4c04b28feb3e44f"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/make_reference.py": {
+      "parent_sha256": null,
+      "sha256": "8d7694e4d204ef0941ea022db62b725329dce256982b291518bd0c6b64f055a3"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/package_guarded_candidate.py": {
+      "parent_sha256": null,
+      "sha256": "9459bf6a7c4cde8035810e31d4d735b066eaf000f73486089e8499eb58c76a20"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/paired_contact_probe.py": {
+      "parent_sha256": null,
+      "sha256": "8cfe78b4feac35f1e5daeea7d963e48ac37df35bf74da0c3a1b096dd5c482be7"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/paired_contact_report.json": {
+      "parent_sha256": null,
+      "sha256": "65b505d51d189ef689bbc2384a6a48fe2645e6f4a3ddfde1e404ef7e93130d3b"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/paired_static_change_review.json": {
+      "parent_sha256": null,
+      "sha256": "c275b88df6045f6fbd6e4023fcb06d994c63f896619345c48a3fd4a010da024c"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/plan_model_fingering.py": {
+      "parent_sha256": null,
+      "sha256": "e5edad9f9cc027c441e87fa5d61bcf7da35b5809d095a6587c7584da1af824bf"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/protect_static_witnesses.py": {
+      "parent_sha256": null,
+      "sha256": "71031b45494d05fb638fda3b8896bff766715f15606876a4a6f8d99c14cbbfba"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/provenance.json": {
+      "parent_sha256": null,
+      "sha256": "9f15c8771c46e0ed6a5d7ffb6b5cbe98d43996195bc6b350b36da56eacbea076"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/repeat_constraints_v2.json": {
+      "parent_sha256": null,
+      "sha256": "3684e02c1cc4e4546747ed151224e6fc422771baa4c63b5d128ead72cb9cf57f"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/repeat_constraints_v4.json": {
+      "parent_sha256": null,
+      "sha256": "de0bf216c2ae1d81b4ecfb583476b2653557d7f5add3c47b32799800bd9123e0"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/repeat_constraints_v5.json": {
+      "parent_sha256": null,
+      "sha256": "2ceb09c3a2b3cdc329a10f4dcd18423b25621a901b4983c6b6dcf4665404aaf7"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/repeat_constraints_v6.json": {
+      "parent_sha256": null,
+      "sha256": "1dc21e5a00bb297082ed4aa51c0983f8b718d3bb0ddaca12aae88c47bdf9ee94"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/repeat_constraints_v7.json": {
+      "parent_sha256": null,
+      "sha256": "c6d8436293eedf30a7901743a6af1c13d6d8587cf9f86f482fe7116b30ea55df"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/run_paired_contact_probe.sh": {
+      "parent_sha256": null,
+      "sha256": "61aa1041b22c02a7955ad41c12a91afedec711b6440a16c2585f9cdec996fc63"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/run_repeat_dp_v1.sh": {
+      "parent_sha256": null,
+      "sha256": "dc5bd9bb9def1cda4e1117a269e7685c26e36d0cbddc4564bbf555fac53a62de"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/run_repeat_dp_v2.sh": {
+      "parent_sha256": null,
+      "sha256": "7e39a5d9471da8391bff59167a94f486c398af5f81456e59a5a10ab393c50e5a"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/run_repeat_dp_v3.sh": {
+      "parent_sha256": null,
+      "sha256": "4cdb1fca3be06c8d98c67dcc29ebfd631eaeec97a13a3edff980f85c98b48318"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/run_repeat_dp_v4.sh": {
+      "parent_sha256": null,
+      "sha256": "77bc668ed560205b2810829be8f9a7ea673e38adf4eb31c8e8a6ef7b9694e23c"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/run_repeat_dp_v5.sh": {
+      "parent_sha256": null,
+      "sha256": "b3d28c463f23a2cb8589e519b555622d0567f4024c0767c3a1ae68ab3d487e91"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/run_repeat_dp_v6.sh": {
+      "parent_sha256": null,
+      "sha256": "7106d1505771dc478387d8d9866f85a1829c113aa2ecfc55c23d7fd4f382546e"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/run_repeat_dp_v7.sh": {
+      "parent_sha256": null,
+      "sha256": "b1fadb8238c01e3e49c6c7e67f071f33428a8e3de278c44d2184543cca9a26f0"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/run_v6_contact_bank.sh": {
+      "parent_sha256": null,
+      "sha256": "d70dd138ee12e118c40581f4596d574fae54e61afae0fbfd046e6441d83ea1e9"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/run_v7_contact_bank.sh": {
+      "parent_sha256": null,
+      "sha256": "a17aa910f8a3e168cb9bfd5a89186f4fefaf9b74bf037f0fcae7089b5f4f08a7"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/select_repeat_constraints.py": {
+      "parent_sha256": null,
+      "sha256": "bae53c2d59d70801493babd7beb23892c6c247f70728e47b33f75bae2c1e62f4"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/test_audit_fingering_repeats.py": {
+      "parent_sha256": null,
+      "sha256": "281bd91bc6a6bbac83869e7f1ceedb3cb84d54b1c68652d86109b6a7118fc92e"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/generation/validate_repeat_candidate.py": {
+      "parent_sha256": null,
+      "sha256": "714a9b2b8166b8b1bc54344346363fd891d38d7510b2e97bcbfed5435afaab0c"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/input_validation.json": {
+      "parent_sha256": null,
+      "sha256": "1f4330f715466fc8ddf544502dba0bb100bec126999fe7200c4821e709ff90b9"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/original.mid": {
+      "parent_sha256": null,
+      "sha256": "83707e4f40347d0a51402349a8ef8af7cf59c357656b50432591b3e8fceb88eb"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/reach_diagnostics.json": {
+      "parent_sha256": null,
+      "sha256": "d9e563cba2f2e78610017d727503b2f1525fbd4f4b28241072a66eeaefbd0fbd"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/reference_repeat_static_guarded_20261025.json": {
+      "parent_sha256": null,
+      "sha256": "385aa3f3a088df2ae7b03c8670b031ecc62b3c013027474c94bd8c8e6757c0ef"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/reference_repeat_static_guarded_20261025.npz": {
+      "parent_sha256": null,
+      "sha256": "71c9c1e714c9f705f184b34bc3521117db408117d0453f333ead9b9c7b5ccf68"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/repetition_audit.json": {
+      "parent_sha256": null,
+      "sha256": "137fa2b3492c1ff46bb2d128a7eec927190733d4efaa231781dd5b87e08f9f0a"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/report.json": {
+      "parent_sha256": null,
+      "sha256": "edc257242689c557317af28b08c133efb08ebf35a6698ff4856654425d59be8a"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/static_bank_comparison.json": {
+      "parent_sha256": null,
+      "sha256": "a9d903239811f945544892c4268bb40e00719e89c310d8c7238aec705bac41e7"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/static_bank_report.json": {
+      "parent_sha256": null,
+      "sha256": "2283daadd68ef6f7eb0550649cef399addf313f4d97fc6dcfdf30da5ceeee010"
+    },
+    "training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/turkish-march-advanced_fingered.proto": {
+      "parent_sha256": null,
+      "sha256": "66563e8b5e338c1ef3e426233647da2a008ac931939775b1ee87c36857339af0"
+    },
+    "tsensei_v3_2_pianist/models/hands/tsensei_hand_constants.py": {
+      "parent_sha256": "24f8ee9f4907f85a43578b8d0b32c9f6a3ea5dc83575cb60e24f3a8eef5d04ac",
+      "sha256": "7b2722ee1b260ea8eea909f3da69ebe45ea244f1fe2fc2da0eb96bcd602fcd63"
+    }
+  },
+  "parent_sha256": "faf4f5d04e7d7a7d940dc9ee46a7711ad7b1c16930f14d43fabc26894dc815a2",
+  "rule": "Only enumerated Pitch range/config/test/documentation and existing default score inputs overlaid; all parent URDF/mesh/reward-JSON bytes retained",
+  "training_started": false
+}

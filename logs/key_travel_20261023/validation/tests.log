@@ -1,0 +1,12 @@
+..s...s.sss                                                              [100%]
+=============================== warnings summary ===============================
+training/.venv/lib/python3.12/site-packages/pydub/utils.py:14
+  /home/houj/projects/pianist_key_travel_20261023/runtime/training/.venv/lib/python3.12/site-packages/pydub/utils.py:14: DeprecationWarning: 'audioop' is deprecated and slated for removal in Python 3.13
+    import audioop
+
+training/.venv/lib/python3.12/site-packages/pydub/utils.py:170
+  /home/houj/projects/pianist_key_travel_20261023/runtime/training/.venv/lib/python3.12/site-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+    warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+6 passed, 5 skipped, 2 warnings in 1.44s

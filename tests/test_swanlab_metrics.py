@@ -242,7 +242,9 @@ class SwanLabMetricsTest(unittest.TestCase):
             source_runtime={"external_score": {"notes": [private]},
                 "environment": {"midi": "/private/score.mid", "control_hz": 20,
                                 "physics_hz": 200, "task_profile": "shadow_v1", "api_key": private},
-                "pose": {"height": .1}, "model": {"drive_profile": "shadow_v1", "source": private}})
+                "pose": {"world_x": .16, "world_z": .09, "right_world_y": .15,
+                         "left_world_y": -.15, "palm_base_yaw": .2617993877991494},
+                "model": {"drive_profile": "shadow_v1", "source": private}})
         source["reward_config"].update(token=private, performance={
             "anticipatory_fingering_time": .15, "substep_rewards": True, "api_key": private})
         source["reward_config"]["terms"]["energy_reward"].update(api_key=private,
@@ -255,6 +257,8 @@ class SwanLabMetricsTest(unittest.TestCase):
         self.assertEqual(public["sac"]["actor_hidden"], [256, 256, 256])
         self.assertEqual(public["sac"]["actor_lr"], .0003)
         self.assertEqual(public["environment"]["control_hz"], 20)
+        self.assertEqual(public['pose']['world_x'], .16)
+        self.assertEqual(public['pose']['left_world_y'], -.15)
         self.assertEqual(public["seed"], 42)
         self.assertEqual(public["reward_config"]["terms"]["energy_reward"]["weight"], 1)
         self.assertEqual(public["reward_config"]["performance"]["anticipatory_fingering_time"], .15)

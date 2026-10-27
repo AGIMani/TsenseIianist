@@ -1,3 +1,4 @@
+# 2026-10-25: External initial positions use world-frame metres; yaw is the palm-base joint angle in radians.
 """Pure, stdlib-only conversion of local training records to public scalars.
 
 No SDK, filesystem, network, environment, credentials, or training code is used.
@@ -284,7 +285,8 @@ def public_config(config: Mapping) -> dict:
             ("gravity_compensation", "action_reward_observation", "disable_forearm_reward"),
             ("task_profile", "score_validation"))
         result["model"] = _pick(runtime.get("model"), (), (), ("collision_profile", "drive_profile"))
-        result["pose"] = _pick(runtime.get("pose"), ("height", "ty", "yaw"))
+        result["pose"] = _pick(runtime.get("pose"),
+            ("world_x", "world_z", "right_world_y", "left_world_y", "palm_base_yaw"))
     seed = _mapping(config.get("cli")).get("seed")
     if type(seed) is int:
         result["seed"] = seed

@@ -1,3 +1,4 @@
+# 2026-10-25: The hand base_link frame is named palm_base; exported pose coordinates explicitly name world.
 """Offline differential IK and time scaling, without stepping arm dynamics."""
 import mujoco
 import numpy as np
@@ -128,7 +129,7 @@ def scale_path(time, q, arms, limits=None, audit_hz=1000):
               'limited_duration_s': float(time[-1]*factor), 'limits': limits,
               'audit_hz_in_original_time': audit_hz, 'extra_scale_margin': .02,
               'path_interpolation': 'C2 cubic spline with zero endpoint joint velocities',
-              'tcp_frame': 'hand URDF base_link origin, using the saved Link7-to-hand tool transform',
+              'palm_base_frame': 'hand base_link origin; saved Link7-to-hand tool transform; not the flange origin',
               'maximum_original': {}, 'maximum_limited': {}, 'maximum_joint_speed_rad_s': {}}
     for i, side in enumerate(SIDES):
         report['maximum_original'][side] = dict(zip(DEFAULT_LIMITS, norms[:, i].max(0).tolist()))

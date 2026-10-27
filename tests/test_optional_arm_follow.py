@@ -253,13 +253,13 @@ class ArmNativeSceneTests(unittest.TestCase):
         # pose with the rigid-arm conversion.
         for side in ('right', 'left'):
             for axis in ('tx', 'ty', 'tz'):
-                joint = reference.model.joint(f'{side}_/forearm_{axis}')
+                joint = reference.model.joint(f'{side}_/palm_base_{axis}')
                 reference.qpos[reference.model.jnt_qposadr[joint.id]] = 0.
         mujoco.mj_forward(reference.model, reference)
         for side in ('right', 'left'):
             for axis in ('tx', 'ty', 'tz', 'pitch'):
                 self.assertEqual(mujoco.mj_name2id(new, mujoco.mjtObj.mjOBJ_JOINT,
-                    f'{side}_/forearm_{axis}'), -1)
+                    f'{side}_/palm_base_{axis}'), -1)
             hand = new.body(f'{side}_/base_link')
             connector = new.body(f'arm_connector_{side}')
             flange = new.body(f'arm_flange_{side}')

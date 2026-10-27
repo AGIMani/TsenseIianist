@@ -1,0 +1,931 @@
+{
+  "schema": "a32_exact_event_fingering_plan_v1",
+  "method": "Exact-event dynamic programming over natural nonthumb orders, optional thumb at either end, and shared-wrist sampled geometry candidates",
+  "source_midi": "/home/houj/projects/pianist_turkish_hand_20261024/task_inputs/turkish-march-advanced.mid",
+  "source_midi_sha256": "83707e4f40347d0a51402349a8ef8af7cf59c357656b50432591b3e8fceb88eb",
+  "source_sequence_sha256": "022912e586207b0ec7ec610bf2242f5c5f54b824009ad7ce87ca5ef474ca9591",
+  "geometry_path": "/home/houj/projects/pianist_turkish_hand_20261024/task_outputs/geometry/model_geometry.json",
+  "geometry_sha256": "7a6b38af0dce0f4fe451eda133c2771d80d3044914328e7a3524192d8573a04c",
+  "geometry_metadata": {
+    "schema": 1,
+    "neutral_action": [
+      1.1359295845031738,
+      0.4766489565372467,
+      0.241250142455101,
+      0.34598514437675476,
+      0.21577854454517365,
+      0.0,
+      0.3459840714931488,
+      0.17704984545707703,
+      0.1668892502784729,
+      0.0,
+      0.3372441232204437,
+      0.17938287556171417,
+      0.17413878440856934,
+      0.0,
+      0.36656785011291504,
+      0.1931321620941162,
+      0.19302129745483398,
+      0.0,
+      0.38961562514305115,
+      0.213344007730484,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.25,
+      1.1359295845031738,
+      0.4766489565372467,
+      0.241250142455101,
+      0.34598514437675476,
+      0.21577854454517365,
+      0.0,
+      0.3459840714931488,
+      0.17704984545707703,
+      0.1668892502784729,
+      0.0,
+      0.3372441232204437,
+      0.17938287556171417,
+      0.17413878440856934,
+      0.0,
+      0.36656785011291504,
+      0.1931321620941162,
+      0.19302129745483398,
+      0.0,
+      0.38961562514305115,
+      0.213344007730484,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.25,
+      0.0
+    ],
+    "physical_low": [
+      0.05,
+      0.05,
+      0.0,
+      0.05,
+      0.0,
+      -0.35,
+      0.0,
+      0.0,
+      0.0,
+      -0.35,
+      0.0,
+      0.0,
+      0.0,
+      -0.35,
+      0.0,
+      0.0,
+      0.0,
+      -0.35,
+      0.0,
+      0.0,
+      -0.7605,
+      -0.05,
+      -0.025,
+      0.0,
+      -0.25,
+      0.05,
+      0.05,
+      0.0,
+      0.05,
+      0.0,
+      -0.35,
+      0.0,
+      0.0,
+      0.0,
+      -0.35,
+      0.0,
+      0.0,
+      0.0,
+      -0.35,
+      0.0,
+      0.0,
+      0.0,
+      -0.35,
+      0.0,
+      0.0,
+      -0.4605,
+      -0.05,
+      -0.025,
+      0.0,
+      -0.25,
+      0.0
+    ],
+    "physical_high": [
+      1.57,
+      1.57,
+      1.4,
+      1.3,
+      1.4,
+      0.35,
+      0.9,
+      0.8,
+      1.4,
+      0.35,
+      0.9,
+      0.8,
+      1.4,
+      0.35,
+      0.9,
+      0.8,
+      1.4,
+      0.35,
+      0.9,
+      0.8,
+      0.4605,
+      0.15,
+      0.0,
+      0.5,
+      0.25,
+      1.57,
+      1.57,
+      1.4,
+      1.2,
+      1.4,
+      0.35,
+      0.9,
+      0.8,
+      1.4,
+      0.35,
+      0.9,
+      0.8,
+      1.4,
+      0.35,
+      0.9,
+      0.8,
+      1.4,
+      0.35,
+      0.9,
+      0.8,
+      0.7605,
+      0.15,
+      0.0,
+      0.5,
+      0.25,
+      1.0
+    ],
+    "wrist_translation_bounds": {
+      "right": {
+        "tx": [
+          -0.7605,
+          0.4605
+        ],
+        "ty": [
+          -0.05,
+          0.15
+        ]
+      },
+      "left": {
+        "tx": [
+          -0.4605,
+          0.7605
+        ],
+        "ty": [
+          -0.05,
+          0.15
+        ]
+      }
+    },
+    "coupling_contract": {
+      "schema": 1,
+      "mode": "distal_angle_range_v1",
+      "angle_ranges_deg": {
+        "right_index": [
+          10.0,
+          80.0
+        ],
+        "right_mid": [
+          10.0,
+          80.0
+        ],
+        "right_ring": [
+          10.0,
+          80.0
+        ],
+        "right_pinky": [
+          10.0,
+          80.0
+        ],
+        "left_index": [
+          10.0,
+          80.0
+        ],
+        "left_mid": [
+          10.0,
+          80.0
+        ],
+        "left_ring": [
+          10.0,
+          80.0
+        ],
+        "left_pinky": [
+          10.0,
+          80.0
+        ]
+      },
+      "reduce_observation": false,
+      "physical_model": "unchanged_servo_joints",
+      "follower_full_indices": [
+        6,
+        7,
+        10,
+        11,
+        14,
+        15,
+        18,
+        19,
+        31,
+        32,
+        35,
+        36,
+        39,
+        40,
+        43,
+        44
+      ],
+      "coupled_fingers": [
+        {
+          "name": "right_index",
+          "joint_names": [
+            "right_/right_hand_index_MCP_joint",
+            "right_/right_hand_index_PIP_joint",
+            "right_/right_hand_index_DIP_joint"
+          ],
+          "full_indices": [
+            4,
+            6,
+            7
+          ],
+          "qpos_addresses": [
+            95,
+            97,
+            98
+          ],
+          "body_ids": [
+            98,
+            100,
+            101
+          ],
+          "local_axes": [
+            [
+              0.0,
+              0.0,
+              -1.0
+            ],
+            [
+              0.0,
+              0.0,
+              -1.0
+            ],
+            [
+              0.0,
+              0.0,
+              -1.0
+            ]
+          ],
+          "distal_direction_local": [
+            -0.16716564217436322,
+            -0.985928825056065,
+            7.674174335912388e-11
+          ],
+          "distal_landmark_local": [
+            -0.004356576595455408,
+            -0.025694720447063446,
+            1.9999999920083944e-12
+          ],
+          "follower_low": [
+            0.0,
+            0.0
+          ],
+          "follower_high": [
+            0.9,
+            0.8
+          ],
+          "follower_origin": [
+            0.345984067635,
+            0.177049848625
+          ]
+        },
+        {
+          "name": "right_mid",
+          "joint_names": [
+            "right_/right_hand_mid_MCP_joint",
+            "right_/right_hand_mid_PIP_joint",
+            "right_/right_hand_mid_DIP_joint"
+          ],
+          "full_indices": [
+            8,
+            10,
+            11
+          ],
+          "qpos_addresses": [
+            99,
+            101,
+            102
+          ],
+          "body_ids": [
+            102,
+            104,
+            105
+          ],
+          "local_axes": [
+            [
+              0.0,
+              0.0,
+              -1.0
+            ],
+            [
+              0.0,
+              0.0,
+              -1.0
+            ],
+            [
+              0.0,
+              0.0,
+              -1.0
+            ]
+          ],
+          "distal_direction_local": [
+            -0.16716564217436322,
+            -0.985928825056065,
+            7.674174335912388e-11
+          ],
+          "distal_landmark_local": [
+            -0.004356576595455408,
+            -0.025694720447063446,
+            1.9999999920083944e-12
+          ],
+          "follower_low": [
+            0.0,
+            0.0
+          ],
+          "follower_high": [
+            0.9,
+            0.8
+          ],
+          "follower_origin": [
+            0.33724412436,
+            0.179382869067
+          ]
+        },
+        {
+          "name": "right_ring",
+          "joint_names": [
+            "right_/right_hand_ring_MCP_joint",
+            "right_/right_hand_ring_PIP_joint",
+            "right_/right_hand_ring_DIP_joint"
+          ],
+          "full_indices": [
+            12,
+            14,
+            15
+          ],
+          "qpos_addresses": [
+            103,
+            105,
+            106
+          ],
+          "body_ids": [
+            106,
+            108,
+            109
+          ],
+          "local_axes": [
+            [
+              0.0,
+              0.0,
+              -1.0
+            ],
+            [
+              0.0,
+              0.0,
+              -1.0
+            ],
+            [
+              0.0,
+              0.0,
+              -1.0
+            ]
+          ],
+          "distal_direction_local": [
+            -0.18805633951029524,
+            -0.9821582424283719,
+            6.961641345578348e-11
+          ],
+          "distal_landmark_local": [
+            -0.005402643699198961,
+            -0.02821628376841545,
+            1.9999999920083944e-12
+          ],
+          "follower_low": [
+            0.0,
+            0.0
+          ],
+          "follower_high": [
+            0.9,
+            0.8
+          ],
+          "follower_origin": [
+            0.366567845739,
+            0.193132156912
+          ]
+        },
+        {
+          "name": "right_pinky",
+          "joint_names": [
+            "right_/right_hand_pinky_MCP_joint",
+            "right_/right_hand_pinky_PIP_joint",
+            "right_/right_hand_pinky_DIP_joint"
+          ],
+          "full_indices": [
+            16,
+            18,
+            19
+          ],
+          "qpos_addresses": [
+            107,
+            109,
+            110
+          ],
+          "body_ids": [
+            110,
+            112,
+            113
+          ],
+          "local_axes": [
+            [
+              0.0,
+              0.0,
+              -1.0
+            ],
+            [
+              0.0,
+              0.0,
+              -1.0
+            ],
+            [
+              0.0,
+              0.0,
+              -1.0
+            ]
+          ],
+          "distal_direction_local": [
+            -0.18307063831756057,
+            -0.9830997616651126,
+            -6.396020144561314e-10
+          ],
+          "distal_landmark_local": [
+            -0.004007162060588598,
+            -0.021518688648939133,
+            -1.399999994405876e-11
+          ],
+          "follower_low": [
+            0.0,
+            0.0
+          ],
+          "follower_high": [
+            0.9,
+            0.8
+          ],
+          "follower_origin": [
+            0.389615614939,
+            0.213344010776
+          ]
+        },
+        {
+          "name": "left_index",
+          "joint_names": [
+            "left_/left_hand_index_MCP_joint",
+            "left_/left_hand_index_PIP_joint",
+            "left_/left_hand_index_DIP_joint"
+          ],
+          "full_indices": [
+            29,
+            31,
+            32
+          ],
+          "qpos_addresses": [
+            118,
+            120,
+            121
+          ],
+          "body_ids": [
+            121,
+            123,
+            124
+          ],
+          "local_axes": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "distal_direction_local": [
+            -0.16716564217436322,
+            0.985928825056065,
+            7.674174335912388e-11
+          ],
+          "distal_landmark_local": [
+            -0.004356576595455408,
+            0.025694720447063446,
+            1.9999999920083944e-12
+          ],
+          "follower_low": [
+            0.0,
+            0.0
+          ],
+          "follower_high": [
+            0.9,
+            0.8
+          ],
+          "follower_origin": [
+            0.345984067635,
+            0.177049848625
+          ]
+        },
+        {
+          "name": "left_mid",
+          "joint_names": [
+            "left_/left_hand_mid_MCP_joint",
+            "left_/left_hand_mid_PIP_joint",
+            "left_/left_hand_mid_DIP_joint"
+          ],
+          "full_indices": [
+            33,
+            35,
+            36
+          ],
+          "qpos_addresses": [
+            122,
+            124,
+            125
+          ],
+          "body_ids": [
+            125,
+            127,
+            128
+          ],
+          "local_axes": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "distal_direction_local": [
+            -0.16716564217436322,
+            0.985928825056065,
+            7.674174335912388e-11
+          ],
+          "distal_landmark_local": [
+            -0.004356576595455408,
+            0.025694720447063446,
+            1.9999999920083944e-12
+          ],
+          "follower_low": [
+            0.0,
+            0.0
+          ],
+          "follower_high": [
+            0.9,
+            0.8
+          ],
+          "follower_origin": [
+            0.33724412436,
+            0.179382869067
+          ]
+        },
+        {
+          "name": "left_ring",
+          "joint_names": [
+            "left_/left_hand_ring_MCP_joint",
+            "left_/left_hand_ring_PIP_joint",
+            "left_/left_hand_ring_DIP_joint"
+          ],
+          "full_indices": [
+            37,
+            39,
+            40
+          ],
+          "qpos_addresses": [
+            126,
+            128,
+            129
+          ],
+          "body_ids": [
+            129,
+            131,
+            132
+          ],
+          "local_axes": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "distal_direction_local": [
+            -0.18805633951029524,
+            0.9821582424283719,
+            6.961641345578348e-11
+          ],
+          "distal_landmark_local": [
+            -0.005402643699198961,
+            0.02821628376841545,
+            1.9999999920083944e-12
+          ],
+          "follower_low": [
+            0.0,
+            0.0
+          ],
+          "follower_high": [
+            0.9,
+            0.8
+          ],
+          "follower_origin": [
+            0.366567845739,
+            0.193132156912
+          ]
+        },
+        {
+          "name": "left_pinky",
+          "joint_names": [
+            "left_/left_hand_pinky_MCP_joint",
+            "left_/left_hand_pinky_PIP_joint",
+            "left_/left_hand_pinky_DIP_joint"
+          ],
+          "full_indices": [
+            41,
+            43,
+            44
+          ],
+          "qpos_addresses": [
+            130,
+            132,
+            133
+          ],
+          "body_ids": [
+            133,
+            135,
+            136
+          ],
+          "local_axes": [
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "distal_direction_local": [
+            -0.18307063831756057,
+            0.9830997616651126,
+            -6.396020144561314e-10
+          ],
+          "distal_landmark_local": [
+            -0.004007162060588598,
+            0.021518688648939133,
+            -1.399999994405876e-11
+          ],
+          "follower_low": [
+            0.0,
+            0.0
+          ],
+          "follower_high": [
+            0.9,
+            0.8
+          ],
+          "follower_origin": [
+            0.389615614939,
+            0.213344010776
+          ]
+        }
+      ],
+      "upstream_state": "actual wrist and swing; commanded MCP",
+      "plane_normal": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "distal_axis": "DIP pivot to URDF-chain distal support landmark; TODO(V32-07)",
+      "reference_validation": "all eight origin-pose target angles must satisfy requested bounds",
+      "solver": {
+        "name": "bounded_pip_grid_analytic_dip_interval_v1",
+        "grid_points": 17,
+        "refinement_points": 9,
+        "tolerance_deg": 0.05,
+        "preference": "minimum squared PIP/DIP displacement from origin among feasible candidates",
+        "error": "distance outside each finger interval; zero throughout interval"
+      },
+      "update": "re-solved before every physical substep; no qpos projection",
+      "angle": "signed downward angle of directed distal axis to resting piano plane"
+    },
+    "recipe_file": "recipe.json",
+    "source_archive_sha256": "1d4a67f15c796a849387ccc967c4960f4ee12d0b18bde2ff81f27a591c23d560",
+    "model_sha256": "8e91c32ee7174c5b3b0bfdad9cdf49a6bfaa781b4aaae42ace0957343b77afef",
+    "runner_sha256": "5908b11553d4ffc4906628bbe26dce4030c1ea00d7928ad930967df78d110169",
+    "translation_reference": "Each sample has Tx=Ty=0. World tip displacement = Tx*axis_tx + Ty*axis_ty. Use recorded wrist_translation_axes to solve joint translation; names do not imply world XYZ axes.",
+    "limitations": "Discrete FK workspace samples with exact current follower allocation; no simultaneous collision or dynamics certification. MCP/swing/Pitch/thumb sampled, not global reach proof.",
+    "wrist_translation_axes": {
+      "right": [
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          -0.9999999999999998,
+          0.0,
+          0.0
+        ]
+      ],
+      "left": [
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          -0.9999999999999998,
+          0.0,
+          0.0
+        ]
+      ]
+    }
+  },
+  "planner_sha256": "e5edad9f9cc027c441e87fa5d61bcf7da35b5809d095a6587c7584da1af824bf",
+  "note_count": 2544,
+  "fixed_fingering": {
+    "path": "/home/houj/projects/pianist_turkish_hand_20261024/task_inputs/repeat_constraints_v7.json",
+    "sha256": "c6d8436293eedf30a7901743a6af1c13d6d8587cf9f86f482fe7116b30ea55df",
+    "count": 364
+  },
+  "all_non_fingering_sequence_fields_preserved": true,
+  "instrument_to_hand": {
+    "0": "right",
+    "1": "left"
+  },
+  "counts_by_finger": {
+    "0": 227,
+    "1": 258,
+    "2": 277,
+    "3": 370,
+    "4": 328,
+    "5": 85,
+    "6": 292,
+    "7": 353,
+    "8": 259,
+    "9": 95
+  },
+  "simultaneous_finger_conflicts": 0,
+  "required_thumb_per_hand": true,
+  "parameters": {
+    "thumb_penalty_per_onset": 100.0,
+    "movement_weight_m2_per_second": 500.0,
+    "pitch_movement_weight_rad2_per_second": 0.05,
+    "reach_excess_weight_per_event": 100.0,
+    "exchange_weight_per_reused_finger_onset": 1000.0,
+    "recovery_time_seconds": 0.05,
+    "exchange_formula": "weight * max(0, 1 - exact_same_finger_release_gap / recovery_time)^2; same-pitch repetitions included",
+    "exchange_history": "Per-finger most recent release, retained until recovery_time has elapsed; included in DP merge identity when enabled",
+    "z_tolerance_m": 0.003,
+    "maximum_geometry_candidates_per_assignment": 3
+  },
+  "hands": {
+    "right": {
+      "used_thumb": true,
+      "costs": {
+        "geometry_time_integral": 972.0491697104122,
+        "reach_excess_per_event": 143384.18038271114,
+        "thumb_onsets": 22700.0,
+        "movement": 48172.16091149918,
+        "finger_exchange": 70805.5555555462,
+        "total": 286033.9460194669
+      },
+      "statistics": {
+        "notes": 1460,
+        "exact_events": 2323,
+        "maximum_active_notes": 4,
+        "maximum_dp_states": 860,
+        "thumb_notes": 227,
+        "same_finger_gaps_below_50ms": 143,
+        "same_finger_gaps_below_recovery_time": 143,
+        "max_target_residual_m": 0.04620251174320602,
+        "mean_event_target_residual_m": 0.0026795179599673606,
+        "max_vertical_residual_m": 0.002837583829439487,
+        "z_fallback_finger_events": 0,
+        "onsets_without_candidate_within_tolerance": 99,
+        "onsets_without_candidate_within_10mm": 17,
+        "max_anchor_transition_speed_m_s": 40.16990450112335
+      }
+    },
+    "left": {
+      "used_thumb": true,
+      "costs": {
+        "geometry_time_integral": 119.75586218972272,
+        "reach_excess_per_event": 6732.447018777186,
+        "thumb_onsets": 8500.0,
+        "movement": 21787.737170550856,
+        "finger_exchange": 10101.99652777673,
+        "total": 47241.93657929449
+      },
+      "statistics": {
+        "notes": 1084,
+        "exact_events": 1622,
+        "maximum_active_notes": 4,
+        "maximum_dp_states": 599,
+        "thumb_notes": 85,
+        "same_finger_gaps_below_50ms": 19,
+        "same_finger_gaps_below_recovery_time": 19,
+        "max_target_residual_m": 0.02553043534943848,
+        "mean_event_target_residual_m": 0.0016908410626890044,
+        "max_vertical_residual_m": 0.002837583829439487,
+        "z_fallback_finger_events": 0,
+        "onsets_without_candidate_within_tolerance": 11,
+        "onsets_without_candidate_within_10mm": 1,
+        "max_anchor_transition_speed_m_s": 8.41347947741725
+      }
+    }
+  },
+  "planning_seconds": 15.294683412881568,
+  "physical_certification": false,
+  "limitations": [
+    "Finite sampled geometry and locally fitted wrist anchors approximate continuous reachability; nonzero residuals are not certified reachable targets.",
+    "All active fingers share sampled wrist pitch and bounded XY translation, but collisions, key travel, forces and dynamical tracking are not simulated.",
+    "Motion is a soft time-aware objective, not a velocity/acceleration guarantee; first placement is free and no preparation motion is modeled.",
+    "Independent hand searches do not enforce cross-hand collision clearance.",
+    "Thumb usage is positively penalized and constrained to at least one actual note per hand; it is not post-edited.",
+    "Finger recovery is a soft scheduling preference; alternating fingers does not certify same-key release, collision clearance or physical timing.",
+    "Baseline geometric cost is integrated over exact durations; excess reach has a separate per-event penalty and thumb cost is per onset.",
+    "Wrist pose is retained at pure release events; onset candidates include up to two compatible predecessor anchors. Bounded candidate pruning can exclude a globally preferable continuous trajectory."
+  ],
+  "outputs": {
+    "turkish-march-advanced_fingered.proto": "66563e8b5e338c1ef3e426233647da2a008ac931939775b1ee87c36857339af0",
+    "fingering.csv": "3982adf446ffcf42334191bdce6731a0203d02d19e404121de880c4bc4eff801",
+    "candidate_wrist_anchors.json": "503d22cac6bae419b6fb089c06f3fb86158e937f039b2ab9cacb76ebeec994c7",
+    "reach_diagnostics.json": "d9e563cba2f2e78610017d727503b2f1525fbd4f4b28241072a66eeaefbd0fbd"
+  },
+  "repetition_refinement": {
+    "version": 7,
+    "baseline_thumb_count": 305,
+    "thumb_count": 312,
+    "baseline_short_reuses": 165,
+    "short_reuses": 162,
+    "changed_notes": 69,
+    "new_short_reuses": 0,
+    "removed_short_reuses": 3,
+    "first20_fingering_identical": true,
+    "baseline_inconsistent_groups": 69,
+    "inconsistent_groups": 50,
+    "baseline_single_hand_inconsistent_groups": 37,
+    "single_hand_inconsistent_groups": 30,
+    "strict_static_passed_onsets": 1010,
+    "requested_onsets": 1357,
+    "all_baseline_989_static_passes_preserved": true,
+    "dynamic_acceptance": null,
+    "static_net_gain_cannot_be_attributed_to_fingering_alone": true
+  }
+}

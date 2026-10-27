@@ -2,6 +2,10 @@
 # Local static viewer of the verified 1224 mm piano. No compilation or mj_step.
 set -euo pipefail
 preview_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+if [[ "${1:-}" == --self-collision ]]; then
+  shift
+  exec "$preview_root/launch_self_collision_preview.sh" "$@"
+fi
 preview_python="$preview_root/training_mjlab/.venv/bin/python"
 [[ -x "$preview_python" ]] || { echo 'Missing training_mjlab/.venv/bin/python.' >&2; exit 1; }
 [[ -f "$preview_root/preview/outputs/piano_black_key_20261023/model.mjb" ]] || {

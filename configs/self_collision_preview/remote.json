@@ -1,0 +1,13 @@
+{
+  "host": "volc-a32",
+  "remote_root": "/home/houj/projects/pianist_turkish_hand_20261024",
+  "python": "/home/houj/projects/pianist_turkish_hand_20261024/training_mjlab/.venv/bin/python",
+  "recording": "task_outputs/refine_exchange500_thumb200_build",
+  "model_sha256": "920475c61dc0469779d9f64769c75044140163151461201609ec181a7509fd4f",
+  "archive_sha256": "1d4a67f15c796a849387ccc967c4960f4ee12d0b18bde2ff81f27a591c23d560",
+  "local_model": "/data/projects/pianist/results/turkish_march_planning_20261024/interactive_replay/model.mjb",
+  "worker_files_sha256": {
+    "scripts/hpc/self_collision_probe.py": "701135bb69e0d78982510a4153368fa5eaccb09b66ee20c47d030138f1860dc5",
+    "scripts/self_collision_metrics.py": "dcc5d4e692102eb1919fd8ba6c88f240202b15e29502a5a7eb4400b8b961b67d"
+  }
+}

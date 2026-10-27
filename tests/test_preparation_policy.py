@@ -72,7 +72,7 @@ class PolicyPreparationChecks(unittest.TestCase):
         np.testing.assert_array_equal(bundle.reset_ctrl,bundle.origin_ctrl)
         np.testing.assert_allclose(bundle.reset_mocap_pos[:,2],.02)
         for side in ('right','left'):
-            self.assertEqual(mujoco.mj_name2id(bundle.model,mujoco.mjtObj.mjOBJ_JOINT,side+'_/forearm_tz'),-1)
+            self.assertEqual(mujoco.mj_name2id(bundle.model,mujoco.mjtObj.mjOBJ_JOINT,side+'_/palm_base_tz'),-1)
 
     def test_task_requires_actual_empty_preparation_frames(self):
         bundle = self.bundle()

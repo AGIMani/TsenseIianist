@@ -1,4 +1,6 @@
-"""Portable frozen scene: MJCF/assets, named reset state and provenance."""
+"""2026-10-25: virtual forearm joint names are now palm_base_*; physical axes unchanged.
+
+Portable frozen scene: MJCF/assets, named reset state and provenance."""
 import hashlib
 import json
 from pathlib import Path
@@ -90,12 +92,16 @@ def export_scene(output, *, gravity_compensation=True, control_timestep=.05, phy
             "piano_joints": [j.full_identifier for j in env.task.piano.joints],
             "key_activation_fraction": float(_KEY_ACTIVATION_FRACTION), "hands": hands,
             "source_pose": {
-                "right_position": hand_consts.RIGHT_POSITION,
-                "left_position": hand_consts.LEFT_POSITION,
-                "right_ty": hand_consts.INITIAL_ANGLES_BY_SIDE['right']['forearm_ty'],
-                "left_ty": hand_consts.INITIAL_ANGLES_BY_SIDE['left']['forearm_ty'],
-                "right_yaw": hand_consts.INITIAL_ANGLES_BY_SIDE['right']['forearm_yaw'],
-                "left_yaw": hand_consts.INITIAL_ANGLES_BY_SIDE['left']['forearm_yaw'],
+                "contract": "initial_palm_base_world_xyz_v1",
+                "world_position_unit": "m",
+                "right_mount_world_xyz_m": hand_consts.RIGHT_POSITION,
+                "left_mount_world_xyz_m": hand_consts.LEFT_POSITION,
+                "right_initial_world_xyz_m": hands['right']['position'],
+                "left_initial_world_xyz_m": hands['left']['position'],
+                "palm_base_slide_axes_world": {"tx": [0, 1, 0], "ty": [-1, 0, 0], "tz": [0, 0, 1]},
+                **{side + '_initial_palm_base_joint_q': {
+                    name: hand_consts.INITIAL_ANGLES_BY_SIDE[side][name]
+                    for name in hand_consts.PALM_BASE_DOFS} for side in ('right', 'left')},
             },
             "source_hashes": {},
             "limitations": ["V32-02 virtual wrist", "V32-04/05 provisional drive limits",
@@ -145,9 +151,12 @@ def export_scene(output, *, gravity_compensation=True, control_timestep=.05, phy
 
 
 class SceneBundle:
-    def __init__(self, directory, *, disable_wrist_tz=False, disable_wrist_yaw=False, self_collision_detection_only=False, hand_collision_detection_only=False, preparation=None, arm_follow=None):
+    def __init__(self, directory, *, disable_wrist_tz=False, disable_wrist_yaw=False, self_collision_detection_only=False, hand_collision_detection_only=False, preparation=None, arm_follow=None, preparation_context=None):
         from .preparation import options
         self.preparation_options = options(preparation)
+        first_note = (self.preparation_options or {}).get('mode') == 'first_note_v1'
+        if first_note and (arm_follow is not None or not disable_wrist_tz or not disable_wrist_yaw):
+            raise ValueError('First-note preparation requires hand-only fixed TZ/Yaw')
         self.preparation = self.preparation_trace = None
         self.directory = Path(directory).resolve()
         self.manifest = json.loads((self.directory / "manifest.json").read_text())
@@ -169,10 +178,10 @@ class SceneBundle:
         self.disable_wrist_tz = disable_wrist_tz
         self.fixed_joint_values = {}
         if disable_wrist_tz:
-            self.fixed_joint_values.update({'right_/forearm_tz': 0., 'left_/forearm_tz': 0.})
+            self.fixed_joint_values.update({'right_/palm_base_tz': 0., 'left_/palm_base_tz': 0.})
         if disable_wrist_yaw:
             for side in ('right', 'left'):
-                name = f'{side}_/forearm_yaw'
+                name = f'{side}_/palm_base_yaw'
                 self.fixed_joint_values[name] = self.manifest['qpos'][self.manifest['joint_names'].index(name)]
         removed_actions = ({22,47} if disable_wrist_tz else set()) | ({24,49} if disable_wrist_yaw else set())
         self.active_action_indices = np.array([i for i in range(50)
@@ -187,7 +196,7 @@ class SceneBundle:
             xml = ET.parse(self.directory / 'scene.xml').getroot()
             if disable_wrist_yaw:
                 for body in xml.iter('body'):
-                    yaw = next((j for j in body.findall('joint') if j.get('name', '').endswith('/forearm_yaw')), None)
+                    yaw = next((j for j in body.findall('joint') if j.get('name', '').endswith('/palm_base_yaw')), None)
                     if yaw is None:
                         continue
                     joints = body.findall('joint')
@@ -217,7 +226,7 @@ class SceneBundle:
                         parent.remove(node)
             if len(removed) != 2 * len(removed_actions):
                 raise ValueError('Unexpected number of removed wrist joints/actuators')
-            if self.preparation_options is not None:
+            if self.preparation_options is not None and not first_note:
                 from .preparation import wrap_hands
                 wrap_hands(xml, self.manifest)
             assets = {name: (self.directory/name).read_bytes() for name in self.manifest['files']
@@ -291,7 +300,12 @@ class SceneBundle:
         if self.preparation_options is not None:
             from .preparation import generate, is_policy, policy_initial
             prepare = policy_initial if is_policy(self.preparation_options) else generate
-            self.preparation, self.preparation_trace, terminal = prepare(self, self.preparation_options)
+            if first_note:
+                from .first_note_preparation import generate as prepare_first_note
+                self.preparation, self.preparation_trace, terminal = prepare_first_note(
+                    self, self.preparation_options, preparation_context)
+            else:
+                self.preparation, self.preparation_trace, terminal = prepare(self, self.preparation_options)
             for name, value in terminal.items():
                 setattr(self, 'reset_'+name, value)
         if arm_follow is not None:

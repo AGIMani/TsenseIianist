@@ -1,0 +1,24 @@
+{
+  "keys": 88,
+  "white_keys": 52,
+  "black_keys": 36,
+  "nominal_travel_mm": {
+    "white": 12,
+    "black": 10
+  },
+  "joint_max_rad": {
+    "white": 0.07982998571223732,
+    "black": 0.11065722117389565
+  },
+  "joint_max_deg": {
+    "white": 4.573921259900861,
+    "black": 6.34019174590991
+  },
+  "activation_fraction": 1,
+  "continuous_reward_full_fraction": 0.95,
+  "boundary_checks": "passed",
+  "actuator_ranges": "passed",
+  "steps": 20,
+  "warnings": 0,
+  "mujoco_version": "3.13.0"
+}

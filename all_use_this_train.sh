@@ -1,18 +1,27 @@
 #!/usr/bin/env bash
 # 统一默认训练入口（更新2026-10-10）：后续训练参数只在本脚本维护。
+# 2026-10-25：初始位置追加参数统一为世界XYZ（米）；world_x=.16等价原Ty=.02。
+# palm_base_*统一替代虚拟forearm_*；Palm_Base_Yaw仍是关节角rad，不是世界欧拉角。
 # 用法：bash all_use_this_train.sh [--dependency afterok:JOB_ID] [--kill-on-invalid-dep] [--source-archive PATH --source-sha256 SHA] [训练参数...]
 # 默认S4基础＋全手跨手碰撞；按键paper公式、和弦放大关闭，从头训练。
 # 2026-10-06：目标超限惩罚，手指20/400、腕3/15；腕Pitch硬目标限制3.1416/15.708。
-# 同手每对每物理子步-.1累加，整项每控制步最多-5；独立误触项关闭（保留未启用weight=-.05）、闲指（当前及未来20步均未用指）目标L1=-.02×Σ|q-q_reset|；按键与指法按原谱物理子步评分，当前目标与未来预告分开；其余项保留原合同。
+# 同手每对每物理子步-.1累加，整项每控制步最多-5；独立误触项关闭（保留未启用weight=-.05）、闲指（当前及未来20步均未用指）目标L1=-.008×Σw_j|q-q_reset|，八指SW权重.5；按键与指法按原谱物理子步评分，当前目标与未来预告分开；其余项保留原合同。
 # 例：bash all_use_this_train.sh --actor-lr 0.0001 --seed 43
 # 自动通过 submit.sh 申请双卡 Slurm；cuda:0采样，cuda:1学习，单批流水重叠。
 # 保持512环境、batch1024、每512条经验128次更新；不通过减少学习量提速。
 # 当前训练源码固定于下方双侧新手模型归档；修改工作区Python后须更新归档及SHA。
-# tsensei_collision_v1：每个200Hz物理子步采样左右手任意部位接触；20Hz控制步共10个子步，
-# 每个接触子步-.05，整步最多-.5，周期末forward不重复计入。
+# 2026-10-25：first_note_v1先真实物理悬停再学习；准备不占学习预算、不裁剪实际轨迹。
+# 曲尾完整回放先松指再物理回原始手位；ending-time=2为最短回程，另加松指/稳定段，不进SAC经验。
+# 2026-10-25：双侧初始Palm_Base_Ty=0.020m（向演奏者后退20mm），缩短首音准备路程；不改Ty行程，未消除起步瞬态。
+# 2026-10-25：默认土耳其进行曲原始时值＋A3.2全曲重复/静态成功保护候选（拇指312音）；TZ仍关闭，未启动训练。
+# 沿用本曲已批准1000Hz；当前物理演奏/无碰撞验收未通过，不把静态规划视为成功。
+# replay-capacity=300万容纳整曲512环境预填充；总向量步22402补足新增2870预填充步。
+# 预填充后17947个学习步/2297216次更新，与此前19532步、1585步预填充相同。
+# tsensei_collision_v1：1000Hz物理、20Hz控制，每步50子步；每接触子步-.01，整步最多-.5。
 # 修改算法源码时需另行验证并更新归档及SHA；当前奖励JSON用项目绝对路径传入。
 # 自定义本地 MIDI/JSON 建议传绝对路径，避免误用归档内同名文件。
-# 2026-10-22：无臂双侧Palm_Base_Pitch为0～0.5rad，归档模型/动作范围一致，range-scale=1。
+# 2026-10-26：无臂双侧Palm_Base_Pitch为−0.5～0.5rad，归档模型/动作范围一致，range-scale=1。
+# 2026-10-26：按侧接触100%激活琴键时罚实际掌根Y横移；0.01m/s容忍、0.10m/s满罚、独立最多−0.5/控制步；默认JSON开启。
 # 当前奖励与耦合开关详见 docs/reward_defaults_20261006.md。
 set -euo pipefail
 ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
@@ -71,9 +80,38 @@ for argument in "$@"; do
     break
   fi
 done
+# Fail unsupported first-note combinations before requesting GPUs. Later
+# command-line options retain their normal last-value-wins semantics.
+preparation_python="$ROOT/training_mjlab/.venv/bin/python"
+[[ -x "$preparation_python" ]] || preparation_python=python3
+"$preparation_python" - "$@" <<'PY_PREFLIGHT'
+import argparse,sys,math
+from tsensei_v3_2_pianist.initial_world_pose import add_arguments, reject_legacy_pose_arguments, validate, DEFAULT_WORLD_POSE
+p=argparse.ArgumentParser(add_help=False)
+add_arguments(p, dict(world_x=.16, world_z=.09, palm_base_yaw=.2617993877991494))
+reject_legacy_pose_arguments(sys.argv[1:], p)
+p.add_argument('--preparation-mode',default='first_note_v1')
+p.add_argument('--preparation-time',type=float,default=2.)
+p.add_argument('--ending-time',type=float,default=2.)
+p.add_argument('--arms',action=argparse.BooleanOptionalAction,default=False)
+p.add_argument('--disable-wrist-tz',action=argparse.BooleanOptionalAction,default=True)
+p.add_argument('--disable-wrist-yaw',action=argparse.BooleanOptionalAction,default=True)
+p.add_argument('--finger-coupling',action=argparse.BooleanOptionalAction,default=True)
+p.add_argument('--action-profile',default='direct_joint_v1')
+a,_=p.parse_known_args(sys.argv[1:])
+try:
+    validate({key: getattr(a, key) for key in DEFAULT_WORLD_POSE})
+except ValueError as error:
+    p.error(str(error))
+if not math.isfinite(a.ending_time) or a.ending_time<0 or (a.ending_time and (a.preparation_mode!='first_note_v1' or a.preparation_time<=0)):
+    p.error('Ending requires first_note_v1 preparation; explicitly use --ending-time 0 to disable')
+if a.preparation_mode=='first_note_v1' and a.preparation_time>0:
+    if a.arms or not a.disable_wrist_tz or not a.disable_wrist_yaw or not a.finger_coupling or a.action_profile!='direct_joint_v1':
+        p.error('first_note_v1 requires hand-only direct_joint_v1, fixed TZ/Yaw and coupling; explicitly choose --preparation-time 0 for unsupported combinations')
+PY_PREFLIGHT
 # 2026-10-22恢复exper031腕驱动：Tx/Ty=300/34.15259872981849/±50N；Pitch=8/0.5/±5Nm。
-training_archive="$ROOT/logs/black_key_model_20261023/source_black_key_shape_v1.tar.gz"
-training_archive_sha=1951eb00657ad1a82a8bc7092f6274dcf4607f26746cc4dfa4d936f89761dd84
+training_archive="$ROOT/logs/key_hold_lateral_20261026/source_key_hold_lateral_v1.tar.gz"
+training_archive_sha=a3668ebb939292e08e93e5627d5b9c5d14243242e759ddb379c8e7d2c5808e88
 if [[ -n "$requested_archive" || -n "$requested_archive_sha" ]]; then
   [[ -n "$requested_archive" && -n "$requested_archive_sha" ]] || { echo 'Explicit source override requires both --source-archive and --source-sha256' >&2; exit 2; }
   training_archive="$requested_archive"
@@ -92,10 +130,12 @@ for argument in "$@"; do
   fi
 done
 exec bash "$ROOT/scripts/hpc/submit.sh" --gpus 2 "${submission_options[@]}" --source-archive "$training_archive" train \
-  --height 0.09 --ty 0.04 --yaw 0.2617993877991494 \
-  --control-hz 20 --physics-hz 200 --lookahead 10 --frame-stack 1 \
-  --midi "$ROOT/training_mjlab/inputs/prelude_bwv847/candidate_fingering/prelude-bwv-847_fingered.proto" --initial-buffer-time 0 \
+  --world-x 0.16 --right-world-y 0.15 --left-world-y -0.15 --world-z 0.09 \
+  --palm-base-yaw 0.2617993877991494 \
+  --control-hz 20 --physics-hz 1000 --lookahead 10 --frame-stack 1 \
+  --midi "$ROOT/training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/turkish-march-advanced_fingered.proto" --initial-buffer-time 0 \
   --score-validation strict_v1 --release-tail-time 0.25 --exact-note-timing \
+  --preparation-mode first_note_v1 --preparation-time 2 --preparation-lift 0 --ending-time 2 \
   --gravity-compensation --action-reward-observation \
   --task-profile tsensei_collision_v1 --collision-profile convex_hull_v1 --drive-profile shadow_v1 \
   "${arm_scene_flags[@]}" "${arm_action_flags[@]}" \
@@ -104,7 +144,7 @@ exec bash "$ROOT/scripts/hpc/submit.sh" --gpus 2 "${submission_options[@]}" --so
   --device cuda:0 --collector-devices cuda:0 --learner-device cuda:1 --collector-pipeline \
   --stage 1 --seed 42 --actor-hidden 256 256 256 --discount 0.80 --init-temperature 0.5 \
   --actor-lr 0.0003 --critic-lr 0.0003 --temp-lr 0.0003 \
-  --num-envs 512 --vector-steps 19532 --replay-capacity 2000000 --batch-size 1024 \
+  --num-envs 512 --vector-steps 22402 --replay-capacity 3000000 --batch-size 1024 \
   --warmup-transitions 9999 --learning-start-transitions 10000 --updates-per-transition 0.25 \
   --replay-prefill-episodes 1 \
   --eval-at-start --eval-interval 500 --eval-episodes 3 --eval-num-envs 3 \

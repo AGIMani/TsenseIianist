@@ -141,10 +141,13 @@ def plot_comparison(args, output, config_path, report_path, report, exported, re
         ax.set_ylim(min(pitches)-2, max(pitches)+2); ax.set_xlim(0, end)
         ax.axvspan(0, offset, color='#d5dae1', alpha=.4)
         ax.axvline(offset, color='#64748b', ls='--', lw=.8)
+        if report.get('ending_seconds',0):
+            ax.axvspan(end-report['ending_seconds'],end,color='#c6e6d4',alpha=.4)
+            ax.axvline(end-report['ending_seconds'],color='#15803d',ls='--',lw=.8)
         ax.grid(alpha=.15)
     axes[1].legend(handles=[Patch(color='#159f73', label='Expected key active'), Patch(color='#ea6d24', label='Extra / early / late key')], loc='upper right')
     axes[2].legend(handles=[Patch(color='#617fe5', label='Missing / late onset / early release'), Patch(color='#ea6d24', label='Unexpected activation')], loc='upper right')
-    axes[-1].set_xlabel('Original replay time (seconds), including preparation')
+    axes[-1].set_xlabel('Original replay time (seconds), including preparation and return to original pose')
     f1 = 2*tp/max(2*tp+fp+fn, 1)
     fig.suptitle(f'{args.label} | same single replay | {1/dt:g} Hz actual keys | original MIDI offset +{offset:g} s\n'
                  f'Physical-sample micro-F1 = {f1:.4f} | source leading silence {provenance.get("source_trim_origin_seconds",0):g} s removed | video 1x, no crop', fontsize=13)
@@ -155,6 +158,7 @@ def plot_comparison(args, output, config_path, report_path, report, exported, re
                     config_sha256=sha(config_path), embedded_proto_sha256=hashlib.sha256(raw).hexdigest() if raw else None,
                     recording_report_sha256=sha(report_path), audio_substeps_sha256=sha(audio_path),
                     reference_provenance=provenance, original_note_count=len(reference),
+                    ending_seconds=report.get('ending_seconds',0.), ending_report=report.get('ending'),
                     sample_hz=1/dt, samples=len(time), duration_seconds=end, music_offset_seconds=offset,
                     actual_source='Recorded physical key positions with model limits and activation threshold; no policy rerun',
                     sample_time='Post-physics-step: (i+1)*dt; intervals use sample-and-hold to next sample',

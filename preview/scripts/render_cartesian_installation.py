@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# 2026-10-25: External initial positions use world-frame metres; yaw is the palm-base joint angle in radians.
 """Slurm-only static frames of the current rigid assembly and actual IK updates.
 
 This is a controller-component demonstration, not a policy or physics replay.
@@ -16,11 +17,14 @@ import sys
 
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__)
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+    from tsensei_v3_2_pianist.initial_world_pose import (
+        add_arguments as add_pose_arguments, reject_legacy_pose_arguments, WORLD_POSE_CONTRACT)
     p.add_argument('--root', type=Path, default=Path.cwd())
     p.add_argument('--output', type=Path, required=True)
     p.add_argument('--font', type=Path, required=True)
     p.add_argument('--ik-backend', choices=('torch', 'numba_cpu'), default='torch')
-    p.add_argument('--yaw', type=float, default=0.5235987755982988)
+    add_pose_arguments(p)
     p.add_argument('--scene-realtime', action='store_true', help='Pace four XYZ cycles including scene update before rendering')
     p.add_argument('--realtime-clock', choices=('sleep','pinned_busy'), default='sleep')
     p.add_argument('--realtime-seconds', type=int, default=56)
@@ -29,6 +33,7 @@ def main(argv=None):
     p.add_argument('--pin-cpu-index', type=int, default=0)
     p.add_argument('--single-thread-pools', action='store_true')
     p.add_argument('--video', action='store_true', help='Render an XYZ controller demonstration instead of static frames')
+    reject_legacy_pose_arguments(sys.argv[1:] if argv is None else argv, p)
     args = p.parse_args(argv)
     if not os.environ.get('SLURM_JOB_ID'):
         raise RuntimeError('Render through scripts/hpc/submit.sh in a Slurm allocation')
@@ -59,14 +64,20 @@ def main(argv=None):
         if not k.endswith("_Pitch")}
     recipe = config['source_runtime']
     # This is explicitly a new workspace diagnostic config, never a migrated
-    # checkpoint. Keep the saved installation and apply the current entry pose.
-    recipe['pose']['yaw'] = args.yaw
+    # checkpoint. Re-express the template's old height=.10/Ty=.04 position
+    # as world X=.14/Z=.10, then apply explicitly requested world coordinates.
+    recipe['pose'] = dict(world_x=args.world_x, world_z=args.world_z,
+                          right_world_y=args.right_world_y, left_world_y=args.left_world_y,
+                          palm_base_yaw=args.palm_base_yaw)
+    recipe['pose_contract'] = WORLD_POSE_CONTRACT
     recipe['model']['wrist_pitch_range_scale'] = 1.0
     recipe['source_sha256'] = source_runtime.source_files()
     recipe['versions'] = source_runtime.dependency_versions()
     config['diagnostic_provenance'] = {
         'purpose': 'new current-workspace geometry/IK demonstration; no checkpoint',
-        'overrides_from_all_use_this_train_sh': {'yaw': args.yaw, 'wrist_pitch_range_scale': 1.0},
+        'initial_world_pose': recipe['pose'],
+        'pose_origin': 'fresh diagnostic from dated template; old height/Ty re-expressed as world coordinates; no checkpoint migration',
+        'overrides': {'wrist_pitch_range_scale': 1.0},
         'fingerprints': 'new workspace source/dependencies, not a historical replay',
     }
     config['arm_follow']['execution_backend'] = args.ik_backend
@@ -102,7 +113,7 @@ def main(argv=None):
               'realtime_seconds': args.realtime_seconds,
               'benchmark_only': args.benchmark_only, 'latency_profile':args.latency_profile,
               'pin_cpu_index':args.pin_cpu_index, 'single_thread_pools':args.single_thread_pools,
-              'execution_backend': args.ik_backend, 'yaw_rad': args.yaw}
+              'execution_backend': args.ik_backend, 'palm_base_yaw_rad': args.palm_base_yaw}
 
     def publish():
         for side, (positions, rotations) in follower.transforms().items():

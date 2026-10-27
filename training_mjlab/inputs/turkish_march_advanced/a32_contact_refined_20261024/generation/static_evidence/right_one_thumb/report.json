@@ -1,0 +1,424 @@
+{
+  "kind": "exact_onset_static_contact_pose_bank_v3_finite_mesh_top",
+  "pid": 1333695,
+  "script_sha256": "ca22ea54da2c3447b3d06c44cfb1fe1c0274a11821b8d988a2bdd1a086b2cba1",
+  "source_fingering": "/home/houj/projects/pianist_turkish_hand_20261024/task_outputs/hard_contact_banks_v1/right_one_thumb_research_only.csv",
+  "source_fingering_sha256": "867965d206cd85a46803134185ac7307738a576eab1113fadea1eb7fedc56288",
+  "source_geometry_sha256": "7a6b38af0dce0f4fe451eda133c2771d80d3044914328e7a3524192d8573a04c",
+  "scene_manifest_sha256": "a7e8d0ca58c2ee2a47a9db457eaf1ad817b381567a454dd9e1d0613ead26f95a",
+  "arguments": {
+    "output": "task_outputs/hard_contact_banks_v1/right_one_thumb",
+    "fingering": "task_outputs/hard_contact_banks_v1/right_one_thumb_research_only.csv",
+    "geometry": "task_outputs/geometry/model_geometry.json",
+    "scene": "task_outputs/geometry/scene",
+    "end": 192.5,
+    "start": 192.5,
+    "cpu_budget": 30.0,
+    "node_cpu_budget": 30.0,
+    "max_nfev": 180,
+    "target_penetration": 0.0005,
+    "tz_max": 0.0,
+    "wrist_regularization": 0.02,
+    "previous_bank": "task_outputs/hard_contact_banks_v1/right_one_thumb_seed.npz"
+  },
+  "original_tz_bounds": {
+    "22": [
+      -0.025,
+      0.0
+    ],
+    "47": [
+      -0.025,
+      0.0
+    ]
+  },
+  "requested_onsets": 1,
+  "completed_onsets": 1,
+  "all_requested_onsets_completed": true,
+  "cpu_seconds": 9.414520909,
+  "wall_seconds": 9.41695397393778,
+  "all_assigned_contact_onsets": 1,
+  "poses": [
+    {
+      "time_seconds": 192.5,
+      "notes": [
+        {
+          "index": 1285,
+          "pitch": 73,
+          "finger": 0,
+          "start": 192.5,
+          "end": 192.97395833333334
+        },
+        {
+          "index": 1286,
+          "pitch": 76,
+          "finger": 1,
+          "start": 192.5,
+          "end": 192.97395833333334
+        },
+        {
+          "index": 1287,
+          "pitch": 81,
+          "finger": 3,
+          "start": 192.5,
+          "end": 192.97395833333334
+        },
+        {
+          "index": 1288,
+          "pitch": 85,
+          "finger": 4,
+          "start": 192.5,
+          "end": 193.49895833333332
+        }
+      ],
+      "assigned_contact_count": 4,
+      "assigned_count": 4,
+      "all_assigned_contact": true,
+      "terminal_geom_distance_m": [
+        -0.0004785096756456173,
+        -0.00046609900063058644,
+        -0.000613332882642541,
+        -0.0004531794588041122
+      ],
+      "raw_terminal_geom_distance_m": [
+        -0.0004785096756456181,
+        -0.00046609900063058644,
+        -0.000613332882642541,
+        -0.00045317945880411043
+      ],
+      "distance_sources": [
+        "native_top_contact",
+        "native_top_contact",
+        "native_top_contact",
+        "native_top_contact"
+      ],
+      "native_assigned_terminal_contacts": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "terminal_lowest_to_selected_depressed_top_residual_m": [
+        0.00010704915178633412,
+        0.0010132836761136657,
+        0.0001590587846453244,
+        0.00010355018902568445
+      ],
+      "terminal_lowest_xyz": [
+        [
+          0.009306867148548746,
+          0.11554310520104387,
+          0.025206500830297008
+        ],
+        [
+          -0.03662642662059209,
+          0.1541450693528733,
+          0.018998468574621494
+        ],
+        [
+          -0.0248262438163183,
+          0.22392042708977067,
+          0.01790674967128
+        ],
+        [
+          0.008959154065717687,
+          0.28025763928602376,
+          0.02527062171391349
+        ]
+      ],
+      "terminal_lowest_key_local": [
+        [
+          0.038878851304481675,
+          0.00010486990692630536,
+          0.008521490079558755
+        ],
+        [
+          -0.03736653911221424,
+          0.0010127164116968677,
+          0.010783900999369411
+        ],
+        [
+          -0.025516877236777473,
+          0.00011160356035888606,
+          0.010636667117357458
+        ],
+        [
+          0.03852618396009163,
+          -9.236071397622501e-05,
+          0.008546820296464855
+        ]
+      ],
+      "selected_top_xyz": [
+        [
+          0.00935970972930502,
+          0.11543823529411756,
+          0.025682084057103528
+        ],
+        [
+          -0.036589257452180966,
+          0.15313235294117644,
+          0.019463083179760483
+        ],
+        [
+          -0.02477733344925856,
+          0.22380882352941178,
+          0.01851812925952669
+        ],
+        [
+          0.009009199391965213,
+          0.28035,
+          0.025721029650141284
+        ]
+      ],
+      "support_xyz": [
+        [
+          0.0018360040815201747,
+          0.11581853062565371,
+          0.02911956470728084
+        ],
+        [
+          -0.03644496604289558,
+          0.1526484368902669,
+          0.019153869298162117
+        ],
+        [
+          -0.025039463680128667,
+          0.22260166561903572,
+          0.01802863408172738
+        ],
+        [
+          0.009732043052953561,
+          0.2817589330999247,
+          0.025326181037094008
+        ]
+      ],
+      "task_tip_xyz": [
+        [
+          0.00444895590159353,
+          0.11709950979021021,
+          0.02984865672201389
+        ],
+        [
+          -0.03465973686236281,
+          0.1533448855805479,
+          0.02146209718872668
+        ],
+        [
+          -0.02309592924295929,
+          0.22270415096915452,
+          0.020311651962635843
+        ],
+        [
+          0.010845821854429897,
+          0.2807611435227021,
+          0.027926933378430607
+        ]
+      ],
+      "collisions": {
+        "non_target_key": [
+          {
+            "geoms": [
+              "piano/black_key_geom_54",
+              "right_/right_hand_index_DIP_link_collision_0"
+            ],
+            "distance_m": -0.00014077841430080475,
+            "position_xyz": [
+              -0.034789058223052505,
+              0.14907202428200472,
+              0.0271934262002553
+            ]
+          },
+          {
+            "geoms": [
+              "piano/black_key_geom_59",
+              "right_/right_hand_ring_DIP_link_collision_0"
+            ],
+            "distance_m": -4.9463667268671236e-05,
+            "position_xyz": [
+              -0.013432616899299345,
+              0.2170047460746383,
+              0.03499819065962456
+            ]
+          }
+        ],
+        "same_hand_other_finger_or_palm": [],
+        "cross_hand": [],
+        "target_key_allowed": [
+          {
+            "geoms": [
+              "piano/black_key_geom_52",
+              "right_/right_hand_thumb_PIP_link_collision_0"
+            ],
+            "distance_m": -0.0004785096756456173,
+            "position_xyz": [
+              0.00933328842545386,
+              0.11554310520104388,
+              0.025444292322046234
+            ],
+            "key_local_position": [
+              0.038878851304525494,
+              0.00010486990692631924,
+              0.008760744917381564
+            ],
+            "key_top_normal_alignment": 0.9999999999999999,
+            "assigned_terminal_contact": true,
+            "top_x_boundary_clearance_m": 0.006121148695474504,
+            "top_y_boundary_clearance_m": 0.004895130093073681,
+            "top_surface_contact": true
+          },
+          {
+            "geoms": [
+              "piano/white_key_geom_55",
+              "right_/right_hand_index_DIP_link_collision_0"
+            ],
+            "distance_m": -0.00046609900063058644,
+            "position_xyz": [
+              -0.03660784203638653,
+              0.1541450693528733,
+              0.01923077587719099
+            ],
+            "key_local_position": [
+              -0.03736653911221424,
+              0.0010127164116968677,
+              0.011016950499684706
+            ],
+            "key_top_normal_alignment": 1.0,
+            "assigned_terminal_contact": true,
+            "top_x_boundary_clearance_m": 0.037633460887785755,
+            "top_y_boundary_clearance_m": 0.010237283588303132,
+            "top_surface_contact": true
+          },
+          {
+            "geoms": [
+              "piano/white_key_geom_60",
+              "right_/right_hand_ring_DIP_link_collision_0"
+            ],
+            "distance_m": -0.000613332882642541,
+            "position_xyz": [
+              -0.024801788632788438,
+              0.22392042708977067,
+              0.018212439465403345
+            ],
+            "key_local_position": [
+              -0.02551687723677748,
+              0.00011160356035888606,
+              0.010943333558678728
+            ],
+            "key_top_normal_alignment": 1.0,
+            "assigned_terminal_contact": true,
+            "top_x_boundary_clearance_m": 0.04948312276322252,
+            "top_y_boundary_clearance_m": 0.011138396439641114,
+            "top_surface_contact": true
+          },
+          {
+            "geoms": [
+              "piano/black_key_geom_64",
+              "right_/right_hand_pinky_DIP_link_collision_0"
+            ],
+            "distance_m": -0.0004531794588041122,
+            "position_xyz": [
+              0.008984176715369692,
+              0.2802576392860239,
+              0.025495825560405715
+            ],
+            "key_local_position": [
+              0.03852618396013313,
+              -9.236071397611399e-05,
+              0.008773410025866917
+            ],
+            "key_top_normal_alignment": 1.0,
+            "assigned_terminal_contact": true,
+            "top_x_boundary_clearance_m": 0.006473816039866867,
+            "top_y_boundary_clearance_m": 0.004907639286023886,
+            "top_surface_contact": true
+          }
+        ],
+        "other_contact": []
+      },
+      "collision_max_penetration_m": {
+        "non_target_key": 0.00014077841430080475,
+        "same_hand_other_finger_or_palm": 0.0,
+        "cross_hand": 0.0,
+        "target_key_allowed": 0.000613332882642541,
+        "other_contact": 0.0
+      },
+      "action": [
+        0.9196677207946777,
+        0.8889561891555786,
+        0.2503444254398346,
+        0.07264199107885361,
+        0.8244841694831848,
+        -0.34956052899360657,
+        0.3459840714931488,
+        0.17704984545707703,
+        0.1668892502784729,
+        1.0148562203685053e-15,
+        0.3372441232204437,
+        0.17938287556171417,
+        0.7662713527679443,
+        -0.23030145466327667,
+        0.36656785011291504,
+        0.1931321620941162,
+        0.7167339324951172,
+        0.2619650959968567,
+        0.38961562514305115,
+        0.213344007730484,
+        0.036715853959321976,
+        0.04442956671118736,
+        0.0,
+        0.23352573812007904,
+        0.25,
+        1.1359295845031738,
+        0.4766489565372467,
+        0.241250142455101,
+        0.34598514437675476,
+        0.21577854454517365,
+        0.0,
+        0.3459840714931488,
+        0.17704984545707703,
+        0.1668892502784729,
+        0.0,
+        0.3372441232204437,
+        0.17938287556171417,
+        0.17413878440856934,
+        0.0,
+        0.36656785011291504,
+        0.1931321620941162,
+        0.4905414283275604,
+        0.010000390000641346,
+        0.38961562514305115,
+        0.213344007730484,
+        0.06176549196243286,
+        -0.019462749361991882,
+        0.0,
+        0.5,
+        0.25,
+        0.0
+      ],
+      "coupling_error_deg": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "objective": 1.9416957187398416e-05,
+      "fk_evaluations": 5261,
+      "solver_statuses": [
+        0,
+        3
+      ]
+    }
+  ],
+  "limitations": [
+    "Scratch key qpos at maximum angle only creates contact targets. No key is physically pressed by this study.",
+    "Terminal mesh minimum in the rotated key frame targets a research penetration, not a calibrated force command. Raw geomDistance is diagnostic only.",
+    "Robot actions are coupled static candidates; neither joint dynamics nor interpolation/path collision or speed feasibility is certified.",
+    "Original MIDI timings/finger assignments and training reward points are unchanged. Native collision exclusions apply.",
+    "Confirmed contact requires the native terminal/key pair, contact normal dot key-top normal >=0.7, contact point within 2mm of the true rotated top face, X boundary clearance >=5mm, Y boundary clearance >=0.5mm.",
+    "Unconfirmed nonpositive geomDistance uses a positive support-to-rotated-top optimization proxy, not an exact surface distance. Raw values and sources are recorded; MuJoCo upstream issue 3383.",
+    "TZ above zero, if enabled, is a separately authorized hypothetical range; default bank keeps TZ zero."
+  ]
+}

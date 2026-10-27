@@ -1,6 +1,8 @@
-# Turkish March：当前 A3.2 训练指法
+2026-10-25 当前默认为 [A3.2全曲重复小节与静态成功保护候选](a32_repeat_static_guarded_20261025/README.md)，拇指312音（12.26%），原始2544音符非指法字段全部保持。统一入口已切换，初始Ty=.020m、Pitch0～.5rad、TZ关闭，未提交训练。完整222.474秒旧起点规划控制器F1=.14557，但碰撞比305基线增加，物理演奏验收仍未通过；新起点只完成独立准备段验收，详见[全曲研究](../../../docs/turkish_fullscore_20261025.md)。305和其他候选保留供对照。
 
-当前输入：`model_xy_1000hz_candidate/turkish-march-advanced_fingered.proto`。
+# Turkish March：2026-10-20历史训练指法
+
+该历史轮次输入：`model_xy_1000hz_candidate/turkish-march-advanced_fingered.proto`。
 原谱：`original.mid`，SHA256 `83707e4f40347d0a51402349a8ef8af7cf59c357656b50432591b3e8fceb88eb`。
 
 2026-10-20 用户明确选择保留原谱，采用 1000 Hz 物理仿真；控制仍为 20 Hz。2544 个音符的音高、起止时间、力度、轨道等全部与原始 MIDI 逐项核对一致，只改变 `NoteSequence.part` 指法。轨道 0 为右手（1460 音符），轨道 1 为左手（1084 音符）；右手 0–4、左手 5–9。4450 控制帧加 0.25 秒松键尾段，总计 4455 帧；控制网格无一指多键冲突。

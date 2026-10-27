@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# 2026-10-25: External initial positions use world-frame metres; yaw is the palm-base joint angle in radians.
 """Model-derived neutral fingertip XY fingering candidates; not dynamic reach certification."""
 import argparse, itertools, json, math, hashlib, csv, sys
 from pathlib import Path
@@ -11,7 +12,7 @@ def extract(score,out):
     from tsensei_v3_2_pianist.mjlab_env.action_mapping import physical_bounds
     from tsensei_v3_2_pianist.mjlab_env.finger_coupling import FingerCoupler
     from tsensei_v3_2_pianist.fingering_targets import target_position, target_for_key
-    recipe=make_recipe(height=.06,ty=.04,control_hz=20,physics_hz=1000,midi=str(score.resolve()),initial_buffer_time=0,release_tail_time=.25,score_validation='strict_v1',task_profile='tsensei_collision_v1',drive_profile='shadow_v1',exact_note_timing=True)
+    recipe=make_recipe(world_x=.14,world_z=.06,control_hz=20,physics_hz=1000,midi=str(score.resolve()),initial_buffer_time=0,release_tail_time=.25,score_validation='strict_v1',task_profile='tsensei_collision_v1',drive_profile='shadow_v1',exact_note_timing=True)
     scene,task,_=build(recipe); b=SceneBundle(scene,disable_wrist_tz=True,disable_wrist_yaw=True); d=b.reset_cpu()
     lo,hi=physical_bounds('direct_joint_v1',b.manifest['action_names'],b.low,b.high)
     opts=dict(schema=1,mode='distal_angle_range_v1',angle_ranges_deg=json.loads((ROOT/'configs/finger_coupling/angle_ranges_60_80.json').read_text()),reduce_observation=False)

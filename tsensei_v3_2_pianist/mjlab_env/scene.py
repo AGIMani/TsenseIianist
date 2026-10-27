@@ -1,3 +1,4 @@
+# 2026-10-25: Virtual palm_base naming unified; axis values and order unchanged.
 """Batched MJLab Simulation adapter for the frozen, complete piano scene.
 
 This is a physical scene API, not an RL environment: no music reward, termination
@@ -27,6 +28,27 @@ class ImportedMujocoCfg(MujocoCfg):
             raise ValueError("Frozen scene timestep mismatch")
 
 
+class InitializedArmSimulation(Simulation):
+    """Upload the resolved rigid-arm state before MJLab allocates contacts.
+
+    The installed MJLab Simulation has no public initial-data argument. Keep
+    this adapter limited to its single-model initialization hook; never change
+    the dependency, model defaults, contact capacity or collision filters.
+    """
+    def __init__(self, *, initial_data, **kwargs):
+        self._resolved_initial_data = initial_data
+        super().__init__(**kwargs)
+
+    def _init_with_model(self, model):
+        self._mj_model = model
+        self._mj_data = self._resolved_initial_data
+        mujoco.mj_forward(model, self._mj_data)
+        with wp.ScopedDevice(self.wp_device):
+            self._wp_model = mjwarp.put_model(model)
+            self.cfg.apply_wp_opt(self._wp_model.opt)
+            self._finish_init()
+
+
 class PianoScene:
     def __init__(self, directory, *, device='cuda:0', num_envs=1, physics_graph=True,
                  track_self_collision=False, collision_categories=(), ignored_body_pairs=(), action_profile='legacy', disable_wrist_tz=False, disable_wrist_yaw=False, self_collision_detection_only=False, hand_collision_detection_only=False, preparation=None, collision_diagnostics=False, control_limits=None, finger_clearance=None, finger_coupling=None, self_collision_substep_sum=False, arm_follow=None):
@@ -34,7 +56,7 @@ class PianoScene:
             raise ValueError("num_envs must be a positive integer")
         if not device.startswith('cuda') or not torch.cuda.is_available():
             raise RuntimeError('MJLab scene acceptance requires a CUDA device')
-        self.bundle = SceneBundle(directory, disable_wrist_tz=disable_wrist_tz, disable_wrist_yaw=disable_wrist_yaw, self_collision_detection_only=self_collision_detection_only, hand_collision_detection_only=hand_collision_detection_only, preparation=preparation, arm_follow=arm_follow)
+        self.bundle = SceneBundle(directory, disable_wrist_tz=disable_wrist_tz, disable_wrist_yaw=disable_wrist_yaw, self_collision_detection_only=self_collision_detection_only, hand_collision_detection_only=hand_collision_detection_only, preparation=preparation, arm_follow=arm_follow, preparation_context=dict(action_profile=action_profile, finger_coupling=finger_coupling, control_limits=control_limits))
         self.arm_follow_options = arm_follow
         self.arm_follower = None
         self.hand_collision_detection_only = hand_collision_detection_only
@@ -68,7 +90,9 @@ class PianoScene:
             with self.scope():
                 self.arm_collision_model = mjwarp.put_model(query_model)
         with self.scope():
-            self.sim = Simulation(num_envs=num_envs, model=physics_model, device=str(self.device),
+            simulation = InitializedArmSimulation if arm_follow is not None else Simulation
+            initial = {'initial_data': self.bundle.reset_cpu()} if arm_follow is not None else {}
+            self.sim = simulation(**initial, num_envs=num_envs, model=physics_model, device=str(self.device),
                                   cfg=SimulationCfg(mujoco=ImportedMujocoCfg(timestep=dt),
                                                     nconmax=1024, njmax=4096))
         self.self_query_model = self.self_query_data = None
@@ -82,7 +106,12 @@ class PianoScene:
                 for field in ('geom_xpos', 'geom_xmat', 'xpos', 'xquat', 'xmat'):
                     setattr(self.self_query_data, field, getattr(self.sim.wp_data, field))
         self.model = self.sim.mj_model
+        from .finger_resistance import BatchedResistance
+        with self.scope():
+            self.finger_resistance = BatchedResistance(self.sim.mj_model, self.sim.wp_model, self.sim.wp_data, num_envs, str(self.device))
         self.data = self.sim.data
+        with self.scope():
+            self.sim.create_graph()
         if query_model is not None:
             from .arm_collision import ArmCollisionTracker
             with self.scope():
@@ -256,7 +285,7 @@ class PianoScene:
                               self.bundle.preparation_options['lift']],device=str(self.device))
 
     def configure_reward_sampling(self, geom_pair_mask, *, collision_margin=0.0,
-                                  tip_ids=None, key_site_ids=None, key_offsets=None):
+                                  tip_ids=None, key_site_ids=None, key_offsets=None, key_hold_geom_ids=None):
         """Collect post-integration samples for key reward and diagnostics.
 
         Current rigid-wrist arm followers step alongside physics and use this
@@ -278,8 +307,11 @@ class PianoScene:
                     action_ids=self.bundle.action_ids, geom_pair_mask=geom_pair_mask,
                     collision_margin=collision_margin,
                     key_activation_fraction=self.bundle.manifest['key_activation_fraction'],
-                    tip_ids=tip_ids, key_site_ids=key_site_ids, key_offsets=key_offsets)
-                # Compile only read-only kernels before capture; never step physics.
+                    tip_ids=tip_ids, key_site_ids=key_site_ids, key_offsets=key_offsets,
+                    key_hold_model=self.model if key_hold_geom_ids is not None else None,
+                    key_hold_geom_ids=key_hold_geom_ids)
+                # Warm collector kernels before capture; never integrate physics.
+                self.reward_sampling.begin_control(self.sim)
                 self._sample_reward_substep(0)
                 self.reward_sampling.clear()
         self.control_graph = None
@@ -289,8 +321,14 @@ class PianoScene:
         # Euler leaves transforms at the pre-integration pose unless a hard
         # joint limiter/arm follower already refreshed them. Kinematics alone
         # refreshes post-step sites/geoms, without another contact solve/step.
-        if self.reward_sampling.fingertip_history is not None and self.joint_limiter is None and self.arm_follower is None:
+        if ((self.reward_sampling.fingertip_history is not None or self.reward_sampling.key_hold_lateral is not None)
+                and self.joint_limiter is None and self.arm_follower is None):
             mjwarp.kinematics(self.sim.wp_model, self.sim.wp_data)
+            if self.reward_sampling.key_hold_lateral is not None:
+                # Euler's solver contacts describe the pre-integration pose.
+                # Query the SAME main model at refreshed geometry without another
+                # integration/constraint solve or use of detection-only contacts.
+                mjwarp.collision(self.sim.wp_model, self.sim.wp_data)
         contact_data = self.self_query_data if self.hand_collision_detection_only else None
         if contact_data is not None and self.self_collision is None:
             mjwarp.collision(self.self_query_model, contact_data)
@@ -353,6 +391,7 @@ class PianoScene:
             with wp.ScopedCapture() as capture:
                 for substep in range(self.decimation):
                     self._advance_preparation(substep+1)
+                    self.finger_resistance.update()
                     mjwarp.step(self.sim.wp_model, self.sim.wp_data)
                     self._enforce_joint_limits()
                     if self.self_collision is not None:
@@ -465,9 +504,9 @@ class PianoScene:
             physical = self.physical_low.expand(*active.shape[:-1], 51).clone()
             physical[..., self.policy_ids] = active
             fixed_indices = {
-                'right_/forearm_tz': 22, 'left_/forearm_tz': 47,
-                'right_/forearm_pitch': 23, 'left_/forearm_pitch': 48,
-                'right_/forearm_yaw': 24, 'left_/forearm_yaw': 49,
+                'right_/palm_base_tz': 22, 'left_/palm_base_tz': 47,
+                'right_/palm_base_pitch': 23, 'left_/palm_base_pitch': 48,
+                'right_/palm_base_yaw': 24, 'left_/palm_base_yaw': 49,
             }
             for name, index in fixed_indices.items():
                 # Cartesian TZ is a live request even though its obsolete
@@ -611,6 +650,7 @@ class PianoScene:
                 self.key_contact_diagnostics.clear()
             if self.reward_sampling is not None:
                 self.reward_sampling.clear()
+                self.reward_sampling.begin_control(self.sim)
             if self.arm_collision_tracker is not None:
                 self.arm_collision_tracker.clear_step()
             if (self.arm_follower is None and self.arm_collision_tracker is None
@@ -637,6 +677,7 @@ class PianoScene:
                         self.arm_follower.step(self.arm_follower.requests(physical, times))
                         self.arm_follower.publish(self.data)
                         self.sim.forward()
+                    self.finger_resistance.update()
                     self.sim.step()
                     self._enforce_joint_limits()
                     if self.arm_follower is not None:

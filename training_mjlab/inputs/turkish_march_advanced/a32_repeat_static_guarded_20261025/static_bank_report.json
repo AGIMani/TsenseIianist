@@ -1,0 +1,150 @@
+{
+  "kind": "fullscore_static_contact_bank_v1",
+  "contract": {
+    "schema": "fullscore_static_native_top_v1",
+    "model_sha256": "920475c61dc0469779d9f64769c75044140163151461201609ec181a7509fd4f",
+    "archive_sha256": "1d4a67f15c796a849387ccc967c4960f4ee12d0b18bde2ff81f27a591c23d560",
+    "geometry_sha256": "7a6b38af0dce0f4fe451eda133c2771d80d3044914328e7a3524192d8573a04c",
+    "coupling": {
+      "schema": 1,
+      "mode": "distal_angle_range_v1",
+      "angle_ranges_deg": {
+        "right_index": [
+          10.0,
+          80.0
+        ],
+        "right_mid": [
+          10.0,
+          80.0
+        ],
+        "right_ring": [
+          10.0,
+          80.0
+        ],
+        "right_pinky": [
+          10.0,
+          80.0
+        ],
+        "left_index": [
+          10.0,
+          80.0
+        ],
+        "left_mid": [
+          10.0,
+          80.0
+        ],
+        "left_ring": [
+          10.0,
+          80.0
+        ],
+        "left_pinky": [
+          10.0,
+          80.0
+        ]
+      },
+      "reduce_observation": false
+    },
+    "target_penetration_m": 0.0005,
+    "active_axes": "Pinned MJB no TZ/Yaw; current physical bounds",
+    "idle_policy": "Inactive independent fingers fixed to neutral; pinky MCP/SW parked; followers recomputed",
+    "top_contract": "native terminal/key pair; normal>=.7; X margin5mm Ymargin.5mm Ztol2mm; all unwanted native contacts fail",
+    "bank_source_sha256": "1bfbb63c8344146946cc19d20d0fbe6f7482d4427e27126174dedbe1bf9fe777",
+    "contact_helper_sha256": "9d051f57d42ef8cd8f2ef6e3551a0e73b4cfdba5b84e1dfecd65de90723f3ff6",
+    "geometry_seed_code_sha256": "e5edad9f9cc027c441e87fa5d61bcf7da35b5809d095a6587c7584da1af824bf",
+    "metrics_helper_sha256": "dcc5d4e692102eb1919fd8ba6c88f240202b15e29502a5a7eb4400b8b961b67d",
+    "probe_sha256": "701135bb69e0d78982510a4153368fa5eaccb09b66ee20c47d030138f1860dc5"
+  },
+  "contract_sha256": "0425b5f9261eec09e0787de8142003ccca8776828dd158b75a7c5a9c0bd26c51",
+  "arguments": {
+    "fingering": "task_outputs/fingering_repeat_refined_v7/fingering.csv",
+    "geometry": "task_outputs/geometry/model_geometry.json",
+    "recording": "task_outputs/refine_exchange500_thumb200_build",
+    "output": "task_outputs/fullscore_static_repeat_v7",
+    "expected_model_sha256": "920475c61dc0469779d9f64769c75044140163151461201609ec181a7509fd4f",
+    "expected_archive_sha256": "1d4a67f15c796a849387ccc967c4960f4ee12d0b18bde2ff81f27a591c23d560",
+    "workers": 8,
+    "node_cpu_budget": 5.0,
+    "max_nfev": 60,
+    "penetration": 0.0005,
+    "seed_bank": [
+      "task_outputs/contact_bank_3s_v6_exchange500/report.json",
+      "task_outputs/hard_contact_banks_v1/right_one_thumb/report.json",
+      "task_outputs/hard_contact_banks_v1/left_one_thumb/report.json"
+    ],
+    "cache": [
+      "task_outputs/fullscore_static_305_v2",
+      "task_outputs/fullscore_static_repeat_v5",
+      "task_outputs/repetition_paired_success_cache",
+      "task_outputs/fullscore_static_repeat_v6"
+    ],
+    "retry_failed": false,
+    "max_groups": null
+  },
+  "command": [
+    "scripts/hpc/piano_fullscore_contact_bank.py",
+    "--fingering",
+    "task_outputs/fingering_repeat_refined_v7/fingering.csv",
+    "--geometry",
+    "task_outputs/geometry/model_geometry.json",
+    "--recording",
+    "task_outputs/refine_exchange500_thumb200_build",
+    "--expected-model-sha256",
+    "920475c61dc0469779d9f64769c75044140163151461201609ec181a7509fd4f",
+    "--expected-archive-sha256",
+    "1d4a67f15c796a849387ccc967c4960f4ee12d0b18bde2ff81f27a591c23d560",
+    "--output",
+    "task_outputs/fullscore_static_repeat_v7",
+    "--workers",
+    "8",
+    "--node-cpu-budget",
+    "5",
+    "--max-nfev",
+    "60",
+    "--cache",
+    "task_outputs/fullscore_static_305_v2",
+    "--cache",
+    "task_outputs/fullscore_static_repeat_v5",
+    "--cache",
+    "task_outputs/repetition_paired_success_cache",
+    "--cache",
+    "task_outputs/fullscore_static_repeat_v6",
+    "--seed-bank",
+    "task_outputs/contact_bank_3s_v6_exchange500/report.json",
+    "--seed-bank",
+    "task_outputs/hard_contact_banks_v1/right_one_thumb/report.json",
+    "--seed-bank",
+    "task_outputs/hard_contact_banks_v1/left_one_thumb/report.json"
+  ],
+  "pid": 2596059,
+  "hostname": "TenseiNode1",
+  "started_unix_s": 1792917698.5974913,
+  "source_fingering_sha256": "3982adf446ffcf42334191bdce6731a0203d02d19e404121de880c4bc4eff801",
+  "worker_source_sha256": "1bfbb63c8344146946cc19d20d0fbe6f7482d4427e27126174dedbe1bf9fe777",
+  "source_file_count": 1570,
+  "seed_bank_sha256": {
+    "/home/houj/projects/pianist_turkish_hand_20261024/task_outputs/contact_bank_3s_v6_exchange500/report.json": "99014b41c464656dc77be6e8a588696320538ba9dde7ce9cfb0e9b07186149eb",
+    "/home/houj/projects/pianist_turkish_hand_20261024/task_outputs/hard_contact_banks_v1/right_one_thumb/report.json": "203e3cc3141a0e03ad449042075955634e969f7808dc0f414538fead14e0ccad",
+    "/home/houj/projects/pianist_turkish_hand_20261024/task_outputs/hard_contact_banks_v1/left_one_thumb/report.json": "d63de71fe0e781953d157374fe49d0ab8849421b96a9a52ea6c31f2c09ab2b7c"
+  },
+  "requested_onsets": 1357,
+  "unique_combinations": 348,
+  "physics_steps": 0,
+  "training_performed": false,
+  "dynamic_acceptance": null,
+  "finished_unix_s": 1792917704.6076512,
+  "exit_status": 0,
+  "completed_combinations": 348,
+  "completed_onsets": 1357,
+  "all_requested_onsets_checked": true,
+  "static_passed_combinations": 236,
+  "static_passed_onsets": 1010,
+  "all_assigned_top_onsets": 1029,
+  "reused_cached_combinations": 348,
+  "summed_solver_cpu_seconds": 0.0,
+  "limitations": [
+    "Static keys are placed at maximum angle only in scratch data; no physical key was pressed.",
+    "Every occurrence rechecks the complete candidate but its held-note context does not simulate entry/release.",
+    "Inactive finger policy, finite seeds and budget can cause failed nodes; failure is not proof of kinematic impossibility.",
+    "Cached complete poses are candidates only. No interpolation, drive tracking, actual force or dynamic replay is certified."
+  ]
+}

@@ -1,3 +1,4 @@
+# 2026-10-25: Virtual palm_base naming unified; axis values and order unchanged.
 """TsenseI Composer entity, implemented from the bundled URDF models."""
 import numpy as np
 from dm_control import composer
@@ -13,7 +14,7 @@ FINGERTIP_SITE_GROUP = 5  # Group 4 is already used by the piano's sensor sites.
 
 
 class TsenseiHand(base.Hand):
-    def _build(self, side=base.HandSide.RIGHT, forearm_dofs=consts.DEFAULT_FOREARM_DOFS,
+    def _build(self, side=base.HandSide.RIGHT, palm_base_dofs=consts.DEFAULT_PALM_BASE_DOFS,
                exclude_assembly_collisions=True):
         self._hand_side = side
         label = side.name.lower()
@@ -24,14 +25,18 @@ class TsenseiHand(base.Hand):
         self._drive_settings = load_drive_settings()
         if self._drive_settings['profile'] == 'shadow_v1':
             settings = self._drive_settings
-            finger = settings['finger']
+            from tsensei_v3_2_pianist.finger_resistance import parameters
             for joint in self._finger_joints:
-                joint.damping = finger['damping']
-                joint.armature = finger['armature']
-                joint.frictionloss = finger['frictionloss']
+                finger = parameters(joint.name)
+                joint.damping = finger['b']
+                joint.armature = finger['armature_kg_m2']
+                joint.frictionloss = max(finger['T0'], 1e-10)
+                joint.actuatorgravcomp = False
             for actuator in self._mjcf_root.find_all('actuator'):
+                finger = parameters(actuator.joint.name)
                 actuator.kp = finger['kp']
-                actuator.forcerange = (-finger['force_limit'], finger['force_limit'])
+                actuator.kv = finger['kd']
+                actuator.forcerange = (-finger['effort_nm'], finger['effort_nm'])
         # Preserve the existing shell/thumb assembly exclusion by physical
         # role: with-ID uses base_link for the shell, not the fixed palm link.
         # TODO(V32-06): Validate/decompose the assembly geometry. This exclusion
@@ -41,22 +46,22 @@ class TsenseiHand(base.Hand):
                 "exclude",
                 body1=self._mjcf_root.find("body", palm_housing_body_name(label)),
                 body2=self._mjcf_root.find("body", f"{self._prefix}thumb_rotaback_link2"))
-        if len(set(forearm_dofs)) != len(forearm_dofs):
-            raise ValueError("Duplicate forearm DOFs")
-        for dof in forearm_dofs:
-            kind, axis, bounds, kp, damping, force = consts.FOREARM_DOFS[dof]
+        if len(set(palm_base_dofs)) != len(palm_base_dofs):
+            raise ValueError("Duplicate palm_base DOFs")
+        for dof in palm_base_dofs:
+            kind, axis, bounds, kp, damping, force = consts.PALM_BASE_DOFS[dof]
             if self._drive_settings['profile'] == 'shadow_v1':
                 if dof in self._drive_settings['translation']['joints']:
                     translation = self._drive_settings['translation']['axes'][dof]
                     kp = translation['kp']
                     force = translation['force_limit']
-                elif dof == 'forearm_pitch':
+                elif dof == 'palm_base_pitch':
                     # Numeric WRJ1 reference; preserve the user's V3.2 axis.
                     pitch = self._drive_settings['pitch']
                     kp, damping, force = pitch['kp'], pitch['damping'], pitch['force_limit']
             # Equal targets: yaw rotates both wrists in the same direction;
             # pitch rotates them in opposite directions from aligned frames.
-            if side == base.HandSide.LEFT and dof == "forearm_pitch":
+            if side == base.HandSide.LEFT and dof == "palm_base_pitch":
                 axis = tuple(-a for a in axis)
             j = self.root_body.add("joint", name=dof, type=kind, axis=axis,
                                    range=bounds, limited=True, damping=damping)

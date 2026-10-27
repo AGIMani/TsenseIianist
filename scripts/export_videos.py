@@ -251,7 +251,8 @@ def build_plan(a):
     if recording:
         names = ['report.json', 'physics_trace.npz']
         names += [str(p.relative_to(recording)) for p in sorted((recording/'kinematic_scene').rglob('*')) if p.is_file()]
-        names += [n for n in ('played.wav', 'preparation.npz', 'rollout.npz') if (recording/n).is_file()]
+        names += [n for n in ('played.wav', 'preparation.npz', 'rollout.npz', 'physics_trace.json',
+                              'audio_substeps.npz', 'audio_events.json', 'played.mid', 'ending.npz', 'ending.json') if (recording/n).is_file()]
         if a.fingering and not (recording/'rollout.npz').is_file():
             raise ValueError('Fingering requires the recording’s original rollout.npz')
         plan['recording_sha256'] = {n: sha256(recording/n) for n in names}

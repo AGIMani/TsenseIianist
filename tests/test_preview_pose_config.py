@@ -35,10 +35,10 @@ def test_save_and_reload_asymmetric_pose_with_wrist_rotation(env, tmp_path, sour
     hands = (env.task.right_hand, env.task.left_hand)
     for side, hand in enumerate(hands):
         for short, actual, target in [
-                ('forearm_tx', .01 - .03 * side, .03 - .05 * side),
-                ('forearm_ty', .01, .02), ('forearm_tz', -.002, -.004),
-                ('forearm_pitch', .03 + .02 * side, .08 - .1 * side),
-                ('forearm_yaw', -.05 + .1 * side, .1 - .2 * side),
+                ('palm_base_tx', .01 - .03 * side, .03 - .05 * side),
+                ('palm_base_ty', .01, .02), ('palm_base_tz', -.002, -.004),
+                ('palm_base_pitch', .03 + .02 * side, .08 - .1 * side),
+                ('palm_base_yaw', -.05 + .1 * side, .1 - .2 * side),
                 (hand.hand_side.name.lower() + '_hand_index_MCP_joint', .3 + .1 * side, .5 + .1 * side)]:
             actuator = hand.actuator_for_joint(short)
             env.physics.bind(actuator.joint).qpos = actual

@@ -1,0 +1,275 @@
+{
+  "overlays": {
+    "README.md": {
+      "parent_sha256": "4e9fea2bb04cd33d968a6923dac00f841fb28862959deca9f7e4a644be645acb",
+      "sha256": "f28d45c536da0d7fbceae93af14372e60e4d310d2b88f8a5aedef05b2dc66351"
+    },
+    "docs/change_log.md": {
+      "parent_sha256": "78648416a88063d81f76f0622282f9719fe3a3b64b97a979fda28e4f7b457030",
+      "sha256": "d9c51a49467620d2b9ab41e8a832707d7ebfcd67ddd9399cdde2f2451fdbdb2e"
+    },
+    "docs/coordinate_names_20261025.md": {
+      "parent_sha256": null,
+      "sha256": "d35fe8ef7bc27a6ce58b1ec9b8fab2b8c2870cf651f714b2fb1b73452521a9e1"
+    },
+    "docs/external_coordinate_frames_20261025.md": {
+      "parent_sha256": null,
+      "sha256": "af68cf9f6de8f469469daf418fdcc0cfb68913a6a8cc813e195e241cc3155a57"
+    },
+    "docs/superpowers/plans/2026-10-25-coordinate-names.md": {
+      "parent_sha256": null,
+      "sha256": "93ccceb552af9196a94b66d94554884de4b7a12b5d0c21e6ccb0d3a40d470ea7"
+    },
+    "docs/superpowers/specs/2026-10-25-coordinate-names.md": {
+      "parent_sha256": null,
+      "sha256": "f5311fec26882002652d32a0b81b9806b85aadc2a09f5c00879208d41948a9d5"
+    },
+    "preview/scripts/export_video_job.py": {
+      "parent_sha256": "30f8d002d5de61e723ea0fee6a81a314c3c91036ac2bd3bd1129360f5520cb0b",
+      "sha256": "c1af5cd01115a78175db25a4d02d0f83ee621e86af30d78f51e28d9f50ee676d"
+    },
+    "preview/scripts/preview_pose.py": {
+      "parent_sha256": "22fbf8b1dfa9c1d003e597cca2b7875a5d3421a1a7cc852bf2420cd475cbaf5b",
+      "sha256": "70451ec6c0178054ef5c68b848696ad713d30d3f740db332a83f7fec07c2c24e"
+    },
+    "preview/scripts/render_cartesian_installation.py": {
+      "parent_sha256": "6f7856147e6a735ddddcf1abdd5c5e20b244a21463c34ccedeed7cd551964e54",
+      "sha256": "ff7de8b7e2d2a2c379ad9b0f3ec9849a8df60e5f3aad607210e168d716b0b742"
+    },
+    "preview/scripts/replay_arm_ik.py": {
+      "parent_sha256": "6cedc63ce451e37d419510c276dfb560e3befef51af41577b50f2ab6d45f8a02",
+      "sha256": "8fc6c4b4ba87e118da675b30af4d230acefffaa058a7e560a1018ff460a6ff17"
+    },
+    "scripts/diagnose_shadow_cpu_gpu_difference.py": {
+      "parent_sha256": "564b2a63ce2026e526029481699f1603c41e639b691f726e2f67ab58ac78e4aa",
+      "sha256": "e843b65a09801e18ded3a5040a999e7c981a041e43835050bec01ef944ca186b"
+    },
+    "scripts/fingering_pose_worker.py": {
+      "parent_sha256": "c3bfdd1cdf360cea487523859e27a9b87cdfab2d1e3fc16bfba8f3320245fddb",
+      "sha256": "98c4abb97159cca1001a0619ed2f940dd9fdc0fba79bb0802e4f09261d7a1151"
+    },
+    "scripts/fit_turkish_fingering.py": {
+      "parent_sha256": "0b34f78c47372143a8c73ee0421471c40e5c0eee370405d885dd3a22b8067457",
+      "sha256": "c810dd1e0e3d12a88583aba13be0c643ccdf141f7196502cec5603be969d19a9"
+    },
+    "scripts/hpc/plan_piano_ik.py": {
+      "parent_sha256": "10cbba6b1af08bb43ed4c97be85eb24bf72912b965d4452d3f28b48ee443c7f5",
+      "sha256": "33b4dabbc9c3099a1047e2e2f32102b1bcd7de6c9342be893d087e34a43a65bf"
+    },
+    "scripts/hpc/prepare_first_note.py": {
+      "parent_sha256": "2e45b9a6396c3069f185145c0d98b4d7b32eaf5b88c48bc71337d5d4da599ce7",
+      "sha256": "dd01ebce5087cbcd791055010bdae7c1f9318ec51c66eb0efcc9cdc8de9bb18b"
+    },
+    "scripts/hpc/refine_piano_controls.py": {
+      "parent_sha256": "0bddaa6c26feeb8c0f76c3ed1801b1f0c06dbdd89144bf8e198aa2fc09c8d4a4",
+      "sha256": "671044d5700af507ce0ec8a1789316dd306cd3f7e97a98713846d8eace38b3c3"
+    },
+    "scripts/hpc/run_turkish_march_kinematic.py": {
+      "parent_sha256": "96a8a4928b1b61dd6e6579aac16499cb52b1871b50b5b6d9a620f5a3f5ff1f03",
+      "sha256": "9e07d684e8170ebb001780db881c4df059fa166ec6dfccdd06865d0ef1ecfcce"
+    },
+    "scripts/hpc/run_turkish_march_physical.py": {
+      "parent_sha256": "b4ae7810e36d127a193ddfb19a4356f24f9c8263598b5866d23b2a9b1a877721",
+      "sha256": "91e419ec5febb2acb421b18c56645537a40f9c438194a1182a0b65b6f3da2911"
+    },
+    "scripts/hpc/search_piano_controls.py": {
+      "parent_sha256": "ecd31b6f740bd74320097f4dd34632a40f4472b140e3efdc565fdfa5d4053e0e",
+      "sha256": "cfc70c5e9501ef3b8614f43087c6a7212f814bfd95137f94c72dcd6770c62d44"
+    },
+    "scripts/prepare_ik_wrist_transition.py": {
+      "parent_sha256": null,
+      "sha256": "8ebbcbab8926554a36d5e79d826f59fb853f57a3b6d456bd5ca8a58506263d4a"
+    },
+    "scripts/preview_preparation.py": {
+      "parent_sha256": "4bb586e2e18ac34b6d6b8ba06aee8d1f6e8fcaf711eecc0f394bd62b4570bfd7",
+      "sha256": "aefb589781e7f83f48c00e569aafc475cc42ff8de24f2aba36700a84b4ed3b0f"
+    },
+    "scripts/swanlab_metrics.py": {
+      "parent_sha256": "90e5197469829a7d15b87785295bafc1cefbf12b0c7efc536936ca819e4b7aaa",
+      "sha256": "caa1a9b8515a1ebb0306910da6335dede8433c9324ee2df51f7e75e8561380d5"
+    },
+    "scripts/train_from_source.py": {
+      "parent_sha256": "9ffd753aff213e8ae4df299f985c8b36f4032eef76b247e84ae62bbcfe01574b",
+      "sha256": "8bed2d63b1940ba8dd856d638ad885b4f3b783706ba55b60aaaf6b32a2ed694c"
+    },
+    "scripts/train_twinkle_h10_ty04_yaw015_no_tz.sh": {
+      "parent_sha256": "7505e309be3c0d26ab7d045dc2e91718dece9b53d48546837e5988230f00cfff",
+      "sha256": "54e43062fcabc233c8e4cfef7f4ddd5e41ccb4496af17ef26359676a00abafab"
+    },
+    "scripts/train_twinkle_h12_no_tz.sh": {
+      "parent_sha256": "0cb88d05ea9ffb0c9535221faf040d91272d8bbd9312f4affb505b3aba950875",
+      "sha256": "82f5fc291c1b6d14ce1e05013dfd0795df51f4a6b1481f621948b82651444fde"
+    },
+    "tests/test_arm_native_scene.py": {
+      "parent_sha256": "108bf28df7fe408b11d18c004dcd2b65eb5a479cf387153389730b30bfcc5219",
+      "sha256": "22accf19ab424d7489544cae0b74144c454de5778bf30eaf21d43d897ae3565a"
+    },
+    "tests/test_arm_parent_collision_filter.py": {
+      "parent_sha256": "4ce2a93072dad8bb6b53f473f8255f06e34e6ee2f8a6a8b158a2e01e1790a0b0",
+      "sha256": "159c7c665f95deba55650d12af743691d358120d3ba2254900b7ea681bd1f39f"
+    },
+    "tests/test_drive_profiles.py": {
+      "parent_sha256": "0913ace93a1effd2817c4e5837c4113dfe564fef2f22bae9640bf654ce3dfd54",
+      "sha256": "bc9c9f8105322c1ab2b2b1aae3934a89fe0d02ed1f535432e21f91fc788b01ba"
+    },
+    "tests/test_environment.py": {
+      "parent_sha256": "7ac12adde0ca57071ba182ce5ad6190f1ce9bf8afeda85ad07622da114358829",
+      "sha256": "994b4c6e5a28fc8d2ce894036ba1a3b24f790d0f39974f1bf984749868852058"
+    },
+    "tests/test_finger_coupling.py": {
+      "parent_sha256": "24aee2e2cf65cb0ef2c71366f11ad05803cb06e6c93a08ed83a18edd941caa85",
+      "sha256": "c941402fcc12d3c7ed19b9fb709616f18ee33b45f9dc2a8e3aa05ab561d7ee89"
+    },
+    "tests/test_initial_world_pose.py": {
+      "parent_sha256": null,
+      "sha256": "8467bb4298c794a9d891687291a231640fba8cd5b6f04b76125beeeba09265c3"
+    },
+    "tests/test_initial_world_pose_model.py": {
+      "parent_sha256": null,
+      "sha256": "c4ab2f28f4adee5c3467974c08bc3418ed346d84a2b80290e64eda89ce8c8fa8"
+    },
+    "tests/test_joint_motion_plots.py": {
+      "parent_sha256": "8477bb8a827d5571808eac0123d263936eb99c6bac665e3d121a4ec4bccab32c",
+      "sha256": "ec467bf17fe518724f28213b827328c12b9a47ad6ad7e4ad7cb35075fb926827"
+    },
+    "tests/test_key_activation_physical.py": {
+      "parent_sha256": "04570a49a7e035642ff43e80501394978494975798c1e31fc8b2f565df05666b",
+      "sha256": "6a2cb2342fbb2fe09c5cfa8cfd3f66b5021c785dc4b1ba9ab8abf8058b19f0b1"
+    },
+    "tests/test_key_substep_runtime.py": {
+      "parent_sha256": "8b0fec305c95a091e3018d4bd21ec3316190a9d30a376774a12c18f25f8b1074",
+      "sha256": "97953e5a5c866c789b4ee82271635fc660e3c7ef6693d7411372006b02b6ef37"
+    },
+    "tests/test_optional_arm_follow.py": {
+      "parent_sha256": "f04f1b74bc6c1a6a470569c27f806c450be31e4854676bf8774a68458f2e80d6",
+      "sha256": "921f50d74b66581e5091febd0813f442735cc242c35313be96aec7c786932f38"
+    },
+    "tests/test_palm_base_transition_names.py": {
+      "parent_sha256": null,
+      "sha256": "c6d515fe3a494b3c419fd41b1f65c20f153c5b167b6c9026fb0d7ec0f2b7e471"
+    },
+    "tests/test_pitch_range_release.py": {
+      "parent_sha256": "ab6e576f80f652f9ce04154e898c6b87faaa69ea43e197660dfa32375ff12ef4",
+      "sha256": "2590f6cb022352d5ad42cdb86a15b85664a3140675464cef2c4219a108d23c68"
+    },
+    "tests/test_planned_fingering_contract.py": {
+      "parent_sha256": null,
+      "sha256": "b5ce90a6dfe6217eaf42f4325c8ee98ef07d392f6e095c0dda4e00b5537cd99b"
+    },
+    "tests/test_prelude_training_contract.py": {
+      "parent_sha256": "abd1f921ea020a016da0cfa6c912a971df436ae700b24f0fc829228a3ceaa520",
+      "sha256": "bc225e2e5223765a579cd2a608dabbe822dc04fd8d8d8b95406fd028e3f93311"
+    },
+    "tests/test_preparation.py": {
+      "parent_sha256": "30d522e6e61b6ac258e77916492455b65457e3bb0b8b4552a73e73a1b00b204e",
+      "sha256": "57093ec50fefde70ccb1e8c2512b545664b6496698b48d80817f1cd563cafe95"
+    },
+    "tests/test_preparation_policy.py": {
+      "parent_sha256": "98c904817a9e3465c105cc2966038c1b38fcabbaa7ac15d52b67ffff0af879bf",
+      "sha256": "0b2129d5d5b36142ac3960b046a4c7c841f86b54294dd1a39ec14c9e8d8c1d69"
+    },
+    "tests/test_preview_controls.py": {
+      "parent_sha256": "4a068cee0e569e28e9fe5376f78320ef8e72e686cc4f69e733d14e20883cc9d0",
+      "sha256": "91b0f0dc2ae3f09be6b23cdd165e430a7ed455a745f6de732bae6273c40ad366"
+    },
+    "tests/test_preview_pose_config.py": {
+      "parent_sha256": "f3c7f14ff35ea092b4f8a33e810a20b2dc79f7ac2b92551d54930d2f31bf399d",
+      "sha256": "e9bcada39bd62a6a37f6972c8aecd16ed17de4e6d52dcc82777d708f7252aad5"
+    },
+    "tests/test_self_collision_metrics.py": {
+      "parent_sha256": null,
+      "sha256": "46bb0a330a3b53923d79ba6914eb78ba6a0a51213a610c9b78430001c14399c4"
+    },
+    "tests/test_source_runtime.py": {
+      "parent_sha256": "4aff7c2e85264b5df0ba1b510f9ece63eb7c6849cc661094ab5860172130e624",
+      "sha256": "fe42a5f70c9e23ff28d0b964d11f6958f31b2dda127b2da8f55c6387cf236d3e"
+    },
+    "tests/test_supplied_hand_physics.py": {
+      "parent_sha256": "b986578e1df498021ea465f11e52bc16e2c1c2d002d1a28b02d8e4fa89cce102",
+      "sha256": "7eb8bcf5e8789849f71eb5aef34e63dc6457bfde7e61eff3eec1a69447709a6a"
+    },
+    "tests/test_swanlab_metrics.py": {
+      "parent_sha256": "868555ab1701f2c8ed074cb5d94dc5f17be5643f5f8e382fb49b3223451c28fd",
+      "sha256": "b5475c61d00783850db4692222572da2035b8da1fc15b5e82658b2da1f81f0f7"
+    },
+    "tests/test_translation_drive_contract.py": {
+      "parent_sha256": "8a753c4aef91cb997d9c65ddb40ce6ee42a63225f14d953b6cee053160d6e49a",
+      "sha256": "00dd119150b12a5826546609ae5f19142a4506d0485f1a2e6ab1358b8bd844e0"
+    },
+    "tests/test_tz_structural.py": {
+      "parent_sha256": "12fb27f259ce2908d93b54d94b02b75370c4b8176ee146c6bff045bab9ddc5fd",
+      "sha256": "fefc8bfc8edc9989feba6dda3c85034925c83487d97633fe4583cfa298ef912f"
+    },
+    "tests/test_video_export.py": {
+      "parent_sha256": "1f5cd9646c0ef64710889823c2b5c7beda87714e33cc0fdb0cb711afd6dc1dbe",
+      "sha256": "7c59ea4eb0540b7a0e4228ce0932600a47f733f2acdf7c11d96e8dfeead4616e"
+    },
+    "tests/test_world_pose_entry.py": {
+      "parent_sha256": null,
+      "sha256": "256417ac4959f0c8631c2c7407ca184e5736a062d1b1292285f457280aa12a0b"
+    },
+    "tsensei_v3_2_pianist/assets/drive_settings.json": {
+      "parent_sha256": "83d91cbc75c521589fae2d939ae403ac059b896d8ebf9914d4980e02bac019c8",
+      "sha256": "6b352f7694eebbe31937585316544a2964c24c13cc6658db7d10e65c8742d1e5"
+    },
+    "tsensei_v3_2_pianist/drive_settings.py": {
+      "parent_sha256": "1c46ff2a88927705156bce653bd932fd539784d52c0e1b15a332f45edf7172d9",
+      "sha256": "e3eab7589578e6ac4e7106c3244d43a4f734c60bc36116bbdefb99451eb9903c"
+    },
+    "tsensei_v3_2_pianist/initial_world_pose.py": {
+      "parent_sha256": null,
+      "sha256": "581c2141b75ae2e45365f5a6a8bad29332fc29ee712bd8ef504a1b9a61ff64bf"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/arm_scene.py": {
+      "parent_sha256": "10767d8e8f78779b394295f6d9d25160ede250d7bfead64fe0f61194c191b86c",
+      "sha256": "7e9fc0a5446f7b4e131ce449716766fc95da76f3a5699564bc293527343eb0a4"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/bundle.py": {
+      "parent_sha256": "97f0a44c090615b9f4ca017eb4d9102516c2eaa9e886c9ebe0cae84aa3e53e1a",
+      "sha256": "a1c76b4f0b0defcdb48c74c3b328f3691c2de88f5ca1d922c63d3f6dc709c7c9"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/scene.py": {
+      "parent_sha256": "c0ff48324fa33d68cdf4d57701d6cb8665bd2e207a7259af34ad47e6dda03f24",
+      "sha256": "0e7748c27d615cd9b311ac653b86736a9baf7ae16ca9770a5d698351845b6c8f"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/source_runtime.py": {
+      "parent_sha256": "c83ad565fa631d8484f37607917fe93d6f2290894db2ccbb6a73de0e237c3155",
+      "sha256": "941f29c30f2d533b4bd6610a705bf01f39c46ceed25d2003b7b1b90fd8c9c69c"
+    },
+    "tsensei_v3_2_pianist/models/hands/tsensei_hand.py": {
+      "parent_sha256": "f18510aaded9425dfd2075735fbf2e52802ce3b9b07e80be07e33417e9d95b54",
+      "sha256": "e5638f0595b3c979be98ae18bb10e380877b3d6ba95322ac668a1d415a85586c"
+    },
+    "tsensei_v3_2_pianist/models/hands/tsensei_hand_constants.py": {
+      "parent_sha256": "5d207314f56d4966d2ecbc518835ead0645f41d283b0506a2298cbea3f1878b7",
+      "sha256": "24f8ee9f4907f85a43578b8d0b32c9f6a3ea5dc83575cb60e24f3a8eef5d04ac"
+    },
+    "tsensei_v3_2_pianist/preview_frames.py": {
+      "parent_sha256": "6219476d48782fb0df580943763be0ee56e8e957ef3ee5a00c0df0e7c12bfa09",
+      "sha256": "c096de7df8cc81d4101599a9fa8e7bf6e322ca39b6519603e8586c24b76b8bdf"
+    },
+    "tsensei_v3_2_pianist/preview_pose_config.py": {
+      "parent_sha256": "8ce5cb8841ef7cd9ddd3fcd7e5160e91427b2ad46a40bd30335b7913c72340d1",
+      "sha256": "cd94ca3273acb38a94b1758cf0151a266fbe471fd9285a1c9aca37db4e6b32ba"
+    },
+    "tsensei_v3_2_pianist/preview_runtime.py": {
+      "parent_sha256": "d2bb9b6e65a9024c3fbd1ce63ac0dbf4a66c3c559f3350718dd0cc6c81913b4b",
+      "sha256": "74b401b5448f9d162af52e29d98ade08a3088da1be106c7242c84e7111acd283"
+    },
+    "tsensei_v3_2_pianist/preview_trajectory.py": {
+      "parent_sha256": "0d7743bb9196181505942f1fc2f3d3d2ab4db56d22bf6010cb2a3a72600cde5c",
+      "sha256": "7e11d235060005a35eb245c663ddba1e6167ee07f86ce22485bce08ca37d5473"
+    },
+    "tsensei_v3_2_pianist/suite/tasks/base.py": {
+      "parent_sha256": "469e2c01e8241b6a13fe465340692555e5ab2580521956e97fa84c5406c0930a",
+      "sha256": "c65bb27b54023e3b2191fd4609f3c33d935e49cf0cae001992b8031d7fda1a4e"
+    },
+    "tsensei_v3_2_pianist/suite/tasks/piano_with_tsensei_hands.py": {
+      "parent_sha256": "3ef20e223f343bc74ab78767536c8ed07d77af5c705721832be6a19449c8115f",
+      "sha256": "8d02aceea42968f3929ce366d424477acf9c230db5264c311949c8114ed23ff2"
+    }
+  },
+  "parent_sha256": "f9741e1f68b6253909011edde71993bc252a6829f61fda4840c095154467bccf",
+  "rule": "Only enumerated coordinate naming/world initial pose files overlaid; all parent URDF/mesh/reward-JSON bytes retained",
+  "training_started": false
+}

@@ -9,16 +9,17 @@
 #SBATCH --mem=128G
 #SBATCH --time=24:00:00
 set -euo pipefail
-: "${SLURM_JOB_ID:?Submit through scripts/hpc/submit.sh}"
+JOB_ID="${SLURM_JOB_ID:-${PIANIST_PROCESS_JOB_ID:-}}"
+: "${JOB_ID:?Submit through scripts/hpc/submit.sh}"
 PROJECT_DIR="$1"
 MODE="$2"
 shift 2
 expected_gpus="${TSENSEI_EXPECTED_GPUS:-2}"
 [[ "$expected_gpus" =~ ^(1|2|4)$ ]] || { echo 'TSENSEI_EXPECTED_GPUS must be 1, 2 or 4' >&2; exit 2; }
 if [[ "$expected_gpus" == 1 ]]; then
-  case "$MODE" in replay|train|validate|export|mjlab-preview) ;; *) echo 'Unsupported single-GPU mode' >&2; exit 2;; esac
+  case "$MODE" in replay|train|validate|export|mjlab-preview|preparation-preview) ;; *) echo 'Unsupported single-GPU mode' >&2; exit 2;; esac
 fi
-JOB_DIR="$PROJECT_DIR/logs/hpc/$SLURM_JOB_ID"
+JOB_DIR="$PROJECT_DIR/logs/hpc/$JOB_ID"
 if [[ "${TSENSEI_ALLOCATION_STEP:-0}" == 1 ]]; then
   JOB_DIR="$JOB_DIR/steps/${SLURM_STEP_ID:?Missing allocated Slurm step ID}"
 fi
@@ -37,7 +38,7 @@ export TORCH_EXTENSIONS_DIR="$JOB_DIR/torch_extensions"
 export TORCHINDUCTOR_CACHE_DIR="$JOB_DIR/torchinductor"
 PYTHON_BIN="$PROJECT_DIR/training_mjlab/.venv/bin/python"
 export PATH="$PROJECT_DIR/training_mjlab/.venv/bin:$PROJECT_DIR/training_mjlab/hpc/tools:$PATH"
-if [[ "$MODE" == replay || "$MODE" == arm-replay || "$MODE" == export || "$MODE" == online-export ]] && [[ -d "$PROJECT_DIR/training_mjlab/audio_runtime/root/usr/lib/x86_64-linux-gnu" ]]; then
+if [[ "$MODE" == replay || "$MODE" == arm-replay || "$MODE" == export || "$MODE" == online-export || "$MODE" == preparation-preview ]] && [[ -d "$PROJECT_DIR/training_mjlab/audio_runtime/root/usr/lib/x86_64-linux-gnu" ]]; then
   export LD_LIBRARY_PATH="$PROJECT_DIR/training_mjlab/audio_runtime/root/usr/lib/x86_64-linux-gnu:$PROJECT_DIR/training_mjlab/audio_runtime/root/usr/lib/x86_64-linux-gnu/pulseaudio${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 fi
 if [[ -f "$PROJECT_DIR/training_mjlab/hpc/egl_env.sh" ]]; then
@@ -142,11 +143,13 @@ elif [[ "$MODE" == online-export ]]; then
   exec_command=("$PYTHON_BIN" -m online_control.export checkpoint "$@")
 elif [[ "$MODE" == strike-diagnostic ]]; then
   exec_command=("$PYTHON_BIN" scripts/hpc/strike_timing_diagnostic.py "$@")
+elif [[ "$MODE" == preparation-preview ]]; then
+  exec_command=("$PYTHON_BIN" preview/scripts/render_first_note.py "$@")
 elif [[ "$MODE" == train ]]; then
   # Defaults are resolved by all_use_this_train.sh before submission.
   # Execute only the current archive entry; never recover deprecated defaults.
   exec_command=("$PYTHON_BIN" scripts/train_from_source.py \
-    --output-dir "$PROJECT_DIR/training_mjlab/outputs/hpc/job-$SLURM_JOB_ID" "$@")
+    --output-dir "$PROJECT_DIR/training_mjlab/outputs/hpc/job-$JOB_ID" "$@")
   if [[ "$expected_gpus" == 1 ]]; then
     # Keep the training/reward budget; only place collection and learning on
     # the sole allocated device and disable the two-device execution pipeline.

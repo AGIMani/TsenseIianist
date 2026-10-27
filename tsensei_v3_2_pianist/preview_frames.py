@@ -1,4 +1,5 @@
-"""World, wrist, and optional M6 arm joint frames for the preview scene."""
+# 2026-10-25: Virtual palm_base naming unified; axis values and order unchanged.
+"""World, palm_base, and optional M6 arm joint frames for the preview scene."""
 import mujoco
 import numpy as np
 
@@ -6,7 +7,7 @@ import numpy as np
 class CoordinateFrames:
     """RGB positive axes at world origin, hand roots, and optional M6 links.
 
-    Wrist means the normalized base_link carrying the virtual forearm joints,
+    Palm_base means the normalized base_link carrying the virtual palm_base joints,
     not the original CAD root or the body's inertial center. M6 J1-J7 entries
     are the moving child-link frames from ArmPreview's kinematic model.
     """
@@ -24,7 +25,7 @@ class CoordinateFrames:
         for hand in hands:
             name = hand.root_body.full_identifier
             body_id = physics.model.ptr.body(name).id
-            label = hand.hand_side.name.capitalize() + ' wrist'
+            label = hand.hand_side.name.capitalize() + ' palm_base'
             self._frames.append((label, 'physics', body_id, name))
         if arm_preview is not None:
             for side in ('left', 'right'):

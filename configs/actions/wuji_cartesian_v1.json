@@ -168,8 +168,8 @@
       "name": "R_Palm_Base_Pitch",
       "policy_min": -1.0,
       "policy_max": 1.0,
-      "physical_min": -0.3,
-      "physical_max": 0.3
+      "physical_min": -0.5,
+      "physical_max": 0.5
     },
     {
       "name": "R_Palm_Base_Yaw",
@@ -343,8 +343,8 @@
       "name": "L_Palm_Base_Pitch",
       "policy_min": -1.0,
       "policy_max": 1.0,
-      "physical_min": -0.3,
-      "physical_max": 0.3
+      "physical_min": -0.5,
+      "physical_max": 0.5
     },
     {
       "name": "L_Palm_Base_Yaw",

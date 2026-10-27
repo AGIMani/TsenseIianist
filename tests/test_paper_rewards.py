@@ -89,7 +89,7 @@ class PaperRewardsTest(unittest.TestCase):
         # Old contracts are rejected without depending on archived runtime files.
         old=template();old['contract']='physical_key_travel_exact_v1'
         with self.assertRaises(ValueError):validate(old)
-        self.assertEqual(len(template()['terms']),23)
+        self.assertEqual(len(template()['terms']),24)
         s1=template('stage1');s2=template('stage2_canon');other=template('stage2_other')
         self.assertEqual(s1['terms']['wrist_velocity_reward']['weight'],.176)
         self.assertEqual(s2['terms']['forearm_acceleration_reward']['weight'],6.4)

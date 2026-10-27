@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# 2026-10-25: Virtual palm_base naming unified; axis values and order unchanged.
 """Bounded analysis of the saved cross-hand CPU/GPU comparison.
 
 Contact lists are CPU geometric queries at each saved trajectory's qpos.
@@ -47,8 +48,8 @@ def main():
     names = {int(j): model.joint(int(j)).name for j in ids}
     groups = {
         "hand_slides_m_s": ids[model.jnt_type[ids] == mujoco.mjtJoint.mjJNT_SLIDE],
-        "finger_hinges_rad_s": np.asarray([j for j in ids if "forearm_" not in names[int(j)]]),
-        "wrist_pitch_rad_s": np.asarray([j for j in ids if names[int(j)].endswith("forearm_pitch")]),
+        "finger_hinges_rad_s": np.asarray([j for j in ids if "palm_base_" not in names[int(j)]]),
+        "wrist_pitch_rad_s": np.asarray([j for j in ids if names[int(j)].endswith("palm_base_pitch")]),
     }
     report = {"comparison": str(args.comparison.resolve()), "peak_absolute_velocities": {},
               "difference_duration": {}, "cross_hand_geometry_queries": [],

@@ -15,7 +15,7 @@ def test_current_entry_pose_and_one_second_physics(tmp_path):
     from tsensei_v3_2_pianist.mjlab_env.finger_coupling import FingerCoupler
     from tests.test_current_model_contract import test_compiled_current_hands_preserve_all_explicit_urdf_inertias
     root = Path(__file__).resolve().parents[1]
-    scene, task, _ = build(make_recipe(height=.06, ty=.04, yaw=np.pi/6,
+    scene, task, _ = build(make_recipe(world_z=.06, world_x=.14, palm_base_yaw=np.pi/6,
         task_profile='tsensei_collision_v1', collision_profile='convex_hull_v1',
         drive_profile='shadow_v1', control_hz=20., physics_hz=200.,
         initial_buffer_time=0, exact_note_timing=True))

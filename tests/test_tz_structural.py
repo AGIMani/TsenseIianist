@@ -20,7 +20,7 @@ class StructuralTZChecks(unittest.TestCase):
         m = locked.model
         self.assertEqual((m.nq, m.nv, m.nu), (136, 136, 48))
         for side, prefix in (('right', 'R'), ('left', 'L')):
-            self.assertEqual(mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_JOINT, side+'_/forearm_tz'), -1)
+            self.assertEqual(mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_JOINT, side+'_/palm_base_tz'), -1)
             self.assertEqual(mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_ACTUATOR, prefix+'_Palm_Base_Tz'), -1)
         d = locked.reset_cpu()
         ids = [m.body(locked.manifest['hands'][side]['body']).id for side in ('right', 'left')]

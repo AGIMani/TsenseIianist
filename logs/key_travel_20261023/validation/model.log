@@ -1,0 +1,14 @@
+/home/houj/projects/pianist_key_travel_20261023/runtime/training/.venv/lib/python3.12/site-packages/pydub/utils.py:14: DeprecationWarning: 'audioop' is deprecated and slated for removal in Python 3.13
+  import audioop
+/home/houj/projects/pianist_key_travel_20261023/runtime/training/.venv/lib/python3.12/site-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+  warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+/home/houj/projects/pianist_key_travel_20261023/runtime/training/.venv/lib/python3.12/site-packages/dm_control/mujoco/index.py:381: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+  key_item.shape = original_shape
+/home/houj/projects/pianist_key_travel_20261023/runtime/training/.venv/lib/python3.12/site-packages/dm_control/mujoco/index.py:381: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+  key_item.shape = original_shape
+/home/houj/projects/pianist_key_travel_20261023/runtime/training/.venv/lib/python3.12/site-packages/dm_control/mujoco/index.py:381: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+  key_item.shape = original_shape
+{"keys": 88, "white_keys": 52, "black_keys": 36, "nominal_travel_mm": {"white": 12, "black": 10}, "joint_max_rad": {"white": 0.07982998571223732, "black": 0.11065722117389565}, "joint_max_deg": {"white": 4.573921259900861, "black": 6.34019174590991}, "activation_fraction": 1, "continuous_reward_full_fraction": 0.95, "boundary_checks": "passed", "actuator_ranges": "passed", "steps": 20, "warnings": 0, "mujoco_version": "3.13.0"}

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# 2026-10-25: External initial positions use world-frame metres; yaw is the palm-base joint angle in radians.
 """CPU-only kinematic preview. JSON lines on stdin/stdout, diagnostics stderr.
 
 Never advances dynamics, synthesizes a physical key press, or renders on a GPU.
@@ -38,7 +39,8 @@ class Preview:
             # A kinematic editor needs the source-built physical scene, not a
             # second full music-training environment or quantized task bundle.
             # Use exactly the same export_scene API in a Composer subprocess.
-            recipe = dict(kind='editor_scene_only', pose=dict(height=.06, ty=.04, yaw=float(np.pi/6)),
+            recipe = dict(kind='editor_scene_only', pose=dict(world_x=.14, world_z=.06,
+                          right_world_y=.15, left_world_y=-.15, palm_base_yaw=float(np.pi/6)),
                           collision_profile='convex_hull_v1', drive_profile='shadow_v1',
                           source_archive_sha256=(ROOT/'EDITOR_SOURCE_SHA256').read_text().strip())
             (cache/'recipe.json').write_text(json.dumps(recipe, indent=2))
@@ -52,7 +54,7 @@ class Preview:
             compiled.check_returncode()
             scene = cache/'scene'
         else:
-            recipe = make_recipe(height=.06, ty=.04, yaw=np.pi/6, initial_buffer_time=0,
+            recipe = make_recipe(world_x=.14, world_z=.06, palm_base_yaw=np.pi/6, initial_buffer_time=0,
                                  preparation_time=0, task_profile="tsensei_collision_v1",
                                  drive_profile="shadow_v1", exact_note_timing=True)
             (cache / "recipe.json").write_text(json.dumps(recipe, indent=2))

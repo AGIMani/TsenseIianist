@@ -1,4 +1,6 @@
-"""Cartesian palm-position IK with a structural flange/connector/hand assembly.
+"""2026-10-25: virtual forearm joint names are now palm_base_*; physical axes unchanged.
+
+Cartesian palm-position IK with a structural flange/connector/hand assembly.
 
 Link7 is a kinematic mocap root. The flange, connector and hand base are its
 jointless descendants; only finger/key joints are simulated dynamically.
@@ -186,7 +188,7 @@ def augment_bundle(bundle, options):
         raise ValueError('Cartesian arm assembly requires the hand-only source; old m6 bundles need their archive')
     if bundle.preparation_options is not None and bundle.preparation_options.get('mode') != 'policy_v1':
         raise ValueError('Arm follower supports policy preparation or no preparation')
-    if bundle.disable_wrist_tz or 'right_/forearm_yaw' not in bundle.fixed_joint_values:
+    if bundle.disable_wrist_tz or 'right_/palm_base_yaw' not in bundle.fixed_joint_values:
         raise ValueError('Cartesian arm follower requires live TX/TY/TZ and structurally fixed Yaw')
     connector = load_config(CONNECTOR)
     installed = tool_transforms(connector)
@@ -199,8 +201,8 @@ def augment_bundle(bundle, options):
     initial, reference = bundle.reset_cpu(), bundle.reset_cpu()
     reference.mocap_pos[:] = bundle.origin_mocap_pos
     reference.mocap_quat[:] = bundle.origin_mocap_quat
-    translation_names = ('forearm_tx', 'forearm_ty', 'forearm_tz')
-    pitch_name = 'forearm_pitch'
+    translation_names = ('palm_base_tx', 'palm_base_ty', 'palm_base_tz')
+    pitch_name = 'palm_base_pitch'
     wrist_ids = {}
     translation_ids = {}
     pitch_ids = {}
@@ -230,14 +232,20 @@ def augment_bundle(bundle, options):
             raise ValueError('Expected TX/TY/TZ Cartesian request coordinates and fixed Pitch')
         pitch_action_indices.update(pitch_actions)
         cartesian_policy_indices.extend(actions)
+        # 2026-10-25: the external world-XYZ initial pose applies to arms too.
+        # Zeroing removed slides defines Cartesian request zero, not a second
+        # installation position. Rebase the fixed arm to the requested origin.
+        source_pose = bundle.manifest.get('source_pose', {})
+        rest_pos = reference.xpos[body].copy()
+        if source_pose.get('contract') == 'initial_palm_base_world_xyz_v1':
+            rest_pos = np.asarray(source_pose[side + '_initial_world_xyz_m'], dtype=float)
+            if rest_pos.shape != (3,) or not np.isfinite(rest_pos).all():
+                raise ValueError('Invalid initial palm-base world position: ' + side)
         wrists[side] = dict(indices=actions, axis=old.jnt_axis[translation].copy(), kind=old.jnt_type[translation].tolist(),
-            rest_pos=reference.xpos[body].copy(), rest_rot=reference.xmat[body].reshape(3, 3).copy(),
+            rest_pos=rest_pos.copy(), rest_rot=reference.xmat[body].reshape(3, 3).copy(),
             body_name=body_name)
-        # The Cartesian zero is the installed hand-only reference after the
-        # three virtual translation joints are set to zero. Calibrating IK to
-        # the unmodified reset would bake its historical TY/TZ offsets into a
-        # supposedly zero displacement request.
-        initial_poses[side] = (reference.xpos[body].copy(), reference.xmat[body].reshape(3, 3).copy())
+        # Position is absolute world XYZ; requests stay relative world XYZ.
+        initial_poses[side] = (rest_pos.copy(), reference.xmat[body].reshape(3, 3).copy())
         for j in ids:
             removed.add(old.joint(j).name)
             # These are placeholders in the historical joint vector only. The

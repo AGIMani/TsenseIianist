@@ -1,4 +1,6 @@
-"""Provisional pose; axis conventions inferred from the supplied DXSS reference."""
+"""2026-10-25: virtual forearm joint names are now palm_base_*; physical axes unchanged.
+
+Provisional pose; axis conventions inferred from the supplied DXSS reference."""
 from pathlib import Path
 import json
 import math
@@ -25,14 +27,14 @@ LEFT_POSITION = (0.18, -0.15, 0.10)
 # TODO(V32-02): Replace virtual wrist with the actual arm/stage and its limits.
 # Axes below are for the right hand. The left hand reverses pitch only:
 # pitch R:+X / L:-X; yaw R:-Y / L:-Y (equal inputs give same yaw / opposite pitch).
-FOREARM_DOFS = {
-    "forearm_tx": ("slide", (0, -1, 0), (-0.6, 0.6), 300, 30, 50),
-    "forearm_ty": ("slide", (0, 0, 1), (-0.05, 0.15), 300, 30, 50),
-    "forearm_tz": ("slide", (-1, 0, 0), (-0.025, 0), 1000, 50, 50),
-    "forearm_pitch": ("hinge", (1, 0, 0), (0.0, 0.5), 50, 3, 5),
-    "forearm_yaw": ("hinge", (0, -1, 0), (-math.pi/6, math.pi/6), 300, 10, 5),
+PALM_BASE_DOFS = {
+    "palm_base_tx": ("slide", (0, -1, 0), (-0.6, 0.6), 300, 30, 50),
+    "palm_base_ty": ("slide", (0, 0, 1), (-0.05, 0.15), 300, 30, 50),
+    "palm_base_tz": ("slide", (-1, 0, 0), (-0.025, 0), 1000, 50, 50),
+    "palm_base_pitch": ("hinge", (1, 0, 0), (-0.5, 0.5), 50, 3, 5),
+    "palm_base_yaw": ("hinge", (0, -1, 0), (-math.pi/6, math.pi/6), 300, 10, 5),
 }
-DEFAULT_FOREARM_DOFS = tuple(FOREARM_DOFS)
+DEFAULT_PALM_BASE_DOFS = tuple(PALM_BASE_DOFS)
 FINGERTIP_COLORS = ((.8,.2,.8), (.8,.2,.2), (.2,.8,.8), (.2,.2,.8), (.8,.8,.2))
 FINGERS = ("thumb", "index", "mid", "ring", "pinky")
 
@@ -60,11 +62,11 @@ CONTROL_LABELS = {
     "pinky_swing": "Pinky_SW",
     "pinky_PIP": "Pinky_PIP",
     "pinky_DIP": "Pinky_DIP",
-    "forearm_tx": "Palm_Base_Tx",
-    "forearm_ty": "Palm_Base_Ty",
-    "forearm_tz": "Palm_Base_Tz",
-    "forearm_pitch": "Palm_Base_Pitch",
-    "forearm_yaw": "Palm_Base_Yaw",
+    "palm_base_tx": "Palm_Base_Tx",
+    "palm_base_ty": "Palm_Base_Ty",
+    "palm_base_tz": "Palm_Base_Tz",
+    "palm_base_pitch": "Palm_Base_Pitch",
+    "palm_base_yaw": "Palm_Base_Yaw",
 }
 
 
@@ -81,8 +83,8 @@ def control_label(side, joint_name):
 # TODO(V32-03): Verify these lightly flexed targets, including the redesigned V3.2 thumb base.
 INITIAL_ANGLES = {
     # Wrist slide values are metres; wrist/finger hinge values are radians.
-    "forearm_tx": 0., "forearm_ty": 0., "forearm_tz": 0.,
-    "forearm_pitch": 0., "forearm_yaw": 0.,
+    "palm_base_tx": 0., "palm_base_ty": 0., "palm_base_tz": 0.,
+    "palm_base_pitch": 0., "palm_base_yaw": 0.,
     "thumb_rota_block": 1.0, "thumb_rotaback_joint2": .4, "thumb_MCP": .25, "thumb_PIP": .35,
     "index_MCP": .22, "index_PIP": .35, "index_DIP": .18,
     "mid_MCP": .25, "mid_PIP": .38, "mid_DIP": .20,
@@ -120,11 +122,11 @@ INITIAL_ANGLES_BY_SIDE = {'right': {'thumb_rota_block': 1.135929529,
            'pinky_swing': 0.0,
            'pinky_PIP': 0.389615614939,
            'pinky_DIP': 0.213344010776,
-           'forearm_tx': 0.0,
-           'forearm_ty': 0.04,
-           'forearm_tz': 0.0,
-           'forearm_pitch': 0.0,
-           'forearm_yaw': 0.5235987755982988},
+           'palm_base_tx': 0.0,
+           'palm_base_ty': 0.04,
+           'palm_base_tz': 0.0,
+           'palm_base_pitch': 0.0,
+           'palm_base_yaw': 0.5235987755982988},
  'left': {'thumb_rota_block': 1.135929529,
           'thumb_rotaback_joint2': 0.476648962,
           'thumb_MCP': 0.241250147,
@@ -145,43 +147,31 @@ INITIAL_ANGLES_BY_SIDE = {'right': {'thumb_rota_block': 1.135929529,
           'pinky_swing': 0.0,
           'pinky_PIP': 0.389615614939,
           'pinky_DIP': 0.213344010776,
-          'forearm_tx': 0.0,
-          'forearm_ty': 0.04,
-          'forearm_tz': 0.0,
-          'forearm_pitch': 0.0,
-          'forearm_yaw': 0.5235987755982988}}
+          'palm_base_tx': 0.0,
+          'palm_base_ty': 0.04,
+          'palm_base_tz': 0.0,
+          'palm_base_pitch': 0.0,
+          'palm_base_yaw': 0.5235987755982988}}
 
 
 def _apply_export_pose_overrides():
-    """Apply process-local export overrides without editing the source defaults."""
+    """World XYZ inputs become internal slides; do not change the travel frame.
+
+    Mount XY remains the original installation reference; changing it as well
+    would shift the reachable workspace. World Z sets the mount, with Tz=0.
+    """
     global RIGHT_POSITION, LEFT_POSITION
     raw = os.environ.get('TSENSEI_V32_EXPORT_POSE')
     if not raw:
         return
-    values = json.loads(raw)
-    if not isinstance(values, dict) or set(values) - {'height', 'ty', 'yaw'}:
-        raise ValueError('Invalid TSENSEI_V32_EXPORT_POSE keys')
-    if not values:
-        raise ValueError('Empty TSENSEI_V32_EXPORT_POSE override')
-    for name, value in values.items():
-        if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
-            raise ValueError(f'Invalid export pose {name}: {value!r}')
-    if 'height' in values:
-        if values['height'] <= 0:
-            raise ValueError('Export mounting height must be positive')
-        RIGHT_POSITION = (*RIGHT_POSITION[:2], float(values['height']))
-        LEFT_POSITION = (*LEFT_POSITION[:2], float(values['height']))
+    from tsensei_v3_2_pianist.initial_world_pose import validate, slides_for_world
+    values = validate(json.loads(raw))
+    RIGHT_POSITION = (*RIGHT_POSITION[:2], values['world_z'])
+    LEFT_POSITION = (*LEFT_POSITION[:2], values['world_z'])
     for side in ('right', 'left'):
-        if 'ty' in values:
-            lo, hi = FOREARM_DOFS['forearm_ty'][2]
-            if not lo <= values['ty'] <= hi:
-                raise ValueError(f'Export TY must lie in [{lo}, {hi}]')
-            INITIAL_ANGLES_BY_SIDE[side]['forearm_ty'] = float(values['ty'])
-        if 'yaw' in values:
-            lo, hi = FOREARM_DOFS['forearm_yaw'][2]
-            if not lo <= values['yaw'] <= hi:
-                raise ValueError(f'Export Yaw must lie in [{lo}, {hi}]')
-            INITIAL_ANGLES_BY_SIDE[side]['forearm_yaw'] = float(values['yaw'])
+        mount = RIGHT_POSITION if side == 'right' else LEFT_POSITION
+        INITIAL_ANGLES_BY_SIDE[side].update(slides_for_world(values, side, mount))
+        INITIAL_ANGLES_BY_SIDE[side]['palm_base_yaw'] = values['palm_base_yaw']
 
 
 _apply_export_pose_overrides()

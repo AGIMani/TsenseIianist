@@ -1,0 +1,56 @@
+{
+  "status": "passed",
+  "training_started": false,
+  "range_rad": [
+    -0.5,
+    0.5
+  ],
+  "initial_pitch_rad": 0,
+  "archive": "logs/pitch_range_20261026/source_pitch_symmetric_v1.tar.gz",
+  "archive_sha256": "63d4224c3a29807a6026d391967297ead55f163f221f8d29cc86f1b116bcb992",
+  "parent_archive_sha256": "faf4f5d04e7d7a7d940dc9ee46a7711ad7b1c16930f14d43fabc26894dc815a2",
+  "remote_host": "volc-a32",
+  "remote_project": "/data/shared/houj/pianist_pitch_20261026/project",
+  "local_contract_tests": {
+    "red_failed": 2,
+    "green_passed": 2
+  },
+  "slurm": {
+    "job_id": 10135,
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "tests_passed": 3,
+    "elapsed_seconds": 100,
+    "pytest_seconds": 72.22,
+    "command": "bash scripts/hpc/submit.sh --gpus 1 --source-archive logs/pitch_range_20261026/source_pitch_symmetric_v1.tar.gz validate tests/test_pitch_symmetric_range.py"
+  },
+  "physical_report": "physical_validation/report.json",
+  "physical_summary": {
+    "preparation_valid": true,
+    "hover_error_m": [
+      0.00024408146696015533,
+      0.00012250014688710336
+    ],
+    "ending_valid": true,
+    "positions_modified": false,
+    "ending_finger_reference_residuals_over_005rad": {
+      "R_Pinky_MCP": 0.05437339971668517,
+      "L_Pinky_MCP": 0.05404521510574667
+    }
+  },
+  "scope": "Compiled model/actuator bounds, zero origin, bidirectional endpoints and center, one negative-target control step with slew limits, first-note preparation and return. No full-song training/evaluation or hard physical safety guarantee.",
+  "source_inputs": "Existing default a32_repeat_static_guarded_20261025 inputs copied byte-for-byte into archive; score/fingering unchanged.",
+  "ssh_note": "Submission SSH connection timed out, but Slurm 10135 completed successfully; queried authoritative sacct and recovered output without resubmitting.",
+  "evidence_sha256": {
+    "10135.out": "e8678911ec0b7486a7f8ab4b5450776b89317ece1ec9280b526511e838f89563",
+    "10135.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "slurm_status.txt": "4f0cc8059aabe7a411775ab2e3350d004a0256cf3dadd421f62dd781b1ec3370",
+    "physical_validation/report.json": "1a5f3ebd8b3f73b1c46e865c45429414dfb5e567a4b77772491a72067797dbb6",
+    "physical_validation/ending.npz": "a23b97dbd97fbaa678882a1b61066798dd35b33f25e3cfedab27227f2d4acf36"
+  },
+  "local_archive_sha256": "63d4224c3a29807a6026d391967297ead55f163f221f8d29cc86f1b116bcb992",
+  "local_archive_verified": true,
+  "default_entry_updated": true,
+  "default_entry_interception_passed": true,
+  "default_arguments_unchanged_except_archive": true
+}

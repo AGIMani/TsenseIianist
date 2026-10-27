@@ -138,7 +138,7 @@
       "enabled": true,
       "weight": 1.0,
       "params": {
-        "coefficient": -0.02,
+        "coefficient": -0.008,
         "reference": "scene_reset",
         "lookahead_steps": 20,
         "swing_scale": 0.5
@@ -172,6 +172,15 @@
       "weight": 1.0,
       "params": {
         "error_scale_m": 0.001
+      }
+    },
+    "key_hold_lateral_motion_penalty": {
+      "enabled": true,
+      "weight": 1.0,
+      "params": {
+        "velocity_tolerance_m_s": 0.01,
+        "full_penalty_velocity_m_s": 0.1,
+        "maximum_penalty_per_step": 0.5
       }
     }
   },

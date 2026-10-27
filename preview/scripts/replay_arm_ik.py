@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# 2026-10-25: The hand base_link frame is named palm_base; exported pose coordinates explicitly name world.
 """Add M6 kinematic IK to a recorded hand replay; export velocities and videos.
 
 GPU rendering must run under scripts/hpc/submit.sh arm-replay on the cluster.
@@ -372,7 +373,7 @@ def main():
             report = {'time_scale': 1., 'original_duration_s': float(trace['time'][-1]),
                       'path_interpolation': 'linear between recorded IK samples',
                       'velocity_definition': 'delta q / physics_dt, timestamp at interval midpoint; no filtering',
-                      'tcp_frame': 'hand URDF base_link origin with configured Link7-to-hand transform'}
+                      'palm_base_frame': 'hand base_link origin with configured Link7-to-hand transform; not flange origin'}
         else:
             _, report, audit = scale_path(trace['time'], q, arms, {k: getattr(args, k) for k in DEFAULT_LIMITS})
         report.update(replay=str(source), physics_trace_sha256=hashlib.sha256((source/'physics_trace.npz').read_bytes()).hexdigest(),

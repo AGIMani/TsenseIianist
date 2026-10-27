@@ -38,6 +38,17 @@ def align_score(goal, fingers, policy_time, recorded_goals, control_dt, prefix):
     return dict(time=time+prefix, goal=goal[:len(time)], fingers=fingers[:len(time)])
 
 
+def append_ending(arrays, seconds, control_dt):
+    import numpy as np
+    if not np.isfinite(seconds) or seconds < 0 or not np.isclose(round(seconds/control_dt)*control_dt,seconds):
+        raise ValueError('Ending must contain whole score annotation frames')
+    count=round(seconds/control_dt)
+    if not count:return arrays
+    return dict(time=np.concatenate((arrays['time'],arrays['time'][-1]+np.arange(1,count+1)*control_dt)),
+        goal=np.concatenate((arrays['goal'],np.zeros((count,89),dtype=arrays['goal'].dtype))),
+        fingers=np.concatenate((arrays['fingers'],np.zeros((count,10,88),dtype=arrays['fingers'].dtype))))
+
+
 def recorded_score_targets(score, policy_time):
     """Return action-frame Shadow targets, including policy preparation.
 
@@ -73,10 +84,11 @@ def recover(args):
         policy_time = rollout['policy_time'] if 'policy_time' in rollout else np.arange(1, len(rollout['goals'])+1)*dt
         goal, fingers = recorded_score_targets(score, policy_time)
         arrays = align_score(goal, fingers, policy_time, rollout['goals'], dt, prefix)
+    arrays=append_ending(arrays,float(report.get('ending_seconds',0.)),dt)
     args.output.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(args.output/'score_annotations.npz', **arrays)
     metadata = dict(schema=1, fingertip_sites=manifest['fingertip_sites'], control_dt=dt,
-                    preparation_prefix_seconds=prefix, frames=len(arrays['time']),
+                    ending_seconds=report.get('ending_seconds',0.), preparation_prefix_seconds=prefix, frames=len(arrays['time']),
                     checkpoint_sha256=report['checkpoint_sha256'], task_sha256=task_hash,
                     source_score_sha256=manifest['files']['score.npz'],
                     annotations_sha256=sha256(args.output/'score_annotations.npz'),

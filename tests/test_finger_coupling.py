@@ -115,7 +115,7 @@ class CouplingGeometryTests(unittest.TestCase):
                     physical[ids] = self.low[ids] + fraction * (self.high[ids] - self.low[ids])
                     for actuator, full in zip(b.action_ids, b.active_action_indices):
                         joint = int(m.actuator_trnid[actuator, 0]); name = m.joint(joint).name
-                        if name.endswith('forearm_pitch'):
+                        if name.endswith('palm_base_pitch'):
                             data.qpos[m.jnt_qposadr[joint]] = pitch
                         elif name.endswith('_swing_joint'):
                             data.qpos[m.jnt_qposadr[joint]] = swing

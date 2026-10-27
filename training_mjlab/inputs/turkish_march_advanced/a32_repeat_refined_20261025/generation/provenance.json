@@ -1,0 +1,72 @@
+{
+  "schema": "a32_repetition_candidate_provenance_v1",
+  "host": "volc-a32",
+  "remote_root": "/home/houj/projects/pianist_turkish_hand_20261024",
+  "original_midi_sha256": "83707e4f40347d0a51402349a8ef8af7cf59c357656b50432591b3e8fceb88eb",
+  "geometry_sha256": "7a6b38af0dce0f4fe451eda133c2771d80d3044914328e7a3524192d8573a04c",
+  "model_sha256": "920475c61dc0469779d9f64769c75044140163151461201609ec181a7509fd4f",
+  "source_archive_sha256": "1d4a67f15c796a849387ccc967c4960f4ee12d0b18bde2ff81f27a591c23d560",
+  "initial_proposal": {
+    "wrapper_pid": 2536810,
+    "exit_status": 0,
+    "script_sha256": "c9f9bde3e62471df9081c3b99b58e0f2bc821390de1d816f24be4e4709fa4c84",
+    "command": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 timeout 240s training/.venv/bin/python scripts/audit_fingering_repeats.py --midi task_inputs/turkish-march-advanced.mid --plan training_mjlab/inputs/turkish_march_advanced/a32_contact_refined_20261024 --output task_outputs/fullscore_repetition_audit_v1 --propose --max-groups 8"
+  },
+  "dp_runs": [
+    {
+      "version": 1,
+      "wrapper_pid": 2541775,
+      "command": "bash task_scripts/run_repeat_dp_v1.sh",
+      "script_sha256": "dc5bd9bb9def1cda4e1117a269e7685c26e36d0cbddc4564bbf555fac53a62de",
+      "exit_status": 0,
+      "log": "task_outputs/fingering_repeat_refined_v1.log"
+    },
+    {
+      "version": 2,
+      "wrapper_pid": 2545768,
+      "command": "bash task_scripts/run_repeat_dp_v2.sh",
+      "script_sha256": "7e39a5d9471da8391bff59167a94f486c398af5f81456e59a5a10ab393c50e5a",
+      "exit_status": 0,
+      "log": "task_outputs/fingering_repeat_refined_v2.log"
+    },
+    {
+      "version": 3,
+      "wrapper_pid": 2549752,
+      "command": "bash task_scripts/run_repeat_dp_v3.sh",
+      "script_sha256": "4cdb1fca3be06c8d98c67dcc29ebfd631eaeec97a13a3edff980f85c98b48318",
+      "exit_status": 0,
+      "log": "task_outputs/fingering_repeat_refined_v3.log"
+    },
+    {
+      "version": 4,
+      "wrapper_pid": 2552621,
+      "command": "bash task_scripts/run_repeat_dp_v4.sh",
+      "script_sha256": "77bc668ed560205b2810829be8f9a7ea673e38adf4eb31c8e8a6ef7b9694e23c",
+      "exit_status": 0,
+      "log": "task_outputs/fingering_repeat_refined_v4.log"
+    },
+    {
+      "version": 5,
+      "wrapper_pid": 2557743,
+      "command": "bash task_scripts/run_repeat_dp_v5.sh",
+      "script_sha256": "b3d28c463f23a2cb8589e519b555622d0567f4024c0767c3a1ae68ab3d487e91",
+      "exit_status": 0,
+      "log": "task_outputs/fingering_repeat_refined_v5.log"
+    }
+  ],
+  "selected_version": 5,
+  "validation_command": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 training/.venv/bin/python task_scripts/validate_repeat_candidate.py --midi task_inputs/turkish-march-advanced.mid --baseline training_mjlab/inputs/turkish_march_advanced/a32_contact_refined_20261024 --plan task_outputs/fingering_repeat_refined_v5 --audit-script scripts/audit_fingering_repeats.py --bank-report task_outputs/contact_bank_3s_v6_exchange500/report.json --output task_outputs/fingering_repeat_refined_v5/input_validation.json",
+  "validation_exit_status": 0,
+  "reference_command": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 training_mjlab/.venv/bin/python task_scripts/make_repeat_reference.py --geometry task_outputs/geometry/model_geometry.json --plan training_mjlab/inputs/turkish_march_advanced/a32_repeat_refined_20261025 --output task_outputs/reference_repeat_refined_20261025.npz --source-sha256 1d4a67f15c796a849387ccc967c4960f4ee12d0b18bde2ff81f27a591c23d560",
+  "reference_exit_status": 0,
+  "reference_pid": null,
+  "local_and_remote_proto_csv_reference_sha_verified": true,
+  "training_performed": false,
+  "default_entry_modified": false,
+  "tests": {
+    "command": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 training_mjlab/.venv/bin/python -m pytest tests/test_audit_fingering_repeats.py task_scripts/test_bank_review.py -q",
+    "result": "9 passed in 0.06s",
+    "exit_status": 0,
+    "first_attempt_note": "Remote bank test path was not deployed; test copy staged under task_scripts/test_bank_review.py and rerun successfully. No physics/model loaded by tests."
+  }
+}

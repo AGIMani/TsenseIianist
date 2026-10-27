@@ -43,7 +43,7 @@ def test_current_model_physical_substeps_and_partial_reset():
         assert int(model.opt.integrator)==int(mujoco.mjtIntegrator.mjINT_EULER)
         for side in ('right','left'):
             for axis in ('tx','ty'):
-                joint=model.joint(f'{side}_/forearm_{axis}').id
+                joint=model.joint(f'{side}_/palm_base_{axis}').id
                 dof=int(model.jnt_dofadr[joint])
                 actuator_ids=[i for i in range(model.nu) if int(model.actuator_trnid[i,0])==joint]
                 assert len(actuator_ids)==1

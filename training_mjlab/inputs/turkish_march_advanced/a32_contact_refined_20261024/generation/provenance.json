@@ -1,0 +1,26 @@
+{
+  "host": "volc-a32",
+  "remote_root": "/home/houj/projects/pianist_turkish_hand_20261024",
+  "dp_wrapper_pid": 2484042,
+  "dp_exit_status": 0,
+  "dp_command": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 timeout 240s training/.venv/bin/python scripts/plan_model_fingering.py --midi task_inputs/turkish-march-advanced.mid --geometry task_outputs/geometry/model_geometry.json --output training_mjlab/inputs/turkish_march_advanced/a32_contact_refined_20261024 --thumb-penalty 200 --exchange-weight 500 --recovery-time .05 --fixed-fingering task_inputs/contact_fixed_fingering.json",
+  "dp_command_sha256": "8a4d9e009f3ce1b8c180224ddf64a8979ba09ab0183ecb753f09f443f8c775bd",
+  "test_command": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 training_mjlab/.venv/bin/python -m pytest tests/test_model_fingering_plan.py -q",
+  "test_result": "30 passed in 0.44s",
+  "build_wrapper_pid": 2485714,
+  "build_pid": 2485715,
+  "build_exit_status": 0,
+  "build_command": "bash task_scripts/run_contact_final_build.sh",
+  "build_command_script_sha256": "4e9747d2bfc59ddafa6a6cbb847d3a2094cf663381a16ce2172bfdf58d2a41b6",
+  "reference_command": "OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 training_mjlab/.venv/bin/python task_scripts/make_reference.py --geometry task_outputs/geometry/model_geometry.json --plan training_mjlab/inputs/turkish_march_advanced/a32_contact_refined_20261024 --output task_outputs/reference_final.npz",
+  "reference_exit_status": 0,
+  "validation_command": "training_mjlab/.venv/bin/python task_scripts/validate_exchange_bundle.py --build-output task_outputs/refine_contact_final_build --plan training_mjlab/inputs/turkish_march_advanced/a32_contact_refined_20261024 --reference task_outputs/reference_final.npz",
+  "validation_exit_status": 0,
+  "failed_initial_attempt": {
+    "wrapper_pid": 2482665,
+    "exit_status": 1,
+    "reason": "Selected physics environment lacks pretty_midi; reran successfully using existing training/.venv MIDI environment.",
+    "log": "task_outputs/fingering_contact_final_attempt1.log"
+  },
+  "limitations": "No training entry was changed. The new candidate is not physically certified."
+}

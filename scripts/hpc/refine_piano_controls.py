@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# 2026-10-25: Virtual palm_base naming unified; axis values and order unchanged.
 """Refine an IK seed with deterministic, contact-dynamics predictive control.
 
 Runs on the remote CPU, without a policy, reward learning, key actuators, or
@@ -163,7 +164,7 @@ def main():
     finger_columns={f:[] for f in range(10)};wrist=[]
     for ai,j in enumerate(jids):
         name=m.joint(j).name
-        if 'forearm_' in name:wrist.append(ai)
+        if 'palm_base_' in name:wrist.append(ai)
         for f in range(10):
             side='right_' if f<5 else 'left_';finger=('thumb','index','mid','ring','pinky')[f%5]
             if name.startswith(side) and '_'+finger+'_' in name:finger_columns[f].append(ai)

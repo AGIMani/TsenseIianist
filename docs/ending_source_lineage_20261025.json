@@ -1,0 +1,88 @@
+{
+  "overlays": {
+    "AGENTS.md": {
+      "parent_sha256": "12dc33bf88d3cd5f9a77fc58d68812237808a6232529df18876d43c59c9a06d8",
+      "sha256": "73c1028ff62aac04ddad306e119987120867a35887a6d817c0407cbbb78d7398"
+    },
+    "README.md": {
+      "parent_sha256": "1b7334e97e8296b3ae34fff3d0ff38bf2d362d74a8145efeed6ce871f6c527a8",
+      "sha256": "4e9fea2bb04cd33d968a6923dac00f841fb28862959deca9f7e4a644be645acb"
+    },
+    "docs/change_log.md": {
+      "parent_sha256": "16334fdda7d69bfb86398704167698ecf7f97910f0e5c08935b75eca8fb9f744",
+      "sha256": "78648416a88063d81f76f0622282f9719fe3a3b64b97a979fda28e4f7b457030"
+    },
+    "docs/reward_defaults_20261006.md": {
+      "parent_sha256": "e6903fa4f839be66fd9393017daf109ff5d320677b45ab139f6f5a5acf3afabf",
+      "sha256": "99586390b14d39c17c2484fe061a33628eed7c3416b438896a65223c0dc32f39"
+    },
+    "docs/superpowers/plans/2026-10-25-ending-return.md": {
+      "parent_sha256": null,
+      "sha256": "ce396d5ee226f34c30f68fd4f8890118f9f48728a5e0a1b7526729bdc7913afb"
+    },
+    "docs/superpowers/specs/2026-10-25-ending-return.md": {
+      "parent_sha256": null,
+      "sha256": "67f334b5cc539df709ce6fb424ae54b6c77e2fd9116f7533177734b51818c6f5"
+    },
+    "preview/scripts/render_mjlab_checkpoint.py": {
+      "parent_sha256": "48b09fd25414d07a5585ca16a7fac899d40eebb283c71bdec3fad016c55cf7b5",
+      "sha256": "9694817a31a34846cd89068ec9d3a8fa93aeb8fc73f8c3873788e7fddaac42fb"
+    },
+    "scripts/capture_archive_render.py": {
+      "parent_sha256": "80b3ed9e4e6a7ed0f938c3f9834e84e86027ee810abb4d58763d765e7a01d05f",
+      "sha256": "843be2ef34bd30c3f667f2baeab1c08169bc864ab6df29f338fe1549eb2901cc"
+    },
+    "scripts/export_score_annotations.py": {
+      "parent_sha256": "003c2049027ffdc75183f2c42fd02d58735650cbd24bc4f2166d6224822642f1",
+      "sha256": "bf60f1d3bd6e73f4376e42430db28b729929e0cc51981cd052ce414f59a0a95a"
+    },
+    "scripts/export_videos.py": {
+      "parent_sha256": "9a49a4f938f2e411d14ef9c1968ce81f346ffab613cadc86374a833f1c0726e8",
+      "sha256": "04a122e8000f1235a5c02a003be3d4378b60355134bb7632cf2e7ef3def9e027"
+    },
+    "scripts/package_interactive_replay.py": {
+      "parent_sha256": "c6ba2ba0bef019cdacc12a77eb164b4a40f17fa8648a253432622b319c80cf31",
+      "sha256": "1bfc9d2a4af7ef2849b22629abb6fbd328bc1ab6a464495a843213cc8b7b6d46"
+    },
+    "scripts/plot_recorded_midi_comparison.py": {
+      "parent_sha256": "03d84041b9c57da61e82db8baffa23ae6041bbee64ab2d3eb0eca3f41e85d5ba",
+      "sha256": "10f346e0e8c366e9a731e99148f9f7df679869e0b29d8564bc6336173337c2da"
+    },
+    "scripts/train_from_source.py": {
+      "parent_sha256": "e6bc1f4f058628fda557f4a501afa8a75ec48496817de3192610c1a67a3a07ce",
+      "sha256": "9ffd753aff213e8ae4df299f985c8b36f4032eef76b247e84ae62bbcfe01574b"
+    },
+    "tests/test_ending_export_gpu.py": {
+      "parent_sha256": null,
+      "sha256": "d4e021432cb49f12fb74cd33e9fe64523186f0526805bf9596388f36aa303815"
+    },
+    "tests/test_ending_gpu.py": {
+      "parent_sha256": null,
+      "sha256": "8f82acc011dd623b74022a0641c763a21fbd76fcb0fdf1704e57f538312e0b2f"
+    },
+    "tests/test_ending_return.py": {
+      "parent_sha256": null,
+      "sha256": "bf2d9d288d90ca855e025643bc472e64a81568f879ce5206b9f6d3a10fad6eb1"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/ending.py": {
+      "parent_sha256": null,
+      "sha256": "c984b128537815b451a449b36f47a468b2c5e2f68e94cb86dd21961e9a018acc"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/preparation.py": {
+      "parent_sha256": "9749a287d3c9fef6f49c43529189b0db5602a4b5f0c76b0756832fc0aa6a42ff",
+      "sha256": "4f3c502fee47870c6b6d3c571417e3794b5731f4127ad407cf78f5e065e0f561"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/source_runtime.py": {
+      "parent_sha256": "4395732c7abd9538a1a295f48efb81bf972b98a700ea93e04417283cfe2731fa",
+      "sha256": "c83ad565fa631d8484f37607917fe93d6f2290894db2ccbb6a73de0e237c3155"
+    },
+    "tsensei_v3_2_pianist/rl_torch/train.py": {
+      "parent_sha256": "4d5f543897019a78e1b33037c37c6d459d11353943d80a1b8f04349286f6c682",
+      "sha256": "58ed789ce8c0b31fae04902831d6fbaeb76f2292b9f26e54c7e641d8138f2916"
+    }
+  },
+  "parent_archive": "/home/houj/projects/pianist_first_note_20261025/logs/first_note_source_20261025/source_first_note_hover_export_v1.tar.gz",
+  "parent_sha256": "8ed0d50da6d7ab9c71112a98af72bc37dc2913c17d30d020a24ca4e71fa121a3",
+  "physical_trace": "No actual state clipping; transient excursions disclosed separately from hover acceptance",
+  "rule": "Pinned first-note parent retained; only enumerated ending-return sources, tests and docs overlaid; no outputs or environments"
+}

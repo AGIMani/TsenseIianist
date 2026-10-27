@@ -11,6 +11,7 @@ import shutil
 import sys
 import time
 
+import numpy as np
 import torch
 from tqdm import tqdm
 
@@ -127,10 +128,11 @@ def parser():
     p.add_argument('--critic-lr', type=float, help='Override the selected SAC preset critic learning rate')
     p.add_argument('--temp-lr', type=float, help='Override the selected SAC preset temperature learning rate')
     p.add_argument('--source-config', type=Path, help='Complete source reconstruction recipe, provided by source launcher')
+    p.add_argument('--ending-time', type=float, default=0., help='Minimum physical return to original pose after full playback; outside SAC')
     p.add_argument('--preparation-time', type=float, default=0.,
-                   help='Raised initial to origin height transition seconds')
-    p.add_argument('--preparation-mode', choices=('fixed_v1','policy_v1'), default='fixed_v1',
-                   help='policy_v1 includes controlled preparation in training; fixed_v1 preserves historical reset')
+                   help='Preparation main-motion seconds; 0 disables preparation')
+    p.add_argument('--preparation-mode', choices=('fixed_v1','policy_v1','first_note_v1'), default='fixed_v1',
+                   help='first_note_v1 physically hovers before learning; policy_v1 trains during preparation; fixed_v1 descends')
     p.add_argument('--preparation-lift', type=float, default=.02, help='World-Z initial lift in metres')
     p.add_argument('--seed', type=int, default=42)
     p.add_argument('--num-envs', type=int, default=256)
@@ -347,10 +349,16 @@ def effective_config(args):
     start, ratio = _update_schedule(args)
     requested_start = (args.learning_start_transitions if args.learning_start_transitions is not None
                        else (max(1, args.learning_starts)-1)*args.num_envs+1)
+    from ..mjlab_env.preparation import options as preparation_options
+    if not math.isfinite(args.ending_time) or args.ending_time < 0 or (args.ending_time and not args.preparation_time):
+        raise ValueError('Ending requires preparation and a finite nonnegative duration')
+    if args.preparation_mode == 'first_note_v1' and args.preparation_time:
+        if arm_follow is not None or args.action_profile != 'direct_joint_v1' or not args.finger_coupling:
+            raise ValueError('First-note preparation requires hand-only direct_joint_v1 with finger coupling')
     return dict(sac=asdict(c), stage=args.stage, num_envs=args.num_envs,
                 execution_layout=layout,
-                preparation=(dict(duration=args.preparation_time,lift=args.preparation_lift,trajectory='quintic_v1',
-                                  **({'mode': args.preparation_mode} if args.preparation_mode != 'fixed_v1' else {}))
+                preparation=(preparation_options(dict(duration=args.preparation_time,lift=args.preparation_lift,trajectory='quintic_v1',ending_duration=args.ending_time,
+                                  **({'mode': args.preparation_mode} if args.preparation_mode != 'fixed_v1' else {})))
                              if args.preparation_time else None),
                 action_profile=args.action_profile, no_arms=args.no_arms, disable_wrist_tz=args.disable_wrist_tz, disable_wrist_yaw=args.disable_wrist_yaw,
                 hand_collision_detection_only=args.hand_collision_detection_only,
@@ -1091,8 +1099,16 @@ def run(args):
     collector_envs = []
     for device, count in zip(collector_devices, collector_num_envs):
         torch.cuda.set_device(device)
-        collector_envs.append(PianoTaskEnv(args.scene, args.task, num_envs=count,
-                                           device=str(device), **env_kwargs))
+        try:
+            collector_envs.append(PianoTaskEnv(args.scene, args.task, num_envs=count,
+                                               device=str(device), **env_kwargs))
+        except Exception as error:
+            from ..mjlab_env.first_note_preparation import PreparationFailure
+            if isinstance(error, PreparationFailure):
+                np.savez_compressed(output/f'failed_preparation_{len(collector_envs)}.npz', **error.trace)
+                (output/f'failed_preparation_{len(collector_envs)}.json').write_text(
+                    json.dumps(error.contract, indent=2)+'\n')
+            raise
     # ``env`` remains the canonical shape/contract representative for learner,
     # evaluation and metadata; all collector slices have the same dimensions.
     env = collector_envs[0]

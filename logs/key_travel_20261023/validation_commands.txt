@@ -1,0 +1,9 @@
+Remote host volc-a32 / TenseiNode1; independent root /home/houj/projects/pianist_key_travel_20261023.
+CPU only, CUDA_VISIBLE_DEVICES= MUJOCO_GL=disable OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=.
+prepare.py: verify pinned parent SHA, extract and apply only travel constants/test and targeted documentation updates; reuse dependencies only.
+cd runtime; training/.venv/bin/python ../validate.py
+cd runtime; training/.venv/bin/python -m pytest -q tests/test_key_activation_fraction.py tests/test_black_key_shape.py tests/test_piano_layout_1224.py
+python3 freeze.py: require successful model/tests exit status, freeze exact overlays and audit complete source archive.
+All model construction and stepping remote CPU. No CUDA, policy inference, training or local model loading.
+
+First setup attempt used system hashlib.file_digest (unavailable), corrected to SHA256 read. Initial model command used learner env without dm_control; rerun in Composer env passed. Runtime 3.11 standalone XML checked separately.

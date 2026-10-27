@@ -1,0 +1,47 @@
+{
+  "kind": "exchange_candidate_bundle_validation_v1",
+  "host": "volc-a32",
+  "validation_pid": 2487740,
+  "validation_script_sha256": "bc784ff385d95a54aa7792282fb49ce3cd00aba2591ec87185f9b67c06c218c0",
+  "exit_status": 0,
+  "physics_model_loaded": false,
+  "physics_steps": 0,
+  "build_pid": 2485715,
+  "build_exit_status": 0,
+  "build": "/home/houj/projects/pianist_turkish_hand_20261024/task_outputs/refine_contact_final_build/build",
+  "score": "/home/houj/projects/pianist_turkish_hand_20261024/training_mjlab/inputs/turkish_march_advanced/a32_contact_refined_20261024/turkish-march-advanced_fingered.proto",
+  "reference": "/home/houj/projects/pianist_turkish_hand_20261024/task_outputs/reference_final.npz",
+  "mjb_sha256": "920475c61dc0469779d9f64769c75044140163151461201609ec181a7509fd4f",
+  "dependency_versions": {
+    "mujoco": "3.11.0"
+  },
+  "score_sha256": "c79239172a8f1a0a1b8e7b13d58b5f9364d4671b8f3d823de758138e0f34fce8",
+  "original_midi_sha256": "83707e4f40347d0a51402349a8ef8af7cf59c357656b50432591b3e8fceb88eb",
+  "archive_sha256": "1d4a67f15c796a849387ccc967c4960f4ee12d0b18bde2ff81f27a591c23d560",
+  "recipe_sha256": "5ecaa46c03900094be945aed33d15d7925d5c63d9a41aeed6465a0700a4ffa25",
+  "source_runner_sha256": "e455e08bf22dad9024c76e71e234c2846d1a328b98173d04b8a22e0624e284db",
+  "model_nq": 134,
+  "model_nu": 46,
+  "source_core_matches_original_pinned_build": true,
+  "source_file_count": 1570,
+  "exact_note_fields_preserved": true,
+  "independent_exchange_cost": [
+    35517.578124995336,
+    5431.640624999539
+  ],
+  "reference_metadata": {
+    "score_sha256": "c79239172a8f1a0a1b8e7b13d58b5f9364d4671b8f3d823de758138e0f34fce8",
+    "geometry_sha256": "7a6b38af0dce0f4fe451eda133c2771d80d3044914328e7a3524192d8573a04c",
+    "source_anchors_sha256": "e8c704c44d8be9e80b11388a47a440faa8d075e779a0a2050780eaa6b8733564",
+    "reference_sha256": "948e201991a4ba61aa41ee4e9049da03cdf6e365d74d8f953e39c4d452bee36b",
+    "dt": 0.05,
+    "wrist_smoothing_sigma_s": 0.15,
+    "description": "Unsmoothed sampled finger actions are scratch IK initial guesses only. Smoothed wrists are requests; current runtime target limiter still applies. Actual key state is never assigned.",
+    "duration_s": 222.72395833333334
+  },
+  "reference_shape": [
+    4456,
+    51
+  ],
+  "reference_is_final_limited_trajectory": false
+}

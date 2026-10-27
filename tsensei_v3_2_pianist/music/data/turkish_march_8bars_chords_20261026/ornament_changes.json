@@ -1,0 +1,252 @@
+[
+  {
+    "principal_original_index": 189,
+    "before": [
+      {
+        "index": 187,
+        "pitch": 69,
+        "finger": 2,
+        "start": 31.375,
+        "end": 31.433333333333334
+      },
+      {
+        "index": 188,
+        "pitch": 71,
+        "finger": 3,
+        "start": 31.4375,
+        "end": 31.495833333333334
+      },
+      {
+        "index": 189,
+        "pitch": 69,
+        "finger": 1,
+        "start": 31.5,
+        "end": 31.973958333333332
+      }
+    ],
+    "chord_start_seconds": 31.5,
+    "chord_end_seconds": 31.973958333333332,
+    "after": [
+      {
+        "pitch": 69,
+        "finger": 1,
+        "source_indices": [
+          187,
+          189
+        ]
+      },
+      {
+        "pitch": 71,
+        "finger": 3,
+        "source_indices": [
+          188
+        ]
+      }
+    ],
+    "finger_changes": []
+  },
+  {
+    "principal_original_index": 285,
+    "before": [
+      {
+        "index": 283,
+        "pitch": 69,
+        "finger": 2,
+        "start": 47.375,
+        "end": 47.43333333333333
+      },
+      {
+        "index": 284,
+        "pitch": 71,
+        "finger": 3,
+        "start": 47.4375,
+        "end": 47.49583333333333
+      },
+      {
+        "index": 285,
+        "pitch": 69,
+        "finger": 2,
+        "start": 47.5,
+        "end": 47.973958333333336
+      }
+    ],
+    "chord_start_seconds": 47.5,
+    "chord_end_seconds": 47.973958333333336,
+    "after": [
+      {
+        "pitch": 69,
+        "finger": 2,
+        "source_indices": [
+          283,
+          285
+        ]
+      },
+      {
+        "pitch": 71,
+        "finger": 3,
+        "source_indices": [
+          284
+        ]
+      }
+    ],
+    "finger_changes": []
+  },
+  {
+    "principal_original_index": 1069,
+    "before": [
+      {
+        "index": 1067,
+        "pitch": 69,
+        "finger": 2,
+        "start": 159.375,
+        "end": 159.43333333333334
+      },
+      {
+        "index": 1068,
+        "pitch": 71,
+        "finger": 3,
+        "start": 159.4375,
+        "end": 159.49583333333334
+      },
+      {
+        "index": 1069,
+        "pitch": 69,
+        "finger": 1,
+        "start": 159.5,
+        "end": 159.97395833333334
+      }
+    ],
+    "chord_start_seconds": 159.5,
+    "chord_end_seconds": 159.97395833333334,
+    "after": [
+      {
+        "pitch": 69,
+        "finger": 1,
+        "source_indices": [
+          1067,
+          1069
+        ]
+      },
+      {
+        "pitch": 71,
+        "finger": 3,
+        "source_indices": [
+          1068
+        ]
+      }
+    ],
+    "finger_changes": []
+  },
+  {
+    "principal_original_index": 1165,
+    "before": [
+      {
+        "index": 1163,
+        "pitch": 69,
+        "finger": 2,
+        "start": 175.375,
+        "end": 175.43333333333334
+      },
+      {
+        "index": 1164,
+        "pitch": 71,
+        "finger": 3,
+        "start": 175.4375,
+        "end": 175.49583333333334
+      },
+      {
+        "index": 1165,
+        "pitch": 69,
+        "finger": 2,
+        "start": 175.5,
+        "end": 175.97395833333334
+      }
+    ],
+    "chord_start_seconds": 175.5,
+    "chord_end_seconds": 175.97395833333334,
+    "after": [
+      {
+        "pitch": 69,
+        "finger": 2,
+        "source_indices": [
+          1163,
+          1165
+        ]
+      },
+      {
+        "pitch": 71,
+        "finger": 3,
+        "source_indices": [
+          1164
+        ]
+      }
+    ],
+    "finger_changes": []
+  },
+  {
+    "principal_original_index": 1370,
+    "before": [
+      {
+        "index": 1367,
+        "pitch": 85,
+        "finger": 2,
+        "start": 205.375,
+        "end": 205.43333333333334
+      },
+      {
+        "index": 1368,
+        "pitch": 76,
+        "finger": 0,
+        "start": 205.4375,
+        "end": 205.46770833333332
+      },
+      {
+        "index": 1369,
+        "pitch": 81,
+        "finger": 4,
+        "start": 205.46875,
+        "end": 205.49895833333332
+      },
+      {
+        "index": 1370,
+        "pitch": 85,
+        "finger": 3,
+        "start": 205.5,
+        "end": 206.21041666666667
+      }
+    ],
+    "chord_start_seconds": 205.5,
+    "chord_end_seconds": 206.21041666666667,
+    "after": [
+      {
+        "pitch": 76,
+        "finger": 0,
+        "source_indices": [
+          1368
+        ]
+      },
+      {
+        "pitch": 81,
+        "finger": 2,
+        "source_indices": [
+          1369
+        ]
+      },
+      {
+        "pitch": 85,
+        "finger": 3,
+        "source_indices": [
+          1367,
+          1370
+        ]
+      }
+    ],
+    "finger_changes": [
+      {
+        "source_index": 1369,
+        "old": 4,
+        "new": 2
+      }
+    ]
+  }
+]

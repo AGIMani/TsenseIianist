@@ -56,6 +56,9 @@ def template(stage='current'):
         'arm_motion_limit_penalty': term(False, 1., soft_limit_ratio=.95,
             full_penalty_excess=.1, maximum_penalty_per_step=5.),
         'arm_tracking_error_penalty': term(False, 1., error_scale_m=.001),
+        'key_hold_lateral_motion_penalty': term(False, 1.,
+            velocity_tolerance_m_s=.01, full_penalty_velocity_m_s=.10,
+            maximum_penalty_per_step=.5),
     }
     for kind in KINDS:
         for i, group in enumerate(GROUPS):
@@ -152,6 +155,11 @@ def validate(config):
             if (params['soft_limit_ratio'] != .95 or params['full_penalty_excess'] != .1
                     or params['maximum_penalty_per_step'] != 5. or term['weight'] != 1.):
                 raise ValueError('Arm penalty contract requires 95% SDK, 10% excess, weight=1, independent maximum=5')
+        if name == 'key_hold_lateral_motion_penalty':
+            finite_number(params['velocity_tolerance_m_s'], f'{name}.velocity_tolerance_m_s', nonnegative=True)
+            finite_number(params['full_penalty_velocity_m_s'], f'{name}.full_penalty_velocity_m_s', positive=True)
+            if params['full_penalty_velocity_m_s'] <= params['velocity_tolerance_m_s']:
+                raise ValueError('Key-hold full-penalty speed must exceed the tolerance')
         if name == 'arm_tracking_error_penalty':
             finite_number(params['error_scale_m'], f'{name}.error_scale_m', positive=True)
             if term['weight'] > 1.:

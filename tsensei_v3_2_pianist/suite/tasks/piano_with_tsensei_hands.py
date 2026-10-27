@@ -1,3 +1,4 @@
+# 2026-10-25: Virtual palm_base naming unified; axis values and order unchanged.
 # Copyright 2023 The RoboPianist Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -426,7 +427,7 @@ class PianoWithTsenseiHands(base.PianoTask):
         enabled_observables = [
             "joints_pos",
             # NOTE(kevin): This observable was previously enabled but it is redundant
-            # since it is encoded in the joint positions, specifically via the forearm
+            # since it is encoded in the joint positions, specifically via palm_base
             # slider joints (which are in units of meters).
             # "position",
         ]
@@ -504,9 +505,9 @@ class PianoWithTsenseiHands(base.PianoTask):
             return
         offset = random_state.uniform(low=-_POSITION_OFFSET, high=_POSITION_OFFSET)
         for hand in [self.right_hand, self.left_hand]:
-            joint = hand.mjcf_model.find("joint", "forearm_tx")
-            actuator = hand.actuator_for_joint("forearm_tx")
+            joint = hand.mjcf_model.find("joint", "palm_base_tx")
+            actuator = hand.actuator_for_joint("palm_base_tx")
             if joint is None or actuator is None:
-                raise ValueError("Position randomization requires forearm_tx")
+                raise ValueError("Position randomization requires palm_base_tx")
             physics.bind(joint).qpos = offset
             physics.bind(actuator).ctrl = offset

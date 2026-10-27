@@ -15,3 +15,12 @@ deprecated/reward_modes/fingering_endpoint_20261022/source_cad_part_collision_v1
 logs/control_ranges_20261022/source_exact_fingering_ranges_v1.tar.gz filter=lfs diff=lfs merge=lfs -text
 logs/black_key_model_20261023/source_black_key_shape_v1.tar.gz filter=lfs diff=lfs merge=lfs -text
 deprecated/reward_modes/key_activation_0p5deg_20261022/source_pitch_range_v1.tar.gz filter=lfs diff=lfs merge=lfs -text
+logs/mesh_coupling_plane_20261023/source_mesh_coupling_plane_v1.tar.gz filter=lfs diff=lfs merge=lfs -text
+
+logs/key_travel_20261023/source_key_travel_12_10_v1.tar.gz filter=lfs diff=lfs merge=lfs -text
+
+logs/first_note_source_20261025/source_first_note_hover_export_v1.tar.gz filter=lfs diff=lfs merge=lfs -text
+logs/ending_source_20261025/source_ending_return_v1.tar.gz filter=lfs diff=lfs merge=lfs -text
+logs/coordinate_names_20261025/source_world_pose_names_v1.tar.gz filter=lfs diff=lfs merge=lfs -text
+logs/pitch_range_20261026/source_pitch_symmetric_v1.tar.gz filter=lfs diff=lfs merge=lfs -text
+logs/key_hold_lateral_20261026/source_key_hold_lateral_v1.tar.gz filter=lfs diff=lfs merge=lfs -text

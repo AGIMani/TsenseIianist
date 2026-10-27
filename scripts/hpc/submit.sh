@@ -57,10 +57,22 @@ while (($#)); do
 done
 MODE="${1:-probe}"
 if (($#)); then shift; fi
-case "$MODE" in reserve|probe|benchmark|performance|validate|train|replay|preview|mjlab-preview|arm-replay|export|online-export|strike-diagnostic) ;; *) echo 'Usage: submit.sh [--gpus 1|2|4] [--allocation JOB_ID] [--dependency EXPR] [--kill-on-invalid-dep] [--source-archive FILE] {reserve|probe|benchmark|performance|validate|train|replay|preview|mjlab-preview|arm-replay|export|online-export|strike-diagnostic} [arguments...]' >&2; exit 2;; esac
+case "$MODE" in reserve|probe|benchmark|performance|validate|train|replay|preview|mjlab-preview|arm-replay|export|online-export|strike-diagnostic|preparation-preview) ;; *) echo 'Usage: submit.sh [--gpus 1|2|4] [--allocation JOB_ID] [--dependency EXPR] [--kill-on-invalid-dep] [--source-archive FILE] {reserve|probe|benchmark|performance|validate|train|replay|preview|mjlab-preview|arm-replay|export|online-export|strike-diagnostic} [arguments...]' >&2; exit 2;; esac
 if [[ "$gpu_count" == 1 ]]; then
-  case "$MODE" in replay|train|validate|export|mjlab-preview) ;; *) echo '--gpus 1 supports only replay, train, validate, export or mjlab-preview' >&2; exit 2;; esac
+  case "$MODE" in replay|train|validate|export|mjlab-preview|preparation-preview) ;; *) echo '--gpus 1 supports only replay, train, validate, export or mjlab-preview' >&2; exit 2;; esac
   [[ -z "$allocation_id" ]] || { echo '--gpus 1 cannot reuse --allocation: reserve jobs require two GPUs' >&2; exit 2; }
+fi
+if [[ "${TSENSEI_JOB_BACKEND:-slurm}" == process ]]; then
+  [[ -z "$allocation_id" ]] || { echo 'Process backend cannot reuse Slurm allocations' >&2; exit 2; }
+  process_options=()
+  for option in "${submission_options[@]}"; do
+    case "$option" in
+      --dependency=*) process_options+=(--dependency "${option#--dependency=}") ;;
+      --kill-on-invalid-dep=yes) process_options+=(--kill-on-invalid-dep) ;;
+      *) echo "Unsupported process option: $option" >&2; exit 2 ;;
+    esac
+  done
+  exec python3 "$PROJECT_DIR/scripts/hpc/process_backend.py" --project "$PROJECT_DIR" --gpus "$gpu_count" "${process_options[@]}" "$MODE" "$@"
 fi
 export TSENSEI_EXPECTED_GPUS="$gpu_count"
 mkdir -p "$PROJECT_DIR/logs/hpc"

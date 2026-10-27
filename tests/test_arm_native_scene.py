@@ -103,8 +103,8 @@ def test_cartesian_tz_request_survives_removed_physical_slide():
     fake=SimpleNamespace(action_size=31,action_low=torch.full((31,),-1.),action_high=torch.ones(31),
         physical_low=torch.full((51,),-1.),physical_high=torch.ones(51),policy_ids=torch.tensor(ids),
         bundle=SimpleNamespace(policy_action_indices=ids,fixed_joint_values={
-            'right_/forearm_tz':.111,'left_/forearm_tz':.222,
-            'right_/forearm_pitch':.3,'left_/forearm_pitch':.4}))
+            'right_/palm_base_tz':.111,'left_/palm_base_tz':.222,
+            'right_/palm_base_pitch':.3,'left_/palm_base_pitch':.4}))
     action=torch.zeros((1,31));action[0,list(ids).index(22)]=.25;action[0,list(ids).index(47)]=-.4
     physical=PianoScene.physical_action(fake,action)
     torch.testing.assert_close(physical[0,[22,47]],torch.tensor([.25,-.4]))

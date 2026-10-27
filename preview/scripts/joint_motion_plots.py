@@ -31,7 +31,8 @@ def write_csv(path, time, values, names):
                header=','.join(['original_time_s', *names]), comments='', fmt='%.17g')
 
 
-def export_joint_motion(folder, time, positions, joints, label, *, limits=None, continuous_path=None):
+def export_joint_motion(folder, time, positions, joints, label, *, limits=None, continuous_path=None,
+                        position_source='bounded_trajectory'):
     """Each joint gets separate PNG/PDF plots; each side also gets two overviews.
 
     Recorded positions use finite differences. A supplied planned path uses its
@@ -44,13 +45,42 @@ def export_joint_motion(folder, time, positions, joints, label, *, limits=None, 
 
     time = np.asarray(time, dtype=float)
     positions = np.asarray(positions, dtype=float)
-    bounded = [j for j in joints if j.get('position_min') is not None and j.get('position_max') is not None]
-    if bounded:
-        if len(bounded) != len(joints):
-            raise ValueError('Position limits must cover every exported joint')
-        from tsensei_v3_2_pianist.mjlab_env.joint_limits import require_bounded
-        require_bounded(positions, [j['position_min'] for j in joints], [j['position_max'] for j in joints])
+    if position_source not in ('bounded_trajectory', 'recorded_physics'):
+        raise ValueError('Unknown position source')
+    if position_source == 'recorded_physics' and continuous_path is not None:
+        raise ValueError('Recorded physics cannot use a planned continuous path')
     vt, velocity, at, acceleration = derivatives(time, positions)
+    if len(joints) != positions.shape[1]:
+        raise ValueError('Joint metadata must match position columns')
+    bounded = [j for j in joints if j.get('position_min') is not None and j.get('position_max') is not None]
+    position_audit = []
+    for i, joint in enumerate(joints):
+        lo, hi = joint.get('position_min'), joint.get('position_max')
+        if (lo is None) != (hi is None):
+            raise ValueError('Each position limit requires both bounds')
+        if lo is None:
+            position_audit.append(None)
+            continue
+        if not np.isfinite([lo, hi]).all() or lo >= hi:
+            raise ValueError('Position limits must be finite and increasing')
+        values = positions[:, i]
+        below, above = values < lo, values > hi
+        exceeded = below | above
+        times = time[exceeded]
+        position_audit.append(dict(minimum=float(values.min()), maximum=float(values.max()),
+            lower_limit=float(lo), upper_limit=float(hi), unit=joint['unit'],
+            below_limit_samples=int(below.sum()), above_limit_samples=int(above.sum()),
+            exceeded_samples=int(exceeded.sum()), exceeded_sample_fraction=float(exceeded.mean()),
+            maximum_undershoot=float(np.maximum(lo-values, 0).max()),
+            maximum_overshoot=float(np.maximum(values-hi, 0).max()),
+            first_exceedance_s=float(times[0]) if len(times) else None,
+            last_exceedance_s=float(times[-1]) if len(times) else None))
+    if bounded:
+        if position_source == 'bounded_trajectory':
+            if len(bounded) != len(joints):
+                raise ValueError('Position limits must cover every exported joint')
+            from tsensei_v3_2_pianist.mjlab_env.joint_limits import require_bounded
+            require_bounded(positions, [j['position_min'] for j in joints], [j['position_max'] for j in joints])
     if continuous_path is not None:
         np.testing.assert_allclose(positions, continuous_path(time), rtol=0, atol=1e-10,
                                    err_msg='Plotted positions must use the rendered continuous path')
@@ -80,9 +110,9 @@ def export_joint_motion(folder, time, positions, joints, label, *, limits=None, 
     if limits is not None:
         (folder/'joint_limits.json').write_text(json.dumps(limits, indent=2)+'\n')
     write_csv(folder/'joint_positions.csv', time, positions, [f'{s}_{j["unit"]}' for s, j in zip(slugs, joints)])
-    if bounded:
-        require_bounded(np.loadtxt(folder/'joint_positions.csv', delimiter=',', skiprows=1, ndmin=2)[:, 1:],
-                        [j['position_min'] for j in joints], [j['position_max'] for j in joints])
+    np.testing.assert_array_equal(
+        np.loadtxt(folder/'joint_positions.csv', delimiter=',', skiprows=1, ndmin=2)[:, 1:], positions,
+        err_msg='Exported positions must preserve every input sample exactly')
     write_csv(folder/'joint_velocities.csv', vt, velocity, [f'{s}_{j["unit"]}_s' for s, j in zip(slugs, joints)])
     write_csv(folder/'joint_accelerations.csv', at, acceleration, [f'{s}_{j["unit"]}_s2' for s, j in zip(slugs, joints)])
     np.savez_compressed(folder/'joint_motion_samples.npz', time=time, positions=positions,
@@ -91,6 +121,7 @@ def export_joint_motion(folder, time, positions, joints, label, *, limits=None, 
     summary = []
     for i, joint in enumerate(joints):
         item = dict(joint)
+        item['position'] = position_audit[i]
         for kind, t, values in (('velocity', vt, velocity), ('acceleration', at, acceleration)):
             index = int(np.argmax(np.abs(values[:, i]))) if len(t) else None
             item[kind] = None if index is None else dict(
@@ -110,6 +141,26 @@ def export_joint_motion(folder, time, positions, joints, label, *, limits=None, 
 
     with plt.rc_context({'font.size': 10, 'axes.spines.top': False, 'axes.spines.right': False,
                          'savefig.facecolor': 'white', 'path.simplify': False}):
+        for i, audit in enumerate(position_audit):
+            if audit is None:
+                continue
+            fig, ax = plt.subplots(figsize=(11, 3.5))
+            values = positions[:, i]
+            ax.plot(time, values, lw=.8, label='Recorded position' if position_source == 'recorded_physics' else 'Trajectory position')
+            ax.axhline(audit['lower_limit'], color='#b32626', ls='--', label='Model position bounds')
+            ax.axhline(audit['upper_limit'], color='#b32626', ls='--')
+            exceeded = (values < audit['lower_limit']) | (values > audit['upper_limit'])
+            if exceeded.any():
+                ax.scatter(time[exceeded], values[exceeded], color='#b32626', s=8, zorder=3,
+                           label=f'Outside bounds: {int(exceeded.sum())} samples')
+            ax.set(xlabel='Original replay time (s)', ylabel=joints[i]['unit'],
+                   title=f'{label} | {joints[i]["name"]} | position | unchanged samples',
+                   xlim=(time[0], time[-1]))
+            ax.grid(alpha=.2); ax.legend(fontsize=8)
+            fig.tight_layout()
+            for ext in ('png', 'pdf'):
+                fig.savefig(folder/f'{slugs[i]}_position.{ext}', dpi=150)
+            plt.close(fig)
         for kind, plural, t, values, color in (
                 ('velocity', 'velocities', vt, velocity, '#2377b5'),
                 ('acceleration', 'accelerations', at, acceleration, '#ca6231')):
@@ -188,6 +239,10 @@ def export_joint_motion(folder, time, positions, joints, label, *, limits=None, 
                 plt.close(fig)
 
     report = dict(schema=2, label=label, joints=summary, position_samples=len(time),
+                  position_source=position_source, positions_modified=False,
+                  position_bounds_status=('exceeded' if any(a and a['exceeded_samples'] for a in position_audit)
+                                          else 'within_bounds' if len(bounded) == len(joints) else 'partially_unavailable'),
+                  position_limit_comparison='Strict measured q < lower or q > upper; no tolerance, clipping, projection or dropped samples',
                   velocity_samples=len(vt), acceleration_samples=len(at),
                   start_s=float(time[0]), end_s=float(time[-1]),
                   sampling_interval_s=dict(minimum=float(np.diff(time).min()), maximum=float(np.diff(time).max())),

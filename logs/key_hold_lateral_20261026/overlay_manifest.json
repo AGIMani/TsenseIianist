@@ -1,0 +1,19 @@
+{
+  "configs/rewards/default_20261006.json": "9ff6f4128f7739356a60bebadde339e6da742da026664d51701587237f512d64",
+  "README.md": "4977bfa8784a6683ad09d932ac992e7c0a48c15b28aff81e63ca531f88e8c4a3",
+  "docs/change_log.md": "dfa5a4bd33a84425af7ad0114a600346e7888d186232cd8d0860882ff276f1d4",
+  "docs/reward_defaults_20261006.md": "0b0825d299f83094569cef9f61032616b622f66f34a2b9c26f59f6fb7718b448",
+  "tests/test_key_hold_lateral_reward.py": "c9409057ddb309927f61df627954f9df9e6410052a3f9e831a4dc350dfae3b76",
+  "tests/test_key_hold_lateral_sampling.py": "42609ddda092a8a85d200b19fc5d90cf5fcdd0d3d1314aefc159953b69c99c86",
+  "tests/test_key_hold_lateral_physical.py": "82534b11f32dc87477319fbb8f02abce9069877816ebe404a23f85bd03b36111",
+  "tests/test_paper_rewards.py": "17dd6e6612b28e32397d0bd85bf8160bbd8993a92aa2ab35bed96ad876ed3b12",
+  "tests/test_reward_defaults_20261006.py": "cc1081787a0c87e504f0eb5e0d52412d46a0acc1aa72850dae93f973657e7c4b",
+  "docs/superpowers/specs/2026-10-26-key-hold-lateral-design.md": "311751c590cbf7b7c704c9f66969dbbbd55f8817f3d8c013511d96aa06f581a3",
+  "docs/superpowers/plans/2026-10-26-key-hold-lateral.md": "f85ada568286aab949d2a331dd02d3983d7045786225184f25b6fb779dde04b7",
+  "tsensei_v3_2_pianist/mjlab_env/reward_config.py": "d91e7041b729aaaed097c8abf2c0caeaf30ca5ca3ad582108cec458538cfb43d",
+  "tsensei_v3_2_pianist/mjlab_env/rewards.py": "0aa465aa0b1a9d3d1d9fb2a6b9e7f659ede827e0f8699fab5371220c26188f44",
+  "tsensei_v3_2_pianist/mjlab_env/task.py": "c587953613ed94015078d3125759b503ec1eaa4f1273b69828872877123393f4",
+  "tsensei_v3_2_pianist/mjlab_env/scene.py": "914bd7e4a49d02cc60a20be5b7d7770444cec48394875de677c6041418520211",
+  "tsensei_v3_2_pianist/mjlab_env/substep_rewards.py": "7c43838c9dfa65d8587960317e536706fd3cea4bf18322eede462a87515cc6ae",
+  "tsensei_v3_2_pianist/mjlab_env/key_hold_lateral.py": "03602b6e5912ea3a55362d07cf1fed0e53a8be848eb9a966631def3cab71691b"
+}

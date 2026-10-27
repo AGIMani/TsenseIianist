@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# 2026-10-25: External initial positions use world-frame metres; yaw is the palm-base joint angle in radians.
+# 2026-10-25: Virtual palm_base naming unified; axis values and order unchanged.
 """Render a first-10-second, finger-assignment-driven MuJoCo replay.
 
 This is a kinematic diagnostic: it solves fingertip IK toward the registered
@@ -22,7 +24,7 @@ def main():
     a=ap.parse_args(); out=a.output.resolve(); out.mkdir(parents=True, exist_ok=True)
     if any(out.iterdir()): raise FileExistsError(out)
     from tsensei_v3_2_pianist.mjlab_env.source_runtime import make_recipe, _compile
-    recipe=make_recipe(midi=str(a.score), height=.10, ty=.04, yaw=np.pi/6,
+    recipe=make_recipe(midi=str(a.score), world_x=.14, world_z=.10, palm_base_yaw=np.pi/6,
         control_hz=20., physics_hz=200., lookahead=10, frame_stack=1,
         initial_buffer_time=0., release_tail_time=0., score_validation='legacy',
         gravity_compensation=True, action_reward_observation=True,
@@ -43,7 +45,7 @@ def main():
     # Manifest order is right five sites followed by left five sites.
     qids=[]
     for side, hand in zip(('right','left'), manifest['hand_joints']):
-        names=list(hand)+[f'{side}_/forearm_tx',f'{side}_/forearm_ty',f'{side}_/forearm_tz',f'{side}_/forearm_pitch',f'{side}_/forearm_yaw']
+        names=list(hand)+[f'{side}_/palm_base_tx',f'{side}_/palm_base_ty',f'{side}_/palm_base_tz',f'{side}_/palm_base_pitch',f'{side}_/palm_base_yaw']
         qids.append([model.joint(n).id for n in names if model.joint(n).id >= 0])
     qpos_ids=[]; dof_ids=[]
     qpos_to_joint={int(model.jnt_qposadr[j]):j for j in range(model.njnt)}

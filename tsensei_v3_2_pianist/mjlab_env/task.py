@@ -93,7 +93,9 @@ class PianoTaskEnv:
         self.reward_manager = RewardManager(
             self.reward_config,s.bundle.manifest,b.manifest,num_envs=num_envs,device=device)
         if s.has_action_transform:
-            self.reward_manager.neutral=s.control_reset_action[:50].clone()
+            self.reward_manager.neutral=(s.tensor(s.bundle.neutral_action[:50]).clone()
+                if (s.bundle.preparation_options or {}).get('mode') == 'first_note_v1'
+                else s.control_reset_action[:50].clone())
             if self.reward_manager.gesture_active:
                 manager=self.reward_manager
                 manager.gesture_pose={name:float(manager.neutral[i])
@@ -171,7 +173,9 @@ class PianoTaskEnv:
             pairs = ((self.palms[0][:,None] & self.palms[1][None,:])
                      | (self.palms[1][:,None] & self.palms[0][None,:]))
         s.configure_reward_sampling(pairs, collision_margin=m['collision_margin'],
-            tip_ids=self.tip_ids.cpu().numpy(), key_site_ids=self.key_site_ids.cpu().numpy(), key_offsets=offsets)
+            tip_ids=self.tip_ids.cpu().numpy(), key_site_ids=self.key_site_ids.cpu().numpy(), key_offsets=offsets,
+            key_hold_geom_ids=(self.key_geoms.cpu().numpy()
+                if self.reward_config['terms']['key_hold_lateral_motion_penalty']['enabled'] else None))
         self.reset()
 
     @property
@@ -290,6 +294,9 @@ class PianoTaskEnv:
                           key_target_history=sampling.key_target_history,
                           key_activation_any=activation.any(1), power_mean=sampling.power_mean,
                           palm_collision_any=sampling.palm_collision_any | arm_collision_any)
+        if sampling is not None and sampling.key_hold_lateral is not None:
+            result.update(key_hold_lateral_velocity_history=sampling.key_hold_lateral.velocity_history,
+                          key_hold_contact_history=sampling.key_hold_lateral.contact_history)
         if self.exact_score is not None and endpoint:
             index = self.logic.index.clamp_max(self.logic.length - 1)
             result['exact_goal_history'] = self.exact_score.goal_history[index]
@@ -403,6 +410,11 @@ class PianoTaskEnv:
             for category in tracker.CATEGORIES:
                 result.info[f'{category}_collision_substeps'] = (
                     tracker.count_substeps(category).clone())
+        if 'key_hold_contact_history' in snapshot:
+            held = snapshot['key_hold_contact_history'].bool()
+            speed = snapshot['key_hold_lateral_velocity_history'].abs()
+            result.info['key_hold_contact_substeps_by_hand'] = held.sum(1)
+            result.info['key_hold_lateral_peak_m_s_by_hand'] = (speed * held).amax(1)
         if 'key_activation_history' in snapshot:
             active = snapshot['key_activation_history']
             goal = snapshot.get('exact_goal_history', result.info['goal_applied'][:,None,:])[:, :, :88].bool()

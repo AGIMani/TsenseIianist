@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# 2026-10-25: External initial positions use world-frame metres; yaw is the palm-base joint angle in radians.
 """Preview the fixed raised-to-origin pose path without a learned policy.
 
 Run with training_mjlab/.venv/bin/python scripts/preview_preparation.py
@@ -19,15 +20,18 @@ sys.path.insert(0, str(ROOT/'preview/scripts'))
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    from tsensei_v3_2_pianist.initial_world_pose import (
+        add_arguments as add_pose_arguments, reject_legacy_pose_arguments)
     parser.add_argument('--output', type=Path, required=True, help='New output directory')
     parser.add_argument('--duration', type=float, default=1.)
     parser.add_argument('--lift', type=float, default=.02, help='World-Z initial lift in meters')
-    parser.add_argument('--height', type=float, default=.10, help='Unraised origin mounting height')
-    parser.add_argument('--ty', type=float, default=.04)
-    parser.add_argument('--yaw', type=float, default=.15)
+    add_pose_arguments(parser, defaults=dict(world_x=.14, world_z=.10,
+                                           right_world_y=.15, left_world_y=-.15,
+                                           palm_base_yaw=.15))
     parser.add_argument('--camera-view', choices=('front', 'performer', 'overview'), default='front')
     parser.add_argument('--camera-framing', choices=('full', 'hands'), default='hands')
     parser.add_argument('--audio', action=argparse.BooleanOptionalAction, default=True)
+    reject_legacy_pose_arguments(sys.argv[1:], parser)
     args = parser.parse_args()
     if args.output.exists():
         parser.error('Choose a new output directory; existing artifacts are preserved')
@@ -43,7 +47,9 @@ def main():
     from tsensei_v3_2_pianist.preview_camera import configure_camera
     from tsensei_v3_2_pianist.preview_keys import ActiveKeyHighlight
     from preparation_frames import frame_indices, snapshot, audio_prefix
-    recipe = make_recipe(height=args.height, ty=args.ty, yaw=args.yaw,
+    recipe = make_recipe(world_x=args.world_x, world_z=args.world_z,
+                         right_world_y=args.right_world_y, left_world_y=args.left_world_y,
+                         palm_base_yaw=args.palm_base_yaw,
                          control_hz=20., physics_hz=200., initial_buffer_time=0.,
                          task_profile='tsensei_collision_v1', collision_profile='convex_hull_v1',
                          drive_profile='shadow_v1', preparation_time=args.duration,

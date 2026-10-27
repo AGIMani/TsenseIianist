@@ -72,11 +72,12 @@ class SourceRuntimeChecks(unittest.TestCase):
             scene_path, task_path, _ = runtime.build(recipe)
         scene = SceneBundle(scene_path, disable_wrist_tz=True, disable_wrist_yaw=True)
         for side in ('right', 'left'):
-            joint = scene.model.joint(f'{side}_/forearm_tx').id
+            joint = scene.model.joint(f'{side}_/palm_base_tx').id
             self.assertAlmostEqual(scene.model.dof_armature[scene.model.jnt_dofadr[joint]], .02)
         task = TaskBundle(task_path, SceneBundle(scene_path))
         self.assertEqual(task.manifest['task_profile'], 'tsensei_collision_v1')
-        self.assertEqual(list(map(len, task.manifest['forearm_collision_geoms'])), [22, 22])
+        # Current A3.2: 79 palm components + 21 other link hulls per hand.
+        self.assertEqual(list(map(len, task.manifest['forearm_collision_geoms'])), [100, 100])
         expected = (sha256(scene_path/'manifest.json'), sha256(task_path/'task.json'))
         for workspace in runtime._LIVE_WORKSPACES:
             if Path(workspace.name) == scene_path.parent:

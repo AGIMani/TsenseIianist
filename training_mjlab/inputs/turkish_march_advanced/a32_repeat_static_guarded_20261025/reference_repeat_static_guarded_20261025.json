@@ -1,0 +1,14 @@
+{
+  "score_sha256": "66563e8b5e338c1ef3e426233647da2a008ac931939775b1ee87c36857339af0",
+  "geometry_sha256": "7a6b38af0dce0f4fe451eda133c2771d80d3044914328e7a3524192d8573a04c",
+  "source_anchors_sha256": "503d22cac6bae419b6fb089c06f3fb86158e937f039b2ab9cacb76ebeec994c7",
+  "reference_sha256": "71c9c1e714c9f705f184b34bc3521117db408117d0453f333ead9b9c7b5ccf68",
+  "dt": 0.05,
+  "wrist_smoothing_sigma_s": 0.15,
+  "description": "Unsmoothed sampled finger actions are scratch IK initial guesses only. Smoothed wrists are requests; current runtime target limiter still applies. Actual key state is never assigned.",
+  "duration_s": 222.72395833333334,
+  "generator_sha256": "8d7694e4d204ef0941ea022db62b725329dce256982b291518bd0c6b64f055a3",
+  "source_archive_sha256": "1d4a67f15c796a849387ccc967c4960f4ee12d0b18bde2ff81f27a591c23d560",
+  "source_csv_sha256": "3982adf446ffcf42334191bdce6731a0203d02d19e404121de880c4bc4eff801",
+  "plan_path": "/home/houj/projects/pianist_turkish_hand_20261024/training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025"
+}

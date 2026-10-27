@@ -1,3 +1,4 @@
+# 2026-10-25: Virtual palm_base naming unified; axis values and order unchanged.
 # Copyright 2023 The RoboPianist Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -100,6 +101,15 @@ class PianoOnlyTask(composer.Task):
 
 
 class PianoTask(PianoOnlyTask):
+    def before_substep(self, physics, action, random_state):
+        from tsensei_v3_2_pianist.finger_resistance import Resistance
+        model = physics.model.ptr
+        if getattr(self, '_resistance_model', None) is not model:
+            self._resistance_model = model
+            self._finger_resistance = Resistance(model)
+        self._finger_resistance.update(physics.data.ptr)
+
+
     """Base class for piano tasks."""
 
     def __init__(
@@ -110,7 +120,7 @@ class PianoTask(PianoOnlyTask):
         primitive_fingertip_collisions: bool = False,
         reduced_action_space: bool = False,
         attachment_yaw: float = _ATTACHMENT_YAW,
-        forearm_dofs: Sequence[str] = hand_consts.DEFAULT_FOREARM_DOFS,
+        palm_base_dofs: Sequence[str] = hand_consts.DEFAULT_PALM_BASE_DOFS,
         exclude_assembly_collisions: bool = True,
         physics_timestep: float = _PHYSICS_TIMESTEP,
         control_timestep: float = _CONTROL_TIMESTEP,
@@ -134,7 +144,7 @@ class PianoTask(PianoOnlyTask):
             primitive_fingertip_collisions=primitive_fingertip_collisions,
             reduced_action_space=reduced_action_space,
             attachment_yaw=attachment_yaw,
-            forearm_dofs=forearm_dofs,
+            palm_base_dofs=palm_base_dofs,
         )
         self._left_hand = self._add_hand(
             hand_side=HandSide.LEFT,
@@ -144,7 +154,7 @@ class PianoTask(PianoOnlyTask):
             primitive_fingertip_collisions=primitive_fingertip_collisions,
             reduced_action_space=reduced_action_space,
             attachment_yaw=attachment_yaw,
-            forearm_dofs=forearm_dofs,
+            palm_base_dofs=palm_base_dofs,
         )
 
     # Accessors.
@@ -168,7 +178,7 @@ class PianoTask(PianoOnlyTask):
         primitive_fingertip_collisions: bool,
         reduced_action_space: bool,
         attachment_yaw: float,
-        forearm_dofs: Sequence[str],
+        palm_base_dofs: Sequence[str],
     ) -> tsensei_hand.TsenseiHand:
         joint_range = [-_FOREARM_LATERAL_HALF_RANGE, _FOREARM_LATERAL_HALF_RANGE]
 
@@ -178,12 +188,12 @@ class PianoTask(PianoOnlyTask):
 
         hand = tsensei_hand.TsenseiHand(
             side=hand_side,
-            forearm_dofs=forearm_dofs,
+            palm_base_dofs=palm_base_dofs,
             exclude_assembly_collisions=self._exclude_assembly_collisions,
         )
         hand.root_body.pos = position
 
-        # Slightly rotate the forearms inwards (Z-axis) to mimic human posture.
+        # Slightly rotate the palm bases inwards (Z-axis) to mimic human posture.
         rotate_axis = np.asarray([0, 0, 1], dtype=np.float64)
         rotate_by = np.zeros(4, dtype=np.float64)
         sign = -1 if hand_side == HandSide.LEFT else 1
@@ -196,13 +206,13 @@ class PianoTask(PianoOnlyTask):
         if gravity_compensation:
             physics_utils.compensate_gravity(hand.mjcf_model)
 
-        # Override forearm translation joint range.
-        forearm_tx_joint = hand.mjcf_model.find("joint", "forearm_tx")
-        if forearm_tx_joint is not None:
-            forearm_tx_joint.range = joint_range
-        forearm_tx_actuator = hand.actuator_for_joint("forearm_tx")
-        if forearm_tx_actuator is not None:
-            forearm_tx_actuator.ctrlrange = joint_range
+        # Override palm_base translation joint range.
+        palm_base_tx_joint = hand.mjcf_model.find("joint", "palm_base_tx")
+        if palm_base_tx_joint is not None:
+            palm_base_tx_joint.range = joint_range
+        palm_base_tx_actuator = hand.actuator_for_joint("palm_base_tx")
+        if palm_base_tx_actuator is not None:
+            palm_base_tx_actuator.ctrlrange = joint_range
 
         self._arena.attach(hand)
         # Composer prefixes elements owned by attached models (for example,

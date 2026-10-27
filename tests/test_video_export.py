@@ -150,7 +150,7 @@ def test_worker_rejects_execution_outside_slurm(tmp_path,monkeypatch):
 def test_hand_joint_selection_excludes_piano_and_handles_numpy_enums():
     import mujoco
     model=mujoco.MjModel.from_xml_string('''<mujoco><worldbody>
-      <body><joint name="right_/forearm_tx" type="slide"/><geom size=".1"/></body>
+      <body><joint name="right_/palm_base_tx" type="slide"/><geom size=".1"/></body>
       <body><joint name="right_/finger" type="hinge"/><geom size=".1"/></body>
       <body><joint name="left_/finger"/><geom size=".1"/></body>
       <body><joint name="piano/key"/><geom size=".1"/></body>
@@ -297,12 +297,14 @@ def test_legacy_recording_fingering_uses_verified_archive_and_hashes_rollout(tmp
     (recording/'kinematic_scene/scene.xml').write_text('<mujoco/>')
     (recording/'physics_trace.npz').write_bytes(b'trace')
     (recording/'rollout.npz').write_bytes(b'original applied goals')
+    (recording/'audio_substeps.npz').write_bytes(b'original actual keys')
     (recording/'report.json').write_text(json.dumps(dict(checkpoint_sha256=cli.sha256(pt),**config)))
     args=cli.parse_args(['--pt',str(pt),'--recording',str(recording),'--source-archive',str(archive),
                          '--no-audio','--output',str(tmp_path/'export')])
     plan=cli.build_plan(args)
     assert plan['fingering'] and plan['source_archive']==str(archive)
     assert plan['recording_sha256']['rollout.npz']==cli.sha256(recording/'rollout.npz')
+    assert plan['recording_sha256']['audio_substeps.npz']==cli.sha256(recording/'audio_substeps.npz')
 
 
 def test_fingering_footer_reserves_vertical_space_without_zooming_out():
@@ -346,7 +348,8 @@ def test_native_recording_binary_keeps_geometry_when_xml_mesh_is_missing(tmp_pat
     mujoco.mj_saveLastXML(str(folder/'scene.xml'),original)
     mujoco.mj_saveModel(original,str(folder/'model.mjb'))
     with pytest.raises(ValueError,match='right_Link1_R.obj'):
-        job.load_recorded_model(tmp_path,native=False)
+        mujoco.MjModel.from_xml_path(str(folder/'scene.xml'))
+    np.testing.assert_array_equal(job.load_recorded_model(tmp_path,native=False).mesh_vert,original.mesh_vert)
     model=job.load_recorded_model(tmp_path,native=True)
     np.testing.assert_array_equal(model.mesh_vert,original.mesh_vert)
     np.testing.assert_array_equal(model.mesh_face,original.mesh_face)
@@ -364,7 +367,7 @@ def test_native_model_does_not_silently_fall_back_to_xml(tmp_path):
         job.load_recorded_model(tmp_path,native=True)
 
 
-def test_native_runtime_uses_venv_prefix_and_skips_non_native(tmp_path,monkeypatch):
+def test_recorded_runtime_uses_venv_prefix_for_native_and_hand_only(tmp_path,monkeypatch):
     root=tmp_path/'project';environment=tmp_path/'learner_env'
     (environment/'bin').mkdir(parents=True)
     (environment/'bin/python').write_text('fixture executable')
@@ -379,7 +382,23 @@ def test_native_runtime_uses_venv_prefix_and_skips_non_native(tmp_path,monkeypat
     assert job.native_render_python(plan) is None
     config.write_text('{}')
     monkeypatch.setattr(job.sys,'prefix',str(tmp_path/'composer'))
-    assert job.native_render_python(plan) is None
+    assert job.native_render_python(plan)==root/'training_mjlab/.venv/bin/python'
+
+
+def test_hand_only_uses_binary_bounds_instead_of_rounded_xml(tmp_path):
+    import mujoco
+    folder=tmp_path/'kinematic_scene';folder.mkdir()
+    bound=np.pi/12
+    model=mujoco.MjModel.from_xml_string(f'''<mujoco><compiler angle="radian"/><worldbody>
+      <body><joint name="right_/palm_base_yaw" range="0 {bound:.17g}"/>
+      <geom size=".1"/></body></worldbody></mujoco>''')
+    mujoco.mj_saveLastXML(str(folder/'scene.xml'),model)
+    mujoco.mj_saveModel(model,str(folder/'model.mjb'))
+    xml=mujoco.MjModel.from_xml_path(str(folder/'scene.xml'))
+    captured=job.load_recorded_model(tmp_path,native=False)
+    measured=float(np.nextafter(np.float32(bound), np.float32(-np.inf)))
+    assert xml.jnt_range[0,1] < measured < captured.jnt_range[0,1]
+    assert captured.jnt_range[0,1] == bound
 
 
 def test_native_runtime_reexec_happens_before_recording_or_workspace(tmp_path,monkeypatch):

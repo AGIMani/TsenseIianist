@@ -10,7 +10,8 @@ from tsensei_v3_2_pianist.preview_keys import ActiveKeyHighlight
 
 
 def test_numpy_audio_highlight_and_white_black_boundaries():
-    upper=np.array([np.arctan(.01/.15),np.arctan(.008/.09)])
+    from tsensei_v3_2_pianist.models.piano import piano_constants as pc
+    upper=np.array([pc.WHITE_KEY_JOINT_MAX_ANGLE, pc.BLACK_KEY_JOINT_MAX_ANGLE])
     limits=np.column_stack([np.zeros(2),upper])
     fractions=np.array([0.,.86891,.90157,.949,.95,.951,1.,1.1,0.])
     q=fractions[:,None]*upper

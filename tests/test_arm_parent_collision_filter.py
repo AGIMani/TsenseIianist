@@ -216,7 +216,7 @@ class ArmParentFilterTests(unittest.TestCase):
                 random = np.random.default_rng(103)
                 with s.scope():
                     for j in range(s.model.njnt):
-                        if s.model.joint(j).name.startswith(('right_/', 'left_/')) and '_/forearm_' not in s.model.joint(j).name:
+                        if s.model.joint(j).name.startswith(('right_/', 'left_/')) and '_/palm_base_' not in s.model.joint(j).name:
                             s.data.qpos[:, int(s.model.jnt_qposadr[j])] = float(random.uniform(*s.model.jnt_range[j]))
                     s.sim.forward()
                     s.self_collision.clear()

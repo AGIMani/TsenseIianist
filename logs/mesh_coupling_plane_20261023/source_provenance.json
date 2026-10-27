@@ -1,0 +1,14 @@
+{
+  "parent_sha256": "1951eb00657ad1a82a8bc7092f6274dcf4607f26746cc4dfa4d936f89761dd84",
+  "sha256": "3503e0f46e9322df1ee856015655c1dc5df4c0d328442775bc1505421ec86c64",
+  "changes": {
+    "tsensei_v3_2_pianist/mjlab_env/finger_coupling.py": {
+      "before": "fa7c9170561dee063ea46d84f66837d95cbf6bba3c91d59b691528efe6258e2e",
+      "after": "1681da812749a35026bcd22adeb1c5dbc76484fa21b5832f71c216a5d27c85b1"
+    },
+    "tests/test_mesh_key_coupling_plane.py": {
+      "before": null,
+      "after": "941094bfa21fbce523962dafa7ac041e5b0dd55a12bb88e6771e9bd7d038b30d"
+    }
+  }
+}

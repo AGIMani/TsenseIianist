@@ -1,0 +1,21 @@
+{
+  "note_count": 2544,
+  "original_sha256": "83707e4f40347d0a51402349a8ef8af7cf59c357656b50432591b3e8fceb88eb",
+  "proto_sha256": "53d910316ed9b6801b4b609a585c315cdc65c2f62b2a967ba8510b982046995d",
+  "midi_notes_preserved": true,
+  "exact_events_valid": true,
+  "physics_coverage": {
+    "200": {
+      "valid": false,
+      "reason": "Repeated key 64 has no release sample at physics resolution"
+    },
+    "1000": {
+      "valid": true,
+      "min_samples": 30
+    }
+  },
+  "score_control_steps_including_tail": 4455,
+  "prefill_512": 2280960,
+  "replay_capacity": 3000000,
+  "training_submitted": false
+}

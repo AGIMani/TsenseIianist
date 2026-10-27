@@ -135,7 +135,7 @@ def test_world_and_wrist_axes_follow_controls_and_preserve_wire_cache(env, monke
     def move(frame, viewer):
         if frame == 0:
             for hand in hands:
-                for name, target in [('forearm_tx', .02), ('forearm_pitch', .12), ('forearm_yaw', .2)]:
+                for name, target in [('palm_base_tx', .02), ('palm_base_pitch', .12), ('palm_base_yaw', .2)]:
                     actuator = hand.actuator_for_joint(name)
                     env.physics.bind(actuator).ctrl = target
     viewer = run_gui(monkeypatch, env, frames=12, on_sync=move,
@@ -171,10 +171,10 @@ def test_control_sliders_drive_both_fingers_and_three_position_axes(env, monkeyp
     for hand in hands:
         for actuator in hand.actuators:
             name = actuator.joint.name
-            if name in ('forearm_tx', 'forearm_ty', 'forearm_tz') or name.endswith('index_MCP_joint'):
+            if name in ('palm_base_tx', 'palm_base_ty', 'palm_base_tz') or name.endswith('index_MCP_joint'):
                 current = float(env.physics.bind(actuator).ctrl)
-                targets[actuator] = current + {'forearm_tx': .012, 'forearm_ty': .008,
-                                               'forearm_tz': -.005}.get(name, .15)
+                targets[actuator] = current + {'palm_base_tx': .012, 'palm_base_ty': .008,
+                                               'palm_base_tz': -.005}.get(name, .15)
     def sliders(frame, viewer):
         if frame == 0:
             for actuator, target in targets.items():
@@ -239,7 +239,7 @@ def test_wireframe_tracks_moving_hands_without_accumulating(mesh_env, monkeypatc
     initial_positions = np.array([g.pos.copy() for g in initial_scene.geoms[:initial_scene.ngeom]])
     def slider(frame, viewer):
         if frame == 0:
-            actuator = env.task.right_hand.actuator_for_joint('forearm_tx')
+            actuator = env.task.right_hand.actuator_for_joint('palm_base_tx')
             env.physics.bind(actuator).ctrl = .02
     viewer = run_gui(monkeypatch, env, frames=10, on_sync=slider, wireframe=wire)
     assert viewer.user_scn.ngeom == wire.edge_count

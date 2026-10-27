@@ -1,0 +1,708 @@
+{
+  "kind": "exact_onset_static_contact_pose_bank_v3_finite_mesh_top",
+  "pid": 1334473,
+  "script_sha256": "ca22ea54da2c3447b3d06c44cfb1fe1c0274a11821b8d988a2bdd1a086b2cba1",
+  "source_fingering": "/home/houj/projects/pianist_turkish_hand_20261024/task_outputs/hard_contact_banks_v1/left_one_thumb_research_only.csv",
+  "source_fingering_sha256": "df27963f509a70525a01d3a0d2206d5420734477b5c3640fbc43f9f229a8351f",
+  "source_geometry_sha256": "7a6b38af0dce0f4fe451eda133c2771d80d3044914328e7a3524192d8573a04c",
+  "scene_manifest_sha256": "a7e8d0ca58c2ee2a47a9db457eaf1ad817b381567a454dd9e1d0613ead26f95a",
+  "arguments": {
+    "output": "task_outputs/hard_contact_banks_v1/left_one_thumb",
+    "fingering": "task_outputs/hard_contact_banks_v1/left_one_thumb_research_only.csv",
+    "geometry": "task_outputs/geometry/model_geometry.json",
+    "scene": "task_outputs/geometry/scene",
+    "end": 222.0,
+    "start": 222.0,
+    "cpu_budget": 30.0,
+    "node_cpu_budget": 30.0,
+    "max_nfev": 180,
+    "target_penetration": 0.0005,
+    "tz_max": 0.0,
+    "wrist_regularization": 0.02,
+    "previous_bank": "task_outputs/hard_contact_banks_v1/left_one_thumb_seed.npz"
+  },
+  "original_tz_bounds": {
+    "22": [
+      -0.025,
+      0.0
+    ],
+    "47": [
+      -0.025,
+      0.0
+    ]
+  },
+  "requested_onsets": 1,
+  "completed_onsets": 1,
+  "all_requested_onsets_completed": true,
+  "cpu_seconds": 10.656195548,
+  "wall_seconds": 10.657792516984046,
+  "all_assigned_contact_onsets": 1,
+  "poses": [
+    {
+      "time_seconds": 222.0,
+      "notes": [
+        {
+          "index": 1456,
+          "pitch": 69,
+          "finger": 0,
+          "start": 222.0,
+          "end": 222.47395833333334
+        },
+        {
+          "index": 1457,
+          "pitch": 73,
+          "finger": 1,
+          "start": 222.0,
+          "end": 222.47395833333334
+        },
+        {
+          "index": 1458,
+          "pitch": 76,
+          "finger": 2,
+          "start": 222.0,
+          "end": 222.47395833333334
+        },
+        {
+          "index": 1459,
+          "pitch": 81,
+          "finger": 3,
+          "start": 222.0,
+          "end": 222.47395833333334
+        },
+        {
+          "index": 2540,
+          "pitch": 45,
+          "finger": 9,
+          "start": 222.0,
+          "end": 222.47395833333334
+        },
+        {
+          "index": 2541,
+          "pitch": 49,
+          "finger": 8,
+          "start": 222.0,
+          "end": 222.47395833333334
+        },
+        {
+          "index": 2542,
+          "pitch": 52,
+          "finger": 6,
+          "start": 222.0,
+          "end": 222.47395833333334
+        },
+        {
+          "index": 2543,
+          "pitch": 57,
+          "finger": 5,
+          "start": 222.0,
+          "end": 222.47395833333334
+        }
+      ],
+      "assigned_contact_count": 8,
+      "assigned_count": 8,
+      "all_assigned_contact": true,
+      "terminal_geom_distance_m": [
+        -0.00016068657831155354,
+        -0.0004951857326737041,
+        -0.0004072397108343859,
+        -0.0005391995023368735,
+        -0.0005004511937078311,
+        -0.0005002446806658184,
+        -0.00041396369827647705,
+        -0.0004987100703670466
+      ],
+      "raw_terminal_geom_distance_m": [
+        -0.00016068657831155354,
+        -0.0004951857326737038,
+        -0.0004072397108343859,
+        -0.0005391995023368745,
+        -0.0005004511937078325,
+        -0.0005002446806658197,
+        -0.00041396369827647705,
+        -0.0004987100703670466
+      ],
+      "distance_sources": [
+        "native_top_contact",
+        "native_top_contact",
+        "native_top_contact",
+        "native_top_contact",
+        "native_top_contact",
+        "native_top_contact",
+        "native_top_contact",
+        "native_top_contact"
+      ],
+      "native_assigned_terminal_contacts": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "terminal_lowest_to_selected_depressed_top_residual_m": [
+        0.0003405083553083093,
+        5.170655655987531e-06,
+        0.002059563771809264,
+        7.377498228060382e-05,
+        5.302561917748157e-07,
+        9.503195004664873e-07,
+        0.0016494826826043579,
+        1.8594910323123716e-06
+      ],
+      "terminal_lowest_xyz": [
+        [
+          0.04602789050941758,
+          0.05892556043570921,
+          0.012692511387563523
+        ],
+        [
+          -0.024260629808316815,
+          0.11543634828393393,
+          0.028919444040730602
+        ],
+        [
+          -0.009419710818257997,
+          0.15518982674633244,
+          0.016880978649559262
+        ],
+        [
+          0.019062093817432797,
+          0.2238713227056227,
+          0.014470052889349414
+        ],
+        [
+          0.040560919764515035,
+          -0.27092674914858234,
+          0.012789018919040477
+        ],
+        [
+          -0.004232047280906828,
+          -0.21438437590204432,
+          0.026688955898142224
+        ],
+        [
+          -2.1115547540741415e-05,
+          -0.17504393912430283,
+          0.016122345558017063
+        ],
+        [
+          0.06522050405487523,
+          -0.10601336655847828,
+          0.010817998861860996
+        ]
+      ],
+      "terminal_lowest_key_local": [
+        [
+          0.04552741699753787,
+          2.8501612179848698e-05,
+          0.011089313421688443
+        ],
+        [
+          0.005106636080389379,
+          -1.8870101836376827e-06,
+          0.008504814028716121
+        ],
+        [
+          -0.010077609416901525,
+          0.002057473805156001,
+          0.010842760289165611
+        ],
+        [
+          0.01850574841489157,
+          6.249917621092836e-05,
+          0.010710800497663124
+        ],
+        [
+          0.0400701610171594,
+          -2.785603470112363e-07,
+          0.010749548806292166
+        ],
+        [
+          0.025259034692428288,
+          9.182156028020304e-07,
+          0.008499755077033053
+        ],
+        [
+          -0.000648448689757008,
+          0.0016472373462854126,
+          0.01083603630172352
+        ],
+        [
+          0.06480839083272366,
+          1.3393238746800538e-06,
+          0.01075128992963295
+        ]
+      ],
+      "selected_top_xyz": [
+        [
+          0.0460407044963229,
+          0.05889705882352936,
+          0.012852686223880173
+        ],
+        [
+          -0.02420594566581708,
+          0.11543823529411756,
+          0.029411601323228204
+        ],
+        [
+          -0.009387235396995089,
+          0.15313235294117644,
+          0.017286921415345612
+        ],
+        [
+          0.01910509240160148,
+          0.22380882352941178,
+          0.015007535191457887
+        ],
+        [
+          0.040600828356199,
+          -0.2709264705882353,
+          0.013287876315090087
+        ],
+        [
+          -0.004176804470652402,
+          -0.21438529411764712,
+          0.02718614119043213
+        ],
+        [
+          1.1896079595363675e-05,
+          -0.17669117647058824,
+          0.016534990897218375
+        ],
+        [
+          0.06526027380029137,
+          -0.10601470588235296,
+          0.011315120679562696
+        ]
+      ],
+      "support_xyz": [
+        [
+          0.038436439578075826,
+          0.06080096875090281,
+          0.015596754339458108
+        ],
+        [
+          -0.024156612844408693,
+          0.11410057385286777,
+          0.029011335536100472
+        ],
+        [
+          -0.009601175025040126,
+          0.15386276813485616,
+          0.016978667388704193
+        ],
+        [
+          0.019828576334365508,
+          0.2250592221748001,
+          0.014580715183736007
+        ],
+        [
+          0.04110378639700067,
+          -0.2725165820231357,
+          0.012968056878599678
+        ],
+        [
+          -0.004282859064541379,
+          -0.2130450543340795,
+          0.026744509806704838
+        ],
+        [
+          -2.4867587664347338e-05,
+          -0.17638489373864355,
+          0.016178811662538293
+        ],
+        [
+          0.05744084185031373,
+          -0.10504917880621832,
+          0.013940325077597916
+        ]
+      ],
+      "task_tip_xyz": [
+        [
+          0.041132559690688617,
+          0.061234325666386175,
+          0.016838985446043175
+        ],
+        [
+          -0.022047326629204084,
+          0.11461083805108083,
+          0.031082697916363717
+        ],
+        [
+          -0.007759444796056975,
+          0.15398985647230307,
+          0.01934338266081089
+        ],
+        [
+          0.021124707978873794,
+          0.2237463633553344,
+          0.016946395737034662
+        ],
+        [
+          0.04177369416381455,
+          -0.27166298778606224,
+          0.015764948092500813
+        ],
+        [
+          -0.0021303201554774276,
+          -0.21325219718694347,
+          0.0288238529922981
+        ],
+        [
+          0.0017630936672569427,
+          -0.176086721472839,
+          0.01856926932809216
+        ],
+        [
+          0.05983031052116071,
+          -0.10644443484659298,
+          0.015099505845571043
+        ]
+      ],
+      "collisions": {
+        "non_target_key": [
+          {
+            "geoms": [
+              "piano/black_key_geom_30",
+              "left_/left_hand_index_DIP_link_collision_0"
+            ],
+            "distance_m": -0.00028125684501123174,
+            "position_xyz": [
+              0.0046896171208453035,
+              -0.18125511676147443,
+              0.03499217865470619
+            ]
+          },
+          {
+            "geoms": [
+              "piano/white_key_geom_34",
+              "left_/left_hand_thumb_MCP_link_collision_0"
+            ],
+            "distance_m": -8.305426990772821e-07,
+            "position_xyz": [
+              0.07499961182469483,
+              -0.11832365518438073,
+              0.02249992285419486
+            ]
+          },
+          {
+            "geoms": [
+              "piano/white_key_geom_46",
+              "right_/right_hand_thumb_PIP_link_collision_0"
+            ],
+            "distance_m": -0.00017545192892294765,
+            "position_xyz": [
+              0.05710566031259096,
+              0.04650051440312201,
+              0.0224990565363634
+            ]
+          },
+          {
+            "geoms": [
+              "piano/white_key_geom_50",
+              "right_/right_hand_thumb_MCP_link_collision_0"
+            ],
+            "distance_m": -0.00013060322279628977,
+            "position_xyz": [
+              0.06831542816687708,
+              0.07126347025757547,
+              0.022469211468189972
+            ]
+          },
+          {
+            "geoms": [
+              "piano/black_key_geom_54",
+              "right_/right_hand_mid_DIP_link_collision_0"
+            ],
+            "distance_m": -0.00041151460787373207,
+            "position_xyz": [
+              0.0010155101342592125,
+              0.14851247140300777,
+              0.03482499350296173
+            ]
+          },
+          {
+            "geoms": [
+              "piano/black_key_geom_59",
+              "right_/right_hand_ring_DIP_link_collision_0"
+            ],
+            "distance_m": -2.887184595197192e-05,
+            "position_xyz": [
+              0.01738544129310456,
+              0.21749866862308914,
+              0.02637298589565809
+            ]
+          }
+        ],
+        "same_hand_other_finger_or_palm": [],
+        "cross_hand": [],
+        "target_key_allowed": [
+          {
+            "geoms": [
+              "piano/white_key_geom_24",
+              "left_/left_hand_pinky_DIP_link_collision_0"
+            ],
+            "distance_m": -0.0005004511937078311,
+            "position_xyz": [
+              0.040580874060357014,
+              -0.2709267491485823,
+              0.013038447617065277
+            ],
+            "key_local_position": [
+              0.04007016101715939,
+              -2.7856034695572513e-07,
+              0.010999774403146078
+            ],
+            "key_top_normal_alignment": 1.0,
+            "assigned_terminal_contact": true,
+            "top_x_boundary_clearance_m": 0.034929838982840605,
+            "top_y_boundary_clearance_m": 0.011249721439653044,
+            "top_surface_contact": true
+          },
+          {
+            "geoms": [
+              "piano/black_key_geom_28",
+              "left_/left_hand_ring_DIP_link_collision_0"
+            ],
+            "distance_m": -0.0005002446806658184,
+            "position_xyz": [
+              -0.004204425889112923,
+              -0.21438437590204432,
+              0.02693754842387254
+            ],
+            "key_local_position": [
+              0.025259034692474095,
+              9.182156028020304e-07,
+              0.008749877417365957
+            ],
+            "key_top_normal_alignment": 0.9999999999999999,
+            "assigned_terminal_contact": true,
+            "top_x_boundary_clearance_m": 0.019740965307525903,
+            "top_y_boundary_clearance_m": 0.004999081784397198,
+            "top_surface_contact": true
+          },
+          {
+            "geoms": [
+              "piano/white_key_geom_31",
+              "left_/left_hand_index_DIP_link_collision_0"
+            ],
+            "distance_m": -0.00041396369827647705,
+            "position_xyz": [
+              -4.609733972689087e-06,
+              -0.17504393912430283,
+              0.01632866822761772
+            ],
+            "key_local_position": [
+              -0.0006484486897570083,
+              0.0016472373462854126,
+              0.01104301815086176
+            ],
+            "key_top_normal_alignment": 1.0,
+            "assigned_terminal_contact": true,
+            "top_x_boundary_clearance_m": 0.07435155131024299,
+            "top_y_boundary_clearance_m": 0.009602762653714587,
+            "top_surface_contact": true
+          },
+          {
+            "geoms": [
+              "piano/white_key_geom_36",
+              "left_/left_hand_thumb_PIP_link_collision_0"
+            ],
+            "distance_m": -0.0004987100703670466,
+            "position_xyz": [
+              0.0652403889275833,
+              -0.10601336655847829,
+              0.011066559770711847
+            ],
+            "key_local_position": [
+              0.06480839083272366,
+              1.339323874666176e-06,
+              0.011000644964816475
+            ],
+            "key_top_normal_alignment": 1.0,
+            "assigned_terminal_contact": true,
+            "top_x_boundary_clearance_m": 0.010191609167276336,
+            "top_y_boundary_clearance_m": 0.011248660676125333,
+            "top_surface_contact": true
+          },
+          {
+            "geoms": [
+              "piano/white_key_geom_48",
+              "right_/right_hand_thumb_PIP_link_collision_0"
+            ],
+            "distance_m": -0.00016068657831155354,
+            "position_xyz": [
+              0.04603429750287025,
+              0.05892556043570921,
+              0.012772598805721846
+            ],
+            "key_local_position": [
+              0.04552741699753787,
+              2.8501612179848698e-05,
+              0.01116965671084422
+            ],
+            "key_top_normal_alignment": 1.0000000000000002,
+            "assigned_terminal_contact": true,
+            "top_x_boundary_clearance_m": 0.029472583002462124,
+            "top_y_boundary_clearance_m": 0.011221498387820151,
+            "top_surface_contact": true
+          },
+          {
+            "geoms": [
+              "piano/black_key_geom_52",
+              "right_/right_hand_index_DIP_link_collision_0"
+            ],
+            "distance_m": -0.0004951857326737041,
+            "position_xyz": [
+              -0.02423328775019692,
+              0.11543634828393394,
+              0.02916552256339901
+            ],
+            "key_local_position": [
+              0.005106636080434726,
+              -1.887010183623805e-06,
+              0.008752406895052972
+            ],
+            "key_top_normal_alignment": 1.0,
+            "assigned_terminal_contact": true,
+            "top_x_boundary_clearance_m": 0.03989336391956527,
+            "top_y_boundary_clearance_m": 0.004998112989816376,
+            "top_surface_contact": true
+          },
+          {
+            "geoms": [
+              "piano/white_key_geom_55",
+              "right_/right_hand_mid_DIP_link_collision_0"
+            ],
+            "distance_m": -0.0004072397108343859,
+            "position_xyz": [
+              -0.009403473107626542,
+              0.15518982674633242,
+              0.017083950032452434
+            ],
+            "key_local_position": [
+              -0.010077609416901523,
+              0.0020574738051559733,
+              0.011046380144582802
+            ],
+            "key_top_normal_alignment": 1.0,
+            "assigned_terminal_contact": true,
+            "top_x_boundary_clearance_m": 0.06492239058309847,
+            "top_y_boundary_clearance_m": 0.009192526194844026,
+            "top_surface_contact": true
+          },
+          {
+            "geoms": [
+              "piano/white_key_geom_60",
+              "right_/right_hand_ring_DIP_link_collision_0"
+            ],
+            "distance_m": -0.0005391995023368735,
+            "position_xyz": [
+              0.019083593109517134,
+              0.22387132270562268,
+              0.014738794040403649
+            ],
+            "key_local_position": [
+              0.018505748414891568,
+              6.24991762109006e-05,
+              0.010980400248831559
+            ],
+            "key_top_normal_alignment": 1.0000000000000002,
+            "assigned_terminal_contact": true,
+            "top_x_boundary_clearance_m": 0.05649425158510843,
+            "top_y_boundary_clearance_m": 0.011187500823789099,
+            "top_surface_contact": true
+          }
+        ],
+        "other_contact": []
+      },
+      "collision_max_penetration_m": {
+        "non_target_key": 0.00041151460787373207,
+        "same_hand_other_finger_or_palm": 0.0,
+        "cross_hand": 0.0,
+        "target_key_allowed": 0.0005391995023368735,
+        "other_contact": 0.0
+      },
+      "action": [
+        0.6747859716415405,
+        1.2421637773513794,
+        0.6822577118873596,
+        0.2548747658729553,
+        0.6901068687438965,
+        -0.32156094908714294,
+        0.3459840714931488,
+        0.17704984545707703,
+        0.8460025191307068,
+        -0.21239368617534637,
+        0.3372441232204437,
+        0.17938287556171417,
+        0.806136429309845,
+        0.31232762336730957,
+        0.36656785011291504,
+        0.1931321620941162,
+        0.28312617540359497,
+        0.13072532415390015,
+        0.38961562514305115,
+        0.213344007730484,
+        -0.011869549751281738,
+        0.022416282445192337,
+        0.0,
+        0.2705177068710327,
+        0.25,
+        0.9211107492446899,
+        1.0820175409317017,
+        0.28815412521362305,
+        0.2410038411617279,
+        0.8426428437232971,
+        0.130855992436409,
+        0.3459840714931488,
+        0.17704984545707703,
+        0.1668892502784729,
+        -2.4065479969047343e-14,
+        0.3372441232204437,
+        0.17938287556171417,
+        0.6496255397796631,
+        -0.1468217372894287,
+        0.36656785011291504,
+        0.1931321620941162,
+        0.9189722537994385,
+        0.3429372310638428,
+        0.38961562514305115,
+        0.213344007730484,
+        -0.0419088751077652,
+        0.012444321066141129,
+        0.0,
+        0.03958219289779663,
+        0.25,
+        0.0
+      ],
+      "coupling_error_deg": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "objective": 0.00014306294880495147,
+      "fk_evaluations": 4881,
+      "solver_statuses": [
+        3,
+        3
+      ]
+    }
+  ],
+  "limitations": [
+    "Scratch key qpos at maximum angle only creates contact targets. No key is physically pressed by this study.",
+    "Terminal mesh minimum in the rotated key frame targets a research penetration, not a calibrated force command. Raw geomDistance is diagnostic only.",
+    "Robot actions are coupled static candidates; neither joint dynamics nor interpolation/path collision or speed feasibility is certified.",
+    "Original MIDI timings/finger assignments and training reward points are unchanged. Native collision exclusions apply.",
+    "Confirmed contact requires the native terminal/key pair, contact normal dot key-top normal >=0.7, contact point within 2mm of the true rotated top face, X boundary clearance >=5mm, Y boundary clearance >=0.5mm.",
+    "Unconfirmed nonpositive geomDistance uses a positive support-to-rotated-top optimization proxy, not an exact surface distance. Raw values and sources are recorded; MuJoCo upstream issue 3383.",
+    "TZ above zero, if enabled, is a separately authorized hypothetical range; default bank keeps TZ zero."
+  ]
+}

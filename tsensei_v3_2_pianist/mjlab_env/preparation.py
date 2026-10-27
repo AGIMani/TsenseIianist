@@ -18,7 +18,7 @@ def options(value):
     """Return the minimal, JSON-safe contract; None keeps historical reset."""
     if value is None:
         return None
-    if not isinstance(value, dict) or set(value) - {'duration', 'lift', 'trajectory', 'mode'}:
+    if not isinstance(value, dict) or set(value) - {'duration', 'lift', 'trajectory', 'mode', 'hover', 'settle_time', 'position_tolerance', 'ending_duration'}:
         raise ValueError('Preparation requires duration, lift, trajectory and optional mode')
     duration, lift = float(value.get('duration', 1.)), float(value.get('lift', .02))
     trajectory = value.get('trajectory', 'quintic_v1')
@@ -26,11 +26,26 @@ def options(value):
         raise ValueError('Preparation duration must be positive and lift nonnegative, both finite')
     if trajectory != 'quintic_v1':
         raise ValueError('Unknown preparation trajectory')
-    if value.get('mode', 'fixed_v1') not in ('fixed_v1', 'policy_v1'):
+    if value.get('mode', 'fixed_v1') not in ('fixed_v1', 'policy_v1', 'first_note_v1'):
         raise ValueError('Unknown preparation mode')
     result = {'duration': duration, 'lift': lift, 'trajectory': trajectory}
-    if value.get('mode') == 'policy_v1':
-        result['mode'] = 'policy_v1'
+    if value.get('mode') in ('policy_v1', 'first_note_v1'):
+        result['mode'] = value['mode']
+    if value.get('mode') == 'first_note_v1':
+        if lift != 0:
+            raise ValueError('First-note preparation uses physical joints; preparation lift must be zero')
+        for name, default in (('hover', .012), ('settle_time', .5), ('position_tolerance', .005)):
+            number = value.get(name, default)
+            if type(number) not in (int, float) or not math.isfinite(number) or number <= 0:
+                raise ValueError('First-note '+name+' must be finite and positive')
+            result[name] = float(number)
+    elif any(name in value for name in ('hover', 'settle_time', 'position_tolerance')):
+        raise ValueError('Hover settings require first_note_v1')
+    ending = float(value.get('ending_duration', 0.))
+    if not math.isfinite(ending) or ending < 0 or (ending and value.get('mode') != 'first_note_v1'):
+        raise ValueError('Ending duration must be finite, nonnegative and requires first_note_v1')
+    if ending:
+        result['ending_duration'] = ending
     return result
 
 

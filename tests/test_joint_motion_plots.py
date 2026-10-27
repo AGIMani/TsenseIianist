@@ -50,7 +50,7 @@ def test_physical_slide_and_hinge_units_follow_compiled_joint_definitions():
     import mujoco
     model = mujoco.MjModel.from_xml_string('''<mujoco><worldbody>
       <body><joint name="piano/key"/><geom size=".1"/></body>
-      <body><joint name="right_/forearm_tx" type="slide"/><geom size=".1"/></body>
+      <body><joint name="right_/palm_base_tx" type="slide"/><geom size=".1"/></body>
       <body><joint name="right_/finger" type="hinge"/><geom size=".1"/></body>
       <body><joint name="left_/finger"/><geom size=".1"/></body>
       </worldbody></mujoco>''')
@@ -58,7 +58,7 @@ def test_physical_slide_and_hinge_units_follow_compiled_joint_definitions():
     selected, joints = hand_motion_columns(model, poses)
     np.testing.assert_array_equal(selected, poses[:, 1:])
     assert [j['unit'] for j in joints] == ['m', 'rad', 'rad']
-    assert [j['name'] for j in joints] == ['right_/forearm_tx', 'right_/finger', 'left_/finger']
+    assert [j['name'] for j in joints] == ['right_/palm_base_tx', 'right_/finger', 'left_/finger']
 
 
 def test_bundled_sdk_limits_match_vendor_file_and_convert_degree_units():
@@ -140,3 +140,48 @@ def test_out_of_range_positions_cannot_be_exported_as_valid_joint_csv(tmp_path):
     with pytest.raises(ValueError, match='outside limits'):
         export_joint_motion(tmp_path/'invalid', [0., .01], [[0.], [-.001]], joints, 'test')
     assert not (tmp_path/'invalid').exists()
+
+
+def test_recorded_physics_preserves_both_bound_exceedances_and_derivatives(tmp_path, monkeypatch):
+    import matplotlib.figure
+    drawn = {}
+    original = matplotlib.figure.Figure.savefig
+    def capture(self, path, *args, **kwargs):
+        if Path(path).name == 'right_yaw_position.png':
+            ax = self.axes[0]
+            drawn.update(curve=np.asarray(ax.lines[0].get_ydata()),
+                         points=np.asarray(ax.collections[0].get_offsets()), ylim=ax.get_ylim())
+        return original(self, path, *args, **kwargs)
+    monkeypatch.setattr(matplotlib.figure.Figure, 'savefig', capture)
+    time = np.array([0., .005, .01, .015])
+    q = np.array([[0., 2.], [-.001, 3.], [.27, 4.], [.1, 5.]])
+    original_q = q.copy()
+    joints = [dict(name='right_yaw', side='right', unit='rad', position_min=0., position_max=.26),
+              dict(name='left_unlimited', side='left', unit='m')]
+    folder = tmp_path/'measured'
+    report = export_joint_motion(folder, time, q, joints, 'test', position_source='recorded_physics')
+    assert report['position_bounds_status'] == 'exceeded'
+    assert report['positions_modified'] is False
+    audit = report['joints'][0]['position']
+    assert audit['below_limit_samples'] == audit['above_limit_samples'] == 1
+    assert audit['maximum_undershoot'] == pytest.approx(.001)
+    assert audit['maximum_overshoot'] == pytest.approx(.01)
+    assert audit['first_exceedance_s'] == .005 and audit['last_exceedance_s'] == .01
+    assert report['joints'][1]['position'] is None
+    np.testing.assert_array_equal(q, original_q)
+    np.testing.assert_array_equal(np.loadtxt(folder/'joint_positions.csv', delimiter=',', skiprows=1),
+                                  np.column_stack((time, original_q)))
+    with np.load(folder/'joint_motion_samples.npz') as saved:
+        np.testing.assert_array_equal(saved['positions'], original_q)
+        np.testing.assert_array_equal(saved['velocity'], derivatives(time, original_q)[1])
+        np.testing.assert_array_equal(saved['acceleration'], derivatives(time, original_q)[3])
+    np.testing.assert_array_equal(drawn['curve'], original_q[:, 0])
+    np.testing.assert_array_equal(drawn['points'], [[.005, -.001], [.01, .27]])
+    assert drawn['ylim'][0] < -.001 and drawn['ylim'][1] > .27
+
+
+def test_recorded_physics_rejects_synthetic_path(tmp_path):
+    with pytest.raises(ValueError, match='cannot use a planned'):
+        export_joint_motion(tmp_path/'invalid', [0., .01], [[0.], [0.]],
+                            [dict(name='yaw', side='right', unit='rad')], 'test',
+                            position_source='recorded_physics', continuous_path=lambda t: t)

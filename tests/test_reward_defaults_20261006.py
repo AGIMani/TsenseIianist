@@ -34,7 +34,7 @@ def evaluate_posture(action, fingers=None, *, scene=None, cfg=None, snapshot=Non
 
 def test_current_default_contract_and_no_deleted_terms():
     c = validate(json.loads(DEFAULT.read_text()))
-    assert len(c['terms']) == 23
+    assert len(c['terms']) == 24
     assert c['terms']['arm_motion_limit_penalty']['enabled'] is False
     assert c['terms']['arm_tracking_error_penalty'] == dict(enabled=False, weight=1.,
         params=dict(error_scale_m=.001))
@@ -42,7 +42,7 @@ def test_current_default_contract_and_no_deleted_terms():
         enabled=True, weight=.1, params=dict(aggregation='substep_sum', maximum_penalty_per_step=5.))
     assert c['terms']['false_press_penalty'] == dict(enabled=False, weight=-.05, params={})
     assert c['terms'][GESTURE] == dict(enabled=True, weight=1., params=dict(
-        coefficient=-.02, reference='scene_reset', lookahead_steps=20, swing_scale=.5))
+        coefficient=-.008, reference='scene_reset', lookahead_steps=20, swing_scale=.5))
     assert c['terms']['key_press_reward']['params'] == dict(mode='paper', chord_bonus=False, chord_scope=None)
     assert c['terms']['joint_motion_limit_penalty']['params']['full_penalty_excess'] == .1
     assert contact_options(c) == dict(collision_categories=('self',), ignored_body_pairs=[],
@@ -138,6 +138,8 @@ def test_key_scoring_includes_earlier_transients():
     sample['self_collision_pairs'] = torch.zeros(1)
     sample['self_collision_pair_substeps'] = torch.zeros(1)
     sample['palm_collision'] = torch.tensor([False])
+    sample['key_hold_lateral_velocity_history'] = torch.zeros(1,10,2)
+    sample['key_hold_contact_history'] = torch.zeros(1,10,2,dtype=torch.bool)
     # The generic fixture uses legacy +.5 when clear; current task uses zero.
     from tsensei_v3_2_pianist.forearm_collision import forearm_contact_reward
     base['forearm_reward'] = forearm_contact_reward(sample['palm_collision'].float(), 'tsensei_collision_v1')
@@ -152,6 +154,7 @@ def test_key_scoring_includes_earlier_transients():
     assert result['sustain_reward'].item() == pytest.approx(1.)
     assert result['forearm_reward'].item() == 0.
     assert result['energy_reward'].item() == base['energy_reward'].item()
+    assert result['key_hold_lateral_motion_penalty'].item() == 0.
     p = manager.performance
     assert not {'reward_sampling', 'substep_rewards', 'target_key_substep_reward',
                 'target_key_activation_weight'}.intersection(p)

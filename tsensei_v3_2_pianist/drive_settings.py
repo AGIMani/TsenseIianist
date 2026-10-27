@@ -1,3 +1,4 @@
+# 2026-10-25: Virtual palm_base naming unified; axis values and order unchanged.
 """Explicit standalone drive profiles; old source behavior stays the default."""
 import json
 import math
@@ -35,14 +36,16 @@ def load(profile=None):
         raise ValueError(f'Unsupported V3.2 drive profile: {selected!r}')
     result = dict(document['profiles'][selected], profile=selected)
     if selected == 'shadow_v1':
-        for name in ('finger', 'pitch'):
+        for name in ('pitch',):
             for key, value in result[name].items():
                 if key == 'reference':
                     continue
                 if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value <= 0:
                     raise ValueError(f'Invalid drive value {name}.{key}')
+        if result['finger'] != {'parameter_file': 'finger_resistance.json', 'contract': 'a3_resistance_compensated_v1'}:
+            raise ValueError('Unsupported finger drive contract')
         translation = result['translation']
-        if (translation['joints'] != ['forearm_tx', 'forearm_ty']
+        if (translation['joints'] != ['palm_base_tx', 'palm_base_ty']
                 or not isinstance(translation.get('axes'), dict)
                 or set(translation.get('axes', {})) != set(translation['joints'])
                 or any(key in translation for key in ('kp', 'damping', 'force_limit'))):

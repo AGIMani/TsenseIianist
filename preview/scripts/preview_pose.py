@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# 2026-10-25: External initial position offsets use world-frame metres; palm-base yaw remains a joint angle in radians.
 """Preview V3.2: supplied left hand and a provisional mirrored right hand."""
 import argparse
 import json
@@ -47,17 +48,19 @@ def main():
     parser.add_argument("--headless", action="store_true", help="Render a PNG instead of opening a window")
     parser.add_argument("--show-pad-collisions", action="store_true", help="Overlay the distal collision convex hulls as green wireframes")
     parser.add_argument("--show-fingertips", action="store_true", help="Show black spheres centered at the provisional distal-face landmarks")
-    parser.add_argument("--show-coordinate-frames", action="store_true", help="Show world and both wrist XYZ axes (hidden by default)")
-    parser.add_argument("--axis-length", type=float, default=.09, help="World and wrist axis length in metres (default: 0.09)")
+    parser.add_argument("--show-coordinate-frames", action="store_true", help="Show world and both palm_base XYZ axes (hidden by default)")
+    parser.add_argument("--axis-length", type=float, default=.09, help="World and palm_base axis length in metres (default: 0.09)")
     parser.add_argument("--transparent-model", action="store_true", help="Make moving bodies translucent to reveal occluded coordinate axes")
     parser.add_argument("--include-assembly-collisions", action="store_true", help="Disable the two provisional palm/thumb collision exclusions (V32-06)")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
-    parser.add_argument("--height-offset", type=float, default=0, help="Adjust both mounting heights, metres")
-    parser.add_argument("--depth-offset", type=float, default=0, help="Adjust both mounting X positions, metres")
+    parser.add_argument("--world-z-offset", type=float, default=0, help="Adjust both mounting positions along world Z, metres")
+    parser.add_argument("--world-x-offset", type=float, default=0, help="Adjust both mounting positions along world X, metres")
     parser.add_argument("--settle-steps", type=int, default=0, help="Optional physics steps under neutral control")
     parser.add_argument("--save-initial-pose", action="store_true", help="Write current pose to hand constants after the window closes, or after headless rendering; P saves during interaction")
     parser.add_argument("--save-pose-source", choices=("ctrl", "qpos"), default=None, help="Save actual positions (default with arms) or Control targets (default without arms)")
     parser.add_argument("--export-xml", type=Path, help="Export scene XML and all assets to this directory")
+    if any(value.split('=', 1)[0] in ('--height-offset', '--depth-offset') for value in sys.argv[1:]):
+        parser.error('Removed ambiguous offsets; use --world-z-offset and --world-x-offset in metres')
     args = parser.parse_args()
     for hz in (args.control_hz, args.physics_hz):
         if not math.isfinite(hz) or hz <= 0:
@@ -124,7 +127,7 @@ def main():
                     geom.rgba = (.94, .95, .97, 1)
     for hand in (env.task.right_hand, env.task.left_hand):
         pos = np.array(hand.root_body.pos)
-        pos += (args.depth_offset, 0, args.height_offset)
+        pos += (args.world_x_offset, 0, args.world_z_offset)
         hand.root_body.pos = pos
     if args.self_collision_detection_only or args.hand_collision_detection_only:
         from tsensei_v3_2_pianist.detection_only_collision import apply_to_mjcf

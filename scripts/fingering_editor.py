@@ -37,6 +37,8 @@ class RemotePreview:
         self.process = None
         self.limited = None
         self.closed = False
+        self.cancelled = threading.Event()
+        self.stderr_offset = 0
         self.log_path = ROOT / "logs/fingering_editor" / f"session_{time.time_ns()}.log"
         self.log_path.parent.mkdir(parents=True, exist_ok=True)
         threading.Thread(target=self.run, daemon=True).start()
@@ -70,14 +72,9 @@ class RemotePreview:
             with self.log_path.open("a") as log:
                 log.write(json.dumps(dict(command=command, host=c["host"], source_sha256=c["source_sha256"])) + "\n")
                 log.flush()
-                self.process = subprocess.Popen(
-                    ["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=10",
-                     "-o", "ServerAliveInterval=15", "-o", "ServerAliveCountMax=2", c["host"], command],
-                    stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=log,
-                    text=True, bufsize=1)
-                log.write(f"\nlocal_ssh_pid={self.process.pid}\n")
-                log.flush()
-                ready = self.read()
+                ready = self.connect_remote(command, log)
+                if ready is None:
+                    return
                 log.write(json.dumps({k: v for k, v in ready.items() if k not in ("meshes", "frame")}) + "\n")
                 log.flush()
                 self.responses.put(ready)
@@ -92,15 +89,63 @@ class RemotePreview:
                     self.process.stdin.write(json.dumps(req) + "\n")
                     self.process.stdin.flush()
                     self.responses.put(self.read())
-                self.process.stdin.close()
-                try:
-                    code = self.process.wait(timeout=5)
-                except subprocess.TimeoutExpired:
-                    self.process.terminate()
-                    code = self.process.wait(timeout=5)
-                log.write(f"\nexit_code={code}\n")
         except Exception as exc:
-            self.responses.put(dict(type="error", error=f"{exc}；日志：{self.log_path}"))
+            if not self.closed:
+                self.responses.put(dict(type="error", error=f"{exc}；日志：{self.log_path}"))
+        finally:
+            if self.backend == 'remote' and self.process:
+                self.dispose_remote()
+                with self.log_path.open('a') as log:
+                    log.write(f'\nexit_code={self.process.returncode}\n')
+
+    def connect_remote(self, command, log):
+        # Retry only transport failures before READY. Replaying requests after
+        # an established session fails could display an obsolete pose.
+        transient = ('connection reset', 'connection timed out', 'connection refused',
+                     'connection closed', 'no route to host', 'network is unreachable',
+                     'temporary failure in name resolution')
+        permanent = ('permission denied', 'host key verification failed',
+                     'remote host identification has changed')
+        for attempt in range(1, 4):
+            if self.closed:
+                return None
+            self.stderr_offset = log.tell()
+            self.process = subprocess.Popen(
+                ["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=10",
+                 "-o", "ServerAliveInterval=15", "-o", "ServerAliveCountMax=2",
+                 self.config["host"], command],
+                stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=log,
+                text=True, bufsize=1)
+            log.write(f"\nlocal_ssh_pid={self.process.pid} attempt={attempt}/3\n")
+            log.flush()
+            try:
+                return self.read()
+            except RuntimeError as exc:
+                self.dispose_remote()
+                if (self.process.returncode != 255 or attempt == 3 or
+                        any(reason in str(exc).lower() for reason in permanent) or
+                        not any(reason in str(exc).lower() for reason in transient)):
+                    raise
+                self.responses.put(dict(type='status', message=
+                    f'远端 SSH 连接暂时中断，{attempt} 秒后重试（{attempt+1}/3）…'))
+                if self.cancelled.wait(attempt):
+                    return None
+
+    def dispose_remote(self):
+        try:
+            self.process.stdin.close()
+        except (BrokenPipeError, OSError):
+            pass
+        try:
+            self.process.wait(timeout=1)
+        except subprocess.TimeoutExpired:
+            self.process.terminate()
+            try:
+                self.process.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                self.process.kill()
+                self.process.wait(timeout=5)
+        self.process.stdout.close()
 
     def submit(self, request):
         while True:
@@ -145,12 +190,27 @@ class RemotePreview:
     def read(self):
         line = self.process.stdout.readline()
         if not line:
+            try:
+                code = self.process.wait(timeout=1)
+            except subprocess.TimeoutExpired:
+                code = self.process.poll()
             reason = self.limited.stats.get('reason') if self.limited else None
-            raise RuntimeError(f"预览求解进程退出（exit={self.process.poll()}）；{reason or ''}")
+            if self.backend == 'remote':
+                # Bound reads even when a remote traceback is very large; keep
+                # the current attempt's stderr out of an earlier session error.
+                with self.log_path.open('rb') as diagnostic:
+                    diagnostic.seek(0, 2)
+                    diagnostic.seek(max(self.stderr_offset, diagnostic.tell()-4096))
+                    lines = diagnostic.read(4096).decode('utf-8', errors='replace').splitlines()
+                reason = '\n'.join(line for line in lines
+                                   if line.strip() and not line.startswith('local_ssh_pid='))[-1200:]
+            prefix = '远端 SSH 连接失败' if self.backend == 'remote' and code == 255 else '预览求解进程退出'
+            raise RuntimeError(f"{prefix}（exit={code}）" + (f'：{reason}' if reason else ''))
         return json.loads(line)
 
     def close(self):
         self.closed = True
+        self.cancelled.set()
         self.submit(None)
         if self.process and self.process.poll() is None:
             if self.limited:
@@ -696,6 +756,7 @@ class Editor:
                     if self.playing:
                         self.root.after(100, self.advance)
                 elif kind == "error" and result.get("request_id") in (None, self.request_id):
+                    self.ready = False
                     self.stop()
                     self.pose_status.configure(text="三维预览失败：" + result["error"])
         self.root.after(50, self.poll)

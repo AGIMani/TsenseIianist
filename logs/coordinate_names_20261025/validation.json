@@ -1,0 +1,384 @@
+{
+  "status": "passed_current_default_with_disclosed_auxiliary_roundoff",
+  "training_started": false,
+  "gpu_jobs_submitted": [],
+  "archive": "logs/coordinate_names_20261025/source_world_pose_names_v1.tar.gz",
+  "archive_sha256": "faf4f5d04e7d7a7d940dc9ee46a7711ad7b1c16930f14d43fabc26894dc815a2",
+  "parent_archive_sha256": "f9741e1f68b6253909011edde71993bc252a6829f61fda4840c095154467bccf",
+  "validated_candidate_sha256": "693593b68458f377ef35ada9e3e20fc30678c7337d43e66594628f9ad55c391a",
+  "remote_host": "volc-a32",
+  "remote_project": "/data/shared/houj/pianist_world_pose_validation_20261025_candidate01/project",
+  "local_pure_tests": {
+    "passed": 47,
+    "failed": 0,
+    "log": "local_contract_tests.log"
+  },
+  "actual_world_pose_cases_passed": 4,
+  "remote_regression": {
+    "source_archive_sha256": "693593b68458f377ef35ada9e3e20fc30678c7337d43e66594628f9ad55c391a",
+    "validation": "CPU only; no training, policy inference, GPU rendering or GPU submission",
+    "initial_world_xyz_actual_model_cases_passed": 4,
+    "suite": {
+      "passed": 38,
+      "failed": 1,
+      "skipped": 2,
+      "deselected": 6,
+      "pytest_elapsed_s": 328.32,
+      "exit_code": 1,
+      "pid": 2946360
+    },
+    "failure": {
+      "test": "tests/test_source_runtime.py::SourceRuntimeChecks::test_saved_shadow_profiles_override_ambient_shell_and_rebuild",
+      "line": 79,
+      "reason": "Stale test expected 22 collision components per hand; actual current A3.2 exports 100=79 palm+21 other link hulls",
+      "actual": [
+        100,
+        100
+      ],
+      "old_expected": [
+        22,
+        22
+      ]
+    },
+    "test_only_correction": {
+      "before_test_sha256": "3053fb59863f0d8df037608b4b74db7ad7472898b9431cf5481315baffcaa08d",
+      "red_suite_exit_code": 1,
+      "red_failure": "tests/test_source_runtime.py:79 expected [22,22], actual [100,100]",
+      "change_scope": "Only collision-component count expectation and explanatory comment; no package source changes",
+      "after_test_sha256": "fe42a5f70c9e23ff28d0b964d11f6958f31b2dda127b2da8f55c6387cf236d3e",
+      "updated_test": "/data/shared/houj/pianist_world_pose_validation_20261025_candidate01/candidate01/tests/test_source_runtime.py",
+      "package_source_changed": false
+    },
+    "rerun": {
+      "passed": 1,
+      "pytest_elapsed_s": 77.66,
+      "exit_code": 0,
+      "pid": 2961275
+    },
+    "combined_assessment": "All 39 selected non-skipped cases have passing evidence after the expectation-only correction; original candidate archive full-suite failure remains recorded",
+    "gpu_env_guard": "CUDA_VISIBLE_DEVICES empty; Slurm variables absent; explicit GPU opt-ins disabled; -k not gpu and not cuda",
+    "cpu_threads": 1,
+    "versions": {
+      "mujoco": "3.11.0",
+      "torch": "2.10.0+cu128",
+      "pytest": "9.1.1",
+      "numpy": "2.5.3"
+    },
+    "working_source": "/data/shared/houj/pianist_world_pose_validation_20261025_candidate01/candidate01",
+    "temporary_directory": "/data/shared/houj/pianist_world_pose_validation_20261025_candidate01/validation_candidate01/tmp",
+    "created_unix_s": 1792933672.0662174
+  },
+  "model_equivalence": {
+    "utc": "2026-10-25T13:14:58.541527+00:00",
+    "overall_strict_2e12_pass": false,
+    "total_array_checks": 990,
+    "metadata_checks": 68,
+    "metadata_failures": [],
+    "modes": {
+      "full": {
+        "array_count": 495,
+        "all_arrays_pass": false,
+        "physical_model_array_count": 457,
+        "physical_model_arrays_bit_identical": true,
+        "failed_arrays": [
+          "full__state__qLDiagInv",
+          "full__state__qacc"
+        ]
+      },
+      "effective_noarm_fixed_tz_yaw": {
+        "array_count": 495,
+        "all_arrays_pass": true,
+        "physical_model_array_count": 457,
+        "physical_model_arrays_bit_identical": true,
+        "failed_arrays": []
+      }
+    },
+    "full_state_exceptions": [
+      {
+        "key": "full__state__qLDiagInv",
+        "shape_parent": [
+          138
+        ],
+        "shape_candidate": [
+          138
+        ],
+        "dtype_parent": "float64",
+        "dtype_candidate": "float64",
+        "finite_parent": true,
+        "finite_candidate": true,
+        "pass": false,
+        "comparison": "absolute 2e-12",
+        "max_absolute_difference": 3.637978807091713e-12
+      },
+      {
+        "key": "full__state__qacc",
+        "shape_parent": [
+          138
+        ],
+        "shape_candidate": [
+          138
+        ],
+        "dtype_parent": "float64",
+        "dtype_candidate": "float64",
+        "finite_parent": true,
+        "finite_candidate": true,
+        "pass": false,
+        "comparison": "absolute 2e-12",
+        "max_absolute_difference": 7.156586434575729e-11
+      }
+    ],
+    "maximum_difference": 7.156586434575729e-11,
+    "collision_counts": {
+      "parent": {
+        "right": 100,
+        "left": 100
+      },
+      "candidate": {
+        "right": 100,
+        "left": 100
+      }
+    },
+    "initial_Ty": {
+      "parent": 0.02,
+      "candidate": 0.01999999999999999,
+      "absolute_difference": 1.0408340855860843e-17
+    },
+    "interpretation": "All numeric physical-model arrays are bit-identical. Default fixed-TZ/Yaw state passes absolute 2e-12. The full model has two derived solver-state numerical exceptions; the only qpos/ctrl input difference is Ty binary subtraction rounding. Roundoff propagation is an inference, not an additional equal-state forward experiment.",
+    "scope": "Remote CPU initialization/forward only; no physics stepping, policy, training, GPU or rendering. Arms excluded.",
+    "archives": {
+      "/home/houj/projects/pianist_ending_20261025/logs/ending_source_20261025/source_ending_return_v1.tar.gz": {
+        "sha256": "f9741e1f68b6253909011edde71993bc252a6829f61fda4840c095154467bccf",
+        "expected": "f9741e1f68b6253909011edde71993bc252a6829f61fda4840c095154467bccf",
+        "pass": true,
+        "bytes": 507778620
+      },
+      "/data/shared/houj/pianist_world_pose_validation_20261025_candidate01/project/logs/coordinate_names_20261025/source_world_pose_names_candidate01.tar.gz": {
+        "sha256": "693593b68458f377ef35ada9e3e20fc30678c7337d43e66594628f9ad55c391a",
+        "expected": "693593b68458f377ef35ada9e3e20fc30678c7337d43e66594628f9ad55c391a",
+        "pass": true,
+        "bytes": 507804490
+      }
+    },
+    "source_roots": {
+      "parent": "/data/shared/houj/pianist_world_pose_validation_20261025_candidate01/parent_snapshot_source",
+      "candidate": "/data/shared/houj/pianist_world_pose_validation_20261025_candidate01/candidate01"
+    },
+    "snapshot_files": {
+      "parent": {
+        "remote_path": "/data/shared/houj/pianist_world_pose_validation_20261025_candidate01/validation_candidate01/snapshot_comparison/parent/snapshot.npz",
+        "sha256": "de78aa2ca45e6414b7d73654847d9dfcafa95be59acca5da5707d7d4258ca19e",
+        "bytes": 614522963,
+        "local_transfer": "omitted because each NPZ exceeds the parent-requested 100 MB threshold"
+      },
+      "candidate": {
+        "remote_path": "/data/shared/houj/pianist_world_pose_validation_20261025_candidate01/validation_candidate01/snapshot_comparison/candidate/snapshot.npz",
+        "sha256": "2543dac0b3192506adb34e0254ea9762b873d37f4cba789af95b429d9117401b",
+        "bytes": 614522938,
+        "local_transfer": "omitted because each NPZ exceeds the parent-requested 100 MB threshold"
+      }
+    }
+  },
+  "post_candidate_package_changes": {
+    "tsensei_v3_2_pianist/preview_runtime.py": {
+      "candidate_sha256": "3d5cc6de1f30e1ed273712f3d2a21fb896e74e3d8d4b57df41a02dc38803557f",
+      "release_sha256": "74b401b5448f9d162af52e29d98ade08a3088da1be106c7242c84e7111acd283",
+      "description": "Only three user-facing preview strings: wrist -> palm-base; no model/build/control changes"
+    }
+  },
+  "default_entry": {
+    "submission_intercepted": true,
+    "training_started": false,
+    "command": [
+      "/data/projects/pianist/scripts/hpc/submit.sh",
+      "--gpus",
+      "2",
+      "--source-archive",
+      "/data/projects/pianist/logs/coordinate_names_20261025/source_world_pose_names_v1.tar.gz",
+      "train",
+      "--world-x",
+      "0.16",
+      "--right-world-y",
+      "0.15",
+      "--left-world-y",
+      "-0.15",
+      "--world-z",
+      "0.09",
+      "--palm-base-yaw",
+      "0.2617993877991494",
+      "--control-hz",
+      "20",
+      "--physics-hz",
+      "1000",
+      "--lookahead",
+      "10",
+      "--frame-stack",
+      "1",
+      "--midi",
+      "/data/projects/pianist/training_mjlab/inputs/turkish_march_advanced/a32_repeat_static_guarded_20261025/turkish-march-advanced_fingered.proto",
+      "--initial-buffer-time",
+      "0",
+      "--score-validation",
+      "strict_v1",
+      "--release-tail-time",
+      "0.25",
+      "--exact-note-timing",
+      "--preparation-mode",
+      "first_note_v1",
+      "--preparation-time",
+      "2",
+      "--preparation-lift",
+      "0",
+      "--ending-time",
+      "2",
+      "--gravity-compensation",
+      "--action-reward-observation",
+      "--task-profile",
+      "tsensei_collision_v1",
+      "--collision-profile",
+      "convex_hull_v1",
+      "--drive-profile",
+      "shadow_v1",
+      "--no-arms",
+      "--disable-wrist-tz",
+      "--disable-wrist-yaw",
+      "--action-profile",
+      "direct_joint_v1",
+      "--wrist-pitch-range-scale",
+      "1.0",
+      "--finger-coupling",
+      "--no-coupling-reduce-observation",
+      "--finger-coupling-angle-ranges",
+      "/data/projects/pianist/configs/finger_coupling/angle_ranges_10_80.json",
+      "--device",
+      "cuda:0",
+      "--collector-devices",
+      "cuda:0",
+      "--learner-device",
+      "cuda:1",
+      "--collector-pipeline",
+      "--stage",
+      "1",
+      "--seed",
+      "42",
+      "--actor-hidden",
+      "256",
+      "256",
+      "256",
+      "--discount",
+      "0.80",
+      "--init-temperature",
+      "0.5",
+      "--actor-lr",
+      "0.0003",
+      "--critic-lr",
+      "0.0003",
+      "--temp-lr",
+      "0.0003",
+      "--num-envs",
+      "512",
+      "--vector-steps",
+      "22402",
+      "--replay-capacity",
+      "3000000",
+      "--batch-size",
+      "1024",
+      "--warmup-transitions",
+      "9999",
+      "--learning-start-transitions",
+      "10000",
+      "--updates-per-transition",
+      "0.25",
+      "--replay-prefill-episodes",
+      "1",
+      "--eval-at-start",
+      "--eval-interval",
+      "500",
+      "--eval-episodes",
+      "3",
+      "--eval-num-envs",
+      "3",
+      "--save-best",
+      "--save-interval",
+      "0",
+      "--save-forward",
+      "--log-interval",
+      "20",
+      "--best-f1-metric",
+      "f1",
+      "--no-physics-graph",
+      "--compile-learner",
+      "--fused-optimizer",
+      "--learner-graph",
+      "--optimizer-layout",
+      "--learner-matmul-precision",
+      "tf32",
+      "--no-eval-metrics-graph",
+      "--hard-joint-limits",
+      "--control-limits",
+      "configs/control_limits/generic_wrist_rate_20260927.json",
+      "--wrist-tx-max-velocity",
+      "1.99",
+      "--wrist-ty-max-velocity",
+      "1.99",
+      "--wrist-tx-max-acceleration",
+      "1.99",
+      "--wrist-ty-max-acceleration",
+      "1.99",
+      "--wrist-pitch-max-velocity",
+      "3.1416",
+      "--wrist-pitch-max-acceleration",
+      "15.708",
+      "--reward-config",
+      "/data/projects/pianist/configs/rewards/default_20261006.json",
+      "--joint-motion-limit-penalty",
+      "--finger-target-velocity-limit",
+      "20",
+      "--finger-target-acceleration-limit",
+      "400",
+      "--wrist-target-velocity-limit",
+      "3",
+      "--wrist-target-acceleration-limit",
+      "15",
+      "--tcp-target-velocity-limit",
+      "1.90",
+      "--tcp-target-acceleration-limit",
+      "1.90",
+      "--joint-motion-full-penalty-excess",
+      "0.1",
+      "--joint-motion-max-penalty",
+      "5",
+      "--anticipatory-fingering-time",
+      "0.15",
+      "--upcoming-press-permission-time",
+      "0",
+      "--collision-diagnostics",
+      "--target-consecutive-evals",
+      "19534",
+      "--target-max-preparation-wrong-frames",
+      "0",
+      "--target-max-hand-collision-frames",
+      "0",
+      "--no-swanlab",
+      "--no-progress",
+      "--output-dir",
+      "/data/projects/pianist/training_mjlab/outputs/hpc/reward_defaults_20261006"
+    ],
+    "entry_sha256": "0fb98c9521d06fbb28a50eecd5ddc332f1add4ce924c159a85025f10a659d53a",
+    "archive_sha256": "faf4f5d04e7d7a7d940dc9ee46a7711ad7b1c16930f14d43fabc26894dc815a2"
+  },
+  "old_cli_rejected_before_gpu_submission": true,
+  "current_world_xyz_m": {
+    "right": [
+      0.16,
+      0.15,
+      0.09
+    ],
+    "left": [
+      0.16,
+      -0.15,
+      0.09
+    ]
+  },
+  "initial_pose_semantics": "Actual base_link origin before optional preparation lift; world=piano only at current piano placement",
+  "history_preserved": true
+}

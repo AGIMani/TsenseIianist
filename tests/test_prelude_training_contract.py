@@ -21,8 +21,8 @@ def test_yaw30_revised_score_and_current_physical_mapping():
     scene=PianoScene(scene_path,action_profile='direct_joint_v1',disable_wrist_tz=True,disable_wrist_yaw=True)
     TaskBundle(task_path,scene.bundle)
     for side in ('right','left'):
-        assert abs(scene.bundle.fixed_joint_values[side+'_/forearm_yaw']-math.pi/6)<1e-10
-        assert side+'_/forearm_yaw' not in [scene.model.joint(i).name for i in range(scene.model.njnt)]
+        assert abs(scene.bundle.fixed_joint_values[side+'_/palm_base_yaw']-math.pi/6)<1e-10
+        assert side+'_/palm_base_yaw' not in [scene.model.joint(i).name for i in range(scene.model.njnt)]
     p0=scene.physical_action(scene.action_low[None]);p1=scene.physical_action(scene.action_high[None])
     for index in (4,8,12,16,29,33,37,41):
         assert abs(p0[0,index].item())<1e-6

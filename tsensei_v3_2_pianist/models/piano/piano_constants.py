@@ -55,14 +55,13 @@ BASE_SIZE = [BASE_LENGTH / 2, BASE_WIDTH / 2, BASE_HEIGHT / 2]
 BASE_X_OFFSET = -WHITE_KEY_LENGTH / 2 - 0.5 * BASE_LENGTH - 0.002
 BASE_POS = [BASE_X_OFFSET, 0, BASE_HEIGHT / 2]
 
-# A key is designed to travel downward 3/8 of an inch (roughly 10mm).
+# User-specified nominal travel, 2026-10-23: white 12 mm, black 10 mm.
 # Assuming the joint is positioned at the back of the key, we can write:
 # tan(θ) = d / l, where d is the distance the key travels and l is the length of the
 # key. Solving for θ, we get: θ = arctan(d / l).
-WHITE_KEY_TRAVEL_DISTANCE = 0.01
+WHITE_KEY_TRAVEL_DISTANCE = 0.012
 WHITE_KEY_JOINT_MAX_ANGLE = atan(WHITE_KEY_TRAVEL_DISTANCE / WHITE_KEY_LENGTH)
-# TODO(kevin): Figure out black key travel distance.
-BLACK_KEY_TRAVEL_DISTANCE = 0.008
+BLACK_KEY_TRAVEL_DISTANCE = 0.010
 BLACK_KEY_JOINT_MAX_ANGLE = atan(BLACK_KEY_TRAVEL_DISTANCE / BLACK_KEY_LENGTH)
 # Mass in kg.
 WHITE_KEY_MASS = 0.04

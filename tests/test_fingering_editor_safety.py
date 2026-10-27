@@ -120,3 +120,98 @@ def test_diagonal_hatching_stays_inside_convex_key_face():
         for p in (a, b):
             assert 0 <= p[0] <= 20 and 0 <= p[1] <= 40
         assert a[0]+a[1] == pytest.approx(b[0]+b[1])
+
+
+def ssh_preview(tmp_path, monkeypatch, failures, diagnostic, code=255):
+    """Exercise real pipes/process cleanup without connecting to an SSH server."""
+    import json
+    import os
+    import queue
+    monkeypatch.syspath_prepend(str(SCRIPTS))
+    import fingering_editor as ui
+    monkeypatch.setattr(ui, 'ROOT', tmp_path)
+    monkeypatch.setattr(ui.threading.Thread, 'start', lambda self: None)
+    counter = tmp_path/'attempts'
+    executable = tmp_path/'ssh'
+    executable.write_text(f'''#!{sys.executable}
+import json, pathlib, sys
+counter = pathlib.Path({str(counter)!r})
+n = int(counter.read_text())+1 if counter.exists() else 1
+counter.write_text(str(n))
+if n <= {failures}:
+    print({diagnostic!r}, file=sys.stderr, flush=True)
+    sys.exit({code})
+print(json.dumps(dict(type='ready', meshes=[], frame={{}})), flush=True)
+sys.stdin.read()
+''')
+    executable.chmod(0o755)
+    monkeypatch.setenv('PATH', str(tmp_path)+os.pathsep+os.environ['PATH'])
+    config = tmp_path/'remote.json'
+    config.write_text(json.dumps(dict(host='test', remote_root='/test',
+                                     worker_sha256='test', source_sha256='test', python='python')))
+    preview = ui.RemotePreview(config)
+    preview.responses = queue.Queue()
+    preview.submit(None)
+    return preview, counter
+
+
+def test_preview_recovers_from_ssh_handshake_resets(tmp_path, monkeypatch):
+    preview, _ = ssh_preview(tmp_path, monkeypatch, 2,
+                            'kex_exchange_identification: read: Connection reset by peer')
+    preview.run()
+    results = list(preview.responses.queue)
+    assert any(item['type'] == 'ready' for item in results)
+    assert not any(item['type'] == 'error' for item in results)
+    assert preview.process.poll() == 0
+
+
+@pytest.mark.parametrize('diagnostic,code,attempts', [
+    ('Connection reset by peer', 255, 3),
+    ('Permission denied (publickey).', 255, 1),
+    ('Permission denied (publickey).\nConnection closed by remote host', 255, 1),
+    ('REMOTE HOST IDENTIFICATION HAS CHANGED!', 255, 1),
+    ('ValueError: invalid model configuration', 1, 1),
+])
+def test_preview_bounds_retries_and_reports_actual_failure(tmp_path, monkeypatch,
+                                                         diagnostic, code, attempts):
+    preview, counter = ssh_preview(tmp_path, monkeypatch, 10, diagnostic, code)
+    preview.run()
+    failure = list(preview.responses.queue)[-1]
+    assert failure['type'] == 'error'
+    assert diagnostic in failure['error']
+    assert int(counter.read_text()) == attempts
+    assert preview.process.poll() == code
+
+
+def test_closing_preview_cancels_connection_retry(tmp_path, monkeypatch):
+    import threading
+    start = threading.Thread.start
+    preview, counter = ssh_preview(tmp_path, monkeypatch, 10, 'Connection reset by peer')
+    worker = threading.Thread(target=preview.run, daemon=True)
+    start(worker)
+    try:
+        assert preview.responses.get(timeout=5)['type'] == 'status'
+    finally:
+        preview.close()
+        worker.join(timeout=3)
+    assert not worker.is_alive()
+    assert int(counter.read_text()) == 1
+
+
+def test_failed_connection_disables_pose_playback(monkeypatch):
+    import queue
+    from types import SimpleNamespace
+    monkeypatch.syspath_prepend(str(SCRIPTS))
+    from fingering_editor import Editor
+    editor = object.__new__(Editor)
+    editor.ready = True
+    editor.request_id = 7
+    editor.playing = True
+    editor.play_button = SimpleNamespace(configure=lambda **kw: None)
+    editor.pose_status = SimpleNamespace(configure=lambda **kw: None)
+    editor.root = SimpleNamespace(after=lambda *a: None)
+    editor.remote = SimpleNamespace(responses=queue.Queue())
+    editor.remote.responses.put(dict(type='error', error='SSH transport failed'))
+    editor.poll()
+    assert not editor.ready
+    assert not editor.playing

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# 2026-10-25: External initial positions use world-frame metres; yaw is the palm-base joint angle in radians.
 """Physical MuJoCo replay driven by MIDI fingering assignments.
 
 Unlike the kinematic diagnostic, this runner never writes piano-key qpos.  The
@@ -30,7 +31,7 @@ def main():
     if any(out.iterdir()): raise FileExistsError(out)
     if a.build is None:
         from tsensei_v3_2_pianist.mjlab_env.source_runtime import make_recipe, build as build_source
-        recipe=make_recipe(midi=str(a.score), height=.10, ty=.04, yaw=np.pi/6,
+        recipe=make_recipe(midi=str(a.score), world_x=.14, world_z=.10, palm_base_yaw=np.pi/6,
             control_hz=20., physics_hz=200., lookahead=10, frame_stack=1,
             initial_buffer_time=0., release_tail_time=0., score_validation='legacy',
             gravity_compensation=True, action_reward_observation=True,

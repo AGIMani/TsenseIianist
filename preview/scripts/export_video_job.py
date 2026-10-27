@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# 2026-10-25: The hand base_link frame is named palm_base; exported pose coordinates explicitly name world.
 """Slurm-only multi-view renderer using one strictly verified checkpoint rollout."""
 import argparse
 import hashlib
@@ -19,30 +20,40 @@ sys.path.insert(0, str(Path(__file__).parent))
 from export_videos import sha256
 
 
+def execution_job_id():
+    if os.environ.get('SLURM_JOB_ID'):
+        return os.environ['SLURM_JOB_ID']
+    import socket
+    if (os.environ.get('TSENSEI_JOB_BACKEND') == 'process' and socket.gethostname() == 'FC500T-K'
+            and os.environ.get('PIANIST_PROCESS_JOB_ID', '').isdigit()):
+        return os.environ['PIANIST_PROCESS_JOB_ID']
+    return None
+
+
 def native_render_python(plan):
-    """Native MJB recordings must use the same MuJoCo runtime as capture."""
-    if not json.loads(Path(plan['config']).read_text()).get('arm_follow'):
-        return None
+    """All captured MJBs, including hand-only models, use the capture runtime."""
     environment = ROOT/'training_mjlab/.venv'
     if Path(sys.prefix).resolve() == environment.resolve():
         return None
     executable = environment/'bin/python'
     if not executable.is_file():
-        raise FileNotFoundError('Native recording requires its learner runtime: '+str(executable))
+        raise FileNotFoundError('Recorded model requires its learner runtime: '+str(executable))
     return executable
 
 
 def load_recorded_model(source, *, native):
     import mujoco
     scene = source/'kinematic_scene'
+    binary = scene/'model.mjb'
+    if binary.is_file():
+        # XML serialization rounds joint ranges (e.g. pi/12 to 0.261799).
+        # Use the captured compiled model for exact geometry and limit audits.
+        return mujoco.MjModel.from_binary_path(str(binary))
     if native:
         # Native arm assets are attached after the hand bundle is compiled, so
         # its XML asset list can omit their mesh files. The captured MJB already
         # contains the exact compiled geometry, in the learner MuJoCo version.
-        binary = scene/'model.mjb'
-        if not binary.is_file():
-            raise FileNotFoundError('Native recording is missing its compiled model: '+str(binary))
-        return mujoco.MjModel.from_binary_path(str(binary))
+        raise FileNotFoundError('Native recording is missing its compiled model: '+str(binary))
     return mujoco.MjModel.from_xml_path(str(scene/'scene.xml'))
 
 
@@ -453,7 +464,8 @@ def export_plots(plan, output, model, trace, positions, rotations, q, arms, arm_
         csv(directory/'wrist_velocities.csv', mid, np.column_stack(columns), names)
     if 'hand-joints' in plan['plots']:
         poses, joints = hand_motion_columns(model, sample(trace['qpos']))
-        summaries['hand_joints'] = export_joint_motion(folder/'hand_joints', time, poses, joints, 'hand / wrist')
+        summaries['hand_joints'] = export_joint_motion(folder/'hand_joints', time, poses, joints, 'hand / wrist',
+                                                       position_source='recorded_physics')
     return summaries
 
 
@@ -541,7 +553,7 @@ def render_video(plan, spec, output, source, trace, raw_model, overlay, q, start
 
 
 def run(plan):
-    if not os.environ.get('SLURM_JOB_ID'):
+    if not execution_job_id():
         raise RuntimeError('GPU export must run through export_video.sh / scripts/hpc/submit.sh export')
     import mujoco
     import numpy as np
@@ -549,13 +561,13 @@ def run(plan):
     from tsensei_v3_2_pianist.preview_trajectory import differential_track
     output=Path(plan['output'])
     def status(stage, **extra):
-        save_json(output/'status.json',dict(state='running',stage=stage,job_id=os.environ['SLURM_JOB_ID'],**extra))
+        save_json(output/'status.json',dict(state='running',stage=stage,job_id=execution_job_id(),**extra))
         print(stage,flush=True)
     for key in ('checkpoint','config'):
         if sha256(plan[key]) != plan[key+'_sha256']:raise ValueError('Frozen input mismatch: '+key)
     if not shutil.which('ffmpeg'):raise FileNotFoundError('ffmpeg is required')
     # STL/XML/recorded render scenes are internal job inputs, not deliverables.
-    job_directory=Path(plan['source_project'])/'logs/hpc'/os.environ['SLURM_JOB_ID']
+    job_directory=Path(plan['source_project'])/'logs/hpc'/execution_job_id()
     if os.environ.get('TSENSEI_ALLOCATION_STEP') == '1':
         job_directory=job_directory/'steps'/os.environ['SLURM_STEP_ID']
     workspace=job_directory/'export_work'
@@ -581,20 +593,23 @@ def run(plan):
             raise ValueError('Native export cannot reconstruct arm joints via overlay IK')
     elif any((raw_model.body(i).name or '').startswith(('tj_','arm_follow_')) for i in range(raw_model.nbody)):
         raise ValueError('Arm geometry disagrees with checkpoint contract')
-    status('extracting wrist poses')
+    status('extracting actual palm-base world poses')
     positions,rotations=read_targets(source,trace,model=raw_model)
     data_dir=output/'data';data_dir.mkdir()
     score=None
     if plan.get('fingering',False):
         status('recovering verified score fingering')
         score=recover_fingering(plan,source,data_dir,duration)
-    np.savez_compressed(data_dir/'wrist_poses.npz',time=trace['time'],position=positions,rotation=rotations)
+    np.savez_compressed(data_dir/'palm_base_world_poses.npz', time=trace['time'],
+                        position=positions, rotation=rotations, frame='world',
+                        body_frames=np.array(['right_/base_link', 'left_/base_link']),
+                        position_unit='m', rotation_representation='world_from_palm_base_matrix')
     from scipy.spatial.transform import Rotation
     values=[];names=[]
     for i,side in enumerate(('right','left')):
         values.extend((positions[:,i],Rotation.from_matrix(rotations[:,i]).as_quat()))
-        names.extend(f'{side}_{axis}' for axis in ('x_m','y_m','z_m','qx','qy','qz','qw'))
-    csv(data_dir/'wrist_poses.csv',trace['time'],np.concatenate(values,axis=1),names)
+        names.extend(f'{side}_palm_base_world_{axis}' for axis in ('x_m','y_m','z_m','qx','qy','qz','qw'))
+    csv(data_dir/'palm_base_world_poses.csv',trace['time'],np.concatenate(values,axis=1),names)
     overlay=None;q=None;arms=None;arm_report=None;arm_path=None
     if not native and (any(v['arms'] for v in plan['videos']) or 'arm-joints' in plan['plots']):
         status('differential IK')
@@ -659,19 +674,34 @@ def run(plan):
         videos.append(render_video(plan,spec,output,source,trace,raw_model,overlay,q,start,end,fps,score))
     result=dict(schema=1,checkpoint_origin=plan['checkpoint_origin'],checkpoint_sha256=plan['checkpoint_sha256'],
                 recording=str(source),internal_workspace=str(workspace),
+                recorded_model_format='mjb' if (source/'kinematic_scene/model.mjb').is_file() else 'legacy_xml',
+                recorded_model_sha256=sha256(source/'kinematic_scene'/('model.mjb' if (source/'kinematic_scene/model.mjb').is_file() else 'scene.xml')),
                 physics_trace_sha256=sha256(source/'physics_trace.npz'),
                 physics_hz=1/float(trace['physics_dt']),recorded_duration=duration,
                 clip_start=start,clip_end=end,speed=plan['speed'],plots_time_basis='original time within clip',
                 full_episode_phase_metrics=record_report.get('phase_metrics'),
                 metrics_scope='full recorded episode, not recomputed for a cropped clip',
                 fingering_annotations=score['metadata'] if score is not None else None,
-                videos=videos,arm_analysis=arm_report,native_arm_contract=config.get('arm_follow_contract') if native else None,joint_motion=plot_reports,source_job=os.environ['SLURM_JOB_ID'],
+                videos=videos,arm_analysis=arm_report,native_arm_contract=config.get('arm_follow_contract') if native else None,joint_motion=plot_reports,source_job=execution_job_id(),
                 source_step=os.environ.get('SLURM_STEP_ID'))
     save_json(output/'report.json',result)
     blocks=['<!doctype html><meta charset="utf-8"><title>Video export</title>',
         '<style>body{font:16px sans-serif;max-width:1200px;margin:30px auto;background:#121923;color:#eef}video{width:100%;max-height:700px}a{color:#9cf}img{max-width:100%}</style>',
         '<h1>Checkpoint video export</h1><p>'+html.escape(plan['checkpoint_origin'])+'</p>',
         '<p><a href="report.json">Report</a> · <a href="export_plan.json">Parameters</a> · <a href="data/">CSV / NPZ</a></p>']
+    for group, motion in plot_reports.items():
+        if motion.get('position_bounds_status') == 'exceeded':
+            exceeded = [j for j in motion['joints'] if j.get('position') and j['position']['exceeded_samples']]
+            blocks.append('<h2>真实录制关节位置超限</h2><p>以下物理轨迹保持原始采样，未裁剪、投影或删除超限点。'
+                          '导出完成不代表关节限位通过。</p><ul>')
+            for joint in exceeded:
+                audit = joint['position']
+                blocks.append('<li>'+html.escape(joint['name'])+
+                    f': {audit["exceeded_samples"]} samples; '
+                    f'{audit["first_exceedance_s"]:.6g}–{audit["last_exceedance_s"]:.6g} s; '
+                    f'undershoot {audit["maximum_undershoot"]:.9g}, overshoot {audit["maximum_overshoot"]:.9g} '
+                    +html.escape(joint['unit'])+'</li>')
+            blocks.append(f'</ul><p><a href="plots/{html.escape(group)}/joint_motion_report.json">位置超限详情</a></p>')
     for video in videos:
         file=html.escape(video['file']);blocks.append(f'<h2>{file}</h2><video controls preload="metadata" src="{file}"></video>')
     if 'arm_joints' in plot_reports:
@@ -700,7 +730,7 @@ def run(plan):
     if plan['zip']:
         with zipfile.ZipFile(output/'export_bundle.zip','w',zipfile.ZIP_DEFLATED) as archive:
             for f in deliverables+[output/'manifest.json']:archive.write(f,f.relative_to(output))
-    save_json(output/'status.json',dict(state='completed',job_id=os.environ['SLURM_JOB_ID'],videos=len(videos),index=str(output/'index.html')))
+    save_json(output/'status.json',dict(state='completed',job_id=execution_job_id(),videos=len(videos),index=str(output/'index.html')))
     print('Export complete: '+str(output/'index.html'),flush=True)
 
 
@@ -715,14 +745,14 @@ def main():
         else:
             python=native_render_python(plan)
             if python is not None:
-                if not os.environ.get('SLURM_JOB_ID'):
+                if not execution_job_id():
                     raise RuntimeError('Native GPU export requires a Slurm allocation')
                 # Re-enter before record_once: recovering an existing recording
                 # must never evaluate the policy a second time.
                 os.execv(str(python),[str(python),str(Path(__file__).resolve()),'--plan',str(args.plan.resolve())])
             run(plan)
     except Exception as error:
-        save_json(Path(plan['output'])/'status.json',dict(state='failed',error=f'{type(error).__name__}: {error}',job_id=os.environ.get('SLURM_JOB_ID')))
+        save_json(Path(plan['output'])/'status.json',dict(state='failed',error=f'{type(error).__name__}: {error}',job_id=execution_job_id()))
         raise
 
 

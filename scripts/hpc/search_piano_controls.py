@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# 2026-10-25: Virtual palm_base naming unified; axis values and order unchanged.
 """Sample actuator-command corrections through unchanged MuJoCo dynamics.
 
 Cross-entropy trajectory search is a numerical optimizer, not policy learning.
@@ -192,13 +193,13 @@ def main():
     FINGER_COLS={f:[] for f in range(10)};wrists=[]
     for i,j in enumerate(joints):
         name=M.joint(j).name
-        if 'forearm_' in name:wrists.append(i)
+        if 'palm_base_' in name:wrists.append(i)
         for f in range(10):
             side='right_' if f<5 else 'left_'
             if name.startswith(side) and '_'+('thumb','index','mid','ring','pinky')[f%5]+'_' in name:FINGER_COLS[f].append(i)
     IDLE={f:np.array([source['thumb_idle_reference'][M.joint(joints[c]).name] for c in FINGER_COLS[f]])
           for f in (0,5)} if source.get('thumb_idle_reference') else {}
-    SCALE=np.array([.035 if M.jnt_type[j]==mujoco.mjtJoint.mjJNT_SLIDE else .3 if 'forearm_' in M.joint(j).name else 1. for j in joints])
+    SCALE=np.array([.035 if M.jnt_type[j]==mujoco.mjtJoint.mjJNT_SLIDE else .3 if 'palm_base_' in M.joint(j).name else 1. for j in joints])
     SPEC=mujoco.mjtState.mjSTATE_INTEGRATION
     rng=np.random.default_rng(a.random_seed);commands=z['all_commands'];times=z['all_command_times']
     references=[]

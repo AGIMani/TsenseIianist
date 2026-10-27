@@ -1,3 +1,4 @@
+# 2026-10-25: Virtual palm_base naming unified; axis values and order unchanged.
 """Save preview joint targets/positions into the standalone hand constants file."""
 import ast
 from datetime import datetime, timezone
@@ -39,7 +40,7 @@ class InitialPoseSaver:
     """Back up and atomically update constants; never modify the running model.
 
     ctrl saves Control targets (including when paused); qpos saves the actual
-    visible joints. Both save the mounting position separately from wrist DOFs.
+    visible joints. Both save the mounting position separately from palm_base DOFs.
     """
 
     def __init__(self, physics, hands, constants_path, backup_dir, source='ctrl'):
@@ -77,8 +78,8 @@ class InitialPoseSaver:
             sides[side] = values
             observations[side] = {
                 'actual_qpos': actual, 'control_targets': targets,
-                'observed_wrist_world_position_m': self.physics.data.ptr.xpos[body_id].tolist(),
-                'observed_wrist_world_quaternion_wxyz': self.physics.data.ptr.xquat[body_id].tolist(),
+                'observed_palm_base_world_position_m': self.physics.data.ptr.xpos[body_id].tolist(),
+                'observed_palm_base_world_quaternion_wxyz': self.physics.data.ptr.xquat[body_id].tolist(),
                 'mount_quaternion_wxyz': self.physics.model.ptr.body_quat[body_id].tolist(),
             }
         if set(sides) != {'left', 'right'}:

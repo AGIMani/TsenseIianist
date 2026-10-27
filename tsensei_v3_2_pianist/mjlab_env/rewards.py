@@ -254,6 +254,14 @@ class RewardManager:
                 if name not in base:
                     raise ValueError(f'{name} was disabled in the frozen task; re-export or disable it here')
                 value=base[name]
+            elif name=='key_hold_lateral_motion_penalty':
+                speed = snapshot['key_hold_lateral_velocity_history']
+                held = snapshot['key_hold_contact_history']
+                if speed.ndim != 3 or speed.shape != held.shape or speed.shape[-1] != 2 or speed.shape[1] < 1:
+                    raise ValueError('Key-hold samples require matching [world, substep, right/left] histories')
+                excess = ((speed.abs() - params['velocity_tolerance_m_s']) /
+                          (params['full_penalty_velocity_m_s'] - params['velocity_tolerance_m_s'])).clamp(0., 1.)
+                value = -params['maximum_penalty_per_step'] * (held * excess.square()).amax(-1).mean(-1)
             elif name=='self_collision_reward':
                 value=-snapshot['self_collision_pair_substeps'].float()
             elif name=='false_press_penalty':
@@ -343,12 +351,15 @@ class RewardManager:
             # across all pairs and substeps, never once per pair or substep.
             weighted['self_collision_reward'] = weighted['self_collision_reward'].clamp_min(
                 -self.terms['self_collision_reward']['params']['maximum_penalty_per_step'])
+        if 'key_hold_lateral_motion_penalty' in weighted:
+            weighted['key_hold_lateral_motion_penalty'] = weighted['key_hold_lateral_motion_penalty'].clamp_min(
+                -self.terms['key_hold_lateral_motion_penalty']['params']['maximum_penalty_per_step'])
         # Optional reference units preserve the reward rate of an existing
         # control frequency. Missing reference_dt retains historical seconds.
         scale=(self.dt/self.config.get('reference_dt', 1.)
                if self.config['scale_by_dt'] else 1.)
         contributions={name:value*(1. if name in ('joint_motion_limit_penalty', 'arm_motion_limit_penalty',
-                                                'arm_tracking_error_penalty',
+                                                'arm_tracking_error_penalty', 'key_hold_lateral_motion_penalty',
                                                 'self_collision_reward','humanoid_finger_gesture_reward') else scale)
             for name,value in weighted.items()}
         self.previous2.copy_(self.previous)

@@ -1,0 +1,147 @@
+{
+  "status": "passed",
+  "training_started": false,
+  "default_entry_updated": true,
+  "archive": "logs/key_hold_lateral_20261026/source_key_hold_lateral_v1.tar.gz",
+  "archive_sha256": "a3668ebb939292e08e93e5627d5b9c5d14243242e759ddb379c8e7d2c5808e88",
+  "parent_archive_sha256": "63d4224c3a29807a6026d391967297ead55f163f221f8d29cc86f1b116bcb992",
+  "remote_host": "volc-a32",
+  "remote_project": "/data/shared/houj/pianist_key_hold_20261026/project",
+  "slurm": {
+    "job_id": 10141,
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed_seconds": 145,
+    "tests_passed": 74,
+    "subtests_passed": 114,
+    "tests_skipped": 2,
+    "warnings": 35,
+    "pytest_seconds": 116.37,
+    "command": "/data/shared/houj/pianist_key_hold_20261026/project/training_mjlab/.venv/bin/python -m pytest -q tests/test_key_hold_lateral_reward.py tests/test_key_hold_lateral_sampling.py tests/test_key_hold_lateral_physical.py tests/test_substep_rewards.py tests/test_paper_rewards.py tests/test_joint_motion_limit_reward.py tests/test_exact_fingering_reward.py tests/test_reward_time_units.py tests/test_reward_defaults_20261006.py",
+    "skipped_reason": "Frozen archive excludes external launcher; separate actual shell interception and source/learner parser checks passed",
+    "warnings_reason": "torch.jit.script deprecation"
+  },
+  "local_formula": {
+    "initial_red_failed": 13,
+    "final_green_passed": 14
+  },
+  "term": {
+    "enabled": true,
+    "weight": 1.0,
+    "params": {
+      "velocity_tolerance_m_s": 0.01,
+      "full_penalty_velocity_m_s": 0.1,
+      "maximum_penalty_per_step": 0.5
+    }
+  },
+  "default_entry": {
+    "intercepted": true,
+    "source_and_learner_parsers_verified": true,
+    "training_arguments_unchanged": true,
+    "config": "effective_config.json"
+  },
+  "physical": {
+    "status": "passed",
+    "worlds": 2,
+    "control_hz": 20,
+    "physics_hz": 1000,
+    "steps": 3,
+    "actual_velocity_max_error_m_s": 2.9103830456733704e-11,
+    "rewards": [
+      [
+        -0.0,
+        -0.0
+      ],
+      [
+        -0.0,
+        -0.0
+      ],
+      [
+        -0.0,
+        -0.0
+      ]
+    ],
+    "contract": {
+      "axis": "piano_world_y",
+      "velocity": "actual_palm_origin",
+      "velocity_sources": [
+        "jacobian_qvel",
+        "jacobian_qvel"
+      ],
+      "palm_bodies": [
+        "right_/base_link",
+        "left_/base_link"
+      ],
+      "contact_distance_max_m": 0.0,
+      "activation": "same_substep_actual_key_activation",
+      "side_order": [
+        "right",
+        "left"
+      ],
+      "contact_source": "main_physics",
+      "aggregation": "max_sides_then_mean_substeps"
+    },
+    "preparation_valid": true,
+    "training_started": false,
+    "scope": "A3.2 default preparation/runtime/reset; synthetic real-contact tests separately validate nonzero gate"
+  },
+  "source_overlay_verified_before_release": {
+    "configs/rewards/default_20261006.json": true,
+    "README.md": true,
+    "docs/change_log.md": true,
+    "docs/reward_defaults_20261006.md": true,
+    "tests/test_key_hold_lateral_reward.py": true,
+    "tests/test_key_hold_lateral_sampling.py": true,
+    "tests/test_key_hold_lateral_physical.py": true,
+    "tests/test_paper_rewards.py": true,
+    "tests/test_reward_defaults_20261006.py": true,
+    "docs/superpowers/specs/2026-10-26-key-hold-lateral-design.md": true,
+    "docs/superpowers/plans/2026-10-26-key-hold-lateral.md": true,
+    "tsensei_v3_2_pianist/mjlab_env/reward_config.py": true,
+    "tsensei_v3_2_pianist/mjlab_env/rewards.py": true,
+    "tsensei_v3_2_pianist/mjlab_env/task.py": true,
+    "tsensei_v3_2_pianist/mjlab_env/scene.py": true,
+    "tsensei_v3_2_pianist/mjlab_env/substep_rewards.py": true,
+    "tsensei_v3_2_pianist/mjlab_env/key_hold_lateral.py": true
+  },
+  "transfer_sha_verified": true,
+  "post_freeze_documentation_only": [
+    "docs/change_log.md",
+    "docs/superpowers/plans/2026-10-26-key-hold-lateral.md",
+    "AGENTS.md"
+  ],
+  "limitations": [
+    "No training, full-song convergence, throughput or hardware safety validation.",
+    "Full-arm MJLab initialization encounters pre-existing zero-mocap contact-capacity overflow; real initialized M6 follower/sampler test passed, full-arm training not validated.",
+    "100% activation gate excludes partially depressed keys; actual palm motion does not measure local fingertip sliding."
+  ],
+  "earlier_failed_jobs": [
+    10137,
+    10138,
+    10139,
+    10140
+  ],
+  "evidence_sha256": {
+    "slurm/10141.out": "ba72b3f0675577d617bc1dfa154d8130fecb67f40ddc19f22dd8b02e83c7049e",
+    "slurm/10141.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "slurm/final_status.txt": "02f85c7f97466b6f05f37e238bc04986fc7450756950388ec67ffe80a6544a00",
+    "command.txt": "3dafe802b28698bcd056234a709c8ded649389bd3eb7227b5c69414297a51b46",
+    "physical_validation/report.json": "f599a6a12243b324a86c8206a468fb61cbe023ba84103df5617e82586c95487c",
+    "remote_evidence.txt": "2d260150a7ad52d4e7280acc527bccec151b350da7a4033a667f2830c99f8461",
+    "default_entry_capture.json": "4884c1b4443440a82eceff1fa31b7fa11ea125af87916f7620307d6443c3b857",
+    "effective_config.json": "de6c3e0144534b465a93f094ecc3318a5668f9535709c6e44d80aae3e97de17f",
+    "default_entry_check.log": "4884c1b4443440a82eceff1fa31b7fa11ea125af87916f7620307d6443c3b857",
+    "overlay_manifest.json": "401d885c92e19302403517559cb27714826953675a5a11a522a6ea610716b367",
+    "source_lineage.json": "7f1052340244a846be0f23c1a24903193114842ad712bfd93d4aae6e84917456",
+    "source_audit.json": "1311f189b081e4141da0769d2a08ae5afa0842813aa31a24a55f388eba076a3f",
+    "gpu_probe.json": "051da2979bae6d575ca7cf0216960576b9678c23f23c2e2024aec262ff991184",
+    "review.md": "4e6b33bc5250c2759ce2ebd5fded170e1b7acc74d96a08bc8df409d6994319e1"
+  },
+  "release_files_sha256": {
+    "all_use_this_train.sh": "89d9c834a68982fbc49ebaca10b7feb63741951a7c43c8683538c29fdc88a799",
+    "AGENTS.md": "90564541af4630e8046f7c77862db017220aa06b0bdc4a3827c4fcd1c1bcfcc1",
+    "docs/change_log.md": "3231c400d1dbbca2a6bac800dfad69e2c9b1c382545f0ec059a645c1a92bbb65",
+    "docs/reward_defaults_20261006.md": "0b0825d299f83094569cef9f61032616b622f66f34a2b9c26f59f6fb7718b448",
+    "configs/rewards/default_20261006.json": "9ff6f4128f7739356a60bebadde339e6da742da026664d51701587237f512d64"
+  }
+}

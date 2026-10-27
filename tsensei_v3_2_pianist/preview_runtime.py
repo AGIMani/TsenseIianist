@@ -1,3 +1,4 @@
+# 2026-10-25: Virtual palm_base naming unified; axis values and order unchanged.
 """Interactive physics preview driven by the MuJoCo viewer's Control panel."""
 from contextlib import contextmanager
 from queue import Empty, SimpleQueue
@@ -54,12 +55,12 @@ def run_interactive(physics, *, wireframe=None, coordinate_frames=None, show_fin
     from .preview_contacts import ContactPanel
     keys = SimpleQueue()
     paused = start_paused
-    print("Control panel: drag finger or forearm sliders. Space: pause/resume. R: reset.")
+    print("Control panel: drag finger or palm_base sliders. Space: pause/resume. R: reset.")
     print("R/L_Palm_Base_Tx: world +Y; TY: world -X; TZ: world +Z.")
     if arm_preview is not None:
-        print('M6 arms: differential IK follows actual hand wrists. F: fit full arms+piano camera.')
+        print('M6 arms: differential IK follows actual palm bases. F: fit full arms+piano camera.')
         print('Paused: Wrist Control sliders position the hand kinematically; arms keep following.')
-        print('Mouse: double-click a green wrist handle; Ctrl+right-drag translates, Ctrl+left-drag rotates.')
+        print('Mouse: double-click a green palm-base handle; Ctrl+right-drag translates, Ctrl+left-drag rotates.')
     wrist_actuators = [i for i in range(model.nu) if 'Palm_Base_' in (model.actuator(i).name or '')]
     if on_save is not None:
         print("P: save both hands as next startup's initial pose (with a backup).")
@@ -151,7 +152,7 @@ def run_interactive(physics, *, wireframe=None, coordinate_frames=None, show_fin
                         for side, status in arm_report['arms'].items():
                             request=status['requested_target_error']
                             if request and request['limited']:
-                                print(f'M6 {side}: wrist target limited to reachable motion; requested gap {request["position_mm"]:.1f} mm.',flush=True)
+                                print(f'M6 {side}: palm-base target limited to reachable motion; requested gap {request["position_mm"]:.1f} mm.',flush=True)
                             if status['position_error_mm'] > 5 or status['orientation_error_deg'] > 3:
                                 print(f'M6 {side} IK tracking error: {status["position_error_mm"]:.1f} mm, '
                                       f'{status["orientation_error_deg"]:.1f} deg; target may be unreachable.', flush=True)

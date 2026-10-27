@@ -168,7 +168,7 @@
       "name": "R_Palm_Base_Pitch",
       "policy_min": 0.0,
       "policy_max": 2.0,
-      "physical_min": 0.0,
+      "physical_min": -0.5,
       "physical_max": 0.5
     },
     {
@@ -343,7 +343,7 @@
       "name": "L_Palm_Base_Pitch",
       "policy_min": 0.0,
       "policy_max": 2.0,
-      "physical_min": 0.0,
+      "physical_min": -0.5,
       "physical_max": 0.5
     },
     {

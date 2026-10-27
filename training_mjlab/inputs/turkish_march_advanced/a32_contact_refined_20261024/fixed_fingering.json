@@ -1,0 +1,405 @@
+{
+  "schema": "a32_static_contact_fixed_chords_v1",
+  "source_midi_sha256": "83707e4f40347d0a51402349a8ef8af7cf59c357656b50432591b3e8fceb88eb",
+  "baseline_csv_sha256": "24437ae04d8bdef355d97ef3689de9edbfd7d8e0943c02c06b281c558f938649",
+  "generator_sha256": "953bac4ccc61dc062f27b616f5767f0e4d6ebb80ad414fd9c0dc8904e54a39af",
+  "assignments": {
+    "1285": 0,
+    "1286": 1,
+    "1287": 3,
+    "1288": 4,
+    "1289": 0,
+    "1290": 1,
+    "1291": 3,
+    "1292": 4,
+    "1324": 0,
+    "1325": 1,
+    "1326": 3,
+    "1327": 4,
+    "1328": 0,
+    "1329": 1,
+    "1330": 3,
+    "1331": 4,
+    "1393": 0,
+    "1394": 1,
+    "1395": 3,
+    "1396": 4,
+    "1397": 0,
+    "1398": 1,
+    "1399": 3,
+    "1400": 4,
+    "2540": 9,
+    "2541": 8,
+    "2542": 6,
+    "2543": 5
+  },
+  "occurrences": [
+    {
+      "hand": "right",
+      "time_seconds": 192.5,
+      "note_indices": [
+        1285,
+        1286,
+        1287,
+        1288
+      ],
+      "pitches": [
+        73,
+        76,
+        81,
+        85
+      ],
+      "old_fingers": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "fixed_fingers": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "original_intervals": [
+        [
+          192.5,
+          192.97395833333334
+        ],
+        [
+          192.5,
+          192.97395833333334
+        ],
+        [
+          192.5,
+          192.97395833333334
+        ],
+        [
+          192.5,
+          193.49895833333332
+        ]
+      ]
+    },
+    {
+      "hand": "right",
+      "time_seconds": 193.5,
+      "note_indices": [
+        1289,
+        1290,
+        1291,
+        1292
+      ],
+      "pitches": [
+        73,
+        76,
+        81,
+        85
+      ],
+      "old_fingers": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "fixed_fingers": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "original_intervals": [
+        [
+          193.5,
+          193.97395833333334
+        ],
+        [
+          193.5,
+          193.97395833333334
+        ],
+        [
+          193.5,
+          193.97395833333334
+        ],
+        [
+          193.5,
+          194.49895833333332
+        ]
+      ]
+    },
+    {
+      "hand": "right",
+      "time_seconds": 198.5,
+      "note_indices": [
+        1324,
+        1325,
+        1326,
+        1327
+      ],
+      "pitches": [
+        73,
+        76,
+        81,
+        85
+      ],
+      "old_fingers": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "fixed_fingers": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "original_intervals": [
+        [
+          198.5,
+          198.97395833333334
+        ],
+        [
+          198.5,
+          198.97395833333334
+        ],
+        [
+          198.5,
+          198.97395833333334
+        ],
+        [
+          198.5,
+          199.49895833333332
+        ]
+      ]
+    },
+    {
+      "hand": "right",
+      "time_seconds": 199.5,
+      "note_indices": [
+        1328,
+        1329,
+        1330,
+        1331
+      ],
+      "pitches": [
+        73,
+        76,
+        81,
+        85
+      ],
+      "old_fingers": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "fixed_fingers": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "original_intervals": [
+        [
+          199.5,
+          199.97395833333334
+        ],
+        [
+          199.5,
+          199.97395833333334
+        ],
+        [
+          199.5,
+          199.97395833333334
+        ],
+        [
+          199.5,
+          200.49895833333332
+        ]
+      ]
+    },
+    {
+      "hand": "right",
+      "time_seconds": 211.5,
+      "note_indices": [
+        1393,
+        1394,
+        1395,
+        1396
+      ],
+      "pitches": [
+        73,
+        76,
+        81,
+        85
+      ],
+      "old_fingers": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "fixed_fingers": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "original_intervals": [
+        [
+          211.5,
+          211.97395833333334
+        ],
+        [
+          211.5,
+          211.97395833333334
+        ],
+        [
+          211.5,
+          211.97395833333334
+        ],
+        [
+          211.5,
+          212.49895833333332
+        ]
+      ]
+    },
+    {
+      "hand": "right",
+      "time_seconds": 212.5,
+      "note_indices": [
+        1397,
+        1398,
+        1399,
+        1400
+      ],
+      "pitches": [
+        73,
+        76,
+        81,
+        85
+      ],
+      "old_fingers": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "fixed_fingers": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "original_intervals": [
+        [
+          212.5,
+          212.97395833333334
+        ],
+        [
+          212.5,
+          212.97395833333334
+        ],
+        [
+          212.5,
+          212.97395833333334
+        ],
+        [
+          212.5,
+          213.49895833333332
+        ]
+      ]
+    },
+    {
+      "hand": "left",
+      "time_seconds": 222.0,
+      "note_indices": [
+        2540,
+        2541,
+        2542,
+        2543
+      ],
+      "pitches": [
+        45,
+        49,
+        52,
+        57
+      ],
+      "old_fingers": [
+        9,
+        8,
+        7,
+        6
+      ],
+      "fixed_fingers": [
+        9,
+        8,
+        6,
+        5
+      ],
+      "original_intervals": [
+        [
+          222.0,
+          222.47395833333334
+        ],
+        [
+          222.0,
+          222.47395833333334
+        ],
+        [
+          222.0,
+          222.47395833333334
+        ],
+        [
+          222.0,
+          222.47395833333334
+        ]
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "hand": "right",
+      "pitches": [
+        73,
+        76,
+        81,
+        85
+      ],
+      "fingers": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "source": "/data/projects/pianist/logs/turkish_refinement_20261024/hard_contact_banks_v1/right_one_thumb/report.json",
+      "sha256": "203e3cc3141a0e03ad449042075955634e969f7808dc0f414538fead14e0ccad",
+      "verified_original_time": 192.5,
+      "scope": "One coupled static depressed-key posture with finite top-contact checks; not dynamics."
+    },
+    {
+      "hand": "left",
+      "pitches": [
+        45,
+        49,
+        52,
+        57
+      ],
+      "fingers": [
+        9,
+        8,
+        6,
+        5
+      ],
+      "source": "/data/projects/pianist/logs/turkish_refinement_20261024/hard_contact_banks_v1/left_one_thumb/report.json",
+      "sha256": "d63de71fe0e781953d157374fe49d0ab8849421b96a9a52ea6c31f2c09ab2b7c",
+      "verified_original_time": 222.0,
+      "scope": "One coupled static depressed-key posture with finite top-contact checks; not dynamics."
+    }
+  ],
+  "limits": [
+    "Only exact pitches and identical verified finger combinations are constrained; no transposition.",
+    "Full dynamic programming must replan neighboring notes and preserve held assignments.",
+    "The 50ms recovery term remains soft. Static contact evidence does not certify transitions or actual pressing."
+  ]
+}

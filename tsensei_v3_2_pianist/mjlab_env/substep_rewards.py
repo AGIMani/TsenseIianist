@@ -83,7 +83,8 @@ class SubstepRewardCollector:
 
     def __init__(self, *, num_envs, decimation, device, key_qadr, key_limits,
                  action_ids, geom_pair_mask, collision_margin=0.0, key_activation_fraction=KEY_ACTIVATION_FRACTION,
-                 tip_ids=None, key_site_ids=None, key_offsets=None):
+                 tip_ids=None, key_site_ids=None, key_offsets=None,
+                 key_hold_model=None, key_hold_geom_ids=None):
         if isinstance(decimation, bool) or not isinstance(decimation, int) or decimation < 1:
             raise ValueError('decimation must be a positive integer')
         if isinstance(num_envs, bool) or not isinstance(num_envs, int) or num_envs < 1:
@@ -123,6 +124,15 @@ class SubstepRewardCollector:
         self._signed_power_wp = wp.from_torch(self.signed_power_mean)
         self._palm_wp = wp.from_torch(self._palm_collision_any)
         self._palm_substeps_wp = wp.from_torch(self._palm_collision_substeps)
+        self.key_hold_lateral = None
+        if key_hold_model is not None:
+            from .key_hold_lateral import KeyHoldLateralCollector
+            if np.shape(key_hold_geom_ids) != keys.shape:
+                raise ValueError('Key-hold geometry must match activation history order/size')
+            self.key_hold_lateral = KeyHoldLateralCollector(key_hold_model, key_hold_geom_ids,
+                num_envs=num_envs, decimation=decimation, device=device)
+        elif key_hold_geom_ids is not None:
+            raise ValueError('Key-hold geometry requires a compiled model')
         self.fingertip_history = self.key_target_history = None
         if tip_ids is not None:
             if np.shape(tip_ids) != (10,) or np.shape(key_site_ids) != (88,) or np.shape(key_offsets) != (88, 3):
@@ -148,6 +158,8 @@ class SubstepRewardCollector:
         return self._palm_collision_substeps.sum(-1)
 
     def clear(self, env_ids=None):
+        if self.key_hold_lateral is not None:
+            self.key_hold_lateral.clear(env_ids)
         for buffer in (self.fingertip_history, self.key_target_history,
                        self.key_state_history, self.key_activation_history, self.power_mean,
                        self.signed_power_mean, self._palm_collision_any,
@@ -158,6 +170,10 @@ class SubstepRewardCollector:
                 buffer.zero_()
             else:
                 buffer[env_ids] = 0
+
+    def begin_control(self, sim):
+        if self.key_hold_lateral is not None:
+            self.key_hold_lateral.begin_control(sim.wp_data)
 
     def sample(self, sim, substep, *, contact_data=None):
         if not 0 <= substep < self.decimation:
@@ -177,6 +193,9 @@ class SubstepRewardCollector:
                   inputs=[data.actuator_force, data.actuator_velocity, self.action_ids,
                           1.0 / self.decimation, self._power_wp, self._signed_power_wp],
                   device=self.device)
+        if self.key_hold_lateral is not None:
+            # Always use real main-world contacts, never detection-only queries.
+            self.key_hold_lateral.sample(data, self.key_activation_history, substep)
         self.sample_contacts(sim, substep=substep, contact_data=contact_data)
 
     def sample_contacts(self, sim, *, substep=-1, contact_data=None):

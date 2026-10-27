@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# 2026-10-25: External initial positions use world-frame metres; yaw is the palm-base joint angle in radians.
 """Train using current source + explicit parameters; write complete config.json.
 
 No persistent frozen scene or source_cache is read or created. Composer builds
@@ -57,9 +58,9 @@ def resolve_exact_note_timing(cli_value, rest):
 
 def main(argv=None):
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--height',type=float,default=.10)
-    p.add_argument('--ty',type=float,default=.04)
-    p.add_argument('--yaw',type=float,default=0.5235987755982988)
+    from tsensei_v3_2_pianist.initial_world_pose import (
+        add_arguments as add_pose_arguments, reject_legacy_pose_arguments)
+    add_pose_arguments(p)
     p.add_argument('--wrist-pitch-range-scale',type=float,default=1.,
                    help='Scale both physical Pitch limits and policy target bounds; (0,1], default unchanged')
     p.add_argument('--control-hz',type=float,default=20.)
@@ -74,10 +75,11 @@ def main(argv=None):
                    help='strict_v1 rejects lost/merged MIDI events or contradictory fingerings before training')
     p.add_argument('--exact-note-timing',action=argparse.BooleanOptionalAction,default=None,
                    help='Preserve original MIDI times for physical-substep key reward, observations and evaluation')
+    p.add_argument('--ending-time', type=float, default=0., help='Minimum physical return to original pose after full playback; outside SAC')
     p.add_argument('--preparation-time',type=float,default=0.,
-                   help='Initial-to-origin height transition seconds; 0 disables preparation')
-    p.add_argument('--preparation-mode',choices=('fixed_v1','policy_v1'),default='fixed_v1',
-                   help='policy_v1 trains during preparation; fixed_v1 retains the historical fixed prefix')
+                   help='Preparation main-motion seconds; 0 disables preparation')
+    p.add_argument('--preparation-mode',choices=('fixed_v1','policy_v1','first_note_v1'),default='fixed_v1',
+                   help='first_note_v1 hovers before learning; policy_v1 trains during preparation; fixed_v1 descends')
     p.add_argument('--preparation-lift',type=float,default=.02,
                    help='World-Z initial lift in metres; does not create a Palm_Base_Tz action')
     p.add_argument('--gravity-compensation',action=argparse.BooleanOptionalAction,default=True)
@@ -92,6 +94,7 @@ def main(argv=None):
     p.add_argument('--build-only',action='store_true',help='Validate construction; temporary workspace is deleted on exit')
     from swanlab_upload import add_arguments, run_with_upload
     add_arguments(p)
+    reject_legacy_pose_arguments(sys.argv[1:] if argv is None else argv, p)
     a,rest=p.parse_known_args(argv)
     if any(x.split("=")[0] in ("--thumb-target-mode", "--thumb-white-target-distance", "--thumb-black-target-distance") for x in rest):
         p.error("Thumb-only target options were removed; all fingers use white 40 mm / black 20 mm")
@@ -125,7 +128,7 @@ def main(argv=None):
     command=[str(ROOT/'training_mjlab/.venv/bin/python'),'-u','-m','tsensei_v3_2_pianist.rl_torch.train',
              '--scene',str(scene),'--task',str(task),'--source-config',str(config),
              '--preparation-time',str(a.preparation_time),'--preparation-lift',str(a.preparation_lift),
-             '--preparation-mode',a.preparation_mode,
+             '--preparation-mode',a.preparation_mode,'--ending-time',str(a.ending_time),
              '--progress' if a.progress else '--no-progress',
              *([] if a.exact_note_timing is None else
                ['--exact-note-timing' if a.exact_note_timing else '--no-exact-note-timing']),*rest]

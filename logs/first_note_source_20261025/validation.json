@@ -1,0 +1,355 @@
+{
+  "source_archive": "/data/projects/pianist/logs/first_note_source_20261025/source_first_note_hover_export_v1.tar.gz",
+  "source_sha256": "8ed0d50da6d7ab9c71112a98af72bc37dc2913c17d30d020a24ca4e71fa121a3",
+  "remote_host": "volc-a32",
+  "remote_project": "/home/houj/projects/pianist_first_note_20261025",
+  "jobs": {
+    "initial_gpu": 10037,
+    "same_recording_render": 10038,
+    "preparation_archive": 10039,
+    "final_archive": 10040
+  },
+  "final_job_state": "COMPLETED",
+  "final_job_exit_code": "0:0",
+  "tests_passed": 99,
+  "subtests_passed": 21,
+  "excluded_baseline_test": "test_music_metric_does_not_gain_credit_from_quiet_preparation: music_only_f1 KeyError reproduced on unchanged parent",
+  "cpu_recording_exit": 0,
+  "training_started": false,
+  "checkpoint": null,
+  "recording_physics_source_hashes_match": true,
+  "recording_vs_release_differences": [
+    "tsensei_v3_2_pianist/mjlab_env/scene.py",
+    "tsensei_v3_2_pianist/mjlab_env/task.py",
+    "tsensei_v3_2_pianist/rl_torch/train.py"
+  ],
+  "difference_scope": "GPU scene context plumbing, task neutral-reference preservation, train preparation failure persistence/help; these modules are not used by direct SceneBundle CPU recording; final GPU preparation report is exactly equal",
+  "matched_recording_source_files": 1568,
+  "gpu_preparation_report_exact_match": true,
+  "physical_validation": {
+    "ik_error_m": [
+      2.175917190548684e-06,
+      2.498945070229082e-06
+    ],
+    "terminal_error_m": [
+      0.00024385330053892666,
+      0.00012230447146868232
+    ],
+    "max_terminal_velocity": 0.012300290120939802,
+    "activated_key_samples": 0,
+    "hand_key_contact_samples": 0,
+    "max_joint_limit_violation": 8.326795968598155e-05,
+    "max_actual_coupling_error_deg": 0.0,
+    "terminal_actual_coupling_error_deg": 0.0,
+    "max_target_coupling_error_deg": 0.0,
+    "positions_modified": false,
+    "physics_steps": 2550,
+    "physics_dt": 0.001,
+    "reset_projection_required_joints": [],
+    "joint_excursions": [
+      {
+        "name": "left_/forearm_pitch",
+        "first_time": 0.01,
+        "last_time": 0.021,
+        "samples": 12,
+        "maximum": 8.326795968598155e-05,
+        "minimum_position": -8.326795968598155e-05,
+        "maximum_position": 0.010002058985890997
+      }
+    ],
+    "physical_hard_limits_satisfied": false,
+    "validation_scope": "hover arrival, no key contact, feasible commands, unmodified terminal handoff",
+    "warnings": [
+      "Actual transient joint excursions retained; see joint_excursions"
+    ],
+    "command_motion": {
+      "R_Thumb_Rot": {
+        "max_velocity": 0.0,
+        "max_acceleration": 0.0,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "R_Thumb_Rot2": {
+        "max_velocity": 0.0,
+        "max_acceleration": 0.0,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "R_Thumb_MCP": {
+        "max_velocity": 0.0,
+        "max_acceleration": 0.0,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "R_Thumb_PIP": {
+        "max_velocity": 0.0,
+        "max_acceleration": 0.0,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "R_Index_MCP": {
+        "max_velocity": 0.0,
+        "max_acceleration": 0.0,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "R_Index_SW": {
+        "max_velocity": 0.0,
+        "max_acceleration": 0.0,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "R_Index_PIP": {
+        "max_velocity": 3.858148800439665e-06,
+        "max_acceleration": 0.0038581488004396647,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "R_Index_DIP": {
+        "max_velocity": 3.167922979496751e-06,
+        "max_acceleration": 0.003167922979496751,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "R_Mid_MCP": {
+        "max_velocity": 0.0,
+        "max_acceleration": 0.0,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "R_Mid_SW": {
+        "max_velocity": 0.0,
+        "max_acceleration": 0.0,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "R_Mid_PIP": {
+        "max_velocity": 1.139556282669929e-06,
+        "max_acceleration": 0.001139556282669929,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "R_Mid_DIP": {
+        "max_velocity": 6.494714183125083e-06,
+        "max_acceleration": 0.006494714183125083,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "R_Ring_MCP": {
+        "max_velocity": 0.3763167279010604,
+        "max_acceleration": 0.5793771366002787,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "R_Ring_SW": {
+        "max_velocity": 0.006525981345425341,
+        "max_acceleration": 0.010047399185211803,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "R_Ring_PIP": {
+        "max_velocity": 4.373915063471401e-06,
+        "max_acceleration": 0.004373915063471401,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "R_Ring_DIP": {
+        "max_velocity": 5.1821162083687256e-06,
+        "max_acceleration": 0.0051821162083687256,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "R_Pinky_MCP": {
+        "max_velocity": 0.0,
+        "max_acceleration": 0.0,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "R_Pinky_SW": {
+        "max_velocity": 0.0,
+        "max_acceleration": 0.0,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "R_Pinky_PIP": {
+        "max_velocity": 1.0204051159590222e-05,
+        "max_acceleration": 0.010204051159590222,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "R_Pinky_DIP": {
+        "max_velocity": 3.0455159782949437e-06,
+        "max_acceleration": 0.0030455159782949437,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "R_Palm_Base_Tx": {
+        "max_velocity": 0.08575848813260206,
+        "max_acceleration": 0.1320337460666149,
+        "velocity_limit": 0.3,
+        "acceleration_limit": 0.6
+      },
+      "R_Palm_Base_Ty": {
+        "max_velocity": 0.06441240280578853,
+        "max_acceleration": 0.0991693186389031,
+        "velocity_limit": 0.3,
+        "acceleration_limit": 0.6
+      },
+      "R_Palm_Base_Pitch": {
+        "max_velocity": 0.3188405797101457,
+        "max_acceleration": 13.913043478265205,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "L_Thumb_Rot": {
+        "max_velocity": 0.0,
+        "max_acceleration": 0.0,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "L_Thumb_Rot2": {
+        "max_velocity": 0.0,
+        "max_acceleration": 0.0,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "L_Thumb_MCP": {
+        "max_velocity": 0.0,
+        "max_acceleration": 0.0,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "L_Thumb_PIP": {
+        "max_velocity": 0.0,
+        "max_acceleration": 0.0,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "L_Index_MCP": {
+        "max_velocity": 0.0,
+        "max_acceleration": 0.0,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "L_Index_SW": {
+        "max_velocity": 0.0,
+        "max_acceleration": 0.0,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "L_Index_PIP": {
+        "max_velocity": 3.858148800439665e-06,
+        "max_acceleration": 0.0038581488004396647,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "L_Index_DIP": {
+        "max_velocity": 3.167922979496751e-06,
+        "max_acceleration": 0.003167922979496751,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "L_Mid_MCP": {
+        "max_velocity": 0.44372920390511883,
+        "max_acceleration": 0.6831653671102167,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "L_Mid_SW": {
+        "max_velocity": 0.00011232895252204987,
+        "max_acceleration": 0.00017294162613989224,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "L_Mid_PIP": {
+        "max_velocity": 1.139556282669929e-06,
+        "max_acceleration": 0.001139556282669929,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "L_Mid_DIP": {
+        "max_velocity": 6.494714183125083e-06,
+        "max_acceleration": 0.006494714183125083,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "L_Ring_MCP": {
+        "max_velocity": 0.0,
+        "max_acceleration": 0.0,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "L_Ring_SW": {
+        "max_velocity": 0.0,
+        "max_acceleration": 0.0,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "L_Ring_PIP": {
+        "max_velocity": 4.373915063471401e-06,
+        "max_acceleration": 0.004373915063471401,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "L_Ring_DIP": {
+        "max_velocity": 5.1821162083687256e-06,
+        "max_acceleration": 0.0051821162083687256,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "L_Pinky_MCP": {
+        "max_velocity": 0.0,
+        "max_acceleration": 0.0,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "L_Pinky_SW": {
+        "max_velocity": 0.0,
+        "max_acceleration": 0.0,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "L_Pinky_PIP": {
+        "max_velocity": 1.0204051159590222e-05,
+        "max_acceleration": 0.010204051159590222,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "L_Pinky_DIP": {
+        "max_velocity": 3.0455159782949437e-06,
+        "max_acceleration": 0.0030455159782949437,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      },
+      "L_Palm_Base_Tx": {
+        "max_velocity": 0.040916965036979364,
+        "max_acceleration": 0.06299574874897226,
+        "velocity_limit": 0.3,
+        "acceleration_limit": 0.6
+      },
+      "L_Palm_Base_Ty": {
+        "max_velocity": 0.06819134477240724,
+        "max_acceleration": 0.10498737670894265,
+        "velocity_limit": 0.3,
+        "acceleration_limit": 0.6
+      },
+      "L_Palm_Base_Pitch": {
+        "max_velocity": 0.3188405797101457,
+        "max_acceleration": 13.913043478265205,
+        "velocity_limit": 3.0,
+        "acceleration_limit": 15.0
+      }
+    },
+    "valid": true,
+    "failures": []
+  },
+  "media_validation": {
+    "files_checked": 12,
+    "sample_count": 2551,
+    "duration": 2.5500000000000003,
+    "audio": "_wave_params(nchannels=2, sampwidth=2, framerate=48000, nframes=122400, comptype='NONE', compname='not compressed')",
+    "silent_as_expected": true,
+    "actual_key_samples": 0,
+    "video_decode": "remote ffmpeg full decode exit 0, 51 frames and 48kHz stereo"
+  }
+}

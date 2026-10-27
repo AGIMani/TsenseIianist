@@ -1,0 +1,228 @@
+{
+  "contract": "a3_resistance_compensated_v1",
+  "source_commit": "e91ea8870dd5431e88cc4e565813bbaf4a1597a1",
+  "source_url": "https://github.com/AGIMani/a3-hand-pd-sim/tree/resistance-model",
+  "gravity": "full_compensation_required",
+  "joints": {
+    "thumb_rota_block_joint": {
+      "kp": 2.0,
+      "kd": 0.04484009337471479,
+      "effort_nm": 0.344,
+      "armature_kg_m2": 0.0001,
+      "alpha": 0.05694932325056545,
+      "T0": 0.0001,
+      "b": 0.007359991454768675,
+      "kg": 0.028948967997363184,
+      "source_joint": "thumb_rota_block_joint"
+    },
+    "thumb_rotaback_joint2": {
+      "kp": 2.0,
+      "kd": 0.0483070722983728,
+      "effort_nm": 0.344,
+      "armature_kg_m2": 0.0001,
+      "alpha": 0.020418228322375526,
+      "T0": 0.0001,
+      "b": 0.0,
+      "kg": 0.0,
+      "source_joint": "thumb_rotaback_joint2"
+    },
+    "thumb_MCP_joint": {
+      "kp": 2.0,
+      "kd": 0.026990801485788852,
+      "effort_nm": 0.6,
+      "armature_kg_m2": 0.0001,
+      "alpha": 0.0,
+      "T0": 0.010144703645908039,
+      "b": 0.015879045782290258,
+      "kg": 0.9600000000000001,
+      "source_joint": "thumb_MCP_joint"
+    },
+    "thumb_PIP_joint": {
+      "kp": 2.0,
+      "kd": 0.023727156433106543,
+      "effort_nm": 0.33,
+      "armature_kg_m2": 0.0001,
+      "alpha": 0.0,
+      "T0": 0.03924,
+      "b": 0.018526487280988057,
+      "kg": 44.4,
+      "source_joint": "thumb_PIP_joint"
+    },
+    "index_MCP_joint": {
+      "kp": 2.0,
+      "kd": 0.050953281250851114,
+      "effort_nm": 0.6,
+      "armature_kg_m2": 0.0001,
+      "alpha": 0.3216909355384502,
+      "T0": 0.004206415875077646,
+      "b": 0.01474393529248991,
+      "kg": 0.15918717947807937,
+      "source_joint": "index_MCP_joint"
+    },
+    "index_swing_joint": {
+      "kp": 2.0,
+      "kd": 0.043862794609748575,
+      "effort_nm": 0.344,
+      "armature_kg_m2": 0.0001,
+      "alpha": 0.0,
+      "T0": 0.003328600476770943,
+      "b": 0.0,
+      "kg": 0.0,
+      "source_joint": "index_swing_joint"
+    },
+    "index_PIP_joint": {
+      "kp": 2.0,
+      "kd": 0.027467625869175456,
+      "effort_nm": 0.48,
+      "armature_kg_m2": 0.0001,
+      "alpha": 0.001931683528744963,
+      "T0": 0.0013839962560320274,
+      "b": 0.02003151302306566,
+      "kg": 0.024467345693915732,
+      "source_joint": "index_PIP_joint"
+    },
+    "index_DIP_joint": {
+      "kp": 2.0,
+      "kd": 0.023920006779982097,
+      "effort_nm": 0.33,
+      "armature_kg_m2": 0.0001,
+      "alpha": 2.1461867508588712,
+      "T0": 0.04455905309359613,
+      "b": 0.014577361274089318,
+      "kg": 12.721613490126789,
+      "source_joint": "index_DIP_joint"
+    },
+    "mid_MCP_joint": {
+      "kp": 2.0,
+      "kd": 0.05243872528154945,
+      "effort_nm": 0.6,
+      "armature_kg_m2": 0.0001,
+      "alpha": 0.8283578483085295,
+      "T0": 0.02716335419698624,
+      "b": 0.0009216260668157623,
+      "kg": 0.37775398848339686,
+      "source_joint": "mid_MCP_joint"
+    },
+    "mid_swing_joint": {
+      "kp": 2.0,
+      "kd": 0.0453988684245393,
+      "effort_nm": 0.344,
+      "armature_kg_m2": 0.0001,
+      "alpha": 0.0,
+      "T0": 0.004352330370869406,
+      "b": 0.0,
+      "kg": 0.0021801962430219035,
+      "source_joint": "mid_swing_joint"
+    },
+    "mid_PIP_joint": {
+      "kp": 2.0,
+      "kd": 0.028507438720737657,
+      "effort_nm": 0.48,
+      "armature_kg_m2": 0.0001,
+      "alpha": 0.0035587238689266825,
+      "T0": 0.0015389537294715886,
+      "b": 0.016078074249753643,
+      "kg": 0.00554253643708677,
+      "source_joint": "mid_PIP_joint"
+    },
+    "mid_DIP_joint": {
+      "kp": 2.0,
+      "kd": 0.02388641663944279,
+      "effort_nm": 0.33,
+      "armature_kg_m2": 0.0001,
+      "alpha": 0.014234895475706777,
+      "T0": 0.14224140120796702,
+      "b": 0.0013489140326222865,
+      "kg": 0.0593120644821114,
+      "source_joint": "mid_DIP_joint"
+    },
+    "ring_MCP_joint": {
+      "kp": 2.0,
+      "kd": 0.05096939852444659,
+      "effort_nm": 0.6,
+      "armature_kg_m2": 0.0001,
+      "alpha": 0.9496586489863491,
+      "T0": 0.009874369510216058,
+      "b": 0.09897145095876496,
+      "kg": 0.5894187076557764,
+      "source_joint": "ring_MCP_joint"
+    },
+    "ring_swing_joint": {
+      "kp": 2.0,
+      "kd": 0.04387950104736783,
+      "effort_nm": 0.344,
+      "armature_kg_m2": 0.0001,
+      "alpha": 0.0,
+      "T0": 0.0005388896128129539,
+      "b": 0.0,
+      "kg": 0.05523005168591289,
+      "source_joint": "ring_swing_joint"
+    },
+    "ring_PIP_joint": {
+      "kp": 2.0,
+      "kd": 0.02746762588003655,
+      "effort_nm": 0.48,
+      "armature_kg_m2": 0.0001,
+      "alpha": 0.06696856537509177,
+      "T0": 0.018462821734875137,
+      "b": 0.026240118783873993,
+      "kg": 0.32032466295854256,
+      "source_joint": "ring_PIP_joint"
+    },
+    "ring_DIP_joint": {
+      "kp": 2.0,
+      "kd": 0.023920006782959392,
+      "effort_nm": 0.33,
+      "armature_kg_m2": 0.0001,
+      "alpha": 0.022361896832489236,
+      "T0": 0.17247234662304178,
+      "b": 0.007905777239069357,
+      "kg": 49.231716989588136,
+      "source_joint": "ring_DIP_joint"
+    },
+    "pinky_MCP_joint": {
+      "kp": 2.0,
+      "kd": 0.048292011395382785,
+      "effort_nm": 0.6,
+      "armature_kg_m2": 0.0001,
+      "alpha": 0.0696771875653841,
+      "T0": 0.011956176678477745,
+      "b": 0.008988481507009288,
+      "kg": 0.09860816322119104,
+      "source_joint": "pinky_rotaback_joint"
+    },
+    "pinky_swing_joint": {
+      "kp": 2.0,
+      "kd": 0.041143640152131976,
+      "effort_nm": 0.344,
+      "armature_kg_m2": 0.0001,
+      "alpha": 0.0,
+      "T0": 0.00010000000000000286,
+      "b": 0.0,
+      "kg": 0.0,
+      "source_joint": "pinky_MCP_joint"
+    },
+    "pinky_PIP_joint": {
+      "kp": 2.0,
+      "kd": 0.026953000467101165,
+      "effort_nm": 0.48,
+      "armature_kg_m2": 0.0001,
+      "alpha": 0.8113073575003331,
+      "T0": 0.01635822555984536,
+      "b": 0.0139353319615148,
+      "kg": 0.0915669666525103,
+      "source_joint": "pinky_swing_joint"
+    },
+    "pinky_DIP_joint": {
+      "kp": 2.0,
+      "kd": 0.023690435217101898,
+      "effort_nm": 0.33,
+      "armature_kg_m2": 0.0001,
+      "alpha": 8.996380525379342,
+      "T0": 0.06231626652467877,
+      "b": 0.009765789941312553,
+      "kg": 21.780760696960627,
+      "source_joint": "pinky_PIP_joint"
+    }
+  }
+}

@@ -15,21 +15,27 @@ import time
 REMOTE = r'''
 import hashlib,json,re,subprocess,sys
 from pathlib import Path
-project,prefix,job,hashes=sys.argv[1:]
+project,prefix,job,hashes,backend=sys.argv[1:]
 project=Path(project); prefix=Path(prefix)
 def run(args):
     result=subprocess.run(args,text=True,capture_output=True,timeout=20)
     if result.returncode: raise RuntimeError(result.stderr.strip())
     return result.stdout
-rows=run(['sacct','-n','-X','-j',job,'--parsable2','--format=JobIDRaw,State,ExitCode']).splitlines()
-state=exit_code=None
-for row in rows:
-    values=row.split('|')
-    if values[0]==job:
-        state=values[1].split()[0].rstrip('+');exit_code=values[2];break
-if state is None:
-    pending=run(['squeue','-h','-j',job,'-o','%T']).strip()
-    state=pending or 'UNKNOWN'
+if backend=='process':
+    sys.path.insert(0,str(project/'scripts/hpc'))
+    from process_backend import status
+    current=status(project/'logs/hpc'/job/'process_state.json')
+    state=current['state'];exit_code=current.get('exit_code')
+else:
+    rows=run(['sacct','-n','-X','-j',job,'--parsable2','--format=JobIDRaw,State,ExitCode']).splitlines()
+    state=exit_code=None
+    for row in rows:
+        values=row.split('|')
+        if values[0]==job:
+            state=values[1].split()[0].rstrip('+');exit_code=values[2];break
+    if state is None:
+        pending=run(['squeue','-h','-j',job,'-o','%T']).strip()
+        state=pending or 'UNKNOWN'
 error_path=project/'logs/hpc'/f'{job}.err'
 output=None
 if error_path.is_file():
@@ -44,7 +50,7 @@ if output and output.exists():
         if path.is_symlink(): raise RuntimeError('Result symlinks are not supported')
         if path.is_file(): files.append(dict(path=str(path),local=str(path.relative_to(output))))
 job_dir=project/'logs/hpc'/job
-for name in ('command.txt','source.tar.gz.sha256','source_audit.json','gpu_probe.json','gpu_uuids.txt'):
+for name in ('command.txt','source.tar.gz.sha256','source_audit.json','gpu_probe.json','gpu_uuids.txt','process_state.json','request.json','worker.pid'):
     path=job_dir/name
     if path.is_file(): files.append(dict(path=str(path),local='slurm_job_'+job+'/'+name))
 for suffix in ('out','err'):
@@ -88,7 +94,7 @@ def digest(path):
 
 def query(submission, hashes=False):
     args = [submission['remote_project'], submission['remote_output_prefix'],
-            str(submission['job_id']), 'yes' if hashes else 'no']
+            str(submission['job_id']), 'yes' if hashes else 'no', submission.get('backend','slurm')]
     command = 'python3 -c '+shlex.quote(REMOTE)+' '+shlex.join(args)
     raw = subprocess.check_output(['ssh', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=15',
                                    submission['remote_host'], command], text=True, timeout=120)
@@ -106,7 +112,8 @@ def copy(host, remote, local, directory=False):
 def transfer(submission, root, remote):
     job = str(submission['job_id'])
     status = dict(job_id=job, experiment=submission['experiment'], updated_at=now(),
-                  slurm_state=remote['state'], slurm_exit_code=remote['exit_code'],
+                  slurm_state=remote['state'] if submission.get('backend','slurm')=='slurm' else None,
+                  backend=submission.get('backend','slurm'), job_state=remote['state'], slurm_exit_code=remote['exit_code'],
                   remote_output=remote['output'], state='transferring', watcher='background_script')
     save(root/'sync_status.json', status)
     previous = root/'transfer_manifest.json'
@@ -187,7 +194,11 @@ def transfer(submission, root, remote):
 EXPORT_REMOTE = r'''
 import fcntl,json,os,subprocess,sys
 from pathlib import Path
-s=json.loads(sys.argv[1]); output=Path(sys.argv[2]); project=Path(s['remote_project'])
+s=json.loads(sys.argv[1]); output=Path(sys.argv[2]); project=Path(s.get('export_project',s['remote_project']))
+if s.get('backend')=='process':
+    os.environ['TSENSEI_JOB_BACKEND']='process'
+    os.environ['TSENSEI_JOB_SOURCE_ARCHIVE']=s['remote_source_archive']
+    os.environ['TSENSEI_JOB_SOURCE_SHA256']=s['source_archive_sha256']
 lock=(output/'auto_export.lock').open('a');fcntl.flock(lock,fcntl.LOCK_EX)
 best=output/'best.pt'
 if not best.is_file():
@@ -212,11 +223,17 @@ if not registration.exists():
         (output/'auto_export_submit.log').write_text(result.stdout+'\n'+result.stderr)
         if result.returncode:raise RuntimeError('Export submission failed: '+result.stderr)
 job=str(json.loads(registration.read_text())['job_id'])
-rows=subprocess.check_output(['sacct','-n','-X','-j',job,'--parsable2','--format=JobIDRaw,State,ExitCode'],text=True)
-state='UNKNOWN';code=None
-for row in rows.splitlines():
-    v=row.split('|')
-    if v[0]==job:state=v[1].split()[0].rstrip('+');code=v[2]
+if s.get('backend')=='process':
+    sys.path.insert(0,str(project/'scripts/hpc'))
+    from process_backend import status
+    current=status(project/'logs/hpc'/job/'process_state.json')
+    state=current['state'];code=current.get('exit_code')
+else:
+    rows=subprocess.check_output(['sacct','-n','-X','-j',job,'--parsable2','--format=JobIDRaw,State,ExitCode'],text=True)
+    state='UNKNOWN';code=None
+    for row in rows.splitlines():
+        v=row.split('|')
+        if v[0]==job:state=v[1].split()[0].rstrip('+');code=v[2]
 result=dict(job_id=job,state=state,exit_code=code,output=str(folder))
 if state=='COMPLETED' and code=='0:0':
     proof=folder/'delivery_validation.json'
@@ -254,13 +271,13 @@ def advance_export(submission, root, remote):
     save(root/'export_status.json', status)
     if status.get('job_id'):
         submission.update(export_job_id=status['job_id'], remote_export_output=status['output'],
-                          remote_output=remote['output'])
+                          remote_output=remote['output'], export_state=status['state'])
         save(root/'submission.json', submission)
         # Include exporter diagnostics alongside the training diagnostics.
         export_job = str(status['job_id'])
         for suffix in ('out','err'):
             try:
-                copy(submission['remote_host'], submission['remote_project']+'/logs/hpc/'+export_job+'.'+suffix,
+                copy(submission['remote_host'], submission.get('export_project',submission['remote_project'])+'/logs/hpc/'+export_job+'.'+suffix,
                      root/'slurm_export'/ (export_job+'.'+suffix))
             except subprocess.SubprocessError:
                 pass
@@ -307,15 +324,25 @@ def main():
                 exported = advance_export(submission, root, remote)
                 if exported is None:
                     save(root/'sync_status.json', dict(state='failed_training_diagnostics_transferred_replay_missing',
-                        training_success=False, slurm_state=remote['state'], updated_at=now(),
+                        training_success=False, slurm_state=remote['state'] if submission.get('backend','slurm')=='slurm' else None,
+                  backend=submission.get('backend','slurm'), job_state=remote['state'], updated_at=now(),
                         reason='No output or no best.pt; required replay cannot be produced. See export_status.json.'))
                     return
                 if exported:
                     if transfer(submission, root, query(submission, hashes=True)):
                         return
+                else:
+                    export_status = json.loads((root/'export_status.json').read_text())
+                    save(root/'sync_status.json', dict(state='training_files_transferred_video_pending',
+                        training_success=remote['state']=='COMPLETED' and remote['exit_code']=='0:0',
+                        job_id=submission['job_id'], experiment=submission['experiment'],
+                        training_state=remote['state'], export_state=export_status['state'],
+                        export_job_id=export_status.get('job_id'), updated_at=now(),
+                        watcher='background_script', checksum_verified=True))
                 time.sleep(args.interval)
                 continue
-            save(root/'sync_status.json', dict(state='waiting', slurm_state=remote['state'],
+            save(root/'sync_status.json', dict(state='waiting', slurm_state=remote['state'] if submission.get('backend','slurm')=='slurm' else None,
+                  backend=submission.get('backend','slurm'), job_state=remote['state'],
                  job_id=submission['job_id'], experiment=submission['experiment'],
                  remote_output=remote['output'], watcher='background_script', updated_at=now()))
         except (OSError, ValueError, KeyError, RuntimeError, subprocess.SubprocessError) as error:

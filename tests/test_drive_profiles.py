@@ -51,7 +51,7 @@ class DriveProfileTest(unittest.TestCase):
         np.testing.assert_array_equal(self.envs['legacy_v1'].physics.data.ctrl,
                                       self.envs['shadow_v1'].physics.data.ctrl)
         for side in ('right', 'left'):
-            joint = shadow.joint(side+'_/forearm_pitch').id
+            joint = shadow.joint(side+'_/palm_base_pitch').id
             dof = shadow.jnt_dofadr[joint]
             self.assertEqual(shadow.dof_armature[dof], legacy.dof_armature[dof])
             self.assertAlmostEqual(shadow.dof_M0[dof], legacy.dof_M0[dof], places=14)
@@ -62,13 +62,19 @@ class DriveProfileTest(unittest.TestCase):
         changed = []
         for side in ('right', 'left'):
             for axis in ('tx', 'ty'):
-                joint = shadow.joint(f'{side}_/forearm_{axis}').id
+                joint = shadow.joint(f'{side}_/palm_base_{axis}').id
                 dof = int(shadow.jnt_dofadr[joint])
                 changed.append(dof)
                 self.assertEqual(shadow.dof_armature[dof], .02)
                 self.assertAlmostEqual(shadow.dof_M0[dof]-legacy.dof_M0[dof], .02, places=12)
                 self.assertAlmostEqual(shadow.dof_damping[dof], 34.15259872981849, places=11)
                 self.assertAlmostEqual(shadow.dof_M0[dof], .972, places=12)
+        for j in range(shadow.njnt):
+            if "_hand_" in (shadow.joint(j).name or ""):
+                dof = int(shadow.jnt_dofadr[j])
+                self.assertEqual(shadow.dof_armature[dof], .0001)
+                if shadow.dof_armature[dof] != legacy.dof_armature[dof]:
+                    changed.append(dof)
         difference = shadow.dof_armature-legacy.dof_armature
         np.testing.assert_array_equal(np.flatnonzero(difference), sorted(changed))
 
@@ -81,16 +87,19 @@ class DriveProfileTest(unittest.TestCase):
             dof = int(model.jnt_dofadr[joint])
             if '_hand_' in name:
                 count += 1
-                self.assertEqual(model.dof_frictionloss[dof], .01)
-                self.assertEqual(model.dof_damping[dof], .05)
-                self.assertEqual(model.dof_armature[dof], .0002)
-                self.assertEqual(model.actuator_gainprm[a, 0], 1.)
-                np.testing.assert_array_equal(model.actuator_forcerange[a], [-.6, .6])
-            elif name.endswith('/forearm_pitch'):
+                from tsensei_v3_2_pianist.finger_resistance import parameters
+                p = parameters(name)
+                self.assertGreaterEqual(model.dof_frictionloss[dof], p['T0'])
+                self.assertEqual(model.dof_damping[dof], p['b'])
+                self.assertEqual(model.dof_armature[dof], p['armature_kg_m2'])
+                self.assertEqual(model.actuator_gainprm[a, 0], p['kp'])
+                self.assertEqual(model.actuator_biasprm[a, 2], -p['kd'])
+                np.testing.assert_array_equal(model.actuator_forcerange[a], [-p['effort_nm'], p['effort_nm']])
+            elif name.endswith('/palm_base_pitch'):
                 self.assertEqual(model.actuator_gainprm[a, 0], 8.)
                 self.assertEqual(model.dof_damping[dof], .5)
                 np.testing.assert_array_equal(model.actuator_forcerange[a], [-5., 5.])
-            elif name.endswith(('/forearm_tx', '/forearm_ty')):
+            elif name.endswith(('/palm_base_tx', '/palm_base_ty')):
                 self.assertEqual(model.actuator_gainprm[a, 0], 300.)
                 np.testing.assert_array_equal(model.actuator_forcerange[a], [-50., 50.])
         self.assertEqual(count, 40)

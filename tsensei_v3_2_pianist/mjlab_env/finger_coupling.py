@@ -11,6 +11,8 @@ import mujoco
 import numpy as np
 import torch
 
+from ..fingering_targets import key_reference
+
 
 MODE = 'distal_60deg_v1'
 RANGE_MODE = 'distal_angle_range_v1'
@@ -140,7 +142,9 @@ class FingerCoupler:
         for gid in range(model.ngeom):
             name = model.geom(gid).name or ''
             if name.startswith('piano/') and ('white_key_geom_' in name or 'black_key_geom_' in name):
-                current = reference.geom_xmat[gid].reshape(3, 3)[:, 2]
+                # Mesh principal axes need not align with the key playing plane.
+                sid, _ = key_reference(model, gid)
+                current = reference.site_xmat[sid].reshape(3, 3)[:, 2]
                 if normal is None:
                     normal = current.copy()
                 if not np.allclose(current, normal, atol=1e-7):

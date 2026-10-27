@@ -38,13 +38,15 @@ def package(output,recording,plan):
     for n in ('physics_trace.npz','played.wav','report.json','rollout.npz'):
         shutil.copy2(recording/n,folder/n)
     if (recording/'preparation.npz').is_file():shutil.copy2(recording/'preparation.npz',folder/'preparation.npz')
+    for name in ('ending.npz','ending.json'):
+        if (recording/name).is_file():shutil.copy2(recording/name,folder/name)
     shutil.copytree(recording/'kinematic_scene',folder/'kinematic_scene',dirs_exist_ok=True)
     for n in ('score_annotations.npz','score_annotations.json'):shutil.copy2(output/'data'/n,folder/n)
     install_replay_display(folder)
     for n in ('preview_keys.py','key_activation.py'):shutil.copy2(ROOT/'tsensei_v3_2_pianist'/n,folder/n)
     shutil.copy2(recording/'kinematic_scene/model.mjb',folder/'model.mjb')
     (folder/'replay.py').write_text('from viewer import main\nif __name__ == \"__main__\": main()\n')
-    meta=dict(display_contract='piano_key_colors_only_v1',key_activation_fraction=fraction,checkpoint_sha256=plan['checkpoint_sha256'],archive_sha256=plan['archive_sha256'],native_arms=bool(plan['videos'][0].get('native_arms',False)),dependency_versions=report['source_runtime']['versions']['learner'],preparation_prefix_seconds=report.get('preparation_prefix_seconds',0),fingertip_sites=annotations['fingertip_sites'],source_recording=str(recording),physics_trace_sha256=__import__('hashlib').sha256((recording/'physics_trace.npz').read_bytes()).hexdigest())
+    meta=dict(ending_seconds=report.get('ending_seconds',0.),ending=report.get('ending'),display_contract='piano_key_colors_only_v1',key_activation_fraction=fraction,checkpoint_sha256=plan['checkpoint_sha256'],archive_sha256=plan['archive_sha256'],native_arms=bool(plan['videos'][0].get('native_arms',False)),dependency_versions=report['source_runtime']['versions']['learner'],preparation_prefix_seconds=report.get('preparation_prefix_seconds',0),fingertip_sites=annotations['fingertip_sites'],source_recording=str(recording),physics_trace_sha256=__import__('hashlib').sha256((recording/'physics_trace.npz').read_bytes()).hexdigest())
     (folder/'replay.json').write_text(json.dumps(meta,indent=2)+'\n')
     shutil.copy2(ROOT/'scripts/launch_remote_recorded_replay.py',folder/'launch_remote.py')
     (folder/'remote_launch.json').write_text(json.dumps(dict(host='volc-a32',python=str(ROOT/'training_mjlab/.venv/bin/python'),replay=str(folder/'replay.py')),indent=2)+'\n')

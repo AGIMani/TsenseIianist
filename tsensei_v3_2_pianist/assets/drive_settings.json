@@ -22,16 +22,16 @@
       },
       "translation": {
         "joints": [
-          "forearm_tx",
-          "forearm_ty"
+          "palm_base_tx",
+          "palm_base_ty"
         ],
         "axes": {
-          "forearm_tx": {
+          "palm_base_tx": {
             "kp": 300.0,
             "damping": 34.15259872981849,
             "force_limit": 50.0
           },
-          "forearm_ty": {
+          "palm_base_ty": {
             "kp": 300.0,
             "damping": 34.15259872981849,
             "force_limit": 50.0
@@ -50,11 +50,8 @@
         "reference": "Default restored to exper031 wrist drive numerical values on 2026-10-22; not hardware calibration."
       },
       "finger": {
-        "kp": 1.0,
-        "damping": 0.05,
-        "armature": 0.0002,
-        "frictionloss": 0.01,
-        "force_limit": 0.6
+        "parameter_file": "finger_resistance.json",
+        "contract": "a3_resistance_compensated_v1"
       },
       "scope": "Apply only when explicitly selected. Preserve V3.2 geometry, coordinate axes, joint ranges, initial pose, and position-control semantics. Other wrist axes retain their existing servo parameters.",
       "calibration_todo": "V32-04: virtual platform mass, servo gains and force limits are simulation adaptations, not hardware calibration."
