@@ -1,0 +1,12 @@
+{
+  "job_id": 10529,
+  "remote_host": "volc-a32",
+  "remote_root": "/home/houj/projects/pianist_pitch_range_20261028",
+  "remote_infrastructure": "/home/houj/projects/pianist_roll_capacity_20261028/project",
+  "source_sha256": "d434bcf54d1b2ef90549a3527cd5be45996ea9a54321cbb46985d7c682057d99",
+  "command": "bash submit.sh",
+  "gpus": 1,
+  "host_memory_gib": 32,
+  "formal_training": false,
+  "scope": "2 worlds, 128 control steps; no learner or replay"
+}

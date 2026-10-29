@@ -59,9 +59,9 @@ def test_invalid_three_gpu_request_is_rejected_before_sbatch(tmp_path):
     assert result.stdout == ''
 
 
-def test_entry_declares_three_collectors_and_cuda3_learner():
+def test_entry_declares_two_gpus_and_cpu_replay():
     text = (ROOT / 'all_use_this_train.sh').read_text()
-    assert '--gpus 4' in text
-    assert '--collector-devices cuda:0,cuda:1,cuda:2' in text
-    assert '--learner-device cuda:3' in text
+    assert '--gpus 2' in text
+    assert '--collector-devices cuda:0 --learner-device cuda:1' in text
+    assert '--replay-device cpu' in text
 

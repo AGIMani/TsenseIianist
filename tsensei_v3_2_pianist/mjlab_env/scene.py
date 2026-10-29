@@ -500,13 +500,14 @@ class PianoScene:
         active_low = self.physical_low[self.policy_ids]
         active_high = self.physical_high[self.policy_ids]
         active = active_low + fraction*(active_high-active_low)
-        if self.action_size != 51:
-            physical = self.physical_low.expand(*active.shape[:-1], 51).clone()
+        if self.action_size != 53:
+            physical = self.physical_low.expand(*active.shape[:-1], 53).clone()
             physical[..., self.policy_ids] = active
             fixed_indices = {
-                'right_/palm_base_tz': 22, 'left_/palm_base_tz': 47,
-                'right_/palm_base_pitch': 23, 'left_/palm_base_pitch': 48,
-                'right_/palm_base_yaw': 24, 'left_/palm_base_yaw': 49,
+                'right_/palm_base_tz': 22, 'left_/palm_base_tz': 48,
+                'right_/palm_base_pitch': 23, 'left_/palm_base_pitch': 49,
+                'right_/palm_base_yaw': 24, 'left_/palm_base_yaw': 50,
+                'right_/palm_base_roll': 25, 'left_/palm_base_roll': 51,
             }
             for name, index in fixed_indices.items():
                 # Cartesian TZ is a live request even though its obsolete
@@ -520,8 +521,8 @@ class PianoScene:
     def policy_action(self, physical):
         """Convert full physical targets to this scene's active policy coordinates."""
         physical = self.tensor(physical)
-        if physical.shape[-1] != 51:
-            raise ValueError('Expected full 51-channel physical action')
+        if physical.shape[-1] != 53:
+            raise ValueError('Expected full 53-channel physical action')
         selected = physical[..., self.policy_ids]
         low = self.physical_low[self.policy_ids]
         high = self.physical_high[self.policy_ids]
@@ -608,7 +609,7 @@ class PianoScene:
         return self._clearance_actual_outputs
 
     def step(self, action, *, substep_callback=None, assigned_keys=None, assigned_end_keys=None):
-        """Accept configured policy (num_envs, 51) action; return diagnostic physical state."""
+        """Accept configured policy (num_envs, 53) action; return diagnostic physical state."""
         action = self.tensor(action)
         if action.shape != (self.num_envs, self.action_size) or not torch.isfinite(action).all():
             raise ValueError(f'Expected finite normalized action shape ({self.num_envs}, {self.action_size})')

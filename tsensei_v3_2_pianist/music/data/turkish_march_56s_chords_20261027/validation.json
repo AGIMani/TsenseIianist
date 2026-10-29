@@ -1,0 +1,21 @@
+{
+  "checked_at": "2026-10-27T07:59:53.215110+00:00",
+  "segments": 4,
+  "duration_seconds": [
+    55.5,
+    56.0,
+    56.0,
+    54.97395833333334
+  ],
+  "notes": 2539,
+  "same_full_score_bytes_as_8bar_edition": true,
+  "same_ornament_edits_as_8bar_edition": true,
+  "segments_reconstruct_full_score": true,
+  "time_tolerance_seconds": 1e-10,
+  "control_20hz_same_finger_conflicts": 0,
+  "no_boundary_clipping": true,
+  "proto_midi_csv_readback_passed": true,
+  "tempo_changed": false,
+  "physics_tested": false,
+  "training_started": false
+}

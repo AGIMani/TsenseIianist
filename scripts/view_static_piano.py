@@ -1,4 +1,4 @@
-"""Local camera-only preview of a verified MJB; never compile XML or step physics."""
+"""Local static pose preview of a verified MJB; never compile XML or step physics."""
 import argparse
 import ctypes
 import hashlib
@@ -75,6 +75,8 @@ def main():
     parser.add_argument('--check-seconds', type=float, default=0)
     parser.add_argument('--screenshot', type=Path)
     parser.add_argument('--view', type=int, choices=(1, 2, 3))
+    parser.add_argument('--show-hands', action='store_true')
+    parser.add_argument('--pose-controls', action='store_true', help='Display-only joint pose sliders; no physics')
     args = parser.parse_args()
     if not np.isfinite(args.check_seconds) or args.check_seconds < 0:
         parser.error('--check-seconds must be finite and nonnegative')
@@ -90,9 +92,13 @@ def main():
             if hashlib.file_digest(stream, 'sha256').hexdigest() != expected:
                 raise RuntimeError(f'Preview file changed: {name}')
     root = Path(__file__).resolve().parents[1]
+    if metadata.get('training_entry_sha256'):
+        entry = root/'all_use_this_train.sh'
+        if hashlib.sha256(entry.read_bytes()).hexdigest() != metadata['training_entry_sha256']:
+            raise RuntimeError('Training entry changed; rebuild the static training preview.')
     for name, expected in metadata.get('layout_source_sha256', {}).items():
         if hashlib.sha256((root/name).read_bytes()).hexdigest() != expected:
-            raise RuntimeError('Piano source changed; regenerate this preview from the new model.')
+            raise RuntimeError(f'Training model source changed: {name}; rebuild this preview.')
     model = mujoco.MjModel.from_binary_path(str(folder/'model.mjb'))
     data = mujoco.MjData(model)
     with np.load(folder/'state.npz', allow_pickle=False) as state:
@@ -100,9 +106,16 @@ def main():
             getattr(data, name)[:] = state[name]
     initial_qpos = data.qpos.copy()
     # Update only transforms and lights. No contacts, policy or time integration.
-    mujoco.mj_kinematics(model, data)
-    mujoco.mj_comPos(model, data)
-    mujoco.mj_camlight(model, data)
+    def refresh_pose():
+        mujoco.mj_kinematics(model, data)
+        mujoco.mj_comPos(model, data)
+        mujoco.mj_camlight(model, data)
+
+    refresh_pose()
+    pose_controls = None
+    if args.pose_controls:
+        from static_pose_controls import PoseControls
+        pose_controls = PoseControls(model, data, refresh_pose)
     white, black = [], []
     for key in metadata['keys']:
         index, color = key['index'], key['color']
@@ -129,6 +142,8 @@ def main():
         window = glfw.create_window(1280, 800, 'Piano 1224 mm | Static preview | 1/2/3 views | H hands', None, None)
         if not window:
             raise RuntimeError('Cannot create local OpenGL window')
+        glfw.set_window_size_limits(window, 960 if pose_controls else 640, 700 if pose_controls else 480,
+                                    glfw.DONT_CARE, glfw.DONT_CARE)
         glfw.make_context_current(window)
         glfw.swap_interval(1)
         gl = ctypes.CDLL('libGL.so.1')
@@ -138,13 +153,16 @@ def main():
         scene.flags[mujoco.mjtRndFlag.mjRND_SHADOW] = False
         scene.flags[mujoco.mjtRndFlag.mjRND_REFLECTION] = False
         scene.flags[mujoco.mjtRndFlag.mjRND_SKYBOX] = False
-        context = mujoco.MjrContext(model, mujoco.mjtFontScale.mjFONTSCALE_150)
+        context = mujoco.MjrContext(model, mujoco.mjtFontScale.mjFONTSCALE_100 if pose_controls
+                                   else mujoco.mjtFontScale.mjFONTSCALE_150)
         camera = mujoco.MjvCamera()
         option = mujoco.MjvOption()
         option.geomgroup[:] = [1, 1, 0, 0, 0, 0]
         option.sitegroup[:] = 0
         option.flags[mujoco.mjtVisFlag.mjVIS_TENDON] = False
-        hands = False
+        hands = args.show_hands
+        if hands:
+            model.geom_group[hand_geoms] = original_groups[hand_geoms]
         show_origin = True
         piano_parent = int(model.body('piano/base').parentid[0])
         piano_origin = data.xpos[piano_parent].copy()
@@ -154,7 +172,7 @@ def main():
             camera.lookat[:] = [0, 0, .04]
             camera.azimuth = 180  # Player side: low notes left, key fronts nearest.
             camera.elevation = -89 if number == 2 else -55
-            camera.distance = .43 if number == 3 else 1.25
+            camera.distance = .43 if number == 3 else (1.7 if pose_controls else 1.25)
 
         def key(win, code, scan, action, mods):
             nonlocal hands, show_origin
@@ -171,12 +189,19 @@ def main():
                 hands = not hands
                 model.geom_group[hand_geoms] = original_groups[hand_geoms] if hands else 5
                 print(f'Hands visible: {hands}', flush=True)
+            elif code == glfw.KEY_R and pose_controls:
+                pose_controls.reset()
 
         mouse = [0., 0.]
 
         def cursor(win, x, y):
             dx, dy = x-mouse[0], y-mouse[1]
             mouse[:] = [x, y]
+            if pose_controls:
+                if pose_controls.move(x):
+                    return
+                if x >= glfw.get_window_size(win)[0] - pose_controls.width:
+                    return
             left = glfw.get_mouse_button(win, glfw.MOUSE_BUTTON_LEFT) == glfw.PRESS
             right = glfw.get_mouse_button(win, glfw.MOUSE_BUTTON_RIGHT) == glfw.PRESS
             if not (left or right):
@@ -187,11 +212,24 @@ def main():
             height = max(glfw.get_window_size(win)[1], 1)
             mujoco.mjv_moveCamera(model, mode, dx/height, dy/height, camera)
 
+        def button(win, which, action, mods):
+            x, y = glfw.get_cursor_pos(win)
+            mouse[:] = [x, y]
+            if pose_controls and which == glfw.MOUSE_BUTTON_LEFT:
+                if action == glfw.PRESS:
+                    pose_controls.press(x, y, glfw.get_window_size(win)[0])
+                elif action == glfw.RELEASE:
+                    pose_controls.release()
+
+        def scroll(win, x, y):
+            if pose_controls and glfw.get_cursor_pos(win)[0] >= glfw.get_window_size(win)[0] - pose_controls.width:
+                return
+            mujoco.mjv_moveCamera(model, mujoco.mjtMouse.mjMOUSE_ZOOM, 0., -.05*y, camera)
+
         glfw.set_key_callback(window, key)
         glfw.set_cursor_pos_callback(window, cursor)
-        glfw.set_mouse_button_callback(window, lambda w, b, a, m: mouse.__setitem__(slice(None), glfw.get_cursor_pos(w)))
-        glfw.set_scroll_callback(window, lambda w, x, y: mujoco.mjv_moveCamera(
-            model, mujoco.mjtMouse.mjMOUSE_ZOOM, 0., -.05*y, camera))
+        glfw.set_mouse_button_callback(window, button)
+        glfw.set_scroll_callback(window, scroll)
         view(args.view or 1)
         glfw.show_window(window)
         glfw.focus_window(window)
@@ -200,31 +238,42 @@ def main():
         report = dict(status='visible', renderer=renderer, mujoco=mujoco.__version__,
                       total_width_mm=1224, white_keys=52, black_keys=36,
                       physics_steps=0, training=False, piano_origin_world_m=piano_origin.tolist(),
-                      origin_marker='projected actual piano origin; visible through keys', source_archive_sha256=metadata['source_archive_sha256'])
+                      pose_controls=bool(pose_controls),
+                      origin_marker='projected actual piano origin; visible through keys', source_archive_sha256=metadata['source_archive_sha256'],
+                      white_key_travel_mm=metadata.get('white_key_travel_mm'),
+                      black_key_travel_mm=metadata.get('black_key_travel_mm'),
+                      state_phase=metadata.get('state_phase','static source pose'))
         print(json.dumps(report), flush=True)
         while not glfw.window_should_close(window):
             glfw.poll_events()
-            if args.check_seconds and args.view is None:
+            if args.check_seconds and args.view is None and not pose_controls:
                 phase = min(int((time.monotonic()-started)/args.check_seconds*3), 2)
                 view(phase+1)
                 model.geom_group[hand_geoms] = original_groups[hand_geoms] if phase == 2 else 5
             mujoco.mjv_updateScene(model, data, option, None, camera, mujoco.mjtCatBit.mjCAT_ALL, scene)
             width, height = glfw.get_framebuffer_size(window)
-            rect = mujoco.MjrRect(0, 0, width, height)
+            ww, hh = glfw.get_window_size(window)
+            if min(width, height, ww, hh) <= 0:
+                glfw.wait_events_timeout(.05)
+                continue
+            view_width = int((ww-pose_controls.width)*width/ww) if pose_controls else width
+            rect = mujoco.MjrRect(0, 0, view_width, height)
             mujoco.mjr_render(rect, scene, context)
             if show_origin:
                 draw_piano_frame(scene, context, rect, piano_origin, piano_rotation)
             hud = ('PIANO 1224 mm | black top 10 x 90 / bottom 12 x 95 / height 18 mm\n'
-                   'Black centers: pair 28.271 mm | triple 26.924 mm\n'
+                   f"Travel W/B: {metadata.get('white_key_travel_mm', '?')}/{metadata.get('black_key_travel_mm', '?')} mm | {'Editable display pose' if pose_controls else 'Before first-note preparation'}\n"
                    'O origin/axes (overlay through keys) | +X player | +Y high notes | +Z up\n'
                    '1 overview | 2 top | 3 close | H show/hide hands | Esc close\n'
                    'Mouse: left rotate | right pan | wheel zoom | STATIC VIEW')
             mujoco.mjr_overlay(mujoco.mjtFontScale.mjFONTSCALE_150, mujoco.mjtGridPos.mjGRID_TOPLEFT, rect, hud, '', context)
+            if pose_controls:
+                pose_controls.draw(window, context)
             if frames == 10:
                 if args.screenshot:
                     from PIL import Image
                     rgb = np.empty((height, width, 3), dtype=np.uint8)
-                    mujoco.mjr_readPixels(rgb, None, rect, context)
+                    mujoco.mjr_readPixels(rgb, None, mujoco.MjrRect(0, 0, width, height), context)
                     args.screenshot.parent.mkdir(parents=True, exist_ok=True)
                     Image.fromarray(rgb[::-1]).save(args.screenshot)
                 (folder/'viewer_status.json').write_text(json.dumps(report, indent=2)+'\n')
@@ -233,11 +282,18 @@ def main():
             if args.check_seconds and time.monotonic()-started >= args.check_seconds:
                 break
             glfw.wait_events_timeout(.02)
-        np.testing.assert_array_equal(data.qpos, initial_qpos)
+        if pose_controls:
+            fixed = np.ones(model.nq, dtype=bool)
+            fixed[pose_controls.addresses] = False
+            np.testing.assert_array_equal(data.qpos[fixed], initial_qpos[fixed])
+        else:
+            np.testing.assert_array_equal(data.qpos, initial_qpos)
         assert data.time == 0
         cg = Path('/sys/fs/cgroup')/Path('/proc/self/cgroup').read_text().strip().split('::')[-1].lstrip('/')
         report.update(status='closed', frames=frames, seconds=time.monotonic()-started,
-                      state_unchanged=True, memory_events=(cg/'memory.events').read_text(),
+                      state_unchanged=bool(np.array_equal(data.qpos, initial_qpos)),
+                      pose_edits=pose_controls.edits if pose_controls else 0,
+                      memory_events=(cg/'memory.events').read_text(),
                       memory_peak_bytes=int((cg/'memory.peak').read_text()))
         (folder/'last_session.json').write_text(json.dumps(report, indent=2)+'\n')
         print(json.dumps(report), flush=True)

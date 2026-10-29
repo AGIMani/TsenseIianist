@@ -26,3 +26,5 @@ logs/pitch_range_20261026/source_pitch_symmetric_v1.tar.gz filter=lfs diff=lfs m
 logs/key_hold_lateral_20261026/source_key_hold_lateral_v1.tar.gz filter=lfs diff=lfs merge=lfs -text
 # All future frozen source archives use LFS; ignore rules still select releases.
 logs/**/source_*.tar.gz filter=lfs diff=lfs merge=lfs -text
+
+preview/outputs/piano_tcp_soft_20261029/model.mjb filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,11 @@
+{
+  "source_archive_sha256.txt": "e378a9f829e8be5da66ce517376ad9ca9b2e1c728fd9801599cba10fce63164c",
+  "original_score.proto": "66563e8b5e338c1ef3e426233647da2a008ac931939775b1ee87c36857339af0",
+  "launch_command.json": "5e3585b915e216ac1ac315dfe2693ac88841b5886594ac6023d38fb536d0cab1",
+  "acceptance.json": "3e73ed39753e392985ca53b4cbd3c96ff16826b080d9333a06b08ed17b0462c8",
+  "config.json": "9da5e23df4ca41b1670bfdf3c68fc98d59302d70bccdfdb4eaf2f447084637b2",
+  "10529.out": "c713eb5861ee094334972ed74326fbed37b111c179f5d76b964b01c8e3da1013",
+  "10529.err": "8223d052dae42e3f4faa2bb2a6a3086d0d2f2d6c7643340bce44cbc7d79dd9aa",
+  "gpu_probe.json": "64ab4ad6ffa48dfc56fe96db53b55319caf81b56f5321d9c8a253eed5a0c0456",
+  "gpu_utilization.csv": "8178279840adb23b3f38eea22f8ae0bba5bb14e517f19eb21440a4d1b13ac104"
+}

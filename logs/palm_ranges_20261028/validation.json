@@ -1,0 +1,70 @@
+{
+  "status": "passed",
+  "passed": true,
+  "formal_training": false,
+  "job_id": "10530",
+  "source_sha256": "5573700d6cfdd855ecaaef7173c08246b88138bc06c1d31902b316c6f638cfd6",
+  "host": "TenseiNode1",
+  "pid": 778011,
+  "scope": "2 worlds, 128 real control steps each; first-note preparation; no replay/learner",
+  "stage": "completed",
+  "num_envs": 2,
+  "learner_updates": 0,
+  "replay_allocated": false,
+  "tested_channels": [
+    "R_Palm_Base_Ty",
+    "R_Palm_Base_Pitch",
+    "L_Palm_Base_Ty",
+    "L_Palm_Base_Pitch"
+  ],
+  "target_observed_low": [
+    -0.04999999701976776,
+    -0.29999998211860657,
+    -0.04999999701976776,
+    -0.29999998211860657
+  ],
+  "target_observed_high": [
+    0.04999999701976776,
+    0.5999999642372131,
+    0.04999999701976776,
+    0.5999999642372131
+  ],
+  "target_speed_max": [
+    0.43779920088127255,
+    3.1415998935699463,
+    0.43779920088127255,
+    3.1415998935699463
+  ],
+  "target_acceleration_max": [
+    1.9899994367733598,
+    15.707998536527157,
+    1.9899994367733598,
+    15.707999700680375
+  ],
+  "action_size": 33,
+  "observation_size": 1410,
+  "control_steps_per_world": 128,
+  "physical_seconds_per_world": 2.56,
+  "tz_active": false,
+  "source_tz_range": [
+    -0.6,
+    0.46
+  ],
+  "elapsed_seconds": 65.9399373170454,
+  "slurm_state": "COMPLETED",
+  "slurm_exit_code": "0:0",
+  "slurm_elapsed": "00:01:35",
+  "transfer_complete": true,
+  "sha256_verified": true,
+  "static_preview": "/home/hj/pianist/preview/outputs/piano_palm_ranges_20261028",
+  "static_model_sha256": "6ca19a991eac850484966a8c50df8d8800f2485de362dc0399ee5b806a2c6ece",
+  "static_guard_verified": true,
+  "static_files_verified": 12,
+  "static_source_files_verified": 1479,
+  "unit_tests": "26 passed, 4 skipped; remote opt-in 1 passed",
+  "capacity_retested": false,
+  "capacity_reference_job": 10477,
+  "training_arguments_unchanged": true,
+  "artifact_storage": "/home/hj/pianist_artifacts/palm_ranges_20261028",
+  "artifact_storage_reason": "/data full; keep existing experiments; follow symlinks when copying project"
+}

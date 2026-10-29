@@ -111,7 +111,7 @@ W与P当前重合，但带臂合同仍保存完整`piano_world_pose`，基座在
 
 | 坐标/表示 | 相对关系 | 当前边界 |
 |---|---|---|
-| 实体相机C_real、视觉检测钢琴V、用户约定真实钢琴P_real、左右机器人基座B_real | `T_B_Preal=T_B_Creal T_Creal_V T_V_Preal` | 视觉到用户轴约定：用户X=−视觉Y、用户Y=视觉X、用户Z=视觉Z；仍需原点平移。统一采集CLI与完整当前有效标定尚缺，不能凭轴约定宣布已标定 |
+| 实体相机C_real、视觉检测钢琴V、用户约定真实钢琴P_real、左右机器人基座B_real | `T_B_Preal=T_B_Creal T_Creal_V T_V_Preal` | 视觉到用户轴约定：用户X=−视觉Y、用户Y=视觉X、用户Z=视觉Z；仍需原点平移。相机链仍需验证；2026-10-28 已登记独立右臂 P_real↔B_real 探针结果，见 [探针标定说明](right_arm_probe_calibration_20261028.md)，默认训练不自动读取 |
 | SDK末端/法兰F_SDK | 离线应将手根目标转换为SDK接受的末端：`T_P_F=T_P_H inv(T_7_H) T_7_F` | 项目法兰与SDK真实法兰完整定义是否一致需当前标定；所引旧单点结果当前本地缺失，不在本审计中重构/猜填矩阵 |
 | 控制TCP | 仿真轨迹/运动指标指H，即base_link原点 | 旧实机单点任务曾假定TCP=SDK法兰；不是当前工具偏置标定。不能无条件写F_SDK≡H |
 | 钢琴系手根轨迹`T_piano_hand` | `T_W_H=T_W_P T_P_H` | 是完整手根姿态，不是相对第0帧累计位移；新palm_base_world_poses路径明确存世界位姿，旧wrist_poses属于历史名称，要看文件合同 |

@@ -44,22 +44,40 @@ def validate_events(events, sustain_events, duration):
     return events.copy(), sustain_events.copy()
 
 
-def physical_coverage(events, *, length, control_dt, physics_dt):
+def physical_coverage_report(events, *, length, control_dt, physics_dt, strict=True):
+    """Audit sampling loss without altering events or synthesizing release samples."""
     times = (np.arange(round(length * control_dt / physics_dt), dtype=np.float64) + 1) * physics_dt
-    counts = []
-    for start, end, key, finger in events:
+    counts, missing_notes, missing_releases = [], [], []
+    for i, (start, end, key, finger) in enumerate(events):
         count = int(((times >= start - 1e-10) & (times < end - 1e-10)).sum())
         if count == 0:
-            raise ValueError(f'Note key {int(key)} at {start:g}s has no physical target sample')
+            if strict:
+                raise ValueError(f'Note key {int(key)} at {start:g}s has no physical target sample')
+            missing_notes.append(dict(source_index=i, key=int(key), pitch=int(key)+21,
+                start_time=float(start), end_time=float(end)))
         counts.append(count)
     for key in np.unique(events[:, 2]):
-        selected = events[events[:, 2] == key]
-        selected = selected[np.argsort(selected[:, 0], kind='stable')]
-        for previous, following in zip(selected[:-1], selected[1:]):
+        indices = np.flatnonzero(events[:, 2] == key)
+        indices = indices[np.argsort(events[indices, 0], kind='stable')]
+        for previous_index, following_index in zip(indices[:-1], indices[1:]):
+            previous, following = events[previous_index], events[following_index]
             released = (times >= previous[1] - 1e-10) & (times < following[0] - 1e-10)
             if not released.any():
-                raise ValueError(f'Repeated key {int(key)} has no release sample at physics resolution')
-    return counts
+                if strict:
+                    raise ValueError(f'Repeated key {int(key)} has no release sample at physics resolution')
+                missing_releases.append(dict(previous_source_index=int(previous_index),
+                    following_source_index=int(following_index), key=int(key), pitch=int(key)+21,
+                    release_time=float(previous[1]), next_onset_time=float(following[0]),
+                    gap_seconds=float(following[0]-previous[1])))
+    return dict(schema='physical_note_coverage_v1', valid=not (missing_notes or missing_releases),
+        control_dt=control_dt, physics_dt=physics_dt, physical_target_samples=counts,
+        missing_note_samples=missing_notes, missing_release_samples=missing_releases)
+
+
+def physical_coverage(events, *, length, control_dt, physics_dt):
+    """Strict API retained for callers explicitly requesting complete coverage."""
+    return physical_coverage_report(events, length=length, control_dt=control_dt,
+                                    physics_dt=physics_dt)['physical_target_samples']
 
 
 def control_buffer_offset(initial_buffer_time, control_dt):
@@ -144,14 +162,17 @@ def future_assignments(events, times, current, horizon):
 class ExactScore:
     """Immutable device tables; all dynamic access is graph-safe tensor indexing."""
     def __init__(self, events, sustain_events, *, length, control_dt, physics_dt,
-                 lookahead_steps, anticipation_horizon=0., device='cpu'):
+                 lookahead_steps, anticipation_horizon=0., device='cpu', score_validation='strict_v1'):
         import torch
         decimation = round(control_dt / physics_dt)
         if (decimation < 1 or not math.isclose(decimation * physics_dt, control_dt,
                                                rel_tol=0, abs_tol=1e-10)):
             raise ValueError('Exact timing requires integer physics steps per control frame')
         events, sustain_events = validate_events(events, sustain_events, length * control_dt)
-        physical_coverage(events, length=length, control_dt=control_dt, physics_dt=physics_dt)
+        from ..score_validation import validate_mode
+        self.score_validation = validate_mode(score_validation)
+        self.physical_coverage = physical_coverage_report(events, length=length,
+            control_dt=control_dt, physics_dt=physics_dt, strict=self.score_validation == 'strict_v1')
         self.events, self.sustain_events = events.copy(), sustain_events.copy()
         self.decimation = decimation
         start_times = np.arange(length, dtype=np.float64) * control_dt

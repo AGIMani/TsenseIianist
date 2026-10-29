@@ -24,9 +24,9 @@ def scene_fixture():
     for side in ('R','L'):
         names += [f'{side}_Thumb_{j}' for j in ('Rot','Rot2','MCP','PIP')]
         names += [f'{side}_{f}_{j}' for f in ('Index','Mid','Ring','Pinky') for j in ('MCP','SW','PIP','DIP')]
-        names += [f'{side}_Palm_Base_{j}' for j in ('Tx','Ty','Tz','Pitch','Yaw')]
-    return dict(action_names=names+['sustain'], action_min=[-3.]*50+[0.],
-                action_max=[3.]*50+[1.], neutral_action=[0.]*51, control_dt=.05)
+        names += [f'{side}_Palm_Base_{j}' for j in ('Tx','Ty','Tz','Pitch','Yaw','Roll')]
+    return dict(action_names=names+['sustain'], action_min=[-3.]*52+[0.],
+                action_max=[3.]*52+[1.], neutral_action=[0.]*53, control_dt=.05)
 
 
 def only(*names, stage='current'):
@@ -49,13 +49,13 @@ class PaperRewardsTest(unittest.TestCase):
     def inputs(self,c,device='cpu'):
         bundle=fixture();logic=MusicTaskLogic(bundle,num_envs=2,device=device)
         s={k:v.to(device) for k,v in snapshot().items()}
-        s.update(signed_power=torch.zeros(2,50,device=device),
+        s.update(signed_power=torch.zeros(2,52,device=device),
                  self_collision_pairs=torch.tensor([0,3],device=device),
                  self_collision_pair_substeps=torch.tensor([0,3],device=device),
                  undesired_collision_pairs=torch.tensor([0,3],device=device))
         base,_=logic.reward_terms(s,logic.index)
         r=RewardManager(c,scene_fixture(),bundle.manifest,num_envs=2,device=device)
-        action=torch.zeros(2,51,device=device)
+        action=torch.zeros(2,53,device=device)
         return r,action,s,base,logic.goal[logic.index],logic.fingers[logic.index],logic
 
     def call(self,data):
@@ -151,7 +151,7 @@ class PaperRewardsTest(unittest.TestCase):
         self.call(d);self.assertEqual(r.raw_terms['finger_acceleration_reward'][0].item(),0.)
         r.reset(torch.tensor([0]));self.call(d)
         torch.testing.assert_close(r.raw_terms['finger_velocity_reward'],torch.tensor([-.004,0.]))
-        torch.testing.assert_close(r.previous[1],a[1,:50])
+        torch.testing.assert_close(r.previous[1],a[1,:52])
 
     def test_posture_pitch_and_explicit_press_angle(self):
         c=explicit_test_mappings(only('wrist_pitch_reward','forward_press_reward'))

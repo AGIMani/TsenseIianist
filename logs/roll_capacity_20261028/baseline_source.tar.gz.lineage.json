@@ -1,0 +1,11 @@
+{
+  "formal_training_started": false,
+  "overlays": {
+    "tests/test_roll_capacity_acceptance.py": {
+      "parent_sha256": null,
+      "sha256": "e0e93fc4c9075c2b28a48a396fa86b5d03b61346b25771af8b263c594cade6c6"
+    }
+  },
+  "parent_sha256": "790024f85cf61b1a4f2ac6027d5d52661a6b9188c3dcf81b43ce7504df0a8dd5",
+  "rule": "Verified current 50/500Hz parent plus acceptance test only; all runtime files unchanged"
+}

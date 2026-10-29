@@ -1,0 +1,43 @@
+{
+  "formal_training_started": false,
+  "overlays": {
+    "configs/actions/direct_joint_v1.json": {
+      "parent_sha256": "56ea3776beed4c2a034e25f41f5478bd9df0662a44445874bf3d7a2775982fc9",
+      "sha256": "b4936b765cccdd334c77413bdcf5ad5fbee1f775e0058b55b1fc13ccaeacf72d"
+    },
+    "configs/actions/wuji_cartesian_v1.json": {
+      "parent_sha256": "af41da39aafcd0cdc5cd2d7fc8cba82ee20c1a8552037b80b3430b682b486609",
+      "sha256": "be57b19804d3a77482791ea6d887c45b54e4a38800c80ea611555e107757379d"
+    },
+    "docs/change_log.md": {
+      "parent_sha256": "97896ae4c0565bfb3bbd81b1a075342ca69f21ac77641d8a70bc818233a1772e",
+      "sha256": "61e6b853c203b589a2a581278233f10341d780ca5190711794b4f8f6d7c49236"
+    },
+    "docs/reward_defaults_20261006.md": {
+      "parent_sha256": "a3e17e09ff394b406d3fc3790452b50ab103ac53b243095247a40b89710da504",
+      "sha256": "cc9d822fa3be423cbfa3bfaca3e0216acfc50a76bd601b21b2e513c0007c6052"
+    },
+    "scripts/export_static_training_preview.py": {
+      "parent_sha256": "daaa6c773b2e0a226838c9446797e6946a12c85542dbb8b677547576d443bfa5",
+      "sha256": "87e2debe5b833c0ddf51123e0c6ce53adb3c5ba559ac002a847ae7860cd281e9"
+    },
+    "tests/test_roll_capacity_acceptance.py": {
+      "parent_sha256": "825a99fc903e3c3fc7c2485ddd03a8ce9f91eb165ef1d2e97fd4950c672d7639",
+      "sha256": "813da06e7ea5e41409dbe5c310ae8df46c3dd09d80c11346cb4ef3247280f1a2"
+    },
+    "tests/test_roll_contract.py": {
+      "parent_sha256": "5559fbcc23aa5affe313644a18025e77e757857d763919e860865727cc9b5eb7",
+      "sha256": "bb0e8d112c9563a86df01be44538072f8da35535076fc4c348070ae1144c5ee2"
+    },
+    "tests/test_roll_range_acceptance.py": {
+      "parent_sha256": null,
+      "sha256": "da6bda71bbf36e94278c4668b0555504f810f578950875e064302095654dbaa2"
+    },
+    "tsensei_v3_2_pianist/models/hands/tsensei_hand_constants.py": {
+      "parent_sha256": "262b44c99a7e30087807bdbad092437973692d17d5c7c8d3210ec58bf264ce28",
+      "sha256": "730659b6eb55434196b24dee502024c0aa225ebd832438a82955a0c31c0e2947"
+    }
+  },
+  "parent_sha256": "afe79f92b803211c390d3a495dc83462ecb37d263a10b5139ada62f4c93f963f",
+  "rule": "Only Roll lower bound -0.5 -> -0.3 rad; Pitch, drives, rates, dimensions and training budget unchanged; related validation and docs updated"
+}

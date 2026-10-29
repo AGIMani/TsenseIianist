@@ -1,0 +1,21 @@
+{
+  "kind": "bounded_validation_only",
+  "formal_training": false,
+  "host": "volc-a32",
+  "project": "/home/houj/projects/pianist_roll_capacity_20261028/project",
+  "job_id": 10459,
+  "source_archive": "/home/houj/projects/pianist_roll_capacity_20261028/baseline_source.tar.gz",
+  "source_sha256": "575d5b75b449934b7969678057f19c73f384fa621f31d18e8eeff8258309950d",
+  "runtime_parent_sha256": "790024f85cf61b1a4f2ac6027d5d52661a6b9188c3dcf81b43ce7504df0a8dd5",
+  "remote_output": "/home/houj/projects/pianist_roll_capacity_20261028/baseline_acceptance",
+  "gpus": 2,
+  "host_memory_gib": 640,
+  "control_hz": 50,
+  "physics_hz": 500,
+  "num_envs": 4096,
+  "replay_capacity": 48000000,
+  "roll_enabled": false,
+  "physical_control_steps_per_env": 257,
+  "diagnostic_gradient_updates": 8192,
+  "roll_pending": "User confirmation of axis/sign; proposed matching Pitch drive parameters"
+}

@@ -18,7 +18,7 @@ MODE = 'distal_60deg_v1'
 RANGE_MODE = 'distal_angle_range_v1'
 FINGERS = ('index', 'mid', 'ring', 'pinky')
 FINGER_NAMES = tuple(side+'_'+finger for side in ('right', 'left') for finger in FINGERS)
-FOLLOWER_INDICES = tuple(base+i for base in (0, 25) for i in (6, 7, 10, 11, 14, 15, 18, 19))
+FOLLOWER_INDICES = tuple(base+i for base in (0, 26) for i in (6, 7, 10, 11, 14, 15, 18, 19))
 
 
 def canonical(options):
@@ -76,7 +76,7 @@ def observation_contract(task_manifest, action_names, options):
         drop = set()
         if options['reduce_observation']:
             if path == 'action':
-                if size != 51:
+                if size != 53:
                     raise ValueError('Coupled observation requires full physical previous action')
                 drop = set(FOLLOWER_INDICES)
             elif path in ('right_/joints_pos', 'left_/joints_pos'):
@@ -189,7 +189,7 @@ class FingerCoupler:
                     follower_origin=bundle.origin_qpos[model.jnt_qposadr[joints[1:]]].tolist()))
         self.groups = groups
         if [index for group in groups for index in group['full_indices'][1:]] != list(FOLLOWER_INDICES):
-            raise ValueError('Coupling requires the canonical full 51-channel finger ordering')
+            raise ValueError('Coupling requires the canonical full 53-channel finger ordering')
         self.indices = integer([g['full_indices'] for g in groups])
         self.qadr = integer([g['qpos_addresses'] for g in groups])
         self.bodies = integer([g['body_ids'] for g in groups])

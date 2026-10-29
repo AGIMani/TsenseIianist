@@ -72,7 +72,7 @@ def main(argv=None):
     p.add_argument('--release-tail-time',type=float,default=0.,
                    help='Real silent training tail in seconds; must contain whole control frames')
     p.add_argument('--score-validation',choices=('legacy','strict_v1'),default='legacy',
-                   help='strict_v1 rejects lost/merged MIDI events or contradictory fingerings before training')
+                   help='strict_v1 rejects sampling loss; legacy records exact-score coverage without rejecting it')
     p.add_argument('--exact-note-timing',action=argparse.BooleanOptionalAction,default=None,
                    help='Preserve original MIDI times for physical-substep key reward, observations and evaluation')
     p.add_argument('--ending-time', type=float, default=0., help='Minimum physical return to original pose after full playback; outside SAC')

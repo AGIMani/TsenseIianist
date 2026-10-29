@@ -202,23 +202,23 @@ def augment_bundle(bundle, options):
     reference.mocap_pos[:] = bundle.origin_mocap_pos
     reference.mocap_quat[:] = bundle.origin_mocap_quat
     translation_names = ('palm_base_tx', 'palm_base_ty', 'palm_base_tz')
-    pitch_name = 'palm_base_pitch'
+    orientation_names = ('palm_base_pitch', 'palm_base_roll')
     wrist_ids = {}
     translation_ids = {}
-    pitch_ids = {}
+    orientation_ids = {}
     for side in SIDES:
         translation_ids[side] = [j for j in range(old.njnt)
             if (old.joint(j).name or '') in {f'{side}_/{name}' for name in translation_names}]
-        pitch_ids[side] = [j for j in range(old.njnt)
-            if (old.joint(j).name or '') == f'{side}_/{pitch_name}']
-        if len(translation_ids[side]) != 3 or len(pitch_ids[side]) != 1:
-            raise ValueError('Cartesian arm requires TX/TY/TZ plus fixed Pitch in each hand scene')
-        wrist_ids[side] = translation_ids[side] + pitch_ids[side]
+        orientation_ids[side] = [j for j in range(old.njnt)
+            if (old.joint(j).name or '') in {f'{side}_/{name}' for name in orientation_names}]
+        if len(translation_ids[side]) != 3 or len(orientation_ids[side]) != 2:
+            raise ValueError('Cartesian arm requires TX/TY/TZ plus fixed Pitch/Roll in each hand scene')
+        wrist_ids[side] = translation_ids[side] + orientation_ids[side]
         reference.qpos[old.jnt_qposadr[translation_ids[side]]] = 0
     mujoco.mj_forward(old, reference)
     wrists, initial_poses, removed = {}, {}, set()
     indices = list(bundle.active_action_indices)
-    pitch_action_indices = set()
+    orientation_action_indices = set()
     cartesian_policy_indices = []
     for side in SIDES:
         body_name = bundle.manifest['hands'][side]['body']
@@ -226,11 +226,11 @@ def augment_bundle(bundle, options):
         translation = translation_ids[side]
         actions = [int(full) for aid, full in zip(bundle.action_ids, indices)
                    if old.actuator_trnid[aid, 0] in translation]
-        pitch_actions = [int(full) for aid, full in zip(bundle.action_ids, indices)
-                         if old.actuator_trnid[aid, 0] in pitch_ids[side]]
-        if len(actions) != 3 or len(pitch_actions) != 1 or list(old.jnt_type[translation]) != [2, 2, 2]:
-            raise ValueError('Expected TX/TY/TZ Cartesian request coordinates and fixed Pitch')
-        pitch_action_indices.update(pitch_actions)
+        orientation_actions = [int(full) for aid, full in zip(bundle.action_ids, indices)
+                         if old.actuator_trnid[aid, 0] in orientation_ids[side]]
+        if len(actions) != 3 or len(orientation_actions) != 2 or list(old.jnt_type[translation]) != [2, 2, 2]:
+            raise ValueError('Expected TX/TY/TZ Cartesian request coordinates and fixed Pitch/Roll')
+        orientation_action_indices.update(orientation_actions)
         cartesian_policy_indices.extend(actions)
         # 2026-10-25: the external world-XYZ initial pose applies to arms too.
         # Zeroing removed slides defines Cartesian request zero, not a second
@@ -369,7 +369,7 @@ def augment_bundle(bundle, options):
     # Cartesian policy outputs are the six translation slots plus the 40 hand
     # targets.  The two pitch actions are structurally removed from the model
     # and held at their installed reset orientation.
-    policy_indices = [i for i in indices if i not in pitch_action_indices]
+    policy_indices = [i for i in indices if i not in orientation_action_indices]
     if sorted(policy_indices) != sorted(cartesian_policy_indices +
                                        [i for i in indices if '_Palm_Base_' not in bundle.manifest['action_names'][i]]):
         raise ValueError('Cartesian policy action mapping lost a hand or translation channel')

@@ -1,0 +1,132 @@
+{
+  "status": "passed",
+  "date": "2026-10-28",
+  "user_instruction": "Keep 50/500Hz and remove strict sampling coverage rejection",
+  "training_started": false,
+  "physics_simulation_run": false,
+  "gpu_training_tested": false,
+  "defaults": {
+    "control_hz": 50,
+    "physics_hz": 500,
+    "num_envs": 4096,
+    "score_validation": "legacy",
+    "exact_note_timing": true,
+    "replay_capacity": 48000000,
+    "slurm_mem_gib": 640,
+    "prefill_steps": 11137,
+    "learning_steps": 2244,
+    "vector_steps": 13381,
+    "gradient_updates": 2297856
+  },
+  "release": {
+    "path": "logs/score_coverage_20261028/source_score_coverage_v1.tar.gz",
+    "sha256": "790024f85cf61b1a4f2ac6027d5d52661a6b9188c3dcf81b43ce7504df0a8dd5",
+    "parent_sha256": "5a5a21db04d3f969b2052956568bb02d47368b457eb5760ab18dfd29971ceaa1",
+    "files": 2252,
+    "overlays": 8,
+    "local_overlays_verified": true
+  },
+  "remote": {
+    "host": "volc-a32",
+    "hostname": "TenseiNode1",
+    "path": "/home/houj/projects/pianist_score_coverage_20261028",
+    "build_pid": 3518415,
+    "scope": "pianist-score-build-20261028",
+    "memory_high_gib": 10,
+    "memory_max_gib": 12,
+    "swap_max": 0,
+    "cpu_quota_percent": 400,
+    "cuda_visible_devices": "",
+    "command_record": "run_build.sh",
+    "build_exit_status": 0,
+    "freeze_exit_status": 0,
+    "composer_environment": "/home/houj/projects/tsensei_v3_2_pianist/training/.venv",
+    "learner_environment": "/home/houj/projects/tsensei_v3_2_pianist/training_mjlab/.venv",
+    "composer_mujoco": "3.13.0",
+    "learner_mujoco": "3.11.0",
+    "torch": "2.10.0+cu128"
+  },
+  "tests": {
+    "passed": 55,
+    "subtests_passed": 12,
+    "exact_note_and_reward_tests": 40,
+    "budget_and_shell_tests": 15,
+    "new_frozen_entry_recheck": 5,
+    "git_diff_check": "passed",
+    "shell_syntax": "passed"
+  },
+  "score": {
+    "status": "passed",
+    "score_validation": "legacy",
+    "length": 11137,
+    "release_tail_steps": 13,
+    "source_notes": 2544,
+    "coverage_valid": false,
+    "missing_note_samples": 0,
+    "missing_release_samples": 6,
+    "export_load_runtime_coverage_identical": true,
+    "physical_steps": 0
+  },
+  "transfer": {
+    "files_verified": 12,
+    "model_source_files_verified": 1479,
+    "entry_sha_verified": true,
+    "original_note_event_multiset_bitwise_equal": true,
+    "original_row_order_equal": false,
+    "comparison_note": "Existing loader sorts notes; first raw-row-order comparison failed; full sorted start/end/key/finger rows match exactly.",
+    "source_notes": 2544,
+    "model_sha256": "2b7e015d7589a4221b23d8f9afee84415998484f878addc44b8e055d4f86fa30",
+    "files": {
+      "task_manifest.json": "8a5ab4f035dc4aec7c84344170f781e04bc8be93c76f21b6e5af17842fcba4ee",
+      "score_coverage.json": "7798119e87c9d4c36d25eb3d260fce841957e6a4badf8f6cee0a418efccc835a",
+      "state.npz": "bbf59255daf3330c6f5d2c837e6ee82c67f0a7a1b646c70b374ab7858e467873",
+      "scene_manifest.json": "1ba690a69ed3e4fa91bd53964ac545e89a5dc250d35eba6a3b37676ac919f4a6",
+      "score.npz": "edd68f511929894a5062cd513850f5d5001c5cfbae52ce9fd689bfe3ae4062e1",
+      "source_config.json": "23edd63430cbca7aa42acb025892ef200726af551123de7324c6a53f25e370ab",
+      "preview.json": "de5db2a473737c113556163fc5accc8752253d30c163d580f8cb28498415e4ca",
+      "launch_command.json": "594c24651d160df8c25c18a9bbfec41cf9b541efbf281183f8f9ddfcba784fb0",
+      "acceptance.json": "60d7ee03404552f46040eb10fdabf59e9dac6235510c1a9c43deff6350f32fdc",
+      "model.mjb": "2b7e015d7589a4221b23d8f9afee84415998484f878addc44b8e055d4f86fa30",
+      "model_audit.json": "04f908a3773c6bbae756b3d5213fb8636ce55a2a087030fc5021719d241739e1",
+      "score_acceptance.json": "bd8b3538c30bf78aab6f238618654fbf04c270a5b039f27f2462b72caf42a80c"
+    }
+  },
+  "preview": {
+    "path": "/data/projects/pianist/preview/outputs/piano_training_coverage_20261028",
+    "session": {
+      "status": "closed",
+      "renderer": "NVIDIA GeForce RTX 3050 Laptop GPU/PCIe/SSE2",
+      "mujoco": "3.11.0",
+      "total_width_mm": 1224,
+      "white_keys": 52,
+      "black_keys": 36,
+      "physics_steps": 0,
+      "training": false,
+      "piano_origin_world_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "origin_marker": "projected actual piano origin; visible through keys",
+      "source_archive_sha256": "790024f85cf61b1a4f2ac6027d5d52661a6b9188c3dcf81b43ce7504df0a8dd5",
+      "white_key_travel_mm": 12,
+      "black_key_travel_mm": 10,
+      "state_phase": "original pose before physical first-note preparation; not policy reset state",
+      "frames": 331,
+      "seconds": 7.527507505000358,
+      "state_unchanged": true,
+      "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "memory_peak_bytes": 2103332864
+    }
+  },
+  "limitations": [
+    "Six ~1.041667ms gaps still have no 500Hz release sample; diagnostic valid=false is intentional.",
+    "No formal training, 50/500Hz GPU dynamics or combined 4096-env/48M pool allocation validation.",
+    "Separate self-collision preview still uses its old pinned source; ordinary static preview is current."
+  ],
+  "diagnostics": [
+    "First deployment symlink creation required missing training directories; created them and completed.",
+    "First original-row comparison failed because existing MIDI loader sorts notes; exact full sorted event multisets match without timing/fingering changes.",
+    "Previous preview provenance guard rejected the changed launcher before refreshed preview binding; final binding and display passed."
+  ]
+}

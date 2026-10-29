@@ -46,15 +46,21 @@
       "pitch": {
         "kp": 8.0,
         "damping": 0.5,
-        "force_limit": 5.0,
-        "reference": "Default restored to exper031 wrist drive numerical values on 2026-10-22; not hardware calibration."
+        "force_limit": 18.0,
+        "reference": "2026-10-28 user-approved torque cap ±18 Nm; Kp=8 and damping=0.5 retained; not hardware calibration."
       },
       "finger": {
         "parameter_file": "finger_resistance.json",
         "contract": "a3_resistance_compensated_v1"
       },
       "scope": "Apply only when explicitly selected. Preserve V3.2 geometry, coordinate axes, joint ranges, initial pose, and position-control semantics. Other wrist axes retain their existing servo parameters.",
-      "calibration_todo": "V32-04: virtual platform mass, servo gains and force limits are simulation adaptations, not hardware calibration."
+      "calibration_todo": "V32-04: virtual platform mass, servo gains and force limits are simulation adaptations, not hardware calibration.",
+      "roll": {
+        "kp": 8.0,
+        "damping": 0.5,
+        "force_limit": 18.0,
+        "reference": "2026-10-28 user-approved mirrored local Z Roll; same drive as Pitch, ±18 Nm; not hardware calibration."
+      }
     }
   }
 }

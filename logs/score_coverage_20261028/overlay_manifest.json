@@ -1,0 +1,10 @@
+{
+  "tsensei_v3_2_pianist/mjlab_env/exact_score.py": "6bd07998b4634eece20dd0abdeffc6c758a9c5c9b7445b3561ee4c260aaf4dff",
+  "tsensei_v3_2_pianist/mjlab_env/task_bundle.py": "a773359c4b083c7e73ba60a3069e63bb255a33aad0be3c487cb0a7e899e7a4d8",
+  "tsensei_v3_2_pianist/mjlab_env/task.py": "309c44d636fe42d1965a00add2a8bec453004b5b8add2484ea89956324467778",
+  "tsensei_v3_2_pianist/rl_torch/train.py": "5880b8809d0d52825f588cb004288145805cb37508e582ea39cc49e544b344f4",
+  "tests/test_exact_note_timing.py": "0c6b65bfa9a3d6dac2db28d76e5021c47831da4303b95b8ce7db115caa3733ba",
+  "tests/test_cpu_replay_entry.py": "943c17b3533b07537810f29c193663dbeb5f69efb179f29d58e9133a14a9fc05",
+  "docs/reward_defaults_20261006.md": "cf50ccac442130ed8ef47e93891a03b07d67bc985a2b1525975e7d69a5db90db",
+  "scripts/train_from_source.py": "70265cebfa407b5247f73d20ed71661fd903ca11e185444d09c4304dc79ceb94"
+}

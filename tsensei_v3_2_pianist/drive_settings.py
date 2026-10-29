@@ -36,7 +36,7 @@ def load(profile=None):
         raise ValueError(f'Unsupported V3.2 drive profile: {selected!r}')
     result = dict(document['profiles'][selected], profile=selected)
     if selected == 'shadow_v1':
-        for name in ('pitch',):
+        for name in ('pitch', 'roll'):
             for key, value in result[name].items():
                 if key == 'reference':
                     continue

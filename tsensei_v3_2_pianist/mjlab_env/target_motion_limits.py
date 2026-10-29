@@ -78,8 +78,8 @@ class TargetMotionLimiter:
 
     def apply(self, requested):
         if (requested.dtype != torch.float32 or requested.ndim != 2
-                or requested.shape != (self.previous.shape[0], 51)):
-            raise ValueError('Final motion limiter requires (num_envs, 51) float32 physical targets')
+                or requested.shape != (self.previous.shape[0], 53)):
+            raise ValueError('Final motion limiter requires (num_envs, 53) float32 physical targets')
         delta = self.max_acceleration * self.dt
         lower_velocity = torch.maximum(-self.max_velocity, self.velocity - delta)
         upper_velocity = torch.minimum(self.max_velocity, self.velocity + delta)

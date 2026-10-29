@@ -18,11 +18,11 @@ def add_rate_arguments(parser):
     import argparse
     parser.add_argument('--hard-joint-limits', action=argparse.BooleanOptionalAction, default=None,
                         help='Project robot joint states into model/target limits after every physics substep')
-    for axis in ('tx', 'ty', 'tz', 'pitch', 'yaw'):
+    for axis in ('tx', 'ty', 'tz', 'pitch', 'yaw', 'roll'):
         unit = 'm/s' if axis in ('tx', 'ty', 'tz') else 'rad/s'
         parser.add_argument(f'--wrist-{axis}-max-velocity', type=float, default=None,
                             help=f'Both wrists target rate in {unit}; 0 removes rate, omitted preserves JSON')
-    for axis in ('tx', 'ty', 'pitch', 'yaw'):
+    for axis in ('tx', 'ty', 'pitch', 'yaw', 'roll'):
         unit = 'm/s^2' if axis in ('tx', 'ty') else 'rad/s^2'
         parser.add_argument(f'--wrist-{axis}-max-acceleration', type=float, default=None,
                             help=f'Both wrists final target acceleration in {unit}; requires max velocity; '
@@ -41,9 +41,9 @@ def rate_overrides(config, args):
     if hard is not None:
         state_mode = 'hard_v1' if hard else None
     wrist = {axis: getattr(args, f'wrist_{axis}_max_velocity', None)
-             for axis in ('tx', 'ty', 'tz', 'pitch', 'yaw')}
+             for axis in ('tx', 'ty', 'tz', 'pitch', 'yaw', 'roll')}
     acceleration = {axis: getattr(args, f'wrist_{axis}_max_acceleration', None)
-                    for axis in ('tx', 'ty', 'pitch', 'yaw')}
+                    for axis in ('tx', 'ty', 'pitch', 'yaw', 'roll')}
     finger = getattr(args, 'finger_max_velocity', None)
     joints = getattr(args, 'joint_max_velocity', [])
     if (all(value is None for value in (*wrist.values(), *acceleration.values()))
@@ -51,8 +51,9 @@ def rate_overrides(config, args):
         return options
     from .action_mapping import _direct_contract, active_indices
     names = [row['name'] for row in _direct_contract()['channels']]
-    size = (47 if getattr(args, 'disable_wrist_yaw', False) else
-            49 if getattr(args, 'disable_wrist_tz', False) else 51)
+    size = (47 if getattr(args, 'action_profile', 'legacy') == 'wuji_cartesian_v1' else
+            49 if getattr(args, 'disable_wrist_yaw', False) else
+            51 if getattr(args, 'disable_wrist_tz', False) else 53)
     active = {names[i] for i in active_indices(size, getattr(args, 'action_profile', 'legacy'))} - {'sustain'}
     channels = deepcopy(options['channels']) if options else {}
 
@@ -133,7 +134,7 @@ def canonical(config):
                 for key,value in row.items()}
         if 'max_acceleration' in parsed:
             if name not in tuple(f'{side}_Palm_Base_{axis}' for side in ('R','L')
-                                 for axis in ('Tx','Ty','Pitch','Yaw')):
+                                 for axis in ('Tx','Ty','Pitch','Yaw','Roll')):
                 raise ValueError('Target acceleration limits support only wrist Cartesian/orientation channels')
             if 'max_velocity' not in parsed:
                 raise ValueError(f'{name}: max_acceleration requires max_velocity')
@@ -152,10 +153,10 @@ def resolve(config, *, action_names, active_indices, physical_low, physical_high
         return None
     dt=_number(control_dt,'control_dt',positive=True)
     names=list(action_names)
-    if len(names)!=51 or len(set(names))!=51 or names[-1]!='sustain':
-        raise ValueError('Control limits require the complete named 51-channel contract')
-    if any(len(values)!=51 for values in (physical_low,physical_high,reset_action)):
-        raise ValueError('Control physical bounds/reset must have 51 values')
+    if len(names)!=53 or len(set(names))!=53 or names[-1]!='sustain':
+        raise ValueError('Control limits require the complete named 53-channel contract')
+    if any(len(values)!=53 for values in (physical_low,physical_high,reset_action)):
+        raise ValueError('Control physical bounds/reset must have 53 values')
     active=set(active_indices)
     channels={}
     for name,row in options['channels'].items():
@@ -182,7 +183,7 @@ def resolve(config, *, action_names, active_indices, physical_low, physical_high
     return dict(schema=1,mode=MODE,control_dt=dt,channels=channels,
         **({'joint_state_limits': options['joint_state_limits']} if 'joint_state_limits' in options else {}),
         application='original policy mapping, static clip, previous applied target slew, zero-order hold',
-        action_observation='actual applied full physical 51 channels; same observation dimensions')
+        action_observation='actual applied full physical 53 channels; same observation dimensions')
 
 
 class TargetLimiter:
@@ -201,7 +202,7 @@ class TargetLimiter:
 
     def apply(self, requested, previous):
         import torch
-        if requested.shape!=previous.shape or requested.shape[-1]!=51:
+        if requested.shape!=previous.shape or requested.shape[-1]!=53:
             raise ValueError('Target limiter needs equally shaped full physical actions')
         values=requested[...,self.indices]
         clipped=values.clamp(self.low,self.high)

@@ -83,9 +83,9 @@ class FingerClearanceGuard:
         self.bundle = bundle
         model = bundle.model
         self.rigid_arm = hasattr(bundle, 'arm_follow_spec')
-        expected = (40, 128, 40) if self.rigid_arm else (46, 134, 46)
+        expected = (40, 128, 40) if self.rigid_arm else (48, 136, 48)
         if (len(bundle.active_action_indices), model.nq, model.nu) != expected:
-            raise ValueError('Whole-finger guard currently requires the no-arm 47-action TZ/Yaw-removed model')
+            raise ValueError('Whole-finger guard currently requires the no-arm 49-action TZ/Yaw-removed model')
         if self.rigid_arm and (any(self.options.get(n, True) for n in CONTROL_SWITCHES)
                                or self.options['wrist_clearance_interlock']):
             raise ValueError('Rigid arm assembly supports clearance diagnostics with projection controls disabled')
@@ -99,11 +99,11 @@ class FingerClearanceGuard:
         physical_names = bundle.manifest['action_names']
         joint_to_full = {int(model.actuator_trnid[act, 0]): int(full)
                          for act, full in zip(bundle.action_ids, bundle.active_action_indices)}
-        full_qadr = [0]*51
+        full_qadr = [0]*53
         for joint, full in joint_to_full.items():
             full_qadr[full] = int(model.jnt_qposadr[joint])
         self.full_qadr = self.integer(full_qadr)
-        self.present = self.tensor([i in bundle.active_action_indices for i in range(51)])
+        self.present = self.tensor([i in bundle.active_action_indices for i in range(53)])
         self.fixed = self.tensor(bundle.neutral_action)
         groups = []
         for side in ('right', 'left'):
@@ -126,9 +126,9 @@ class FingerClearanceGuard:
                                                 int(model.body_jntadr[body]+model.body_jntnum[body]))))
                     body = int(model.body_parentid[body])
                 # Reverse body ancestry while preserving the declared order of
-                # multiple joints on one body (the virtual wrist has three).
+                # multiple joints on one body (the virtual wrist has four).
                 chain = [joint for body_joints in reversed(ancestors) for joint in body_joints]
-                if len(chain) != (4 if self.rigid_arm else 7) or chain[-4:] != joint_ids:
+                if len(chain) != (4 if self.rigid_arm else 8) or chain[-4:] != joint_ids:
                     raise ValueError('Unexpected serial wrist/finger joint chain')
                 groups.append(dict(side=side, name=side+'_'+finger, joints=joint_ids, geoms=geom_ids, chain=chain))
         self.groups = groups
@@ -229,9 +229,9 @@ class FingerClearanceGuard:
         self.low = self.tensor(low);self.high = self.tensor(high);self.origin_angles = self.tensor(origin_angles)
         safe_angles = self._safe_angles(model, origin, np.asarray(origin_angles), np.asarray(low), np.asarray(high))
         self.safe_angles = self.tensor(safe_angles)
-        # Cartesian arm policy exposes TX/TY/TZ; Pitch/Yaw are fixed during
+        # Cartesian arm policy exposes TX/TY/TZ; Pitch/Yaw/Roll are fixed during
         # bundle compilation and are absent from the 47-action policy.
-        self.wrist_indices = self.integer([[20, 21, 22], [45, 46, 47]]) if self.rigid_arm else self.chain_indices[[0, 5], :3]
+        self.wrist_indices = self.integer([[20, 21, 22], [46, 47, 48]]) if self.rigid_arm else self.chain_indices[[0, 5], :4]
         self.wrist_low = self.tensor(bundle.low)[self.wrist_indices]
         self.wrist_high = self.tensor(bundle.high)[self.wrist_indices]
         self.contract = dict(schema=1, mode=MODE, options=deepcopy(self.options),
@@ -443,7 +443,7 @@ class FingerClearanceGuard:
             raise ValueError('Upcoming press permission window must be finite and nonnegative')
         count = physical.shape[0]
         support_shape = (count, 2, 12) if self.rigid_arm else (count, 2)
-        if (physical.shape != (count, 51) or lift.shape != support_shape
+        if (physical.shape != (count, 53) or lift.shape != support_shape
                 or assigned_keys.shape != (count, 10, 88)
                 or future_keys.shape != assigned_keys.shape
                 or future_seconds.shape != (count, 10)
@@ -489,8 +489,8 @@ class FingerClearanceGuard:
 
     @torch.no_grad()
     def filter(self, physical, *, actual_qpos, mocap_pos, assigned_keys, support=None):
-        if physical.ndim != 2 or physical.shape[1] != 51 or assigned_keys.shape != (physical.shape[0], 10, 88):
-            raise ValueError('Expected physical[N,51] and current assigned_keys[N,10,88]')
+        if physical.ndim != 2 or physical.shape[1] != 53 or assigned_keys.shape != (physical.shape[0], 10, 88):
+            raise ValueError('Expected physical[N,53] and current assigned_keys[N,10,88]')
         lift = self.lift(mocap_pos) if support is None else support
         projection_lift = self.projection_support(lift)
         actual = self.physical_qpos(actual_qpos)

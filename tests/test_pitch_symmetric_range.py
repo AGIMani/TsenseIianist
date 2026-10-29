@@ -13,7 +13,7 @@ def test_pitch_contract(profile):
     pitch = [r for r in rows if r['name'].endswith('_Palm_Base_Pitch')]
     assert len(pitch) == 2
     for r in pitch:
-        assert [r['physical_min'], r['physical_max']] == [-.5, .5]
+        assert [r['physical_min'], r['physical_max']] == [-.3, .6]
         assert [r['policy_min'], r['policy_max']] == ([0., 2.] if profile == 'direct_joint_v1' else [-1., 1.])
     # Inspect constants without importing or constructing a MuJoCo scene locally.
     module = ast.parse((ROOT/'tsensei_v3_2_pianist/models/hands/tsensei_hand_constants.py').read_text())
@@ -21,7 +21,7 @@ def test_pitch_contract(profile):
     def entry(name):
         node = values[name]
         return next(v for k,v in zip(node.keys,node.values) if ast.literal_eval(k)=='palm_base_pitch')
-    assert ast.literal_eval(entry('PALM_BASE_DOFS').elts[2]) == (-.5,.5)
+    assert ast.literal_eval(entry('PALM_BASE_DOFS').elts[2]) == (-.3,.6)
     assert ast.literal_eval(entry('INITIAL_ANGLES')) == 0.
 
 @pytest.mark.skipif(not os.environ.get('SLURM_JOB_ID'), reason='Physical/GPU validation requires remote Slurm')
@@ -62,12 +62,12 @@ def test_compiled_range_mapping_preparation_and_return(tmp_path):
     ids=[names.index(f'{s}_Palm_Base_Pitch') for s in ('R','L')]
     for side,i in zip(('right','left'),ids):
         joint=b.model.joint(f'{side}_/palm_base_pitch')
-        np.testing.assert_allclose(joint.range,[-.5,.5],atol=1e-12)
+        np.testing.assert_allclose(joint.range,[-.3,.6],atol=1e-12)
         actuator=np.flatnonzero(b.model.actuator_trnid[:,0]==joint.id)
         assert len(actuator)==1
-        np.testing.assert_allclose(b.model.actuator_ctrlrange[actuator[0]],[-.5,.5],atol=1e-12)
+        np.testing.assert_allclose(b.model.actuator_ctrlrange[actuator[0]],[-.3,.6],atol=1e-12)
         assert b.origin_ctrl[actuator[0]]==pytest.approx(0.)
-    for value,policy_value in ((-.5,0.),(0.,1.),(.5,2.)):
+    for value,policy_value in ((-.3,0.),(0.,2/3),(.15,1.),(.6,2.)):
         physical=env.scene.control_reset_action.clone()
         physical[ids]=value
         policy=env.scene.policy_action(physical)

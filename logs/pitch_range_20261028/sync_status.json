@@ -1,0 +1,25 @@
+{
+  "job_id": "10529",
+  "checked_at": 1793182740.5081618,
+  "sacct": [
+    [
+      "10529",
+      "COMPLETED",
+      "0:0",
+      "00:01:32",
+      "32G",
+      ""
+    ],
+    [
+      "10529.batch",
+      "COMPLETED",
+      "0:0",
+      "00:01:32",
+      "",
+      "6216708K"
+    ]
+  ],
+  "transfer_complete": true,
+  "sha256_verified": true,
+  "validation_passed": true
+}

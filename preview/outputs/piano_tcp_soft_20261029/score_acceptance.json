@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "score_validation": "legacy",
+  "length": 11137,
+  "release_tail_steps": 13,
+  "source_notes": 2544,
+  "coverage_valid": false,
+  "missing_note_samples": 0,
+  "missing_release_samples": 6,
+  "export_load_runtime_coverage_identical": true,
+  "physical_steps": 0
+}

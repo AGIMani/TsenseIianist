@@ -38,7 +38,7 @@ def score(manager, issued, requested):
 @pytest.mark.parametrize('dt', [.025, .05, .1])
 def test_all_four_translation_channels_obey_both_hard_bounds_and_partial_reset(dt):
     resolved = contract(config(**{name: dict(max_velocity=.95, max_acceleration=2.) for name in TCP}), dt)
-    limiter = TargetMotionLimiter(resolved, num_envs=4, device='cpu', reset_action=torch.zeros(51))
+    limiter = TargetMotionLimiter(resolved, num_envs=4, device='cpu', reset_action=torch.zeros(len(NAMES)))
     for name in TCP:
         assert resolved['channels'][name]['acceleration_unit'] == 'm/s^2'
         assert limiter.contract['channels'][name]['position_unit'] == 'm'
@@ -51,7 +51,7 @@ def test_all_four_translation_channels_obey_both_hard_bounds_and_partial_reset(d
             limiter.reset(torch.tensor([0, 2]))
             previous[[0, 2]] = 0
             velocity[[0, 2]] = 0
-        request = torch.randn(4, 51, generator=rng) * 10
+        request = torch.randn(4, len(NAMES), generator=rng) * 10
         if k < 180:
             request[:, limiter.indices] = 100.
         elif k < 360:
@@ -113,7 +113,7 @@ def test_mixed_units_share_one_maximum_and_exclude_tz_pedal():
     raw[:, manager.tcp_indices] += 2.1 * .05**2  # TCP +5%, -2.5.
     action[1, manager.groups['finger']] += 210. * .05**2  # finger +5% against template 200.
     action[2, manager.groups['wrist']] += 16.5 * .05**2  # wrist +10%, -5.
-    raw[:, [manager.actions.index('R_Palm_Base_Tz'), manager.actions.index('L_Palm_Base_Tz'), 50]] = 100.
+    raw[:, [manager.actions.index('R_Palm_Base_Tz'), manager.actions.index('L_Palm_Base_Tz'), NAMES.index('sustain')]] = 100.
     torch.testing.assert_close(score(manager, action, raw), torch.tensor([-2.5, -2.5, -5.]), atol=2e-5, rtol=1e-5)
 
 
@@ -171,11 +171,11 @@ def test_real_task_step_forwards_unclipped_tcp_demand_to_reward(transforms):
     env = SimpleNamespace(scene=scene, logic=SimpleNamespace(done=torch.zeros(1, dtype=torch.bool), advance=advance),
         reward_manager=manager, _update_timing_clearance=lambda: None, snapshot=lambda **kw: {},
         _with_preparation=lambda x: x, exact_score=None, collision_diagnostics=False,
-        gesture_protected_fingers=None)
+        gesture_protected_fingers=None, arm_tracking=None)
     result = PianoTaskEnv.step(env, raw)
     torch.testing.assert_close(result.reward, torch.tensor([-5.]))
     expected = issued if transforms else raw
-    torch.testing.assert_close(manager.previous, expected[:, :50])
+    torch.testing.assert_close(manager.previous, expected[:, :-1])
 
 
 @pytest.mark.parametrize('dt', [.025, .05, .1])

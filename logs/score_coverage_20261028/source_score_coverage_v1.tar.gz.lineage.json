@@ -1,0 +1,39 @@
+{
+  "formal_training_started": false,
+  "overlays": {
+    "docs/reward_defaults_20261006.md": {
+      "parent_sha256": "38c9b6301b349a5ea4fa7c04106007ad71aa0e4180d5de2909c1147e7762b238",
+      "sha256": "cf50ccac442130ed8ef47e93891a03b07d67bc985a2b1525975e7d69a5db90db"
+    },
+    "scripts/train_from_source.py": {
+      "parent_sha256": "8bed2d63b1940ba8dd856d638ad885b4f3b783706ba55b60aaaf6b32a2ed694c",
+      "sha256": "70265cebfa407b5247f73d20ed71661fd903ca11e185444d09c4304dc79ceb94"
+    },
+    "tests/test_cpu_replay_entry.py": {
+      "parent_sha256": "e495c4473bbe0a4d6387167bc154a61453be32d518a09c3cdf40c0e0ace08bc9",
+      "sha256": "943c17b3533b07537810f29c193663dbeb5f69efb179f29d58e9133a14a9fc05"
+    },
+    "tests/test_exact_note_timing.py": {
+      "parent_sha256": "9534c8621d031e566de93607392d0cd37555662089111576c100e6dceda0bd6e",
+      "sha256": "0c6b65bfa9a3d6dac2db28d76e5021c47831da4303b95b8ce7db115caa3733ba"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/exact_score.py": {
+      "parent_sha256": "b06b0e4a389f2da899101caf0633ac02a5db8b74ca9f419133420e5191d5e022",
+      "sha256": "6bd07998b4634eece20dd0abdeffc6c758a9c5c9b7445b3561ee4c260aaf4dff"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/task.py": {
+      "parent_sha256": "c587953613ed94015078d3125759b503ec1eaa4f1273b69828872877123393f4",
+      "sha256": "309c44d636fe42d1965a00add2a8bec453004b5b8add2484ea89956324467778"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/task_bundle.py": {
+      "parent_sha256": "59fcdb180730e0592d25794b5e69735b0d53a1a1321d15c85db33002b4ac4815",
+      "sha256": "a773359c4b083c7e73ba60a3069e63bb255a33aad0be3c487cb0a7e899e7a4d8"
+    },
+    "tsensei_v3_2_pianist/rl_torch/train.py": {
+      "parent_sha256": "975d329f7bdb250b19240a30731a3d90ab072a64dd49a5a813dca7d5dc6f034e",
+      "sha256": "5880b8809d0d52825f588cb004288145805cb37508e582ea39cc49e544b344f4"
+    }
+  },
+  "parent_sha256": "5a5a21db04d3f969b2052956568bb02d47368b457eb5760ab18dfd29971ceaa1",
+  "rule": "Verified parent plus explicit score coverage validation/reporting overlays; model, original score, sampling and reward formula unchanged"
+}

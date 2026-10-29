@@ -55,13 +55,13 @@ class TsenseiHand(base.Hand):
                     translation = self._drive_settings['translation']['axes'][dof]
                     kp = translation['kp']
                     force = translation['force_limit']
-                elif dof == 'palm_base_pitch':
+                elif dof in ('palm_base_pitch', 'palm_base_roll'):
                     # Numeric WRJ1 reference; preserve the user's V3.2 axis.
-                    pitch = self._drive_settings['pitch']
+                    pitch = self._drive_settings[dof.removeprefix('palm_base_')]
                     kp, damping, force = pitch['kp'], pitch['damping'], pitch['force_limit']
             # Equal targets: yaw rotates both wrists in the same direction;
-            # pitch rotates them in opposite directions from aligned frames.
-            if side == base.HandSide.LEFT and dof == "palm_base_pitch":
+            # Pitch/Roll rotate them in opposite directions from aligned frames.
+            if side == base.HandSide.LEFT and dof in ("palm_base_pitch", "palm_base_roll"):
                 axis = tuple(-a for a in axis)
             j = self.root_body.add("joint", name=dof, type=kind, axis=axis,
                                    range=bounds, limited=True, damping=damping)

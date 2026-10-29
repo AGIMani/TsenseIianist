@@ -170,3 +170,122 @@ outputs/
 !/logs/key_hold_lateral_20261026/source_audit.json
 !/logs/key_hold_lateral_20261026/source_lineage.json
 !/logs/key_hold_lateral_20261026/validation.json
+
+# Pinned release registered from all_use_this_train.sh
+!/logs/cpu_replay_4096_20261027/
+/logs/cpu_replay_4096_20261027/*
+!/logs/cpu_replay_4096_20261027/source_cpu_replay_v1.tar.gz
+!/logs/cpu_replay_4096_20261027/source_cpu_replay_v1.tar.gz.sha256
+
+# Current sampling-coverage validation release and provenance.
+!/logs/score_coverage_20261028/
+/logs/score_coverage_20261028/*
+!/logs/score_coverage_20261028/source_score_coverage_v1.tar.gz
+!/logs/score_coverage_20261028/source_score_coverage_v1.tar.gz.sha256
+!/logs/score_coverage_20261028/source_score_coverage_v1.tar.gz.lineage.json
+!/logs/score_coverage_20261028/source_score_coverage_v1.tar.gz.audit.json
+!/logs/score_coverage_20261028/freeze.py
+!/logs/score_coverage_20261028/overlay_manifest.json
+!/logs/score_coverage_20261028/validation.json
+
+# Bounded 50/500Hz + full host replay validation (not a formal experiment).
+!/logs/roll_capacity_20261028/
+/logs/roll_capacity_20261028/*
+!/logs/roll_capacity_20261028/validation.json
+!/logs/roll_capacity_20261028/submission.json
+!/logs/roll_capacity_20261028/transfer_manifest.json
+!/logs/roll_capacity_20261028/freeze_baseline.py
+!/logs/roll_capacity_20261028/overlay_manifest.json
+!/logs/roll_capacity_20261028/baseline_source.tar.gz.sha256
+!/logs/roll_capacity_20261028/baseline_source.tar.gz.lineage.json
+
+# Current Roll/Pitch 18 Nm frozen source and acceptance provenance.
+!logs/roll_capacity_20261028/
+!logs/roll_capacity_20261028/*.json
+!logs/roll_capacity_20261028/*.py
+!logs/roll_capacity_20261028/*.sh
+!logs/roll_capacity_20261028/source_roll_v1.tar.gz
+!logs/roll_capacity_20261028/source_roll_v1.tar.gz.*
+
+# Current asymmetric Roll range frozen source and provenance.
+!logs/roll_range_20261028/
+!logs/roll_range_20261028/*.json
+!logs/roll_range_20261028/*.py
+!logs/roll_range_20261028/*.sh
+!logs/roll_range_20261028/source_roll_range_v1.tar.gz
+!logs/roll_range_20261028/source_roll_range_v1.tar.gz.*
+
+# Current asymmetric Pitch range frozen source and provenance.
+!logs/pitch_range_20261028/
+!logs/pitch_range_20261028/*.json
+!logs/pitch_range_20261028/*.py
+!logs/pitch_range_20261028/*.sh
+!logs/pitch_range_20261028/source_pitch_range_v2.tar.gz
+!logs/pitch_range_20261028/source_pitch_range_v2.tar.gz.*
+
+# Current palm translation and wrist range source/provenance.
+!logs/palm_ranges_20261028
+!logs/pitch_range_20261028
+!logs/palm_ranges_20261028/
+!logs/palm_ranges_20261028/*.json
+!logs/palm_ranges_20261028/*.py
+!logs/palm_ranges_20261028/*.sh
+!logs/palm_ranges_20261028/source_palm_ranges_v1.tar.gz
+!logs/palm_ranges_20261028/source_palm_ranges_v1.tar.gz.*
+
+# Palm target acceleration override validation.
+!logs/palm_acceleration_20261028/
+!logs/palm_acceleration_20261028/*.json
+!logs/palm_acceleration_20261028/*.py
+!logs/palm_acceleration_20261028/*.sh
+
+# Publish source/provenance only; keep local job outputs and temporary captures local.
+!/logs/roll_range_20261028/
+/logs/roll_range_20261028/*
+!/logs/roll_range_20261028/*.json
+!/logs/roll_range_20261028/*.py
+!/logs/roll_range_20261028/*.sh
+!/logs/roll_range_20261028/source_*.tar.gz
+!/logs/roll_range_20261028/source_*.tar.gz.*
+!/logs/pitch_range_20261028/
+/logs/pitch_range_20261028/*
+!/logs/pitch_range_20261028/*.json
+!/logs/pitch_range_20261028/*.py
+!/logs/pitch_range_20261028/*.sh
+!/logs/pitch_range_20261028/source_*.tar.gz
+!/logs/pitch_range_20261028/source_*.tar.gz.*
+!/logs/palm_ranges_20261028/
+/logs/palm_ranges_20261028/*
+!/logs/palm_ranges_20261028/*.json
+!/logs/palm_ranges_20261028/*.py
+!/logs/palm_ranges_20261028/*.sh
+!/logs/palm_ranges_20261028/source_*.tar.gz
+!/logs/palm_ranges_20261028/source_*.tar.gz.*
+!/logs/palm_acceleration_20261028/
+/logs/palm_acceleration_20261028/*
+!/logs/palm_acceleration_20261028/*.json
+!/logs/palm_acceleration_20261028/*.py
+!/logs/palm_acceleration_20261028/*.sh
+!/logs/palm_acceleration_20261028/source_*.tar.gz
+!/logs/palm_acceleration_20261028/source_*.tar.gz.*
+!/logs/tcp_soft_acceleration_20261029/
+/logs/tcp_soft_acceleration_20261029/*
+!/logs/tcp_soft_acceleration_20261029/*.json
+!/logs/tcp_soft_acceleration_20261029/*.py
+!/logs/tcp_soft_acceleration_20261029/*.sh
+!/logs/tcp_soft_acceleration_20261029/source_*.tar.gz
+!/logs/tcp_soft_acceleration_20261029/source_*.tar.gz.*
+/logs/tcp_soft_acceleration_20261029/entry_before.sh
+
+# Current portable ordinary static preview.
+!preview/outputs/
+preview/outputs/*
+!preview/outputs/piano_tcp_soft_20261029/
+
+# Pinned release registered from all_use_this_train.sh
+!/logs/palm_ranges_20261028/source_palm_ranges_v1.tar.gz
+!/logs/palm_ranges_20261028/source_palm_ranges_v1.tar.gz.sha256
+# Keep current palm release provenance alongside its archive.
+!/logs/palm_ranges_20261028/*.json
+!/logs/palm_ranges_20261028/*.py
+!/logs/palm_ranges_20261028/*.sh

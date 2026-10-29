@@ -58,7 +58,7 @@ def export_scene(output, *, gravity_compensation=True, control_timestep=.05, phy
         action_names = [a.name for h in (env.task.right_hand, env.task.left_hand) for a in h.actuators]
         action_ids = [actuator_names.index(n) for n in action_names]
         joint_names = names(m, mujoco.mjtObj.mjOBJ_JOINT, m.njnt)
-        assert m.nq == m.nv == m.njnt == 138 and m.nu == 50
+        assert m.nq == m.nv == m.njnt == 140 and m.nu == 52
         hands = {}
         for side, hand in (("right", env.task.right_hand), ("left", env.task.left_hand)):
             root = env.physics.bind(hand.root_body)
@@ -173,7 +173,7 @@ class SceneBundle:
         if disable_wrist_tz and 'm6' in self.manifest:
             raise ValueError('--disable-wrist-tz requires a hand-only scene; use --no-arms')
         # Cartesian arm mode keeps the three translation joints and removes
-        # only the two orientation joints.  Hand-only legacy scenes may still
+        # the three orientation joints.  Hand-only legacy scenes may still
         # request TZ removal explicitly.
         self.disable_wrist_tz = disable_wrist_tz
         self.fixed_joint_values = {}
@@ -183,8 +183,8 @@ class SceneBundle:
             for side in ('right', 'left'):
                 name = f'{side}_/palm_base_yaw'
                 self.fixed_joint_values[name] = self.manifest['qpos'][self.manifest['joint_names'].index(name)]
-        removed_actions = ({22,47} if disable_wrist_tz else set()) | ({24,49} if disable_wrist_yaw else set())
-        self.active_action_indices = np.array([i for i in range(50)
+        removed_actions = ({22,48} if disable_wrist_tz else set()) | ({24,50} if disable_wrist_yaw else set())
+        self.active_action_indices = np.array([i for i in range(52)
             if i not in removed_actions])
         joint_keep = [i for i, n in enumerate(self.manifest['joint_names'])
                       if n not in self.fixed_joint_values]
@@ -209,10 +209,10 @@ class SceneBundle:
                     combined = np.empty(4); mujoco.mju_mulQuat(combined, initial, rotation)
                     body.set('quat', ' '.join(map(str, combined)))
                     matrix = np.empty(9); mujoco.mju_quat2Mat(matrix, rotation)
-                    # All wrist joints share a body; preserve the remaining
-                    # translation axes
-                    # axes when baking the final yaw into its rest orientation.
-                    for joint in joints:
+                    # Conjugate only joints BEFORE fixed Yaw. Roll follows
+                    # Yaw in the serial joint order and keeps its local axis.
+                    # R_pitch R_yaw R_roll = R_yaw R_pitch' R_roll.
+                    for joint in joints[:joints.index(yaw)]:
                         if joint is not yaw:
                             axis = matrix.reshape(3,3).T @ np.fromstring(joint.get('axis','0 0 1'), sep=' ')
                             joint.set('axis', ' '.join(map(str, axis)))
@@ -259,7 +259,7 @@ class SceneBundle:
                 current[:] = value
             else:
                 setattr(m.opt, name, value)
-        if (m.nq, m.nv, m.nu) != (138-len(removed_actions), 138-len(removed_actions), 50-len(removed_actions)):
+        if (m.nq, m.nv, m.nu) != (140-len(removed_actions), 140-len(removed_actions), 52-len(removed_actions)):
             raise ValueError("Unexpected V3.2 scene dimensions")
         self.joint_ids = self.ids(mujoco.mjtObj.mjOBJ_JOINT, [self.manifest["joint_names"][i] for i in joint_keep])
         if not np.all(np.isin(m.jnt_type, [mujoco.mjtJoint.mjJNT_HINGE, mujoco.mjtJoint.mjJNT_SLIDE])):
@@ -278,7 +278,7 @@ class SceneBundle:
         self.reset_ctrl[self.ctrl_ids] = np.asarray(self.manifest["ctrl"])[actuator_keep]
         self.neutral_action = np.asarray(self.manifest["neutral_action"])
         if disable_wrist_tz:
-            self.neutral_action[[22, 47]] = 0
+            self.neutral_action[[22, 48]] = 0
         self.low = np.asarray(self.manifest["action_min"])
         self.high = np.asarray(self.manifest["action_max"])
         # Keep the complete original posture separately from the actually reached

@@ -154,22 +154,22 @@
       "name": "R_Palm_Base_Ty",
       "policy_min": -1.0,
       "policy_max": 1.0,
-      "physical_min": -0.1,
-      "physical_max": 0.1
+      "physical_min": -0.05,
+      "physical_max": 0.05
     },
     {
       "name": "R_Palm_Base_Tz",
       "policy_min": -1.0,
       "policy_max": 1.0,
-      "physical_min": -0.025,
-      "physical_max": 0.025
+      "physical_min": -0.6,
+      "physical_max": 0.46
     },
     {
       "name": "R_Palm_Base_Pitch",
       "policy_min": -1.0,
       "policy_max": 1.0,
-      "physical_min": -0.5,
-      "physical_max": 0.5
+      "physical_min": -0.3,
+      "physical_max": 0.6
     },
     {
       "name": "R_Palm_Base_Yaw",
@@ -177,6 +177,13 @@
       "policy_max": 1.0,
       "physical_min": -0.25,
       "physical_max": 0.25
+    },
+    {
+      "name": "R_Palm_Base_Roll",
+      "policy_min": -1.0,
+      "policy_max": 1.0,
+      "physical_min": -0.3,
+      "physical_max": 0.5
     },
     {
       "name": "L_Thumb_Rot",
@@ -329,22 +336,22 @@
       "name": "L_Palm_Base_Ty",
       "policy_min": -1.0,
       "policy_max": 1.0,
-      "physical_min": -0.025,
-      "physical_max": 0.025
+      "physical_min": -0.05,
+      "physical_max": 0.05
     },
     {
       "name": "L_Palm_Base_Tz",
       "policy_min": -1.0,
       "policy_max": 1.0,
-      "physical_min": -0.025,
-      "physical_max": 0.025
+      "physical_min": -0.6,
+      "physical_max": 0.46
     },
     {
       "name": "L_Palm_Base_Pitch",
       "policy_min": -1.0,
       "policy_max": 1.0,
-      "physical_min": -0.5,
-      "physical_max": 0.5
+      "physical_min": -0.3,
+      "physical_max": 0.6
     },
     {
       "name": "L_Palm_Base_Yaw",
@@ -352,6 +359,13 @@
       "policy_max": 1.0,
       "physical_min": -0.25,
       "physical_max": 0.25
+    },
+    {
+      "name": "L_Palm_Base_Roll",
+      "policy_min": -1.0,
+      "policy_max": 1.0,
+      "physical_min": -0.3,
+      "physical_max": 0.5
     },
     {
       "name": "sustain",

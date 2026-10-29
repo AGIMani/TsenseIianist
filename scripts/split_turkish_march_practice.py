@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Make audited, symbolic 8-measure practice scores; never load a robot model.
+"""Make audited practice scores, default about 56 seconds; never load a robot model.
 
 The five reviewed ornament runs are specific to the pinned exper044 score.
 Ordinary sixteenth notes and broken chords are deliberately excluded.
@@ -113,7 +113,7 @@ def crop(sequence, records, start, end):
     ids = [i for i, n in records.items() if n.start_time < end and n.end_time > start]
     for i in ids:
         n = records[i]
-        # This edition has no notes crossing the selected 8-bar boundaries.
+        # Reject boundaries that would truncate or duplicate a sustained note.
         if n.start_time < start - 1e-9 or n.end_time > end + 1e-9:
             raise ValueError('Cross-boundary note: do not silently truncate or duplicate')
         out = result.notes.add()
@@ -197,8 +197,12 @@ def write_score(folder, stem, seq, ids, provenance, offset):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--output', type=Path, default=ROOT/'tsensei_v3_2_pianist/music/data/turkish_march_8bars_chords_20261026')
+    parser.add_argument('--bars-per-part', type=int, default=56,
+                        help='Original measures per file, including the pickup; tempo is unchanged')
+    parser.add_argument('--output', type=Path, default=ROOT/'tsensei_v3_2_pianist/music/data/turkish_march_56s_chords_20261027')
     args = parser.parse_args()
+    if args.bars_per_part < 1:
+        parser.error('--bars-per-part must be positive')
     source = FINGERED/'turkish-march-advanced_fingered.proto'
     assert sha(source) == EXPECTED
     sequence = Sequence.FromString(source.read_bytes())
@@ -215,8 +219,8 @@ def main():
     full, ids = crop(sequence, records, 0, sequence.total_time)
     full_entry = write_score(out, 'full_chords_fingered', full, ids, provenance, 0)
     segments = []
-    for start_bar in range(0, len(bars), 8):
-        end_bar = min(start_bar+8,len(bars))
+    for start_bar in range(0, len(bars), args.bars_per_part):
+        end_bar = min(start_bar+args.bars_per_part,len(bars))
         start = bars[start_bar]['start_seconds']
         end = min(bars[end_bar-1]['end_seconds'],sequence.total_time)
         score, ids = crop(sequence,records,start,end)
@@ -226,11 +230,11 @@ def main():
                              original_start_seconds=start,original_end_seconds=end,**entry))
     assert sorted(i for entry in segments for i in entry['source_record_ids']) == sorted(records)
     assert sum(x['notes'] for x in segments) == len(records) == 2539
-    assert len(segments) == 28
+    assert len(segments) == (len(bars)+args.bars_per_part-1)//args.bars_per_part
     dump(out/'ornament_changes.json',changes)
     manifest = dict(schema=1, source_experiment='exper044', source_fingered_sha256=EXPECTED,
         source_original_midi_sha256=sha(SOURCE/'original.mid'), generator_sha256=sha(__file__),
-        bars_per_part=8,bar_numbering='1-based including initial 1/4 pickup; bar 2 onward 2/4',
+        bars_per_part=args.bars_per_part,bar_numbering='1-based including initial 1/4 pickup; bar 2 onward 2/4',
         total_bars=len(bars), source_notes=len(sequence.notes), result_notes=len(records),
         conversion='Five reviewed short ornament runs; distinct pitches join following principal at its unchanged onset and release; repeated pitches coalesce',
         fingering='Principal fingers fixed; minimum changes to existing distinct-finger/natural-order symbolic rules',
@@ -240,8 +244,10 @@ def main():
                         segment_coverage_exact=True,boundary_notes_clipped=0,physics_tested=False),
         default_training_input_changed=False)
     dump(out/'manifest.json',manifest)
-    lines = ['# 土耳其进行曲：8小节分段／装饰音和弦版','',
-        '来源：exper044训练同一指法谱。含开头1/4弱起共223小节，拆为28段；首段7.5秒，中间每段8秒，末段约6.974秒。小节编号包含弱起。', '',
+    lines = [f'# 土耳其进行曲：每{args.bars_per_part}小节分段／装饰音和弦版','',
+        '[完整指法谱](full_chords_fingered.proto) · [完整MIDI](full_chords_fingered.mid) · [逐项改动](ornament_changes.json)', '',
+        f'来源：exper044训练同一指法谱。含开头1/4弱起共223小节，拆为{len(segments)}段；各段时长（秒）：'+
+        '、'.join(f"{e['duration_seconds']:.3f}" for e in segments)+'。按原谱小节边界分段，小节编号包含弱起；120 BPM不变，每个普通2/4小节仍为1秒。', '',
         '只改5处已审查的短装饰音串：31.375、47.375、159.375、175.375、205.375秒起。把各串不同音高移到后接主音的原始起音，松键统一为主音原始松键；重复音高合成一个音。空出的装饰音时隙保留为空，不压缩曲长。普通旋律、分解和弦、速度和其余指法不变。', '',
         '前4处为A4+B4双音；最后一处为E5+A5+C#6。最后一处A5原右小指改右中指（part 4→2），主音C#6仍用右无名指，以避免非拇指顺序交叉。其余保留音的指法不变。2544个原事件合成2539个事件，全部来源索引可追溯。', '',
         '`.proto`是带完整指法的训练/编辑器输入；`.mid`供通用播放器查看（指法附在text元事件，普通播放器通常不显示）；`.csv`含十指编号和原谱全局时间。每段从0秒开始，不含机器人准备/曲尾回程。段间无跨界音，没有裁剪持续音。', '',

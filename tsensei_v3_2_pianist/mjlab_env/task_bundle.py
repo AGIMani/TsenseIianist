@@ -101,18 +101,26 @@ def export_task(output, scene_directory, *, midi='Toy', lookahead=20, frame_stac
             goal[t, -1] = task._sustains[t]
         score_arrays = dict(goal=goal, fingers=fingers)
         if exact_note_timing:
-            from .exact_score import sequence_events, validate_events, physical_coverage
+            from .exact_score import sequence_events, validate_events, physical_coverage_report
             events, sustains = sequence_events(task._midi.seq, initial_buffer_time,
                 scene.manifest['control_dt'], task._music_end_step * scene.manifest['control_dt'])
             events, sustains = validate_events(events, sustains, length * scene.manifest['control_dt'])
-            physical_counts = physical_coverage(events, length=length,
-                control_dt=scene.manifest['control_dt'], physics_dt=scene.manifest['physics_dt'])
+            physical_report = physical_coverage_report(events, length=length,
+                control_dt=scene.manifest['control_dt'], physics_dt=scene.manifest['physics_dt'],
+                strict=score_validation == 'strict_v1')
+            physical_counts = physical_report['physical_target_samples']
+            if task._score_coverage is None:
+                from ..score_validation import audit_note_coverage
+                start = round(initial_buffer_time / scene.manifest['control_dt'])
+                task._score_coverage = audit_note_coverage(task._midi.seq,
+                    task._notes[start:task._music_end_step], scene.manifest['control_dt'])
             score_arrays.update(exact_note_events=events, exact_sustain_events=sustains)
-            task._score_coverage = dict(schema='exact_note_coverage_v1', valid=True,
+            task._score_coverage = dict(schema='exact_note_coverage_v1', valid=physical_report['valid'],
+                score_validation=score_validation, physical_coverage=physical_report,
                 control_frame_coverage=task._score_coverage,
                 time_origin='policy_start_including_buffer',
                 interval='start_inclusive_end_exclusive',
-                source_notes=len(events), covered_notes=len(events),
+                source_notes=len(events), covered_notes=sum(count > 0 for count in physical_counts),
                 control_dt=scene.manifest['control_dt'], physics_dt=scene.manifest['physics_dt'],
                 notes=[dict(source_index=i, pitch=int(key) + 21, fingering=int(finger),
                             start_time=float(start), end_time=float(end), physical_target_samples=physical_counts[i])
@@ -260,6 +268,7 @@ class TaskBundle:
         mode = validate_mode(environment.get('score_validation', 'legacy'))
         if m.get('score_validation', 'legacy') != mode:
             raise ValueError('Score validation mode differs from task contract')
+        self.score_validation = mode
         self.release_tail_steps = release_tail_steps(environment.get('release_tail_time', 0.), m['control_dt'])
         if self.release_tail_steps != m.get('release_tail_steps', 0):
             raise ValueError('Release tail length differs from task contract')
@@ -290,12 +299,12 @@ class TaskBundle:
                     or np.any(self.fingers[:self.preparation_steps])):
                 raise ValueError('Policy preparation requires an exported empty score prefix covering its duration')
         if self.exact_note_events is not None:
-            from .exact_score import physical_coverage
+            from .exact_score import physical_coverage_report
             if ((self.exact_note_events[:, 0] < self.preparation_steps * m['control_dt'] - 1e-10).any()
                     or (self.exact_note_events[:, 1] > self.music_end_step * m['control_dt'] + 1e-10).any()):
                 raise ValueError('Exact notes must stay outside preparation and release tail')
-            physical_coverage(self.exact_note_events, length=m['length'],
-                control_dt=m['control_dt'], physics_dt=m['physics_dt'])
+            self.physical_coverage = physical_coverage_report(self.exact_note_events, length=m['length'],
+                control_dt=m['control_dt'], physics_dt=m['physics_dt'], strict=mode == 'strict_v1')
         task_profile = m.get('task_profile', 'tsensei_v1')
         collision_scope(task_profile)
         if m.get('contract', {}).get('environment', {}).get('task_profile', 'tsensei_v1') != task_profile:

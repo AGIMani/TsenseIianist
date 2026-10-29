@@ -1,0 +1,123 @@
+{
+  "formal_training_started": false,
+  "overlays": {
+    "configs/actions/direct_joint_v1.json": {
+      "parent_sha256": "4864769f1a2abc4cb1b90d9880a023da577680a94195b5aa744b97a699498d10",
+      "sha256": "56ea3776beed4c2a034e25f41f5478bd9df0662a44445874bf3d7a2775982fc9"
+    },
+    "configs/actions/wuji_cartesian_v1.json": {
+      "parent_sha256": "771eabb49a0abf1badb9489399e42ee9f56807afe1597441341e337e36e5200d",
+      "sha256": "af41da39aafcd0cdc5cd2d7fc8cba82ee20c1a8552037b80b3430b682b486609"
+    },
+    "docs/change_log.md": {
+      "parent_sha256": "df2af24ae9ca1af6b43c9076b3a235ea01a1fb182d8337cc8a1cf7e95dba8831",
+      "sha256": "97896ae4c0565bfb3bbd81b1a075342ca69f21ac77641d8a70bc818233a1772e"
+    },
+    "docs/reward_defaults_20261006.md": {
+      "parent_sha256": "cf50ccac442130ed8ef47e93891a03b07d67bc985a2b1525975e7d69a5db90db",
+      "sha256": "a3e17e09ff394b406d3fc3790452b50ab103ac53b243095247a40b89710da504"
+    },
+    "scripts/export_static_training_preview.py": {
+      "parent_sha256": null,
+      "sha256": "daaa6c773b2e0a226838c9446797e6946a12c85542dbb8b677547576d443bfa5"
+    },
+    "tests/test_action_mapping.py": {
+      "parent_sha256": "fd7d37cceaeb576c8a73634955746e028aa24320f122f895b7929efdd7b9a4c6",
+      "sha256": "5fec3d6bde5a1d9c4a8216766dab89b4046a88af48e21fc53a8b28bdd02d909a"
+    },
+    "tests/test_control_limits.py": {
+      "parent_sha256": "0c644ad4fc79e28b0bf58f43486541f18783c05bf86503f60fbe61034a076f23",
+      "sha256": "dbf901ed7b15fa40e4315f3ae7232c8a80fbfbc20e56fceadffd0576b619164a"
+    },
+    "tests/test_mjlab_task.py": {
+      "parent_sha256": "28ecee74b7c2e183e5cc04e7d3c28dd4a14f1692324db5e8c6903c9ed2f0dcfa",
+      "sha256": "320daefef06c1d5d0aeffc1d3da6e5c54434caaae5b520f92168c88cb1b0e10c"
+    },
+    "tests/test_paper_rewards.py": {
+      "parent_sha256": "17dd6e6612b28e32397d0bd85bf8160bbd8993a92aa2ab35bed96ad876ed3b12",
+      "sha256": "a4f6f7c2b8739dc9770f673888e5c17cb00a2bdf1fff44f4c16da56fd0889a69"
+    },
+    "tests/test_roll_capacity_acceptance.py": {
+      "parent_sha256": null,
+      "sha256": "825a99fc903e3c3fc7c2485ddd03a8ce9f91eb165ef1d2e97fd4950c672d7639"
+    },
+    "tests/test_roll_contract.py": {
+      "parent_sha256": null,
+      "sha256": "5559fbcc23aa5affe313644a18025e77e757857d763919e860865727cc9b5eb7"
+    },
+    "tests/test_target_motion_limits.py": {
+      "parent_sha256": "427980ca4b1952bee70300caadd9a4f1fccb8dcf88001f36e62635c177c6aa50",
+      "sha256": "9408327f6b759cbf68c737cc5f49b7fd0861f6608a88d18c80d9d4f85a74b5c9"
+    },
+    "tsensei_v3_2_pianist/assets/drive_settings.json": {
+      "parent_sha256": "6b352f7694eebbe31937585316544a2964c24c13cc6658db7d10e65c8742d1e5",
+      "sha256": "b894a67062468be4ec51fd1aa4712707bc94b8d5c2d3aa7b2a9818eaf2cb06db"
+    },
+    "tsensei_v3_2_pianist/drive_settings.py": {
+      "parent_sha256": "e3eab7589578e6ac4e7106c3244d43a4f734c60bc36116bbdefb99451eb9903c",
+      "sha256": "872a8e16de5f8cdd96fb92b6f4d8a015859ef3060623af827859f5cb308224f1"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/action_mapping.py": {
+      "parent_sha256": "ea6459640cd462793fb21ae697195231dff2422a179563d40bc4e782b7ffb929",
+      "sha256": "b8f3b8080a65f4d31934fdfbc4fa0d40857bfbfef15f09e87f8f815c77c6a17f"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/arm_scene.py": {
+      "parent_sha256": "7e9fc0a5446f7b4e131ce449716766fc95da76f3a5699564bc293527343eb0a4",
+      "sha256": "1415eb4d84b31197a410d609bce917a749d0bc7facea88c1fa10e88da7cfae7d"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/bundle.py": {
+      "parent_sha256": "a1c76b4f0b0defcdb48c74c3b328f3691c2de88f5ca1d922c63d3f6dc709c7c9",
+      "sha256": "974c90a34519beb573bfb309567e78faec2e85cf0fc7b47679cb55408e0c95ec"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/control_limits.py": {
+      "parent_sha256": "b5c534eec5083195dd40a502bd67c8b5dc24301331ffaacb9e3f35344c3bf451",
+      "sha256": "b289cc92f9887555193c17b748d315f6bfa139dd37539d65155892c302eb6af4"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/finger_clearance.py": {
+      "parent_sha256": "d602d9cbd6b5c5c3067b0477d8222daee86290eff4074b9956d116dab1ab273f",
+      "sha256": "0f4358a6eac5149b2778b2b7bb0682f52b5824caced1b32ac3b908adce588106"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/finger_coupling.py": {
+      "parent_sha256": "1681da812749a35026bcd22adeb1c5dbc76484fa21b5832f71c216a5d27c85b1",
+      "sha256": "6c2ba1700d6842182dc5c4059b5995cfe3eb6eaa4fa3af7aa74c51a209474910"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/first_note_preparation.py": {
+      "parent_sha256": "879df2e11a0eef08fc1b7ee1d556e34f4d4f3b3a1ad9c0cd581c7fb212d1b70f",
+      "sha256": "2e5a19d1c3e733a82166be27d97ce9cd31e068b7b18391c16bbe83394ed30cac"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/rewards.py": {
+      "parent_sha256": "0aa465aa0b1a9d3d1d9fb2a6b9e7f659ede827e0f8699fab5371220c26188f44",
+      "sha256": "155cf5bf6318b934195008cc8889d7b5b06d86e5723b506a1080ef463535aee5"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/scene.py": {
+      "parent_sha256": "914bd7e4a49d02cc60a20be5b7d7770444cec48394875de677c6041418520211",
+      "sha256": "eacc2e42f504a8d962926e8b7e3d17163a02782629c595e008426cdffe3e02e3"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/target_motion_limits.py": {
+      "parent_sha256": "f4ededa262f9c54ca751ef76616a26a9ef6eef2a3237acd3c3afd68bad37e47d",
+      "sha256": "298c528d8eb97687462e811513fcd4b26cd01d8b36235b3fadfb6d45200a05b7"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/task.py": {
+      "parent_sha256": "309c44d636fe42d1965a00add2a8bec453004b5b8add2484ea89956324467778",
+      "sha256": "d38bec70a538738388f002e4f3f16113379e50965dbd535911d24f07310eb53c"
+    },
+    "tsensei_v3_2_pianist/mjlab_env/task_logic.py": {
+      "parent_sha256": "49aa43c92bf9eff9f7f80d8e2553ab4fc1ed386443f6fbdce216cf6443c22867",
+      "sha256": "32857518694744a54f303a9faf79ee36998ed7467079a88075ef7bd4a3dd24b3"
+    },
+    "tsensei_v3_2_pianist/models/hands/tsensei_hand.py": {
+      "parent_sha256": "e5638f0595b3c979be98ae18bb10e380877b3d6ba95322ac668a1d415a85586c",
+      "sha256": "ac3cddc60e43337637cbd24375f1fc1ce640ee3b90a534c05ce819298c4d3f50"
+    },
+    "tsensei_v3_2_pianist/models/hands/tsensei_hand_constants.py": {
+      "parent_sha256": "7b2722ee1b260ea8eea909f3da69ebe45ea244f1fe2fc2da0eb96bcd602fcd63",
+      "sha256": "262b44c99a7e30087807bdbad092437973692d17d5c7c8d3210ec58bf264ce28"
+    },
+    "tsensei_v3_2_pianist/rl_torch/train.py": {
+      "parent_sha256": "5880b8809d0d52825f588cb004288145805cb37508e582ea39cc49e544b344f4",
+      "sha256": "9131137ca2dbe886727304f5fea3c182e94028c9a79e50392cfb69f3ae370147"
+    }
+  },
+  "parent_sha256": "790024f85cf61b1a4f2ac6027d5d52661a6b9188c3dcf81b43ce7504df0a8dd5",
+  "rule": "Verified 50/500Hz parent plus mirrored local Z Roll, canonical actions/observations, target motion and Pitch/Roll torque ±18 Nm"
+}

@@ -1,0 +1,75 @@
+{
+  "status": "baseline_passed_current_roll_also_passed_see_roll_validation",
+  "current_model_validation_passed": true,
+  "formal_training": false,
+  "job_id": 10459,
+  "slurm_state": "COMPLETED",
+  "exit_code": "0:0",
+  "elapsed": "00:08:47",
+  "source_sha256": "575d5b75b449934b7969678057f19c73f384fa621f31d18e8eeff8258309950d",
+  "runtime_source_parent": "790024f85cf61b1a4f2ac6027d5d52661a6b9188c3dcf81b43ce7504df0a8dd5",
+  "runtime_files_unchanged": true,
+  "scope": "Current no-Roll default: full 48M resident CPU allocation jointly with 4096 physical worlds; 257 control steps/world and 8192 diagnostic updates",
+  "control_hz": 50,
+  "physics_hz": 500,
+  "num_envs": 4096,
+  "replay_capacity": 48000000,
+  "action_size": 31,
+  "observation_size": 1406,
+  "memory": {
+    "replay_gib": 508.81505012512207,
+    "process_peak_rss_gib": 514.8460273742676,
+    "slurm_peak_rss_gib": 519.7352142333984,
+    "slurm_requested_gib": 640,
+    "final_cgroup_used_gib": 517.4768447875977,
+    "final_cgroup_headroom_gib": 122.52315521240234,
+    "swap_bytes": 0,
+    "gpu_sampled_peak_used_gib": [
+      55.51641845703125,
+      0.66094970703125
+    ],
+    "gpu_total_gib": [
+      79.31817626953125,
+      79.31817626953125
+    ],
+    "gpu_headroom_at_sampled_peak_gib": [
+      23.8017578125,
+      78.6572265625
+    ]
+  },
+  "physical_control_steps_per_env": 257,
+  "physical_seconds_per_env": 5.14,
+  "total_physics_steps": 10526720,
+  "real_replay_transitions": 1052672,
+  "synthetic_training_transitions": 0,
+  "diagnostic_gradient_updates": 8192,
+  "partial_reset_passed": true,
+  "finite_states_and_rewards": true,
+  "contact_constraint_overflow": false,
+  "transfer_complete": true,
+  "sha256_verified": true,
+  "roll": {
+    "status": "awaiting_axis_confirmation",
+    "code_or_defaults_modified": false,
+    "requested_range_rad": [
+      -0.5,
+      0.5
+    ],
+    "requested_max_velocity_rad_s": 3.1416,
+    "requested_max_acceleration_rad_s2": 15.708,
+    "question": "Palm-root local +Z same sign on both hands, or mirrored?",
+    "proposed_drive": {
+      "kp": 8,
+      "damping": 0.5,
+      "force_limit_nm": 5
+    },
+    "reason": "AGENTS.md prohibits guessing wrist directions"
+  },
+  "limitations": [
+    "Bounded initial-policy runtime acceptance, not a full-song or convergence result.",
+    "48M storage pages are fully resident; only 1052672 real transitions were collected, not full-song prefill.",
+    "Roll model not yet implemented or accepted; this memory result does not validate a changed action/observation contract."
+  ],
+  "current_roll_validation": "roll/validation.json",
+  "current_roll_source_sha256": "afe79f92b803211c390d3a495dc83462ecb37d263a10b5139ada62f4c93f963f"
+}

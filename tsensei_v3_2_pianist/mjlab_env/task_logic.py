@@ -120,13 +120,13 @@ class MusicTaskLogic:
         self.lookahead = torch.arange(c['n_steps_lookahead']+1,device=device)
         self.index = torch.zeros(num_envs,device=device,dtype=torch.int64)
         self.done = torch.zeros(num_envs,device=device,dtype=torch.bool)
-        self.last_action = torch.zeros((num_envs,51),device=device)
+        self.last_action = torch.zeros((num_envs,53),device=device)
         self.last_reward = torch.zeros(num_envs,device=device)
         self.reset_action_semantics = m.get(
             'reset_action_semantics', 'legacy_action_lower_bound_v1')
         self.reset_action = torch.tensor(m['reset_action'],device=device,dtype=torch.float32)
-        if self.reset_action.shape != (51,) or not torch.isfinite(self.reset_action).all():
-            raise ValueError('reset_action must contain 51 finite physical controls')
+        if self.reset_action.shape != (53,) or not torch.isfinite(self.reset_action).all():
+            raise ValueError('reset_action must contain 53 finite physical controls')
         self.history = torch.zeros((num_envs,m['observation_base_size'],c['frame_stack']),device=device)
         self.metrics_sum = torch.zeros((num_envs,6),device=device)
         self.key_counts = torch.zeros((num_envs,3),device=device,dtype=torch.int64)

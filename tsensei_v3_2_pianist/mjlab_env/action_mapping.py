@@ -5,36 +5,36 @@ from pathlib import Path
 
 
 PROFILES = ('legacy', 'mixed_v1', 'direct_joint_v1', 'wuji_cartesian_v1')
-_REMOVED = {49: (22, 47), 47: (22, 24, 47, 49)}
+_REMOVED = {51: (22, 48), 49: (22, 24, 48, 50)}
 # Cartesian arm mode keeps the three translation slots (TX/TY/TZ) and
-# structurally removes the two orientation slots (Pitch/Yaw).  The names stay
-# canonical so the hand/task manifest remains 51 channels, while the arm
+# structurally removes the three orientation slots (Pitch/Yaw/Roll).  The names stay
+# canonical so the hand/task manifest remains 53 channels, while the arm
 # contract gives TX/TY/TZ their Cartesian displacement meaning.
-_CARTESIAN_REMOVED = {47: (23, 24, 48, 49)}
-_FOLLOWERS = tuple(base+i for base in (0, 25) for i in (6, 7, 10, 11, 14, 15, 18, 19))
+_CARTESIAN_REMOVED = {47: (23, 24, 25, 49, 50, 51)}
+_FOLLOWERS = tuple(base+i for base in (0, 26) for i in (6, 7, 10, 11, 14, 15, 18, 19))
 _DIRECT_PATH = Path(__file__).resolve().parents[2] / 'configs/actions/direct_joint_v1.json'
 
 
 def active_indices(action_size, profile='legacy'):
     removed_map = _CARTESIAN_REMOVED if profile == 'wuji_cartesian_v1' else _REMOVED
-    if action_size in (31, 33, 35):
+    if action_size in ((31,) if profile == 'wuji_cartesian_v1' else (33, 35, 37)):
         return [i for i in active_indices(action_size+16, profile) if i not in _FOLLOWERS]
-    if action_size == 51:
-        return list(range(51))
+    if action_size == 53:
+        return list(range(53))
     if action_size in removed_map:
         removed = removed_map[action_size]
-        return [i for i in range(51) if i not in removed]
+        return [i for i in range(53) if i not in removed]
     raise ValueError(f'Unsupported TsenseI action size: {action_size}')
 
 
 def _direct_contract():
     data = json.loads(_DIRECT_PATH.read_text())
     channels = data.get('channels', ())
-    if data.get('schema_version') != 1 or data.get('name') != 'direct_joint_v1' or len(channels) != 51:
+    if data.get('schema_version') != 1 or data.get('name') != 'direct_joint_v1' or len(channels) != 53:
         raise ValueError(f'Invalid direct action contract: {_DIRECT_PATH}')
     names = [row.get('name') for row in channels]
-    if len(set(names)) != 51 or names[-1] != 'sustain':
-        raise ValueError('Direct action contract requires 51 unique canonical channels ending in sustain')
+    if len(set(names)) != 53 or names[-1] != 'sustain':
+        raise ValueError('Direct action contract requires 53 unique canonical channels ending in sustain')
     for row in channels:
         values = [row.get(key) for key in ('policy_min', 'policy_max', 'physical_min', 'physical_max')]
         if not all(isinstance(value, (int, float)) and math.isfinite(value) for value in values):
@@ -48,11 +48,11 @@ def _cartesian_contract():
     data = json.loads((_DIRECT_PATH.parent / 'wuji_cartesian_v1.json').read_text())
     channels = data.get('channels', ())
     if (data.get('schema_version') != 1 or data.get('name') != 'wuji_cartesian_v1'
-            or len(channels) != 51):
+            or len(channels) != 53):
         raise ValueError('Invalid Cartesian arm action contract')
     names = [row.get('name') for row in channels]
-    if len(set(names)) != 51 or names[-1] != 'sustain':
-        raise ValueError('Cartesian action contract requires 51 unique canonical channels')
+    if len(set(names)) != 53 or names[-1] != 'sustain':
+        raise ValueError('Cartesian action contract requires 53 unique canonical channels')
     for row in channels:
         values = [row.get(key) for key in ('policy_min', 'policy_max', 'physical_min', 'physical_max')]
         if not all(isinstance(value, (int, float)) and math.isfinite(value) for value in values):
@@ -62,7 +62,7 @@ def _cartesian_contract():
     return data
 
 
-def policy_bounds(profile='legacy', action_size=51):
+def policy_bounds(profile='legacy', action_size=53):
     """Return explicit policy-coordinate lower and upper bounds."""
     if profile not in PROFILES:
         raise ValueError(f'Unknown action profile: {profile}')
@@ -76,7 +76,7 @@ def policy_bounds(profile='legacy', action_size=51):
 
 
 def physical_bounds(profile, action_names, mechanical_low, mechanical_high, *, range_scales=None):
-    """Return full 51-channel commanded physical targets and validate the scene."""
+    """Return full 53-channel commanded physical targets and validate the scene."""
     if profile not in PROFILES:
         raise ValueError(f'Unknown action profile: {profile}')
     range_scales = {} if range_scales is None else range_scales
@@ -85,8 +85,8 @@ def physical_bounds(profile, action_names, mechanical_low, mechanical_high, *, r
                    or not 0 < v <= 1 for v in range_scales.values())):
         raise ValueError('Invalid explicit wrist Pitch action range scales')
     low, high = list(mechanical_low), list(mechanical_high)
-    if len(action_names) != 51 or len(low) != 51 or len(high) != 51:
-        raise ValueError('Physical action contract requires the canonical 51-channel layout')
+    if len(action_names) != 53 or len(low) != 53 or len(high) != 53:
+        raise ValueError('Physical action contract requires the canonical 53-channel layout')
     if profile not in ('direct_joint_v1', 'wuji_cartesian_v1'):
         return low, high
     rows = (_direct_contract() if profile == 'direct_joint_v1' else _cartesian_contract())['channels']
@@ -102,7 +102,7 @@ def physical_bounds(profile, action_names, mechanical_low, mechanical_high, *, r
         # palm pose, not the removed hand-scene slide-joint coordinates. The
         # arm IK validates the resulting absolute joints against URDF limits.
         if profile == 'wuji_cartesian_v1' and name.endswith(('_Palm_Base_Tx', '_Palm_Base_Ty', '_Palm_Base_Tz',
-                                                            '_Palm_Base_Pitch', '_Palm_Base_Yaw')):
+                                                            '_Palm_Base_Pitch', '_Palm_Base_Yaw', '_Palm_Base_Roll')):
             continue
         if (target_low[i] < low[i] - 1e-9 or target_high[i] > high[i] + 1e-9
                 or target_low[i] >= target_high[i]):
@@ -127,7 +127,7 @@ def resolved_contract(profile, action_size, action_names=None, mechanical_low=No
     return result
 
 
-def shifts(profile='legacy', action_size=51):
+def shifts(profile='legacy', action_size=53):
     if profile not in PROFILES:
         raise ValueError(f'Unknown action profile: {profile}')
     if profile == 'legacy':
@@ -137,14 +137,14 @@ def shifts(profile='legacy', action_size=51):
     if profile in ('direct_joint_v1', 'wuji_cartesian_v1'):
         low, high = policy_bounds(profile, action_size)
         return [(a + b) * .5 for a, b in zip(low, high)]
-    if action_size != 51:
-        full = shifts(profile, 51)
+    if action_size != 53:
+        full = shifts(profile, 53)
         return [full[i] for i in active_indices(action_size, profile)]
-    result = [0.] * 51
+    result = [0.] * 53
     if profile == 'mixed_v1':
-        if action_size != 51:
-            raise ValueError('mixed_v1 requires the 51-action TsenseI layout')
-        for base in (0, 25):
+        if action_size != 53:
+            raise ValueError('mixed_v1 requires the 53-action TsenseI layout')
+        for base in (0, 26):
             for i in range(20):
                 if i not in (5, 9, 13, 17):
                     result[base+i] = 1.

@@ -1,0 +1,14 @@
+{
+  "calibration_id": "right_arm_piano_rigid_probe_20261026_selected_p2_p10",
+  "calibration_sha256": "78da83118d57f01fbb5243a80ba55d8bea0c7e8b2be0810c4060e817dbfce8ce",
+  "source_archive": "/home/hj/下载/right-arm-piano-probe-selected.zip",
+  "source_archive_sha256": "16715f4daf2ca2e2b1ea1fd4c503ef7d321f74a3e29c44e6757b30e267cc7576",
+  "installed_date": "2026-10-28",
+  "scope": "offline right-arm piano/base transform; not deployed to hardware",
+  "input_snapshot_preserved": true,
+  "hand_mount_source": "current connector configuration; probe length is not a hand tool transform",
+  "original_replay_zip_contains_calibration": false,
+  "active_file": "configs/calibration/right_arm_piano/transform.json",
+  "integration": "Registered offline calibration; current training and q0-derived simulated arm placement do not read measured extrinsics",
+  "previous_active_calibration_found": false
+}

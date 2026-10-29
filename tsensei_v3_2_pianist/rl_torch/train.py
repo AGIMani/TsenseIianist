@@ -39,7 +39,7 @@ def parser():
     p.add_argument('--disable-wrist-yaw', action='store_true',
                    help='Physically fix yaw at the installed reset angle; required by Cartesian arms')
     p.add_argument('--disable-wrist-tz', action='store_true',
-                   help='49-action policy: omit both TZ joints and actuators before physics compilation (physical lock at zero)')
+                   help='51-action policy: omit both TZ joints and actuators before physics compilation (physical lock at zero)')
     p.add_argument('--no-arms', action='store_true',
                    help='Remove M6 bodies, IK and arm collision pairs in a private frozen copy; retain hand collisions')
     from ..mjlab_env.arm_options import add_arguments as add_arm_arguments
@@ -47,7 +47,9 @@ def parser():
     p.add_argument('--device', default='cuda:0', help='Collector/physics CUDA device')
     p.add_argument('--collector-devices',
                    help='Comma-separated CUDA devices for independent collectors; requires --collector-pipeline and a separate learner device')
-    p.add_argument('--learner-device', help='SAC/replay CUDA device; omitted uses --device')
+    p.add_argument('--learner-device', help='SAC CUDA device; omitted uses --device')
+    p.add_argument('--replay-device', choices=('learner', 'cpu'), default='learner',
+                   help='Replay storage: learner GPU or pageable FP32 host memory with minibatch transfers')
     p.add_argument('--collector-pipeline', action=argparse.BooleanOptionalAction, default=False,
                    help='Overlap collection with the preceding vector update on another GPU; actor lags at most one update block')
     p.add_argument('--action-profile', choices=PROFILES, default='legacy')
@@ -390,6 +392,7 @@ def effective_config(args):
                     forward_vector_step=args.eval_interval if args.save_forward else None, final=True),
                 reward_config=reward,
                 replay_capacity=capacity, batch_size=args.batch_size,
+                replay_device=('cpu' if args.replay_device == 'cpu' else layout['learner_device']),
                 warmup_vector_steps=warmup // args.num_envs,
                 warmup_transitions=warmup, warmup_boundary_random_rows=warmup % args.num_envs,
                 learning_starts_vector_steps=(start + args.num_envs - 1) // args.num_envs,
@@ -499,6 +502,7 @@ class MotionMetrics:
             ('wrist_ty', lambda name: name.endswith('_Palm_Base_Ty'), 'm_s', 'm'),
             ('finger', lambda name: '_Palm_Base_' not in name, 'rad_s', 'rad'),
             ('wrist_pitch', lambda name: name.endswith('_Palm_Base_Pitch'), 'rad_s', 'rad'),
+            ('wrist_roll', lambda name: name.endswith('_Palm_Base_Roll'), 'rad_s', 'rad'),
         )
         for label, select, speed_unit, target_unit in selectors:
             actuator_ids = [int(act) for full, act in active if select(names[full])]
@@ -1129,6 +1133,13 @@ def run(args):
     score_coverage = args.task/'score_coverage.json'
     if score_coverage.is_file():
         shutil.copyfile(score_coverage, output/'score_coverage.json')
+        coverage = json.loads(score_coverage.read_text())
+        physical = coverage.get('physical_coverage', {})
+        print('Score sampling coverage: '+json.dumps(dict(
+            score_validation=coverage.get('score_validation'), valid=coverage.get('valid'),
+            missing_note_samples=len(physical.get('missing_note_samples', [])),
+            missing_release_samples=len(physical.get('missing_release_samples', [])),
+            report=str(output/'score_coverage.json'))), flush=True)
     metadata['key_contact_diagnostics_contract'] = getattr(
         getattr(env.scene,'key_contact_diagnostics',None),'contract',None)
     if config['reward_config']['terms']['humanoid_finger_gesture_reward']['enabled']:
@@ -1165,8 +1176,13 @@ def run(args):
                                   current_finger_clearance=config['finger_clearance'],
                                   current_finger_clearance_contract=metadata['finger_clearance_contract'],
                                   original_metadata=previous)
+    if args.replay_device == 'cpu':
+        from .host_memory import check_host_replay_memory
+        metadata['replay_host_memory_check'] = check_host_replay_memory(
+            env.observation_size, env.action_size, config['replay_capacity'])
     replay = Replay(env.observation_size, env.action_size, config['replay_capacity'], args.batch_size,
-                    device=str(learner_device), seed=args.seed + 4, action_profile=args.action_profile)
+                    device=config['replay_device'], seed=args.seed + 4, action_profile=args.action_profile)
+    metadata['replay_storage'] = replay.storage_contract
     collectors = [(CollectorPolicy(agent, device) if device != learner_device else agent)
                   for device in collector_devices]
     collector = collectors[0]
@@ -1189,7 +1205,7 @@ def run(args):
                     reset_contract=dict(
                         mode='explicit_partial_after_terminal_transition_v1',
                         # Limited actions start from actual reset ctrl, stored in
-                        # the latest history frame (51 slots; sustain is zero).
+                        # the latest history frame (53 slots; sustain is zero).
                         previous_action=('actual_reset_actuator_ctrl_v1' if env.scene.has_action_transform
                                          else env.logic.reset_action_semantics),
                         physics_state=('policy_preparation_initial_v1' if config['preparation'] and
@@ -1321,9 +1337,10 @@ def run(args):
                 emit(dict(episodes=dict(count=count,
                                         mean_return=sum(row[1] for row in episode_rows)/count,
                                         mean_f1=sum(row[2] for row in episode_rows)/count)))
-            # Copy each collector's transition to the learner device before
-            # concatenating. Fixed order keeps replay insertion deterministic.
-            fields = [torch.cat([transition[field].to(learner_device)
+            # Commit to the replay storage device after the previous update block.
+            # CPU replay avoids an unnecessary collector -> learner -> CPU copy.
+            # These copies finish before insertion; fixed order preserves rows.
+            fields = [torch.cat([transition[field].to(replay.device)
                                  for transition in transitions], dim=0)
                       for field in range(len(transitions[0]))]
             replay.insert(Transition(*fields))
@@ -1345,7 +1362,7 @@ def run(args):
                     metrics = learner_graph.update(update_count)
                 else:
                     for _ in range(update_count):
-                        metrics = agent.update(replay.sample())
+                        metrics = agent.update(replay.sample(device=learner_device))
         if args.collector_pipeline:
             if len(collector_envs) > 1:
                 pipeline = runtime.enter_context(MultiBatchPipeline(
@@ -1458,6 +1475,8 @@ def run(args):
                    completed_episodes=completed, truncated_episodes=truncated, replay_size=len(replay),
                    arm_tracking=arm_tracking_result(),
                    replay_insertions=replay.total_inserted, replay_bytes=replay.bytes_allocated,
+                   replay_storage=replay.storage_contract,
+                   replay_staging=learner_graph.staging_contract if learner_graph else None,
                    elapsed_s=time.perf_counter() - started,
                    learner_graph_setup_s=learner_graph_setup_s,
                    evaluation_seconds_total=evaluation_seconds_total,

@@ -20,20 +20,20 @@ def config(**channels):
     return dict(schema=1, mode='target_clip_slew_v1', channels=channels)
 
 
-def contract(options, dt=.05, reset=None, active=range(50)):
-    low, high = [-3.] * 50 + [0.], [3.] * 50 + [1.]
+def contract(options, dt=.05, reset=None, active=range(52)):
+    low, high = [-3.] * 52 + [0.], [3.] * 52 + [1.]
     for name in ('R_Palm_Base_Pitch', 'L_Palm_Base_Yaw'):
         i = NAMES.index(name)
         low[i], high[i] = -.16, .16
     return resolve(options, action_names=NAMES, active_indices=active,
                    physical_low=low, physical_high=high,
-                   reset_action=[0.] * 51 if reset is None else reset, control_dt=dt)
+                   reset_action=[0.] * 53 if reset is None else reset, control_dt=dt)
 
 
 def make(dt=.05, worlds=8, reset=None, **kwargs):
     options = config(**{name: dict(max_velocity=3.1416, max_acceleration=15.708)
                         for name in ('R_Palm_Base_Pitch', 'L_Palm_Base_Yaw')})
-    reset = torch.zeros(51) if reset is None else reset
+    reset = torch.zeros(53) if reset is None else reset
     resolved = contract(options, dt, reset.tolist())
     return TargetMotionLimiter(resolved, num_envs=worlds, device='cpu', reset_action=reset, **kwargs)
 
@@ -45,9 +45,9 @@ class TargetMotionLimitsCPU(unittest.TestCase):
         options = config(R_Palm_Base_Tx=dict(max_velocity=.99, max_acceleration=1.99))
         resolved = contract(options)
         limiter = TargetMotionLimiter(resolved, num_envs=2, device='cpu',
-            reset_action=torch.zeros(51))
+            reset_action=torch.zeros(53))
         first = TargetLimiter(resolved, device='cpu')
-        previous = torch.zeros(2, 51)
+        previous = torch.zeros(2, 53)
         history=[]; velocities=[]
         for step in range(140):
             request = torch.zeros_like(previous)
@@ -76,7 +76,7 @@ class TargetMotionLimitsCPU(unittest.TestCase):
             original_min=-.16, original_max=.16, reset_target=0.))
         self.assertEqual(resolved['application'],
             'original policy mapping, static clip, previous applied target slew, zero-order hold')
-        previous = torch.zeros(2, 51)
+        previous = torch.zeros(2, 53)
         requested = torch.ones_like(previous)
         actual = TargetLimiter(resolved, device='cpu').apply(requested, previous)[0]
         self.assertTrue(torch.equal(actual[:, PITCH], torch.full((2,), .16)))
@@ -136,10 +136,10 @@ class TargetMotionLimitsCPU(unittest.TestCase):
 
     def test_random_reversals_keep_the_same_hard_limits(self):
         generator = torch.Generator().manual_seed(273)
-        for dt in (.01, .05, .1):
+        for dt in (.01, .02, .05, .1):
             with self.subTest(dt=dt):
                 limiter = make(dt=dt)
-                requests = [torch.rand((8, 51), generator=generator)*4-2 for _ in range(1000)]
+                requests = [torch.rand((8, 53), generator=generator)*4-2 for _ in range(1000)]
                 self.assert_sequence(limiter, requests)
 
     def test_dense_alternation_random_requests_and_endpoint_holds_at_multiple_dt(self):
@@ -149,7 +149,7 @@ class TargetMotionLimitsCPU(unittest.TestCase):
                 limiter = make(dt=dt)
                 requests = []
                 for step in range(1600):
-                    request = torch.rand((8, 51), generator=generator) * 2 - 1
+                    request = torch.rand((8, 53), generator=generator) * 2 - 1
                     if step < 150:
                         request[:, limiter.indices] = .16
                     elif step < 300:
@@ -161,7 +161,7 @@ class TargetMotionLimitsCPU(unittest.TestCase):
 
     def test_endpoint_has_zero_final_velocity_without_a_position_clip_jump(self):
         limiter = make(worlds=1)
-        request = torch.zeros(1, 51)
+        request = torch.zeros(1, 53)
         request[:, limiter.indices] = 10.
         self.assert_sequence(limiter, [request] * 30)
         torch.testing.assert_close(limiter.previous[0], limiter.high, rtol=0, atol=0)
@@ -172,12 +172,12 @@ class TargetMotionLimitsCPU(unittest.TestCase):
         torch.testing.assert_close(limiter.velocity, torch.zeros_like(limiter.velocity), rtol=0, atol=0)
 
     def test_hard_position_intersection_and_partial_reset(self):
-        low, high = torch.full((51,), -3.), torch.full((51,), 3.)
+        low, high = torch.full((53,), -3.), torch.full((53,), 3.)
         low[[PITCH, YAW]], high[[PITCH, YAW]] = -.12, .11
-        reset = torch.zeros(51)
+        reset = torch.zeros(53)
         reset[PITCH] = .03
         limiter = make(worlds=2, reset=reset, physical_low=low, physical_high=high)
-        request = torch.ones(2, 51)
+        request = torch.ones(2, 53)
         self.assert_sequence(limiter, [request] * 2)
         keep = limiter.previous[1].clone(), limiter.velocity[1].clone()
         limiter.reset(torch.tensor([0]))
@@ -185,7 +185,7 @@ class TargetMotionLimitsCPU(unittest.TestCase):
         torch.testing.assert_close(limiter.velocity[0], torch.zeros(2, dtype=torch.float64), rtol=0, atol=0)
         self.assertTrue(torch.equal(limiter.previous[1], keep[0]))
         self.assertTrue(torch.equal(limiter.velocity[1], keep[1]))
-        self.assert_sequence(limiter, [request] * 50)
+        self.assert_sequence(limiter, [request] * 52)
         self.assertTrue((limiter.previous <= .11).all())
         self.assertTrue((limiter.previous >= -.12).all())
 

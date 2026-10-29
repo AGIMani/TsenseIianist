@@ -23,7 +23,7 @@ class ControlLimitsTest(unittest.TestCase):
         self.scene['action_min'][20]=-.7605;self.scene['action_max'][20]=.4605
         self.scene['action_min'][21]=0.;self.scene['action_max'][21]=.15
         self.scene['neutral_action'][21]=.04
-        self.active=[i for i in range(50) if i not in (22,24,47,49)]
+        self.active=[i for i in range(52) if i not in (22,24,48,50)]
 
     def resolve(self,value):
         return resolve(value,action_names=self.scene['action_names'],active_indices=self.active,
@@ -97,7 +97,7 @@ class GPUControlLimitsTest(unittest.TestCase):
             reward['terms']['key_press_reward']['enabled'] = False
             # Simulate a historical task whose reset action observation differs
             # from real ctrl; the limiter must expose true previous applied state.
-            tm=json.loads((task/'task.json').read_text());tm['reset_action']=[-.25]*51
+            tm=json.loads((task/'task.json').read_text());tm['reset_action']=[-.25]*53
             (task/'task.json').write_text(json.dumps(tm))
             for graph in (False,True):
                 env=PianoTaskEnv(scene,task,physics_graph=graph,control_limits=control,

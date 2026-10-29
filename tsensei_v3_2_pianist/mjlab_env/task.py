@@ -56,6 +56,7 @@ class PianoTaskEnv:
                 length=self.logic.length, control_dt=b.manifest['control_dt'],
                 physics_dt=b.manifest['physics_dt'],
                 lookahead_steps=b.manifest['contract']['environment']['n_steps_lookahead'],
+                score_validation=b.score_validation,
                 anticipation_horizon=max(self.performance['anticipatory_fingering_time'],
                     self.performance.get('upcoming_press_permission_time', 0.)), device=device)
             self.note_timing_contract = self.exact_score.contract
@@ -93,9 +94,9 @@ class PianoTaskEnv:
         self.reward_manager = RewardManager(
             self.reward_config,s.bundle.manifest,b.manifest,num_envs=num_envs,device=device)
         if s.has_action_transform:
-            self.reward_manager.neutral=(s.tensor(s.bundle.neutral_action[:50]).clone()
+            self.reward_manager.neutral=(s.tensor(s.bundle.neutral_action[:-1]).clone()
                 if (s.bundle.preparation_options or {}).get('mode') == 'first_note_v1'
-                else s.control_reset_action[:50].clone())
+                else s.control_reset_action[:-1].clone())
             if self.reward_manager.gesture_active:
                 manager=self.reward_manager
                 manager.gesture_pose={name:float(manager.neutral[i])
@@ -304,7 +305,7 @@ class PianoTaskEnv:
         if self.reward_manager is not None:
             power = s.last_step_actuator_force[:,s.action_ids]*d.actuator_velocity[:,s.action_ids]
             if s.disable_wrist_tz:
-                full_power = torch.zeros((self.num_envs, 50), device=self.device)
+                full_power = torch.zeros((self.num_envs, 52), device=self.device)
                 full_power[:,s.physical_ids] = power
                 power = full_power
             result['signed_power'] = power

@@ -1,0 +1,16 @@
+{
+  "job_id": 10530,
+  "remote_host": "volc-a32",
+  "remote_root": "/home/houj/projects/pianist_palm_ranges_20261028",
+  "remote_infrastructure": "/home/houj/projects/pianist_roll_capacity_20261028/project",
+  "source_sha256": "5573700d6cfdd855ecaaef7173c08246b88138bc06c1d31902b316c6f638cfd6",
+  "command": "bash submit.sh",
+  "gpus": 1,
+  "host_memory_gib": 32,
+  "formal_training": false,
+  "scope": "2 worlds, 128 control steps; source TZ range compile check; no learner or replay",
+  "status": "COMPLETED",
+  "exit_code": "0:0",
+  "validation_passed": true,
+  "transfer_complete": true
+}

@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "compiled_from_frozen_training_source": true,
+  "training_source_files_verified": 2262,
+  "physical_steps": 0,
+  "policy_inference": false,
+  "training_started": false,
+  "state_phase": "original pose before physical first-note preparation; not policy reset state",
+  "full_music_task_built": true,
+  "matched": [
+    "piano geometry and 12/10mm travel",
+    "bilateral A3.2 URDF and 200 collision components",
+    "Pitch range -0.3..0.6",
+    "structurally removed TZ/Yaw",
+    "source root pose",
+    "explicit control/physics frequencies",
+    "shadow_v1 per-axis drive and fitted finger resistance",
+    "MCP target bounds 0..1.4"
+  ],
+  "intentional_differences": [
+    "no first-note physical preparation, so static state differs from policy reset",
+    "no policy/actions, coupling execution, motion limiting, reward accumulation or dynamics",
+    "native MuJoCo static display rather than batched GPU Warp solver"
+  ],
+  "remaining": [
+    "old self-collision inspector remains separately pinned; this export updates only the ordinary static viewer"
+  ]
+}

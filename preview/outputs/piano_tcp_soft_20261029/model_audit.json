@@ -1,0 +1,1424 @@
+{
+  "nq": 136,
+  "nv": 136,
+  "nu": 48,
+  "ngeom": 334,
+  "nmesh": 245,
+  "physics_dt": 0.002,
+  "integrator": 0,
+  "hands": {
+    "right": {
+      "root_position": [
+        0.16,
+        0.15,
+        0.09
+      ],
+      "root_rotation": [
+        -0.25881904510252074,
+        0.0,
+        -0.9659258262890683,
+        0.0,
+        -1.0,
+        -0.0,
+        -0.9659258262890683,
+        0.0,
+        0.25881904510252074
+      ],
+      "collision_geoms": 100,
+      "palm_collision_geoms": 79
+    },
+    "left": {
+      "root_position": [
+        0.16,
+        -0.15,
+        0.09
+      ],
+      "root_rotation": [
+        -0.25881904510252074,
+        0.0,
+        -0.9659258262890683,
+        0.0,
+        -1.0,
+        -0.0,
+        -0.9659258262890683,
+        0.0,
+        0.25881904510252074
+      ],
+      "collision_geoms": 100,
+      "palm_collision_geoms": 79
+    }
+  },
+  "keys": {
+    "white": {
+      "max_angle_rad": 0.07982998571223732,
+      "nominal_travel_mm": 12.0
+    },
+    "black": {
+      "max_angle_rad": 0.11065722117389565,
+      "nominal_travel_mm": 10.0
+    }
+  },
+  "joints": {
+    "right_/palm_base_tx": {
+      "range": [
+        -0.7605000000000001,
+        0.4605
+      ],
+      "axis": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "qpos": 0.0,
+      "damping": 34.15259872981849,
+      "armature": 0.02,
+      "frictionloss": 0.0
+    },
+    "right_/palm_base_ty": {
+      "range": [
+        -0.05,
+        0.05
+      ],
+      "axis": [
+        0.25881904510252074,
+        0.0,
+        0.9659258262890682
+      ],
+      "qpos": 0.01999999999999999,
+      "damping": 34.15259872981849,
+      "armature": 0.02,
+      "frictionloss": 0.0
+    },
+    "right_/palm_base_pitch": {
+      "range": [
+        -0.3,
+        0.6
+      ],
+      "axis": [
+        0.9659258262890682,
+        0.0,
+        -0.25881904510252074
+      ],
+      "qpos": 0.0,
+      "damping": 0.5,
+      "armature": 0.0,
+      "frictionloss": 0.0
+    },
+    "right_/palm_base_roll": {
+      "range": [
+        -0.3,
+        0.5
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "qpos": 0.0,
+      "damping": 0.5,
+      "armature": 0.0,
+      "frictionloss": 0.0
+    },
+    "right_/right_hand_thumb_rota_block_joint": {
+      "range": [
+        0.0,
+        2.09
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "qpos": 1.135929529,
+      "damping": 0.007359991454768675,
+      "armature": 0.0001,
+      "frictionloss": 0.0007092073749965854
+    },
+    "right_/right_hand_thumb_rotaback_joint2": {
+      "range": [
+        0.0,
+        1.74
+      ],
+      "axis": [
+        -0.0,
+        -0.0,
+        1.0
+      ],
+      "qpos": 0.476648962,
+      "damping": 0.0,
+      "armature": 0.0001,
+      "frictionloss": 0.0001
+    },
+    "right_/right_hand_thumb_MCP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "qpos": 0.241250147,
+      "damping": 0.015879045782290258,
+      "armature": 0.0001,
+      "frictionloss": 0.012050703554317851
+    },
+    "right_/right_hand_thumb_PIP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "qpos": 0.34598514,
+      "damping": 0.018526487280988057,
+      "armature": 0.0001,
+      "frictionloss": 0.04871229062452549
+    },
+    "right_/right_hand_index_MCP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "qpos": 0.215778546714,
+      "damping": 0.01474393529248991,
+      "armature": 0.0001,
+      "frictionloss": 0.014228772898525036
+    },
+    "right_/right_hand_index_swing_joint": {
+      "range": [
+        -0.35,
+        0.35
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "qpos": 0.0,
+      "damping": 0.0,
+      "armature": 0.0001,
+      "frictionloss": 0.003328600476770943
+    },
+    "right_/right_hand_index_PIP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "qpos": 0.345984067635,
+      "damping": 0.02003151302306566,
+      "armature": 0.0001,
+      "frictionloss": 0.001655607303708803
+    },
+    "right_/right_hand_index_DIP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "qpos": 0.177049848625,
+      "damping": 0.014577361274089318,
+      "armature": 0.0001,
+      "frictionloss": 0.06348864601329113
+    },
+    "right_/right_hand_mid_MCP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "qpos": 0.16688924586,
+      "damping": 0.0009216260668157623,
+      "armature": 0.0001,
+      "frictionloss": 0.0507410414942011
+    },
+    "right_/right_hand_mid_swing_joint": {
+      "range": [
+        -0.35,
+        0.35
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "qpos": 0.0,
+      "damping": 0.0,
+      "armature": 0.0001,
+      "frictionloss": 0.004353061330328674
+    },
+    "right_/right_hand_mid_PIP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "qpos": 0.33724412436,
+      "damping": 0.016078074249753643,
+      "armature": 0.0001,
+      "frictionloss": 0.0015999946586666269
+    },
+    "right_/right_hand_mid_DIP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "qpos": 0.179382869067,
+      "damping": 0.0013489140326222865,
+      "armature": 0.0001,
+      "frictionloss": 0.14232979926897274
+    },
+    "right_/right_hand_ring_MCP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "qpos": 0.1741387815,
+      "damping": 0.09897145095876496,
+      "armature": 0.0001,
+      "frictionloss": 0.04684267733605186
+    },
+    "right_/right_hand_ring_swing_joint": {
+      "range": [
+        -0.35,
+        0.35
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "qpos": 0.0,
+      "damping": 0.0,
+      "armature": 0.0001,
+      "frictionloss": 0.0006182787729784652
+    },
+    "right_/right_hand_ring_PIP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "qpos": 0.366567845739,
+      "damping": 0.026240118783873993,
+      "armature": 0.0001,
+      "frictionloss": 0.022064456349343245
+    },
+    "right_/right_hand_ring_DIP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "qpos": 0.193132156912,
+      "damping": 0.007905777239069357,
+      "armature": 0.0001,
+      "frictionloss": 0.2543241965491423
+    },
+    "right_/right_hand_pinky_MCP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "qpos": 0.193021298123,
+      "damping": 0.008988481507009288,
+      "armature": 0.0001,
+      "frictionloss": 0.0178117776574696
+    },
+    "right_/right_hand_pinky_swing_joint": {
+      "range": [
+        -0.35,
+        0.35
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "qpos": 0.0,
+      "damping": 0.0,
+      "armature": 0.0001,
+      "frictionloss": 0.00010000000000000286
+    },
+    "right_/right_hand_pinky_PIP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "qpos": 0.389615614939,
+      "damping": 0.0139353319615148,
+      "armature": 0.0001,
+      "frictionloss": 0.01730928774836403
+    },
+    "right_/right_hand_pinky_DIP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "qpos": 0.213344010776,
+      "damping": 0.009765789941312553,
+      "armature": 0.0001,
+      "frictionloss": 0.08962946190465049
+    },
+    "left_/palm_base_tx": {
+      "range": [
+        -0.4605,
+        0.7605000000000001
+      ],
+      "axis": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "qpos": 0.0,
+      "damping": 34.15259872981849,
+      "armature": 0.02,
+      "frictionloss": 0.0
+    },
+    "left_/palm_base_ty": {
+      "range": [
+        -0.05,
+        0.05
+      ],
+      "axis": [
+        0.25881904510252074,
+        0.0,
+        0.9659258262890682
+      ],
+      "qpos": 0.01999999999999999,
+      "damping": 34.15259872981849,
+      "armature": 0.02,
+      "frictionloss": 0.0
+    },
+    "left_/palm_base_pitch": {
+      "range": [
+        -0.3,
+        0.6
+      ],
+      "axis": [
+        -0.9659258262890682,
+        0.0,
+        0.25881904510252074
+      ],
+      "qpos": 0.0,
+      "damping": 0.5,
+      "armature": 0.0,
+      "frictionloss": 0.0
+    },
+    "left_/palm_base_roll": {
+      "range": [
+        -0.3,
+        0.5
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "qpos": 0.0,
+      "damping": 0.5,
+      "armature": 0.0,
+      "frictionloss": 0.0
+    },
+    "left_/left_hand_thumb_rota_block_joint": {
+      "range": [
+        0.0,
+        2.09
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "qpos": 1.135929529,
+      "damping": 0.007359991454768675,
+      "armature": 0.0001,
+      "frictionloss": 0.0007092073749965854
+    },
+    "left_/left_hand_thumb_rotaback_joint2": {
+      "range": [
+        0.0,
+        1.74
+      ],
+      "axis": [
+        -0.0,
+        -0.0,
+        -1.0
+      ],
+      "qpos": 0.476648962,
+      "damping": 0.0,
+      "armature": 0.0001,
+      "frictionloss": 0.0001
+    },
+    "left_/left_hand_thumb_MCP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "qpos": 0.241250147,
+      "damping": 0.015879045782290258,
+      "armature": 0.0001,
+      "frictionloss": 0.012050703554317853
+    },
+    "left_/left_hand_thumb_PIP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "qpos": 0.34598514,
+      "damping": 0.018526487280988057,
+      "armature": 0.0001,
+      "frictionloss": 0.04871229062452549
+    },
+    "left_/left_hand_index_MCP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "qpos": 0.215778546714,
+      "damping": 0.01474393529248991,
+      "armature": 0.0001,
+      "frictionloss": 0.014228772898525036
+    },
+    "left_/left_hand_index_swing_joint": {
+      "range": [
+        -0.35,
+        0.35
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "qpos": 0.0,
+      "damping": 0.0,
+      "armature": 0.0001,
+      "frictionloss": 0.003328600476770943
+    },
+    "left_/left_hand_index_PIP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "qpos": 0.345984067635,
+      "damping": 0.02003151302306566,
+      "armature": 0.0001,
+      "frictionloss": 0.001655607303708803
+    },
+    "left_/left_hand_index_DIP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "qpos": 0.177049848625,
+      "damping": 0.014577361274089318,
+      "armature": 0.0001,
+      "frictionloss": 0.06348864601329113
+    },
+    "left_/left_hand_mid_MCP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "qpos": 0.16688924586,
+      "damping": 0.0009216260668157623,
+      "armature": 0.0001,
+      "frictionloss": 0.0507410414942011
+    },
+    "left_/left_hand_mid_swing_joint": {
+      "range": [
+        -0.35,
+        0.35
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "qpos": 0.0,
+      "damping": 0.0,
+      "armature": 0.0001,
+      "frictionloss": 0.004353061330328674
+    },
+    "left_/left_hand_mid_PIP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "qpos": 0.33724412436,
+      "damping": 0.016078074249753643,
+      "armature": 0.0001,
+      "frictionloss": 0.0015999946586666269
+    },
+    "left_/left_hand_mid_DIP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "qpos": 0.179382869067,
+      "damping": 0.0013489140326222865,
+      "armature": 0.0001,
+      "frictionloss": 0.14232979926897274
+    },
+    "left_/left_hand_ring_MCP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "qpos": 0.1741387815,
+      "damping": 0.09897145095876496,
+      "armature": 0.0001,
+      "frictionloss": 0.04684267733605186
+    },
+    "left_/left_hand_ring_swing_joint": {
+      "range": [
+        -0.35,
+        0.35
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "qpos": 0.0,
+      "damping": 0.0,
+      "armature": 0.0001,
+      "frictionloss": 0.0006182787729784652
+    },
+    "left_/left_hand_ring_PIP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "qpos": 0.366567845739,
+      "damping": 0.026240118783873993,
+      "armature": 0.0001,
+      "frictionloss": 0.022064456349343245
+    },
+    "left_/left_hand_ring_DIP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "qpos": 0.193132156912,
+      "damping": 0.007905777239069357,
+      "armature": 0.0001,
+      "frictionloss": 0.2543241965491423
+    },
+    "left_/left_hand_pinky_MCP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "qpos": 0.193021298123,
+      "damping": 0.008988481507009288,
+      "armature": 0.0001,
+      "frictionloss": 0.0178117776574696
+    },
+    "left_/left_hand_pinky_swing_joint": {
+      "range": [
+        -0.35,
+        0.35
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "qpos": 0.0,
+      "damping": 0.0,
+      "armature": 0.0001,
+      "frictionloss": 0.00010000000000000286
+    },
+    "left_/left_hand_pinky_PIP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "qpos": 0.389615614939,
+      "damping": 0.0139353319615148,
+      "armature": 0.0001,
+      "frictionloss": 0.01730928774836403
+    },
+    "left_/left_hand_pinky_DIP_joint": {
+      "range": [
+        0.0,
+        1.57
+      ],
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "qpos": 0.213344010776,
+      "damping": 0.009765789941312553,
+      "armature": 0.0001,
+      "frictionloss": 0.08962946190465049
+    }
+  },
+  "actuators": {
+    "R_Thumb_Rot": {
+      "kp": 2.0,
+      "kd": 0.04484009337471479,
+      "force_range": [
+        -0.344,
+        0.344
+      ],
+      "ctrl_range": [
+        0.0,
+        2.09
+      ]
+    },
+    "R_Thumb_Rot2": {
+      "kp": 2.0,
+      "kd": 0.0483070722983728,
+      "force_range": [
+        -0.344,
+        0.344
+      ],
+      "ctrl_range": [
+        0.0,
+        1.74
+      ]
+    },
+    "R_Thumb_MCP": {
+      "kp": 2.0,
+      "kd": 0.026990801485788852,
+      "force_range": [
+        -0.6,
+        0.6
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "R_Thumb_PIP": {
+      "kp": 2.0,
+      "kd": 0.023727156433106543,
+      "force_range": [
+        -0.33,
+        0.33
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "R_Index_MCP": {
+      "kp": 2.0,
+      "kd": 0.050953281250851114,
+      "force_range": [
+        -0.6,
+        0.6
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "R_Index_SW": {
+      "kp": 2.0,
+      "kd": 0.043862794609748575,
+      "force_range": [
+        -0.344,
+        0.344
+      ],
+      "ctrl_range": [
+        -0.35,
+        0.35
+      ]
+    },
+    "R_Index_PIP": {
+      "kp": 2.0,
+      "kd": 0.027467625869175456,
+      "force_range": [
+        -0.48,
+        0.48
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "R_Index_DIP": {
+      "kp": 2.0,
+      "kd": 0.023920006779982097,
+      "force_range": [
+        -0.33,
+        0.33
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "R_Mid_MCP": {
+      "kp": 2.0,
+      "kd": 0.05243872528154945,
+      "force_range": [
+        -0.6,
+        0.6
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "R_Mid_SW": {
+      "kp": 2.0,
+      "kd": 0.0453988684245393,
+      "force_range": [
+        -0.344,
+        0.344
+      ],
+      "ctrl_range": [
+        -0.35,
+        0.35
+      ]
+    },
+    "R_Mid_PIP": {
+      "kp": 2.0,
+      "kd": 0.028507438720737657,
+      "force_range": [
+        -0.48,
+        0.48
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "R_Mid_DIP": {
+      "kp": 2.0,
+      "kd": 0.02388641663944279,
+      "force_range": [
+        -0.33,
+        0.33
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "R_Ring_MCP": {
+      "kp": 2.0,
+      "kd": 0.05096939852444659,
+      "force_range": [
+        -0.6,
+        0.6
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "R_Ring_SW": {
+      "kp": 2.0,
+      "kd": 0.04387950104736783,
+      "force_range": [
+        -0.344,
+        0.344
+      ],
+      "ctrl_range": [
+        -0.35,
+        0.35
+      ]
+    },
+    "R_Ring_PIP": {
+      "kp": 2.0,
+      "kd": 0.02746762588003655,
+      "force_range": [
+        -0.48,
+        0.48
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "R_Ring_DIP": {
+      "kp": 2.0,
+      "kd": 0.023920006782959392,
+      "force_range": [
+        -0.33,
+        0.33
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "R_Pinky_MCP": {
+      "kp": 2.0,
+      "kd": 0.048292011395382785,
+      "force_range": [
+        -0.6,
+        0.6
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "R_Pinky_SW": {
+      "kp": 2.0,
+      "kd": 0.041143640152131976,
+      "force_range": [
+        -0.344,
+        0.344
+      ],
+      "ctrl_range": [
+        -0.35,
+        0.35
+      ]
+    },
+    "R_Pinky_PIP": {
+      "kp": 2.0,
+      "kd": 0.026953000467101165,
+      "force_range": [
+        -0.48,
+        0.48
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "R_Pinky_DIP": {
+      "kp": 2.0,
+      "kd": 0.023690435217101898,
+      "force_range": [
+        -0.33,
+        0.33
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "R_Palm_Base_Tx": {
+      "kp": 300.0,
+      "kd": -0.0,
+      "force_range": [
+        -50.0,
+        50.0
+      ],
+      "ctrl_range": [
+        -0.7605000000000001,
+        0.4605
+      ]
+    },
+    "R_Palm_Base_Ty": {
+      "kp": 300.0,
+      "kd": -0.0,
+      "force_range": [
+        -50.0,
+        50.0
+      ],
+      "ctrl_range": [
+        -0.05,
+        0.05
+      ]
+    },
+    "R_Palm_Base_Pitch": {
+      "kp": 8.0,
+      "kd": -0.0,
+      "force_range": [
+        -18.0,
+        18.0
+      ],
+      "ctrl_range": [
+        -0.3,
+        0.6
+      ]
+    },
+    "R_Palm_Base_Roll": {
+      "kp": 8.0,
+      "kd": -0.0,
+      "force_range": [
+        -18.0,
+        18.0
+      ],
+      "ctrl_range": [
+        -0.3,
+        0.5
+      ]
+    },
+    "L_Thumb_Rot": {
+      "kp": 2.0,
+      "kd": 0.04484009337471479,
+      "force_range": [
+        -0.344,
+        0.344
+      ],
+      "ctrl_range": [
+        0.0,
+        2.09
+      ]
+    },
+    "L_Thumb_Rot2": {
+      "kp": 2.0,
+      "kd": 0.0483070722983728,
+      "force_range": [
+        -0.344,
+        0.344
+      ],
+      "ctrl_range": [
+        0.0,
+        1.74
+      ]
+    },
+    "L_Thumb_MCP": {
+      "kp": 2.0,
+      "kd": 0.026990801485788852,
+      "force_range": [
+        -0.6,
+        0.6
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "L_Thumb_PIP": {
+      "kp": 2.0,
+      "kd": 0.023727156433106543,
+      "force_range": [
+        -0.33,
+        0.33
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "L_Index_MCP": {
+      "kp": 2.0,
+      "kd": 0.050953281250851114,
+      "force_range": [
+        -0.6,
+        0.6
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "L_Index_SW": {
+      "kp": 2.0,
+      "kd": 0.043862794609748575,
+      "force_range": [
+        -0.344,
+        0.344
+      ],
+      "ctrl_range": [
+        -0.35,
+        0.35
+      ]
+    },
+    "L_Index_PIP": {
+      "kp": 2.0,
+      "kd": 0.027467625869175456,
+      "force_range": [
+        -0.48,
+        0.48
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "L_Index_DIP": {
+      "kp": 2.0,
+      "kd": 0.023920006779982097,
+      "force_range": [
+        -0.33,
+        0.33
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "L_Mid_MCP": {
+      "kp": 2.0,
+      "kd": 0.05243872528154945,
+      "force_range": [
+        -0.6,
+        0.6
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "L_Mid_SW": {
+      "kp": 2.0,
+      "kd": 0.0453988684245393,
+      "force_range": [
+        -0.344,
+        0.344
+      ],
+      "ctrl_range": [
+        -0.35,
+        0.35
+      ]
+    },
+    "L_Mid_PIP": {
+      "kp": 2.0,
+      "kd": 0.028507438720737657,
+      "force_range": [
+        -0.48,
+        0.48
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "L_Mid_DIP": {
+      "kp": 2.0,
+      "kd": 0.02388641663944279,
+      "force_range": [
+        -0.33,
+        0.33
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "L_Ring_MCP": {
+      "kp": 2.0,
+      "kd": 0.05096939852444659,
+      "force_range": [
+        -0.6,
+        0.6
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "L_Ring_SW": {
+      "kp": 2.0,
+      "kd": 0.04387950104736783,
+      "force_range": [
+        -0.344,
+        0.344
+      ],
+      "ctrl_range": [
+        -0.35,
+        0.35
+      ]
+    },
+    "L_Ring_PIP": {
+      "kp": 2.0,
+      "kd": 0.02746762588003655,
+      "force_range": [
+        -0.48,
+        0.48
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "L_Ring_DIP": {
+      "kp": 2.0,
+      "kd": 0.023920006782959392,
+      "force_range": [
+        -0.33,
+        0.33
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "L_Pinky_MCP": {
+      "kp": 2.0,
+      "kd": 0.048292011395382785,
+      "force_range": [
+        -0.6,
+        0.6
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "L_Pinky_SW": {
+      "kp": 2.0,
+      "kd": 0.041143640152131976,
+      "force_range": [
+        -0.344,
+        0.344
+      ],
+      "ctrl_range": [
+        -0.35,
+        0.35
+      ]
+    },
+    "L_Pinky_PIP": {
+      "kp": 2.0,
+      "kd": 0.026953000467101165,
+      "force_range": [
+        -0.48,
+        0.48
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "L_Pinky_DIP": {
+      "kp": 2.0,
+      "kd": 0.023690435217101898,
+      "force_range": [
+        -0.33,
+        0.33
+      ],
+      "ctrl_range": [
+        0.0,
+        1.57
+      ]
+    },
+    "L_Palm_Base_Tx": {
+      "kp": 300.0,
+      "kd": -0.0,
+      "force_range": [
+        -50.0,
+        50.0
+      ],
+      "ctrl_range": [
+        -0.4605,
+        0.7605000000000001
+      ]
+    },
+    "L_Palm_Base_Ty": {
+      "kp": 300.0,
+      "kd": -0.0,
+      "force_range": [
+        -50.0,
+        50.0
+      ],
+      "ctrl_range": [
+        -0.05,
+        0.05
+      ]
+    },
+    "L_Palm_Base_Pitch": {
+      "kp": 8.0,
+      "kd": -0.0,
+      "force_range": [
+        -18.0,
+        18.0
+      ],
+      "ctrl_range": [
+        -0.3,
+        0.6
+      ]
+    },
+    "L_Palm_Base_Roll": {
+      "kp": 8.0,
+      "kd": -0.0,
+      "force_range": [
+        -18.0,
+        18.0
+      ],
+      "ctrl_range": [
+        -0.3,
+        0.5
+      ]
+    }
+  },
+  "source_slide_ranges": {
+    "right_/palm_base_ty": [
+      -0.05,
+      0.05
+    ],
+    "right_/palm_base_tz": [
+      -0.6,
+      0.46
+    ],
+    "left_/palm_base_ty": [
+      -0.05,
+      0.05
+    ],
+    "left_/palm_base_tz": [
+      -0.6,
+      0.46
+    ]
+  },
+  "mcp_policy_targets": {
+    "R_Thumb_MCP": [
+      0.0,
+      1.4
+    ],
+    "R_Index_MCP": [
+      0.0,
+      1.4
+    ],
+    "R_Mid_MCP": [
+      0.0,
+      1.4
+    ],
+    "R_Ring_MCP": [
+      0.0,
+      1.4
+    ],
+    "R_Pinky_MCP": [
+      0.0,
+      1.4
+    ],
+    "L_Thumb_MCP": [
+      0.0,
+      1.4
+    ],
+    "L_Index_MCP": [
+      0.0,
+      1.4
+    ],
+    "L_Mid_MCP": [
+      0.0,
+      1.4
+    ],
+    "L_Ring_MCP": [
+      0.0,
+      1.4
+    ],
+    "L_Pinky_MCP": [
+      0.0,
+      1.4
+    ]
+  },
+  "fitted_resistance_joint_count": 40,
+  "control_hz": 50.0,
+  "physics_hz": 500.0
+}

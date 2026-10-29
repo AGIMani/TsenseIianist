@@ -14,6 +14,7 @@
 # 示例：
 #   bash scripts/hpc/submit.sh reserve
 #   bash all_use_this_train.sh
+#   --mem-gb GIB explicitly overrides Slurm host RAM; CPU replay needs more than the 128G job default.
 #   bash all_use_this_train.sh --dependency afterok:123 --kill-on-invalid-dep --seed 43
 #   bash scripts/hpc/submit.sh --gpus 1 validate tests/test_shadow_reward_only.py
 #   bash scripts/hpc/submit.sh --gpus 4 probe
@@ -40,6 +41,10 @@ while (($#)); do
       [[ $# -ge 2 && "$2" =~ ^[0-9]+$ ]] || { echo '--allocation requires a numeric running reserve job ID' >&2; exit 2; }
       allocation_id="$2"
       shift 2 ;;
+    --mem-gb)
+      [[ $# -ge 2 && "$2" =~ ^[1-9][0-9]*$ ]] || { echo '--mem-gb requires a positive integer GiB host-memory request' >&2; exit 2; }
+      submission_options+=("--mem=${2}G")
+      shift 2 ;;
     --dependency)
       [[ $# -ge 2 ]] || { echo '--dependency requires a Slurm dependency expression' >&2; exit 2; }
       submission_options+=("--dependency=$2")
@@ -57,7 +62,7 @@ while (($#)); do
 done
 MODE="${1:-probe}"
 if (($#)); then shift; fi
-case "$MODE" in reserve|probe|benchmark|performance|validate|train|replay|preview|mjlab-preview|arm-replay|export|online-export|strike-diagnostic|preparation-preview) ;; *) echo 'Usage: submit.sh [--gpus 1|2|4] [--allocation JOB_ID] [--dependency EXPR] [--kill-on-invalid-dep] [--source-archive FILE] {reserve|probe|benchmark|performance|validate|train|replay|preview|mjlab-preview|arm-replay|export|online-export|strike-diagnostic} [arguments...]' >&2; exit 2;; esac
+case "$MODE" in reserve|probe|benchmark|performance|validate|train|replay|preview|mjlab-preview|arm-replay|export|online-export|strike-diagnostic|preparation-preview) ;; *) echo 'Usage: submit.sh [--gpus 1|2|4] [--mem-gb GIB] [--allocation JOB_ID] [--dependency EXPR] [--kill-on-invalid-dep] [--source-archive FILE] {reserve|probe|benchmark|performance|validate|train|replay|preview|mjlab-preview|arm-replay|export|online-export|strike-diagnostic} [arguments...]' >&2; exit 2;; esac
 if [[ "$gpu_count" == 1 ]]; then
   case "$MODE" in replay|train|validate|export|mjlab-preview|preparation-preview) ;; *) echo '--gpus 1 supports only replay, train, validate, export or mjlab-preview' >&2; exit 2;; esac
   [[ -z "$allocation_id" ]] || { echo '--gpus 1 cannot reuse --allocation: reserve jobs require two GPUs' >&2; exit 2; }

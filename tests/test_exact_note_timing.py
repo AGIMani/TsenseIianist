@@ -67,6 +67,35 @@ class ExactClockTest(unittest.TestCase):
         self.assertFalse(score.future[7].any())
         self.assertTrue((score.observation[7] == -1).all())
 
+    def test_non_strict_reports_unsampled_gap_without_inserting_release(self):
+        events = np.array([[0, .0091, 10, 1], [.010, .02, 10, 1]], dtype=np.float64)
+        score = ExactScore(events, np.empty((0, 2)), length=2, control_dt=.02,
+                           physics_dt=.002, lookahead_steps=10, score_validation='legacy')
+        np.testing.assert_array_equal(score.events, events)
+        report = score.physical_coverage
+        self.assertFalse(report['valid'])
+        self.assertEqual(report['missing_note_samples'], [])
+        self.assertEqual(len(report['missing_release_samples']), 1)
+        self.assertAlmostEqual(report['missing_release_samples'][0]['gap_seconds'], .0009)
+        self.assertTrue(score.goal_history[0, :9, 10].all())  # no invented release
+        self.assertFalse(score.goal_history[0, 9, 10])
+        with self.assertRaisesRegex(ValueError, 'no release sample'):
+            ExactScore(events, np.empty((0, 2)), length=2, control_dt=.02,
+                       physics_dt=.002, lookahead_steps=10, score_validation='strict_v1')
+
+    def test_non_strict_reports_missing_note_and_retains_input_checks(self):
+        score = timeline([[.0201, .0202, 10, 1]], score_validation='legacy')
+        self.assertFalse(score.physical_coverage['valid'])
+        self.assertEqual(len(score.physical_coverage['missing_note_samples']), 1)
+        self.assertFalse(score.goal_history[:, :, 10].any())
+        for mode in ('legacy', 'strict_v1'):
+            with self.assertRaisesRegex(ValueError, 'Overlapping real MIDI'):
+                timeline([[0, .03, 10, 1], [.02, .04, 20, 1]], score_validation=mode)
+            with self.assertRaisesRegex(ValueError, 'finite'):
+                timeline([[0, float('nan'), 10, 1]], score_validation=mode)
+        with self.assertRaisesRegex(ValueError, 'Unknown score validation mode'):
+            timeline([[0, .02, 10, 1]], score_validation='off')
+
     def test_real_finger_key_conflict_and_unresolvable_events_fail(self):
         for events in ([[0, .03, 10, 1], [.02, .04, 20, 1]],
                        [[0, .03, 10, 1], [.02, .04, 10, 2]]):

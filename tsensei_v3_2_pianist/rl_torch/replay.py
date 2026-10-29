@@ -1,4 +1,8 @@
-"""Batched device ring buffer. Store the ending observation before resetting."""
+"""Batched CPU/CUDA ring buffer. Store the ending observation before resetting.
+
+The CPU pool uses ordinary pageable memory. Only a CUDA learner's bounded
+minibatch staging buffers are pinned; a large replay must never pin the pool.
+"""
 from typing import NamedTuple
 
 import torch
@@ -37,6 +41,16 @@ class Replay:
     @property
     def bytes_allocated(self):
         return sum(x.numel() * x.element_size() for x in self.data)
+
+    @property
+    def storage_contract(self):
+        return dict(device=str(self.device), storage_dtype='float32_with_bool_end_flags',
+                    bytes_allocated=self.bytes_allocated,
+                    pool_pinned=any(value.is_pinned() for value in self.data),
+                    sampling='uniform_with_replacement',
+                    sampling_rng_device=str(self.generator.device),
+                    sampling_rng_backend=('pytorch_cpu' if self.device.type == 'cpu' else 'pytorch_cuda'),
+                    cross_device_rng_bitwise_equivalent=False)
 
     def __len__(self):
         return self.size
@@ -83,9 +97,14 @@ class Replay:
         self.size = min(self.capacity, self.size + n)
         self.total_inserted += n
 
-    def sample(self):
+    def sample(self, *, device=None):
         if not self.is_ready():
             raise ValueError('Replay is not ready')
         indices = torch.randint(self.size, (self.batch_size,), generator=self.generator, device=self.device)
         # Advanced indexing owns memory; wrapping/inserting cannot mutate this batch.
-        return Transition(*(x[indices] for x in self.data))
+        batch = Transition(*(x[indices] for x in self.data))
+        if device is not None:
+            # The non-graph path intentionally uses completed transfers. The
+            # graph path owns reusable pinned buffers and explicit copy events.
+            batch = Transition(*(value.to(device=device) for value in batch))
+        return batch

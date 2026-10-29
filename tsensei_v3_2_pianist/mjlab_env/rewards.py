@@ -160,8 +160,8 @@ class RewardManager:
         finite_number(self.dt,'control_dt',positive=True)
         self.task_manifest = task_manifest
         self.actions = scene_manifest['action_names'][:-1]
-        if len(self.actions)!=50 or len(set(self.actions))!=50 or scene_manifest['action_names'][-1]!='sustain':
-            raise ValueError('Reward mapping requires 50 uniquely named hand actuators and sustain')
+        if len(self.actions)!=52 or len(set(self.actions))!=52 or scene_manifest['action_names'][-1]!='sustain':
+            raise ValueError('Reward mapping requires 52 uniquely named hand actuators and sustain')
         self.low=self.tensor(scene_manifest['action_min'][:-1])
         self.high=self.tensor(scene_manifest['action_max'][:-1])
         self.neutral=self.tensor(scene_manifest['neutral_action'][:-1])
@@ -170,7 +170,7 @@ class RewardManager:
         index={n:i for i,n in enumerate(self.actions)}
         # Action names use the canonical mixed-case Palm_Base_Tx/Ty/Tz labels.
         translation=[f'{s}_Palm_Base_T{axis}' for s in ('R','L') for axis in ('x','y','z')]
-        wrist=[f'{s}_Palm_Base_{axis}' for s in ('R','L') for axis in ('Pitch','Yaw')]
+        wrist=[f'{s}_Palm_Base_{axis}' for s in ('R','L') for axis in ('Pitch','Yaw','Roll')]
         if not set(translation+wrist)<=set(index):
             raise ValueError('Missing named TsenseI wrist actions')
         finger=[n for n in self.actions if n not in translation+wrist]
@@ -203,7 +203,7 @@ class RewardManager:
             self.pitch_sign=self.tensor([signs[n] for n in ('R_Palm_Base_Pitch','L_Palm_Base_Pitch')])
         if self.enabled('forward_press_reward'):
             mapping=self.terms['forward_press_reward']['params']['angle_map']
-            matrix=torch.zeros((10,50),device=device)
+            matrix=torch.zeros((10,52),device=device)
             offsets=[]
             for row,name in enumerate(FINGER_NAMES):
                 offsets.append(mapping[name]['offset'])
@@ -235,7 +235,7 @@ class RewardManager:
         return physical
 
     def __call__(self, base, action, snapshot, target, fingers):
-        physical=action[:,:50]
+        physical=action[:,:-1]
         u=self.coordinates(physical)
         previous=self.coordinates(self.previous)
         previous2=self.coordinates(self.previous2)
@@ -325,8 +325,8 @@ class RewardManager:
                     # Same demand convention as the isolated arm IK limiter:
                     # raw candidate against previously ISSUED targets/velocity.
                     requested=snapshot.get('requested_physical_action')
-                    if not isinstance(requested,torch.Tensor) or requested.shape != (self.num_envs,51):
-                        raise ValueError('TCP motion penalty requires full requested_physical_action (num_envs, 51)')
+                    if not isinstance(requested,torch.Tensor) or requested.shape != (self.num_envs,53):
+                        raise ValueError('TCP motion penalty requires full requested_physical_action (num_envs, 53)')
                     ids=self.tcp_indices
                     previous=self.previous[:,ids].double()
                     previous_velocity=(previous-self.previous2[:,ids].double())/self.dt

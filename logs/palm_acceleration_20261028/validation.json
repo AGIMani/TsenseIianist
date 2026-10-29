@@ -1,0 +1,157 @@
+{
+  "passed": true,
+  "formal_training": false,
+  "physical_simulation": false,
+  "control_hz": 50,
+  "num_envs": 2,
+  "target_steps_per_env": 400,
+  "channels": [
+    "R_Palm_Base_Tx",
+    "R_Palm_Base_Ty",
+    "L_Palm_Base_Tx",
+    "L_Palm_Base_Ty"
+  ],
+  "max_acceleration": 5.0,
+  "max_velocity": 1.99,
+  "observed_target_acceleration_max": [
+    4.999999946448952,
+    4.999999655410647,
+    4.999999655410647,
+    4.999999655410647
+  ],
+  "observed_target_speed_max": [
+    1.9899999722838402,
+    0.6999992998316884,
+    1.9899999984772876,
+    0.6999992998316884
+  ],
+  "control_limits": {
+    "schema": 1,
+    "mode": "target_clip_slew_v1",
+    "control_dt": 0.02,
+    "channels": {
+      "L_Palm_Base_Pitch": {
+        "index": 49,
+        "min": -0.3,
+        "max": 0.6,
+        "max_velocity": 3.1416,
+        "position_unit": "rad",
+        "velocity_unit": "rad/s",
+        "original_min": -0.3,
+        "original_max": 0.6,
+        "reset_target": 0.0,
+        "max_acceleration": 15.708,
+        "acceleration_unit": "rad/s^2"
+      },
+      "L_Palm_Base_Roll": {
+        "index": 51,
+        "min": -0.3,
+        "max": 0.5,
+        "max_velocity": 3.1416,
+        "position_unit": "rad",
+        "velocity_unit": "rad/s",
+        "original_min": -0.3,
+        "original_max": 0.5,
+        "reset_target": 0.0,
+        "max_acceleration": 15.708,
+        "acceleration_unit": "rad/s^2"
+      },
+      "L_Palm_Base_Tx": {
+        "index": 46,
+        "min": -0.4605,
+        "max": 0.7605,
+        "max_velocity": 1.99,
+        "position_unit": "m",
+        "velocity_unit": "m/s",
+        "original_min": -0.4605,
+        "original_max": 0.7605,
+        "reset_target": 0.0,
+        "max_acceleration": 5.0,
+        "acceleration_unit": "m/s^2"
+      },
+      "L_Palm_Base_Ty": {
+        "index": 47,
+        "min": -0.05,
+        "max": 0.05,
+        "max_velocity": 1.99,
+        "position_unit": "m",
+        "velocity_unit": "m/s",
+        "original_min": -0.05,
+        "original_max": 0.05,
+        "reset_target": 0.019999999552965164,
+        "max_acceleration": 5.0,
+        "acceleration_unit": "m/s^2"
+      },
+      "R_Palm_Base_Pitch": {
+        "index": 23,
+        "min": -0.3,
+        "max": 0.6,
+        "max_velocity": 3.1416,
+        "position_unit": "rad",
+        "velocity_unit": "rad/s",
+        "original_min": -0.3,
+        "original_max": 0.6,
+        "reset_target": 0.0,
+        "max_acceleration": 15.708,
+        "acceleration_unit": "rad/s^2"
+      },
+      "R_Palm_Base_Roll": {
+        "index": 25,
+        "min": -0.3,
+        "max": 0.5,
+        "max_velocity": 3.1416,
+        "position_unit": "rad",
+        "velocity_unit": "rad/s",
+        "original_min": -0.3,
+        "original_max": 0.5,
+        "reset_target": 0.0,
+        "max_acceleration": 15.708,
+        "acceleration_unit": "rad/s^2"
+      },
+      "R_Palm_Base_Tx": {
+        "index": 20,
+        "min": -0.7605,
+        "max": 0.4605,
+        "max_velocity": 1.99,
+        "position_unit": "m",
+        "velocity_unit": "m/s",
+        "original_min": -0.7605,
+        "original_max": 0.4605,
+        "reset_target": 0.0,
+        "max_acceleration": 5.0,
+        "acceleration_unit": "m/s^2"
+      },
+      "R_Palm_Base_Ty": {
+        "index": 21,
+        "min": -0.05,
+        "max": 0.05,
+        "max_velocity": 1.99,
+        "position_unit": "m",
+        "velocity_unit": "m/s",
+        "original_min": -0.05,
+        "original_max": 0.05,
+        "reset_target": 0.019999999552965164,
+        "max_acceleration": 5.0,
+        "acceleration_unit": "m/s^2"
+      }
+    },
+    "joint_state_limits": "hard_v1",
+    "application": "original policy mapping, static clip, previous applied target slew, zero-order hold",
+    "action_observation": "actual applied full physical 53 channels; same observation dimensions"
+  },
+  "partial_reset_passed": true,
+  "unit_tests": "12 passed, 1 GPU test skipped, 28 subtests passed",
+  "source_archive_sha256": "5573700d6cfdd855ecaaef7173c08246b88138bc06c1d31902b316c6f638cfd6",
+  "runtime_source_unchanged": true,
+  "static_preview": "/home/hj/pianist/preview/outputs/piano_palm_acceleration_20261028",
+  "static_preview_files_sha256_verified": 12,
+  "static_guard_verified": true,
+  "static_model_sha256": "6ca19a991eac850484966a8c50df8d8800f2485de362dc0399ee5b806a2c6ece",
+  "remote_preview_host": "volc-a32",
+  "remote_preview_path": "/home/houj/projects/pianist_palm_acceleration_20261028/static_preview",
+  "remote_preview_exit_code": 0,
+  "only_training_argument_changes": [
+    "--wrist-tx-max-acceleration",
+    "--wrist-ty-max-acceleration"
+  ]
+}

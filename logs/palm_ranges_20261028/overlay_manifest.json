@@ -1,0 +1,12 @@
+{
+  "tsensei_v3_2_pianist/models/hands/tsensei_hand_constants.py": "a20caabb7e2850f3091b9b509e2ac5055cb14e6acaf9ccae82831c7ac4f5018f",
+  "tsensei_v3_2_pianist/initial_world_pose.py": "ab6d6a3db704e43ea50eece0b1c555d3f4542b0ed8a997274dc4f8836d61038e",
+  "configs/actions/direct_joint_v1.json": "7cf7ae936fb755519972681ac6743ac1ffe446c361167f3e12ebad1f951fe9dd",
+  "configs/actions/wuji_cartesian_v1.json": "39cfa764901ce7dbbd56dbf8f267ba89e6a5341e93b03b6407ff691632b68a7a",
+  "tests/test_initial_world_pose.py": "09ea281e3ea2aeac2588e34dda9e710f51c1d8a5a54ed4d32e3582453ed4d1b8",
+  "tests/test_roll_contract.py": "57a42418f91e7db48201324f7cc280ba44b2a1261719459810f5c5ebd57d9ef1",
+  "tests/test_palm_ranges_acceptance.py": "868820b23ea23b9c666f8508e008b10f238fcc446c0a0c5d087e940fa6cf9dd4",
+  "scripts/export_static_training_preview.py": "89e9998910ff77b43e1e03d18d98447a17e79a50b7d63f39287d11e60baa2031",
+  "docs/reward_defaults_20261006.md": "be7ce5a02373f507a4fc05801a2334e62fc1312cf7b91d9ea6b549f8969a47e5",
+  "docs/change_log.md": "4702eb93b016380c96226999fbb5378c54d621352a5d994b4cff2dd93d257e70"
+}

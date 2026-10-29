@@ -49,7 +49,7 @@ class ShadowTrainingBudgetChecks(unittest.TestCase):
                 observed.append(obs.clone())
                 return obs[:, :3]
         obs = torch.arange(16, dtype=torch.float32).reshape(4, 4)
-        scene = SimpleNamespace(action_low=torch.tensor([-1., -2., 0.]),
+        scene = SimpleNamespace(num_envs=4, action_low=torch.tensor([-1., -2., 0.]),
                                 action_high=torch.tensor([1., 2., 1.]))
         rng = torch.Generator().manual_seed(19)
         expected_rng = torch.Generator().manual_seed(19)

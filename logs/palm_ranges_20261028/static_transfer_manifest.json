@@ -1,0 +1,14 @@
+{
+  "task_manifest.json": "d0a7b6cbe062787f7b3e25c33356a16c70fe2e5bb16c939bf52dcb2e163f7263",
+  "score_coverage.json": "7798119e87c9d4c36d25eb3d260fce841957e6a4badf8f6cee0a418efccc835a",
+  "state.npz": "8edc6cd47df77a98619e39064202c3c563aeeed608c5e19385e17a3cc27b68b6",
+  "scene_manifest.json": "42527385230a76ebb78741c57d27ae55174e28c802f5195b06b2d4c44a84219f",
+  "score.npz": "edd68f511929894a5062cd513850f5d5001c5cfbae52ce9fd689bfe3ae4062e1",
+  "source_config.json": "56dd4463494bd4984ad8f8a11ac594a0714c8a5a58a9ad8a2af85f30ef4d6788",
+  "preview.json": "d80e88c16526d12d0d143cd4744aea77497ed915491f75bb4cee623e11fa37e3",
+  "launch_command.json": "5e3585b915e216ac1ac315dfe2693ac88841b5886594ac6023d38fb536d0cab1",
+  "acceptance.json": "60813f3d465d8ace21cb207861663c169928d3ba31e7ae891fda662c76743de1",
+  "model.mjb": "6ca19a991eac850484966a8c50df8d8800f2485de362dc0399ee5b806a2c6ece",
+  "model_audit.json": "c26fb6cf9a5a23df6c2498fb32556d9ba90d50a19229dd6d0a2ae6b1642f3258",
+  "score_acceptance.json": "bd8b3538c30bf78aab6f238618654fbf04c270a5b039f27f2462b72caf42a80c"
+}

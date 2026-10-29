@@ -1,8 +1,10 @@
 """Full sequential SAC updates in a CUDA graph, with unchanged update budget.
 
 Replay's randint stays outside the graph so its upper bound follows the growing
-buffer exactly. Gathering, original learner RNG draws, losses/backwards, Adam,
-Polyak and per-update finite checks are captured without altering their order.
+buffer exactly. CUDA replay gathering, original learner RNG draws,
+losses/backwards, Adam, Polyak and per-update finite checks are captured without
+altering their order. CPU replay gathers into two bounded pinned host buffers
+and copies to one fixed CUDA batch before replaying the same learner graph.
 """
 from copy import deepcopy
 
@@ -21,8 +23,8 @@ class CUDALearner:
     """
 
     def __init__(self, agent, replay, *, optimizer_layout=False, matmul_precision='ieee'):
-        if agent.device.type != 'cuda' or replay.device != agent.device:
-            raise ValueError('CUDA learner requires learner and replay on the same CUDA device')
+        if agent.device.type != 'cuda' or replay.device not in (agent.device, torch.device('cpu')):
+            raise ValueError('CUDA learner requires replay on CPU or the learner CUDA device')
         if not agent.fused_optimizer:
             raise ValueError('CUDA learner requires the existing fused Adam execution mode')
         if not replay.is_ready():
@@ -35,7 +37,20 @@ class CUDALearner:
         self.matmul_precision = matmul_precision
         self.agent, self.replay = agent, replay
         self.optimizer_layout = optimizer_layout
-        self.indices = torch.empty(replay.batch_size, dtype=torch.int64, device=agent.device)
+        self.indices = torch.empty(replay.batch_size, dtype=torch.int64, device=replay.device)
+        self._cpu_replay = replay.device.type == 'cpu'
+        self._host_batches = []
+        self._host_copy_events = []
+        self._host_slot = 0
+        self._device_batch = None
+        if self._cpu_replay:
+            def batch_on(device, *, pinned=False):
+                return Transition(*(torch.empty((replay.batch_size, *value.shape[1:]),
+                    dtype=value.dtype, device=device, pin_memory=pinned)
+                    for value in replay.data))
+            self._host_batches = [batch_on('cpu', pinned=True) for _ in range(2)]
+            self._host_copy_events = [None, None]
+            self._device_batch = batch_on(agent.device)
         self.finite = torch.ones((), dtype=torch.bool, device=agent.device)
         self.graph = torch.cuda.CUDAGraph()
         self.graph.register_generator_state(agent.update_rng)
@@ -57,9 +72,32 @@ class CUDALearner:
         torch.randint(self.replay.size, (self.replay.batch_size,),
                       generator=self.replay.generator, device=self.replay.device,
                       out=self.indices)
+        if self._cpu_replay:
+            slot = self._host_slot
+            host_batch = self._host_batches[slot]
+            copied = self._host_copy_events[slot]
+            if copied is not None:
+                # Protect the pinned source until its previous H2D completes;
+                # never synchronize unrelated GPU work or the whole device.
+                copied.synchronize()
+            for storage, staging in zip(self.replay.data, host_batch):
+                torch.index_select(storage, 0, self.indices, out=staging)
+            with torch.cuda.device(self.agent.device):
+                stream = torch.cuda.current_stream(self.agent.device)
+                # One fixed device batch means copies and graph execution must
+                # share a stream: previous graph -> H2D -> next graph. CPU
+                # gathering for the other host slot may overlap the GPU work.
+                for destination, source in zip(self._device_batch, host_batch):
+                    destination.copy_(source, non_blocking=True)
+                if copied is None:
+                    copied = torch.cuda.Event()
+                    self._host_copy_events[slot] = copied
+                copied.record(stream)
+            self._host_slot = (slot + 1) % len(self._host_batches)
 
     def _body(self):
-        batch = Transition(*(value[self.indices] for value in self.replay.data))
+        batch = (self._device_batch if self._cpu_replay else
+                 Transition(*(value[self.indices] for value in self.replay.data)))
         return self.agent.update(batch, _finite_accumulator=self.finite, _fused_polyak=True,
                                  _optimizer_step=self._optimizer_step)
 
@@ -127,6 +165,26 @@ class CUDALearner:
         self._parameter_addresses = tuple(value.data_ptr() for value in parameters)
         self._replay_addresses = tuple(value.data_ptr() for value in self.replay.data)
         self._optimizer_addresses = self._optimizer_storage()
+        self._staging_storage_addresses = self._staging_storage()
+
+    def _staging_storage(self):
+        return (tuple(value.data_ptr() for batch in self._host_batches for value in batch)
+                + (() if self._device_batch is None else
+                   tuple(value.data_ptr() for value in self._device_batch)))
+
+    @property
+    def staging_contract(self):
+        def size(batch):
+            return sum(value.numel() * value.element_size() for value in batch)
+        return dict(replay_device=str(self.replay.device),
+                    host_buffer_count=len(self._host_batches),
+                    host_pinned_bytes=sum(size(batch) for batch in self._host_batches),
+                    device_batch_bytes=0 if self._device_batch is None else size(self._device_batch),
+                    transfer=('pinned_double_host_single_cuda_batch_same_stream_v1'
+                              if self._cpu_replay else 'cuda_replay_graph_gather_v1'),
+                    host_reuse_barrier='per_buffer_h2d_event' if self._cpu_replay else None,
+                    h2d_overlaps_learner=False,
+                    cpu_gather_may_overlap_learner=self._cpu_replay)
 
     def _optimizer_storage(self):
         return tuple(value.data_ptr()
@@ -150,7 +208,8 @@ class CUDALearner:
             raise ValueError('Replay is not ready')
         if (tuple(value.data_ptr() for value in self._parameters) != self._parameter_addresses
                 or tuple(value.data_ptr() for value in self.replay.data) != self._replay_addresses
-                or self._optimizer_storage() != self._optimizer_addresses):
+                or self._optimizer_storage() != self._optimizer_addresses
+                or self._staging_storage() != self._staging_storage_addresses):
             raise ValueError('CUDA learner storage changed; construct a new graph')
         self.finite.fill_(True)
         for _ in range(count):

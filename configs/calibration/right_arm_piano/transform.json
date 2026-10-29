@@ -1,0 +1,271 @@
+{
+  "id": "right_arm_piano_rigid_probe_20261026_selected_p2_p10",
+  "schema_version": 1,
+  "status": "user_selected_for_engineering_handoff_not_deployed",
+  "side": "right",
+  "arm_channel": "B",
+  "selection": "User selected nine-point solution after reviewing corrected p1 comparison. p1 is excluded from the fit and retained as external-region validation.",
+  "frames": {
+    "P": "User piano frame used in position.txt; white-key truth plane Z=22.5 mm",
+    "B": "Right-arm MDH base used by FlangeKinematics(right)",
+    "F": "Zero-tool-offset right-arm flange origin"
+  },
+  "convention": "Column vectors: p_B = R_B_from_P @ p_P + t_B_from_P. JSON matrices store rows. Row-wise point batches: points_B = points_P @ R_B_from_P.T + t_B_from_P.",
+  "fitted_point_ids": [
+    "p2",
+    "p3",
+    "p4",
+    "p5",
+    "p6",
+    "p7",
+    "p8",
+    "p9",
+    "p10"
+  ],
+  "excluded_point_ids": [
+    "p1"
+  ],
+  "probe_tip_in_F_mm": [
+    0.0,
+    0.0,
+    156.0
+  ],
+  "quality": {
+    "rms_3d_mm": 0.569797403659353,
+    "max_3d_mm": 1.0062512529591856,
+    "max_point": "p8",
+    "rms_xy_mm": 0.49001074994637733,
+    "rms_z_mm": 0.2907895220841504,
+    "axis_rms_P_mm": [
+      0.33067497449560035,
+      0.3616138773683129,
+      0.2907895220841504
+    ],
+    "leave_one_out_rms_mm": 0.713412828693818,
+    "leave_one_out_max_mm": 1.2492522146442016,
+    "leave_one_out_max_point": "p8",
+    "independent_physical_validation": false
+  },
+  "excluded_validation": {
+    "id": "p1",
+    "status": "corrected_feedback_not_used_for_fit",
+    "piano_mm": [
+      55.0,
+      0.0,
+      22.5
+    ],
+    "arm_deg": [
+      -48.64,
+      -70.97,
+      34.89,
+      -90.87,
+      131.72,
+      -45.82,
+      -54.49
+    ],
+    "residual_P_mm": [
+      1.0866530692629794,
+      -1.6257062282199577,
+      0.7508120023979927
+    ],
+    "error_3d_mm": 2.0946250968506748
+  },
+  "sampled_region": {
+    "x_mm": [
+      -45.0,
+      55.0
+    ],
+    "y_mm": [
+      165.2,
+      494.6
+    ],
+    "z_mm": 22.5,
+    "description": "Observed region only; not an independently validated accuracy envelope. Corrected p1 at Y=0 has 2.094625 mm held-out error."
+  },
+  "mounting_confirmation": "User confirmed direct coaxial mounting; disk rear face CAD Z=-4 contacts arm flange; centering boss protruding to CAD Z=-8 enters flange bore; no extra adapter or spacer.",
+  "cad_geometry_mm": {
+    "tip_CAD": [
+      0.0,
+      0.0,
+      152.0
+    ],
+    "flange_contact_plane_CAD_z": -4.0,
+    "centering_boss_back_CAD_z": -8.0,
+    "overall_axial_length": 160.0,
+    "shaft_radius": 10.0,
+    "shaft_z_range": [
+      14.0,
+      132.0
+    ],
+    "shaft_length": 118.0,
+    "cone_height": 20.0,
+    "disk_radius": 31.5,
+    "disk_z_range": [
+      -4.0,
+      4.0
+    ],
+    "centering_boss_radius": 15.75
+  },
+  "sample": {
+    "id": "p2",
+    "piano_contact_mm": [
+      55.0,
+      165.2,
+      22.5
+    ],
+    "expected_contact_B_mm": [
+      564.616788747267,
+      -330.0475779153139,
+      140.75357494707188
+    ],
+    "R_B_from_F": [
+      [
+        -0.6665220791651246,
+        -0.6449428816041273,
+        0.37389436670477394
+      ],
+      [
+        -0.5682308879567004,
+        0.11487040491787838,
+        -0.8148119096122384
+      ],
+      [
+        0.4825577436507875,
+        -0.7555484561179168,
+        -0.44304012741567034
+      ]
+    ],
+    "expected_flange_B_mm": [
+      506.2892675413223,
+      -202.93692001580473,
+      209.86783482391644
+    ],
+    "note": "Example flange target uses the recorded p2 orientation; expected contact differs from reconstructed contact by the fit residual."
+  },
+  "source_model_hashes": {
+    "a3-cpp-sdk/a3_linux/arm_cartesian.py": "ffc803b6eca06e52ae08db626bc253286f1e9bd391777e2e818f149554812db3",
+    "tianji_sdk/config/ccs_m6_40.MvKDCfg": "ce20b1a80974c3ed58cdac4973152625096c8ad93a779e5fd4108c26ce19bd52"
+  },
+  "sources": {
+    "cad": {
+      "filename": "轴转法兰盘_D20L118_含法兰140_圆锥H20.stp",
+      "sha256": "f434c0bb657cabe0ca709766fb03dcbce4772654ed835f16d10ec8dac230c85b"
+    },
+    "archive": {
+      "filename": "calibration 2.tar.xz",
+      "sha256": "82c117dc85c60d1016ef219824fbea1d8282dcc08d46451dec92b944667dff97"
+    },
+    "corrected_p1": {
+      "filename": "codex-clipboard-944d637b-ca56-4ced-88fb-bea1a1375b7e.jpg",
+      "sha256": "fe2d5684d10958e9129a27316025ef3764529c49c0a25484fd7ea04ad5117616"
+    }
+  },
+  "inputs_file": "calibration_points.json",
+  "inputs_sha256": "02013c777ef7b728a6e4749705d657f386aac5a4a7c4f1c4d80128d6b0142fa9",
+  "residual_definition": "e_P = T_P_from_B(model_tip_B) - piano_truth_P. 3D RMS = sqrt(mean(dx^2+dy^2+dz^2)); excludes p1.",
+  "runtime_integration": "Result and offline examples only. Current controller does not automatically load this complete transform.",
+  "T_B_from_P_mm": [
+    [
+      -0.9980832736502006,
+      0.011006722687845109,
+      0.06089852966510128,
+      616.3228412925313
+    ],
+    [
+      0.06104722245943412,
+      0.013719564351461464,
+      0.9980405854392858,
+      -358.1275603538282
+    ],
+    [
+      0.010149654658495122,
+      0.999845300838924,
+      -0.014365197549435093,
+      -24.6558828128733
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "T_B_from_P_m": [
+    [
+      -0.9980832736502006,
+      0.011006722687845109,
+      0.06089852966510128,
+      0.6163228412925312
+    ],
+    [
+      0.06104722245943412,
+      0.013719564351461464,
+      0.9980405854392858,
+      -0.3581275603538282
+    ],
+    [
+      0.010149654658495122,
+      0.999845300838924,
+      -0.014365197549435093,
+      -0.0246558828128733
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "T_P_from_B_mm": [
+    [
+      -0.998083273650201,
+      0.06104722245943417,
+      0.010149654658495077,
+      637.2544606042685
+    ],
+    [
+      0.011006722687845145,
+      0.013719564351461142,
+      0.9998453008389248,
+      22.781728078501022
+    ],
+    [
+      0.060898529665101384,
+      0.998040585439288,
+      -0.014365197549435455,
+      319.5384985363832
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "T_P_from_B_m": [
+    [
+      -0.998083273650201,
+      0.06104722245943417,
+      0.010149654658495077,
+      0.6372544606042685
+    ],
+    [
+      0.011006722687845145,
+      0.013719564351461142,
+      0.9998453008389248,
+      0.022781728078501023
+    ],
+    [
+      0.060898529665101384,
+      0.998040585439288,
+      -0.014365197549435455,
+      0.3195384985363832
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ]
+}

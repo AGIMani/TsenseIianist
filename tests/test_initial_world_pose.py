@@ -33,7 +33,7 @@ def test_nondefault_world_y_and_x_are_positions_not_joint_offsets():
     assert left == pytest.approx(dict(palm_base_tx=.03, palm_base_ty=-.02, palm_base_tz=0.))
 
 
-@pytest.mark.parametrize('updates', [dict(world_x=.24), dict(world_z=0), dict(world_x=True),
+@pytest.mark.parametrize('updates', [dict(world_x=.12), dict(world_x=.24), dict(world_z=0), dict(world_x=True),
     dict(left_world_y=float('nan')), dict(palm_base_yaw=1), dict(ty=.02), dict(height=.09)])
 def test_invalid_or_ambiguous_pose_rejected(updates):
     with pytest.raises(ValueError):
@@ -60,3 +60,9 @@ def test_constants_world_override_preserves_mount_and_computes_slides(monkeypatc
         assert q['palm_base_tz'] == 0
         assert q['palm_base_yaw'] == .2
     assert not any(name.startswith('forearm_') for name in values['PALM_BASE_DOFS'])
+
+
+@pytest.mark.parametrize('world_x,ty', [(.13,.05),(.23,-.05)])
+def test_ty_travel_world_endpoints(world_x,ty):
+    pose=contract().validate({**contract().DEFAULT_WORLD_POSE,'world_x':world_x})
+    assert contract().slides_for_world(pose,'right',(.18,.15,.10))['palm_base_ty']==pytest.approx(ty)

@@ -109,8 +109,8 @@ def generate(bundle, config, context):
     independent = np.array([i for i in ids if i not in follower])
     active_hands = {int(row[3]) // 5 for row in rows}
     active_fingers = {int(row[3]) for row in rows}
-    independent = np.array([i for i in independent if i // 25 in active_hands
-                            and (i % 25 >= 20 or (i // 25)*5 + (i % 25)//4 in active_fingers)])
+    independent = np.array([i for i in independent if i // 26 in active_hands
+                            and (i % 26 >= 20 or (i // 26)*5 + (i % 26)//4 in active_fingers)])
     scratch = bundle.reset_cpu()
     tips = [model.site(name).id for side in ('right','left') for name in bundle.manifest['hands'][side]['sites']]
     selected = np.array([int(row[3]) for row in rows])
@@ -145,7 +145,7 @@ def generate(bundle, config, context):
     # Avoid resting the final wrist on a compliant joint stop. This only
     # constrains the scratch IK target, never projects actual joint states.
     for col, index in enumerate(independent):
-        if names[index].endswith('_Pitch'):
+        if names[index].endswith(('_Pitch', '_Roll')):
             solve_low[col] += .01
             solve_high[col] -= .01
     scale = solve_high - solve_low
@@ -184,7 +184,7 @@ def generate(bundle, config, context):
     if error_max > config['position_tolerance']:
         raise ValueError(f'First-note hover IK unreachable within {config["position_tolerance"]} m: {ik_error.tolist()}')
 
-    velocity = np.full(51, 3.); acceleration = np.full(51, 15.)
+    velocity = np.full(53, 3.); acceleration = np.full(53, 15.)
     for i, name in enumerate(names):
         if '_Palm_Base_T' in name:
             velocity[i], acceleration[i] = .3, .6
@@ -203,7 +203,7 @@ def generate(bundle, config, context):
     # continues without resetting or projecting any state.
     departure = origin.copy()
     for i in ids:
-        if i // 25 in active_hands and names[i].endswith('_Pitch'):
+        if i // 26 in active_hands and names[i].endswith('_Pitch'):
             departure[i] = min(high[i]-.01, max(origin[i], low[i]+.008))
     departure_minimum = max(.05, float(np.max(2*abs(departure-origin)/velocity)),
         float(np.max(np.sqrt(abs(departure-origin)/(.23*acceleration)))))

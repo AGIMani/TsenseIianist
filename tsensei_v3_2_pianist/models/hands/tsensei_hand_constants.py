@@ -25,14 +25,15 @@ RIGHT_POSITION = (0.18, 0.15, 0.10)
 LEFT_POSITION = (0.18, -0.15, 0.10)
 # type, local axis, range, kp, damping, force limit. Virtual positioning stage.
 # TODO(V32-02): Replace virtual wrist with the actual arm/stage and its limits.
-# Axes below are for the right hand. The left hand reverses pitch only:
-# pitch R:+X / L:-X; yaw R:-Y / L:-Y (equal inputs give same yaw / opposite pitch).
+# Axes below are for the right hand. The left hand reverses Pitch and Roll:
+# roll R:+Z / L:-Z; pitch R:+X / L:-X; yaw R:-Y / L:-Y (equal inputs give same yaw / opposite pitch).
 PALM_BASE_DOFS = {
     "palm_base_tx": ("slide", (0, -1, 0), (-0.6, 0.6), 300, 30, 50),
-    "palm_base_ty": ("slide", (0, 0, 1), (-0.05, 0.15), 300, 30, 50),
-    "palm_base_tz": ("slide", (-1, 0, 0), (-0.025, 0), 1000, 50, 50),
-    "palm_base_pitch": ("hinge", (1, 0, 0), (-0.5, 0.5), 50, 3, 5),
+    "palm_base_ty": ("slide", (0, 0, 1), (-0.05, 0.05), 300, 30, 50),
+    "palm_base_tz": ("slide", (-1, 0, 0), (-0.6, 0.46), 1000, 50, 50),
+    "palm_base_pitch": ("hinge", (1, 0, 0), (-0.3, 0.6), 50, 3, 18),
     "palm_base_yaw": ("hinge", (0, -1, 0), (-math.pi/6, math.pi/6), 300, 10, 5),
+    "palm_base_roll": ("hinge", (0, 0, 1), (-0.3, 0.5), 8, .5, 18),
 }
 DEFAULT_PALM_BASE_DOFS = tuple(PALM_BASE_DOFS)
 FINGERTIP_COLORS = ((.8,.2,.8), (.8,.2,.2), (.2,.8,.8), (.2,.2,.8), (.8,.8,.2))
@@ -67,6 +68,7 @@ CONTROL_LABELS = {
     "palm_base_tz": "Palm_Base_Tz",
     "palm_base_pitch": "Palm_Base_Pitch",
     "palm_base_yaw": "Palm_Base_Yaw",
+    "palm_base_roll": "Palm_Base_Roll",
 }
 
 
@@ -84,7 +86,7 @@ def control_label(side, joint_name):
 INITIAL_ANGLES = {
     # Wrist slide values are metres; wrist/finger hinge values are radians.
     "palm_base_tx": 0., "palm_base_ty": 0., "palm_base_tz": 0.,
-    "palm_base_pitch": 0., "palm_base_yaw": 0.,
+    "palm_base_pitch": 0., "palm_base_yaw": 0., "palm_base_roll": 0.,
     "thumb_rota_block": 1.0, "thumb_rotaback_joint2": .4, "thumb_MCP": .25, "thumb_PIP": .35,
     "index_MCP": .22, "index_PIP": .35, "index_DIP": .18,
     "mid_MCP": .25, "mid_PIP": .38, "mid_DIP": .20,
@@ -126,6 +128,7 @@ INITIAL_ANGLES_BY_SIDE = {'right': {'thumb_rota_block': 1.135929529,
            'palm_base_ty': 0.04,
            'palm_base_tz': 0.0,
            'palm_base_pitch': 0.0,
+          'palm_base_roll': 0.0,
            'palm_base_yaw': 0.5235987755982988},
  'left': {'thumb_rota_block': 1.135929529,
           'thumb_rotaback_joint2': 0.476648962,
@@ -151,6 +154,7 @@ INITIAL_ANGLES_BY_SIDE = {'right': {'thumb_rota_block': 1.135929529,
           'palm_base_ty': 0.04,
           'palm_base_tz': 0.0,
           'palm_base_pitch': 0.0,
+          'palm_base_roll': 0.0,
           'palm_base_yaw': 0.5235987755982988}}
 
 

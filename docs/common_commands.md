@@ -240,7 +240,18 @@ training_mjlab/.venv/bin/python preview/scripts/preview_mjlab.py \
 
 ## 6. 预览姿态、手动驱动和保存初值
 
-### 预览可编辑的源模型
+### 当前训练模型静态姿态
+
+```bash
+python3 preview_pose.py
+python3 preview_pose.py --view 2 --duration 6 --screenshot preview/outputs/current_pose.png
+```
+
+根目录入口默认显示双手和右侧滑块，复用`launch_piano_preview.sh`的已编译模型、来源校验和3GiB内存保护。面板先选左右手，再选Wrist/Thumb/Index/Mid/Ring/Pinky；拖动直接调整模型关节姿态，R或Reset恢复双手初始姿态。PIP/DIP独立调整，范围为模型本体限位，不代表训练策略动作/耦合范围；不执行碰撞评分、物理积分或保存初值。`--no-pose-controls`隐藏面板。训练配置变化而预览包尚未同步时会拒绝加载。H切换双手，1/2/3切换视角，O切换原点轴。
+
+### 旧源模型编辑工具（未同步当前训练默认配置）
+
+下列`preview/scripts/preview_pose.py`是另一套旧工具，不是根目录入口的实现，也不是当前训练预览。会编译模型并可执行物理；依照项目规则须在远端运行，GPU渲染须进入Slurm。
 
 ```bash
 .venv/bin/python preview/scripts/preview_pose.py

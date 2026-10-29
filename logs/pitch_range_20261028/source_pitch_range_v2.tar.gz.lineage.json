@@ -1,0 +1,55 @@
+{
+  "formal_training_started": false,
+  "overlays": {
+    "configs/actions/direct_joint_v1.json": {
+      "parent_sha256": "b4936b765cccdd334c77413bdcf5ad5fbee1f775e0058b55b1fc13ccaeacf72d",
+      "sha256": "029cd89f07595b29b18da88edec555ef23bd3536fdbf47e0a847af93c584c37b"
+    },
+    "configs/actions/wuji_cartesian_v1.json": {
+      "parent_sha256": "be57b19804d3a77482791ea6d887c45b54e4a38800c80ea611555e107757379d",
+      "sha256": "bc48030b53faafe77e980043e83382385923718099931e2eec5cdf96d6f4b44a"
+    },
+    "docs/change_log.md": {
+      "parent_sha256": "61e6b853c203b589a2a581278233f10341d780ca5190711794b4f8f6d7c49236",
+      "sha256": "7f058a96220d41e93df04056085127148eb3393df67a11572583a5c2dd869248"
+    },
+    "docs/reward_defaults_20261006.md": {
+      "parent_sha256": "cc9d822fa3be423cbfa3bfaca3e0216acfc50a76bd601b21b2e513c0007c6052",
+      "sha256": "3aab970cd9b6cc3f28a3890f35a4001c5d534851a9ae2376ad54d9b43bb01aa3"
+    },
+    "scripts/export_static_training_preview.py": {
+      "parent_sha256": "87e2debe5b833c0ddf51123e0c6ce53adb3c5ba559ac002a847ae7860cd281e9",
+      "sha256": "0732a6adf8177e3bbba860869996f9a551b53292be2b6b78e2b463d9d7bd77ea"
+    },
+    "tests/test_action_mapping.py": {
+      "parent_sha256": "5fec3d6bde5a1d9c4a8216766dab89b4046a88af48e21fc53a8b28bdd02d909a",
+      "sha256": "7858e02d056ccc4976dcd7f5daa6d535de8ec255f9357d072b75500be3852fc9"
+    },
+    "tests/test_pitch_range_acceptance.py": {
+      "parent_sha256": null,
+      "sha256": "6102202a63f13646c2cec38bad1a3e4ac9a30e37fb3a0bd5a4ba50b9b05e8008"
+    },
+    "tests/test_pitch_symmetric_range.py": {
+      "parent_sha256": "65ec0090a0bcd0397815c7bd082e54227e4ac034e144fc6bdcf31b601ee043fd",
+      "sha256": "77f5427da5836f0df9548394b464b0d6a1968ecb82fc48aeffa6afc6697b3e53"
+    },
+    "tests/test_roll_capacity_acceptance.py": {
+      "parent_sha256": "813da06e7ea5e41409dbe5c310ae8df46c3dd09d80c11346cb4ef3247280f1a2",
+      "sha256": "4908e7a4bf8c9f3bcbc33de9521c65bee111e3d5a550b8ea5fb4c4d64bd7e3db"
+    },
+    "tests/test_roll_contract.py": {
+      "parent_sha256": "bb0e8d112c9563a86df01be44538072f8da35535076fc4c348070ae1144c5ee2",
+      "sha256": "f335e26cc53cd2f9edc4b40a6c52f7b5901c8e10ce4038eafea850675b750a8c"
+    },
+    "tests/test_roll_range_acceptance.py": {
+      "parent_sha256": "da6bda71bbf36e94278c4668b0555504f810f578950875e064302095654dbaa2",
+      "sha256": "3617b51275a6013b36b4905d13cda4901cc3c5cdce2f1c6cab7f3db212325a62"
+    },
+    "tsensei_v3_2_pianist/models/hands/tsensei_hand_constants.py": {
+      "parent_sha256": "730659b6eb55434196b24dee502024c0aa225ebd832438a82955a0c31c0e2947",
+      "sha256": "70e1935cabfaf4e3efe484e18b6e1a7d99622173b47c23db30f0b675055a4117"
+    }
+  },
+  "parent_sha256": "ec43ec5bfca879c947b11a3a04e12275dba94323cdcff42bf44448ecf251f3e2",
+  "rule": "Only Pitch bounds [-0.5,0.5] -> [-0.3,0.6] rad; Roll, drives, rates, dimensions and training budget unchanged; related validation and docs updated"
+}

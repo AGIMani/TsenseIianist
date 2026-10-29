@@ -22,9 +22,9 @@ def validate(values):
         if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
             raise ValueError(f'Invalid initial world pose {name}: {value!r}')
     pose = {name: float(value) for name, value in values.items()}
-    # Original .18 m X mount and Ty [-.05,.15] preserve the world workspace.
-    if not .03 - 1e-12 <= pose['world_x'] <= .23 + 1e-12:
-        raise ValueError('world_x must lie in [0.03, 0.23] m (unchanged palm-base travel)')
+    # Original .18 m X mount and Ty [-.05,.05] imply world X [.13,.23].
+    if not .13 - 1e-12 <= pose['world_x'] <= .23 + 1e-12:
+        raise ValueError('world_x must lie in [0.13, 0.23] m (current palm-base Ty travel)')
     if pose['world_z'] <= 0:
         raise ValueError('world_z must be positive, in metres')
     if any(not -.6105 <= pose[side + '_world_y'] <= .6105 for side in ('right', 'left')):
